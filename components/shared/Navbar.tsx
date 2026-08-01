@@ -112,8 +112,13 @@ export function Navbar({ currentView, onViewChange, onOpenContact: _onOpenContac
             PURE<span className="gradient-flow-text">FLOW</span> STUDIOS
           </a>
 
+          {/* Centred with `absolute`, so this nav is out of flow and cannot push the
+              logo or the CTA aside — it would overlap them instead. At 768px the logo
+              (~205px) + links (~371px) + CTA (185px) + padding need ~761px against
+              ~712px available, which is exactly what overlapped. The full desktop nav
+              therefore starts at lg, not md; below that the hamburger takes over. */}
           {!minimal && (
-            <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-[42px] md:flex" aria-label="Primary">
+            <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-[42px] lg:flex" aria-label="Primary">
               {navItems.map((item) => (
                 <a
                   key={item.label}
@@ -132,7 +137,7 @@ export function Navbar({ currentView, onViewChange, onOpenContact: _onOpenContac
           )}
 
           {!minimal && (
-            <div className="hidden md:block">
+            <div className="hidden lg:block">
               <MagneticButton
                 variant="primary"
                 onClick={goToStartProject}
@@ -146,7 +151,7 @@ export function Navbar({ currentView, onViewChange, onOpenContact: _onOpenContac
 
           {!minimal && (
             <button
-              className="md:hidden text-white hover:text-[#D946EF] transition-colors p-2 -mr-2 focus-visible:outline-none focus-visible:text-[#D946EF]"
+              className="lg:hidden text-white hover:text-[#D946EF] transition-colors p-2 -mr-2 focus-visible:outline-none focus-visible:text-[#D946EF]"
               onClick={() => setIsOpen(true)}
               aria-label="Open navigation menu"
               aria-expanded={isOpen}

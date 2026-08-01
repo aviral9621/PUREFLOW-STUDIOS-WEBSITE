@@ -161,39 +161,51 @@ export function Services({ onViewChange }: ServicesProps) {
                 type="button"
                 onClick={() => onViewChange(card.view as ViewState)}
                 variants={reduced ? undefined : cardVariants}
-                className="service-card group relative min-h-[208px] overflow-hidden rounded-2xl border border-white/12 bg-[#08060d] px-3 pb-3 pt-3 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition-all duration-300 hover:-translate-y-1 hover:border-[#ff3f8d]/55 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff3f8d] sm:min-h-[330px] sm:px-5 sm:pb-5 sm:pt-5"
+                className="service-card group relative min-h-[208px] overflow-hidden rounded-2xl border border-white/12 bg-[#08060d] p-3 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition-all duration-300 hover:-translate-y-1 hover:border-[#ff3f8d]/55 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff3f8d] sm:min-h-[200px] sm:p-6"
                 whileHover={reduced ? undefined : { y: -4, transition: { duration: 0.2 } }}
                 whileTap={reduced ? undefined : { scale: 0.985 }}
               >
                 <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_0%,rgba(255,47,134,0.18),transparent_34%),linear-gradient(145deg,rgba(168,85,247,0.10),transparent_55%)] opacity-80 transition-opacity duration-300 group-hover:opacity-100" />
                 <div className="service-card__glow pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true" />
+                {/* Mobile-only corner arrow. On sm+ the arrow sits inline beside
+                    the description instead (see below), matching the compact card. */}
                 <ArrowUpRight
-                  className="absolute right-5 top-5 h-4 w-4 text-white/80 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  className="absolute right-5 top-5 h-4 w-4 text-white/80 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 sm:hidden"
                   strokeWidth={1.8}
                   aria-hidden="true"
                 />
 
-                <div className="relative z-10 flex h-full min-h-[184px] flex-col sm:min-h-[290px]">
-                  <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg border border-white/85 bg-black text-white shadow-[0_0_24px_-12px_rgba(255,255,255,0.4)] sm:mb-5 sm:h-12 sm:w-12">
+                <div className="relative z-10 flex h-full min-h-[184px] flex-col sm:min-h-0">
+                  <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg border border-white/85 bg-black text-white shadow-[0_0_24px_-12px_rgba(255,255,255,0.4)] sm:mb-5 sm:h-12 sm:w-12 sm:rounded-xl sm:border-[#a855f7]/70">
                     <Icon className="h-4.5 w-4.5 sm:h-6 sm:w-6" strokeWidth={1.9} />
                   </div>
 
-                  <p className="gradient-flow-text mb-1.5 text-[9px] font-extrabold uppercase tracking-[0.12em] sm:mb-2 sm:text-[10px] sm:tracking-[0.16em]">
+                  {/* Category and the metric footer below are mobile-only: the compact
+                      desktop card is icon → title → description → arrow. */}
+                  <p className="gradient-flow-text mb-1.5 text-[9px] font-extrabold uppercase tracking-[0.12em] sm:hidden">
                     {card.category}
                   </p>
-                  <h3 className="text-[15px] font-medium leading-tight text-white sm:text-[21px]">
+                  <h3 className="text-[15px] font-medium leading-tight text-white sm:text-[21px] sm:font-semibold">
                     {card.title}
                   </h3>
-                  <p className="mt-2 max-w-[36ch] overflow-hidden text-[11px] font-normal leading-[1.35] text-white/62 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] sm:mt-3 sm:text-[13px] sm:leading-[1.48] sm:[-webkit-line-clamp:unset]">
-                    {card.description}
-                  </p>
 
-                  <div className="mt-auto border-t border-white/10 pt-3 sm:pt-4">
-                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-                      <span className="text-[10px] font-medium leading-snug text-white/78 sm:text-[12px]">
+                  <div className="mt-2 sm:mt-3 sm:flex sm:items-start sm:justify-between sm:gap-3">
+                    <p className="max-w-[36ch] overflow-hidden text-[11px] font-normal leading-[1.35] text-white/62 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] sm:text-[13px] sm:leading-[1.48]">
+                      {card.description}
+                    </p>
+                    <ArrowRight
+                      className="mt-0.5 hidden h-5 w-5 shrink-0 text-[#a855f7] transition-transform duration-300 group-hover:translate-x-1 sm:block"
+                      strokeWidth={1.8}
+                      aria-hidden="true"
+                    />
+                  </div>
+
+                  <div className="mt-auto border-t border-white/10 pt-3 sm:hidden">
+                    <div className="flex flex-col gap-2">
+                      <span className="text-[10px] font-medium leading-snug text-white/78">
                         {card.metric}
                       </span>
-                      <span className="inline-flex shrink-0 items-center gap-1 text-[11px] font-medium text-[#ff3f8d] sm:gap-1.5 sm:text-[12px]">
+                      <span className="inline-flex shrink-0 items-center gap-1 text-[11px] font-medium text-[#ff3f8d]">
                         Explore
                         <ArrowRight
                           className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1"

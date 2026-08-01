@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowRight, ArrowUpRight, ExternalLink } from 'lucide-react'
 import { ViewState } from '../types';
 import { useAllProjects, useProjectBySlug } from '../hooks/useProjects';
 import { ProjectImageCarousel } from './sections/ProjectImageCarousel';
-import { CaseStudyCard } from './sections/Work';
+import { CaseStudyCard } from './sections/CaseStudyCard';
 
 interface Props {
   slug: string;

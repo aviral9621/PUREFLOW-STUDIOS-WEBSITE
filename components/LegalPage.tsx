@@ -240,7 +240,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ kind, onViewChange }) => {
   }, [kind]);
 
   return (
-    <div className="min-h-screen bg-black pt-28 pb-24 relative">
+    <div className="min-h-[100svh] bg-black pt-28 pb-24 relative">
       {/* Ambient background */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
         <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[1100px] h-[900px] bg-brand/5 rounded-full blur-[150px] opacity-30" />

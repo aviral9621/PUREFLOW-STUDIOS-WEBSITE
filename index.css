@@ -96,6 +96,7 @@ html, body {
   min-height: 100%;
   margin: 0;
   padding: 0;
+  overflow-x: clip;
 }
 
 body {
@@ -261,6 +262,19 @@ html:not(.dark) .glass-card {
 /* ── Scrollbar utilities ── */
 .hide-scrollbar::-webkit-scrollbar { display: none; }
 .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Right-edge fade cue for hide-scrollbar rows that overflow on small screens */
+.scroll-fade-right {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 2.5rem), transparent 100%);
+  mask-image: linear-gradient(to right, #000 calc(100% - 2.5rem), transparent 100%);
+}
+
+@media (min-width: 640px) {
+  .scroll-fade-right {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
 
 .custom-scrollbar::-webkit-scrollbar { width: 4px; }
 .custom-scrollbar::-webkit-scrollbar-track { background: #121214; }
@@ -599,6 +613,22 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
   .automation-card::after { animation: none; }
 }
 
+/* Work section — "building this" progress rail. Slides back and forth to read
+   as active work rather than a stalled loading bar. */
+.work-progress-rail {
+  animation: workProgressRail 2.6s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  will-change: transform;
+}
+
+@keyframes workProgressRail {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(250%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-progress-rail { animation: none; }
+}
+
 .hero-business-meets {
   font-family: 'Anton', 'Arial Narrow', 'Inter', sans-serif;
   font-stretch: normal;
@@ -659,7 +689,7 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
 
 /* Footer full-width single-line wordmark — scales to viewport, same gradient as navbar */
 .footer-wordmark {
-  font-size: clamp(2.4rem, 15.5vw, 18rem);
+  font-size: clamp(2rem, 13vw, 18rem);
   color: #ffffff;
   display: block;
   width: 100%;

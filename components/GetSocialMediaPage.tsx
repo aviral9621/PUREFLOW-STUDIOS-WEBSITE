@@ -3,15 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { ViewState } from '../types';
 import { CheckCircle, ChevronDown, Check, Loader2, AlertCircle } from 'lucide-react';
 import { LeadFormBreadcrumb } from './shared/LeadFormBreadcrumb';
-// @ts-ignore
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-
-// ------------------------------------------------------------------
-// SUPABASE CONFIGURATION
-// ------------------------------------------------------------------
-const supabaseUrl = 'https://jnytayxxwaydlmeuvtqr.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpueXRheXh4d2F5ZGxtZXV2dHFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI3ODQzNjMsImV4cCI6MjA3ODM2MDM2M30.o0ZDUriNTnz9fFkmXaM1_DMnvWydPKu-4j0b8zVfQME';
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { supabase } from '../lib/supabase';
 
 interface Props {
   onViewChange: (view: ViewState) => void;
@@ -145,7 +137,7 @@ export const GetSocialMediaPage: React.FC<Props> = ({ onViewChange, onBack, brea
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#000000] text-white relative overflow-x-hidden font-sans selection:bg-[#8A2BE2] selection:text-white pb-20">
+    <div className="min-h-[100svh] w-full bg-[#000000] text-white relative overflow-x-hidden font-sans selection:bg-[#8A2BE2] selection:text-white pb-20">
       
       {/* Background Ambience - Radial Vignette */}
       <div 

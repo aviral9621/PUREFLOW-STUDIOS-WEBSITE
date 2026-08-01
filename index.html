@@ -60,26 +60,27 @@
     }
     </script>
 
+    <!-- Fonts.
+         Loaded non-render-blocking: `rel=preload as=style` fetches at high priority
+         without holding up first paint, then flips to a real stylesheet on load.
+         `display=swap` means text paints immediately in the fallback face and swaps.
+         The two faces used by the hero (Anton + Instrument Serif italic) are
+         preloaded directly so they are in flight during the CSS round trip.
+
+         NOTE: an importmap pointing react/react-dom/gsap/lucide/lottie at
+         aistudiocdn + esm.sh used to live here. Vite rewrites every bare specifier
+         at build time, so it never matched anything — it was dead bytes. Removed. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@1&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Anton&display=swap" rel="stylesheet">
-  <script type="importmap">
-{
-  "imports": {
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "gsap": "https://esm.sh/gsap@3.12.5",
-    "gsap/ScrollTrigger": "https://esm.sh/gsap@3.12.5/ScrollTrigger",
-    "gsap/": "https://aistudiocdn.com/gsap@^3.13.0/",
-    "path": "https://aistudiocdn.com/path@^0.12.7",
-    "vite": "https://aistudiocdn.com/vite@^7.2.4",
-    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1",
-    "@lottiefiles/dotlottie-react": "https://aistudiocdn.com/@lottiefiles/dotlottie-react@^0.17.8"
-  }
-}
-</script>
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Anton&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'"
+    >
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Anton&display=swap">
+    </noscript>
 </head>
   <body>
     <div id="root"></div>

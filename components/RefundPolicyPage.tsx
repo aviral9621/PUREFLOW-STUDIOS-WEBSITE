@@ -14,7 +14,7 @@ export const RefundPolicyPage: React.FC<RefundPolicyPageProps> = ({ onViewChange
   }, []);
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-black pt-24 pb-24 text-white sm:pt-28">
+    <main className="relative min-h-[100svh] overflow-hidden bg-black pt-24 pb-24 text-white sm:pt-28">
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 h-[900px] w-[1100px] rounded-full bg-brand/5 opacity-30 blur-[150px]" />
       </div>

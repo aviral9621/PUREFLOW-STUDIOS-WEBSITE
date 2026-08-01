@@ -1,5 +1,6 @@
 
 import React, { Suspense, lazy, useState, useEffect } from 'react';
+import { LazyMotion, domAnimation } from 'framer-motion';
 import { Navbar } from './components/shared/Navbar';
 import { Hero } from './components/sections/Hero';
 import { ViewState } from './types';
@@ -59,9 +60,9 @@ const ContactPage = lazy(() =>
 const ServiceDetailPage = lazy(() =>
   import('./components/ServiceDetailPage').then((module) => ({ default: module.ServiceDetailPage }))
 );
-const SoftwareCrmPage = lazy(() =>
-  import('./components/SoftwareCrmPage').then((module) => ({ default: module.SoftwareCrmPage }))
-);
+// NOTE: `SoftwareCrmPage` was lazily declared here but never rendered anywhere in
+// the tree. Rollup still saw the live import() and emitted its chunk — ~24KB gz of
+// gsap — which was deployed but unreachable. Removed; `gsap` is now unused.
 const GetWebsiteBuiltPage = lazy(() =>
   import('./components/GetWebsiteBuiltPage').then((module) => ({ default: module.GetWebsiteBuiltPage }))
 );
@@ -225,35 +226,13 @@ const AppContent: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentView]);
 
-  // On the very first load, keep the home page pinned to the top (the hero) for a
-  // few seconds. A live-preview iframe in the Work section can autofocus an input
-  // once it loads, which makes the browser scroll the page down to that section —
-  // so the site appears to "open on the Work section". We snap back to the top
-  // unless the visitor scrolls themselves (any real scroll intent disarms it).
-  useEffect(() => {
-    if (initialRoute.view !== 'home') return;
-    let userIntent = false;
-    const mark = () => { userIntent = true; };
-    const passive = { passive: true } as AddEventListenerOptions;
-    window.addEventListener('wheel', mark, passive);
-    window.addEventListener('touchmove', mark, passive);
-    window.addEventListener('pointerdown', mark, passive);
-    window.addEventListener('keydown', mark);
-    const tick = () => {
-      if (!userIntent && window.scrollY > 4) window.scrollTo(0, 0);
-    };
-    const interval = window.setInterval(tick, 150);
-    const stop = window.setTimeout(() => window.clearInterval(interval), 4500);
-    return () => {
-      window.clearInterval(interval);
-      window.clearTimeout(stop);
-      window.removeEventListener('wheel', mark);
-      window.removeEventListener('touchmove', mark);
-      window.removeEventListener('pointerdown', mark);
-      window.removeEventListener('keydown', mark);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // NOTE: a previous "pin to hero on first load" workaround lived here. It polled
+  // scroll position on a 150ms interval for 4.5s to undo a scroll jump caused by a
+  // live-preview iframe in the Work section autofocusing an input once it loaded.
+  // That iframe is gone (the Work section no longer embeds live sites), so the
+  // workaround — which also fought the visitor's own scrolling and kept a timer
+  // running through the whole page load — has been removed. `history.scrollRestoration`
+  // is set to 'manual' in index.tsx, which is what actually keeps loads at the top.
 
   // Keep the URL in sync with the current view/slug (History API). Skips the
   // push when the change originated from a browser back/forward (popstate).
@@ -444,10 +423,19 @@ const AppContent: React.FC = () => {
   return (
     <main className="min-h-screen w-full relative bg-black text-white selection:bg-brand selection:text-white">
       
-      {/* Global Ambient Background - Subtle and Premium */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
-         <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[1200px] h-[1000px] bg-brand/5 rounded-full blur-[150px] opacity-40" />
-      </div>
+      {/* Global Ambient Background - Subtle and Premium.
+          Was a 1200x1000 div with `blur-[150px]`, which makes the compositor
+          allocate a ~1500x1300 texture and run a wide multi-pass Gaussian — on
+          every route, eagerly, for a wash whose effective alpha is ~2%. A radial
+          gradient paints the same result for free. */}
+      <div
+        className="fixed inset-0 pointer-events-none -z-10"
+        aria-hidden="true"
+        style={{
+          background:
+            'radial-gradient(ellipse 60% 45% at 50% 0%, rgba(164,82,255,0.05), transparent 70%)',
+        }}
+      />
 
       <Navbar
         currentView={currentView}
@@ -662,7 +650,14 @@ const AppContent: React.FC = () => {
 const App: React.FC = () => {
   return (
     <ThemeProvider>
-      <AppContent />
+      {/* Supplies animation features to the lightweight `m` components used on the
+          eager render path (Hero, Navbar, MagneticButton). `domAnimation` is roughly
+          half the weight of the full feature set that plain `motion` would pull into
+          the initial chunk. Intentionally not `strict` — the lazily-loaded sections
+          still use `motion` directly, and they load off the critical path. */}
+      <LazyMotion features={domAnimation}>
+        <AppContent />
+      </LazyMotion>
     </ThemeProvider>
   );
 };

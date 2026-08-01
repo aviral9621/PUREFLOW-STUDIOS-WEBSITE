@@ -1,176 +1,36 @@
 import React, { useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowUpRight } from 'lucide-react';
 import { MagneticButton } from '../shared/MagneticButton';
-import { useFeaturedProjects, type Project } from '../../hooks/useProjects';
-import { ProjectImageCarousel } from './ProjectImageCarousel';
-import { LiveCardPreview } from './LiveCardPreview';
-import { Mockup } from '../casestudy/Mockup';
 
-// ─── Browser chrome mockup ──────────────────────────────────────────────────
-
-interface MockupProps {
-  url: string;
-  from: string;
-  to: string;
-}
-
-function BrowserMockup({ url, from, to }: MockupProps) {
-  return (
-    <div className="absolute inset-0 flex flex-col">
-      {/* Chrome bar */}
-      <div className="flex-shrink-0 h-8 bg-black/70 backdrop-blur-sm flex items-center gap-1.5 px-3 border-b border-white/5">
-        <div className="w-2.5 h-2.5 rounded-full bg-red-400/70" />
-        <div className="w-2.5 h-2.5 rounded-full bg-yellow-400/70" />
-        <div className="w-2.5 h-2.5 rounded-full bg-green-400/70" />
-        <div className="flex-1 mx-2 h-4 rounded bg-white/5 flex items-center px-2">
-          <span className="text-white/20 text-[9px] font-mono truncate">{url}</span>
-        </div>
-      </div>
-
-      {/* Gradient + dot grid */}
-      <div className={`flex-1 relative bg-gradient-to-br ${from} ${to}`}>
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              'radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px)',
-            backgroundSize: '20px 20px',
-          }}
-        />
-        {/* UI skeleton */}
-        <div className="absolute inset-0 flex">
-          <div className="w-[18%] bg-black/25 border-r border-white/5 p-3 space-y-2">
-            <div className="h-3 w-full rounded bg-white/8" />
-            <div className="h-3 w-3/4 rounded bg-white/5" />
-            <div className="h-3 w-2/3 rounded bg-white/4" />
-            <div className="h-3 w-full rounded bg-white/5 mt-4" />
-            <div className="h-3 w-3/4 rounded bg-white/4" />
-          </div>
-          <div className="flex-1 p-4 space-y-3">
-            <div className="h-5 w-2/3 rounded-md bg-white/10" />
-            <div className="h-3 w-1/3 rounded bg-white/6" />
-            <div className="grid grid-cols-2 gap-3 pt-2">
-              <div className="h-16 rounded-xl bg-white/8" />
-              <div className="h-16 rounded-xl bg-white/5" />
-              <div className="h-10 rounded-xl bg-white/5 col-span-2" />
-            </div>
-            <div className="flex gap-2 pt-1">
-              <div className="h-6 w-20 rounded-full bg-white/8" />
-              <div className="h-6 w-16 rounded-full bg-white/5" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── CaseStudyCard ────────────────────────────────────────────────────────────
-//
-// NOTE: case study data lives in `lib/projects.ts`. To wire up a CRM (Supabase,
-// Notion, Sanity, etc.), fetch into the same `Project` shape and pass through.
-
-interface CaseStudyCardProps {
-  project: Project;
-  reduced: boolean | null;
-  index: number;
-  onOpen: (slug: string) => void;
-}
-
-export const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
-  project,
-  reduced,
-  index,
-  onOpen,
-}) => {
-  return (
-    <motion.article
-      onClick={() => onOpen(project.slug)}
-      className="case-card group relative flex h-full w-full cursor-pointer flex-col overflow-hidden rounded-xl border border-white/10 bg-[#08060d] transition-all duration-300 hover:-translate-y-1.5 hover:border-[#d946ef]/55 hover:shadow-[0_22px_70px_-18px_rgba(217,70,239,0.5)] sm:rounded-2xl"
-      initial={reduced ? false : { opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1], delay: (index % 3) * 0.06 }}
-    >
-      {/* Animated gradient halo on hover */}
-      <div className="case-card__halo pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true" />
-
-      {/* TOP — Image carousel (if images) else gradient mockup */}
-      <div className="relative z-10 aspect-[16/10] w-full overflow-hidden border-b border-white/8">
-        <div className="absolute inset-0 transition-transform duration-500 ease-out group-hover:scale-[1.04]">
-          {project.images.length > 0 ? (
-            <ProjectImageCarousel images={project.images} intervalMs={4500} />
-          ) : project.cardMockup ? (
-            <Mockup kind={project.cardMockup} />
-          ) : project.previewUrl ? (
-            <LiveCardPreview url={project.previewUrl} siteName={project.client.split('·')[0].trim()} />
-          ) : (
-            <BrowserMockup url={project.url} from={project.from} to={project.to} />
-          )}
-        </div>
-      </div>
-
-      {/* BOTTOM — Lean text content */}
-      <div className="relative z-10 flex flex-1 flex-col p-4 sm:p-5">
-        <p className="gradient-flow-text text-[9px] font-extrabold uppercase tracking-[0.16em] sm:text-[10px] sm:tracking-[0.2em]">
-          {project.client}
-        </p>
-
-        <h3 className="mt-2 font-sans text-[1.05rem] font-semibold leading-[1.25] tracking-[-0.01em] text-white sm:text-[1.12rem] md:text-[1.18rem]">
-          {project.title}
-        </h3>
-
-        <p className="mt-1.5 text-[12.5px] leading-relaxed text-white/55 sm:text-[13px]">
-          {project.description}
-        </p>
-
-        <div className="mt-3 flex flex-wrap gap-1.5">
-          {project.tech.slice(0, 4).map((t) => (
-            <span
-              key={t}
-              className="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] text-white/60"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
-
-        <span className="mt-4 inline-flex items-center gap-1.5 self-start text-[11px] font-medium text-white/55 transition-colors duration-200 group-hover:text-white sm:text-xs">
-          View case study
-          <ArrowUpRight className="h-3 w-3 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 sm:h-3.5 sm:w-3.5" />
-        </span>
-      </div>
-    </motion.article>
-  );
-};
+// NOTE: the full case-study card lives in `./CaseStudyCard`. It is deliberately
+// NOT re-exported here — importers must pull it from that module directly so the
+// homepage chunk never picks up the carousel / live-iframe / mockup dependencies.
 
 // ─── Main section ─────────────────────────────────────────────────────────────
 
 interface WorkProps {
   onStartProject: () => void;
-  onOpenProject: (slug: string) => void;
-  onViewAll: () => void;
+  /**
+   * Retained so the showcase can be switched back on without touching App.tsx.
+   * Unused while the section is being rebuilt.
+   */
+  onOpenProject?: (slug: string) => void;
+  onViewAll?: () => void;
 }
 
-export function Work({ onStartProject, onOpenProject, onViewAll }: WorkProps) {
+export function Work({ onStartProject }: WorkProps) {
   const reduced = useReducedMotion();
   const ctaBtnRef = useRef<HTMLDivElement>(null);
-  const { projects } = useFeaturedProjects(6);
-
-  const handleStartProject = () => {
-    onStartProject();
-  };
 
   return (
     <section id="work" className="relative py-10 md:py-12 bg-black">
       {/* Ambient glow */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-pink-600/4 rounded-full blur-[140px]" />
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[500px] w-[900px] max-w-full -translate-y-0 rounded-full bg-pink-600/4 blur-[140px]" />
       </div>
 
       {/* ── Section header ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 mb-8 md:mb-10">
+      <div className="mx-auto mb-8 max-w-7xl px-4 sm:px-6 md:mb-10 lg:px-10">
         <motion.div
           className="flex flex-col items-center text-center"
           initial={reduced ? false : { opacity: 0, y: 28 }}
@@ -188,76 +48,92 @@ export function Work({ onStartProject, onOpenProject, onViewAll }: WorkProps) {
             SHIPPED.
           </span>
         </motion.div>
-
-        {/* Sub-header row */}
-        <motion.div
-          className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 mt-6 md:mt-8"
-          initial={reduced ? false : { opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-          viewport={{ once: true }}
-        >
-          <p className="text-white/55 text-base leading-relaxed max-w-md">
-            Real products. Real users. No templates, no shortcuts.
-          </p>
-          <button
-            onClick={onViewAll}
-            className="text-sm text-white/40 hover:text-white flex items-center gap-1.5 transition-colors duration-200 group/all whitespace-nowrap"
-          >
-            View all work
-            <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover/all:translate-x-0.5 group-hover/all:-translate-y-0.5" />
-          </button>
-        </motion.div>
       </div>
 
-      {/* ── Case studies grid ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 mt-8">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
-          {projects.map((project, i) => (
-            <CaseStudyCard
-              key={project.id}
-              project={project}
-              reduced={reduced}
-              index={i}
-              onOpen={onOpenProject}
-            />
-          ))}
-        </div>
+      {/* ── "Building this section" panel ── */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
+        <motion.div
+          initial={reduced ? false : { opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[#08060d] px-5 py-12 sm:rounded-3xl sm:px-10 sm:py-16 md:py-20"
+        >
+          {/* Blueprint grid backdrop */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 opacity-[0.35]"
+            style={{
+              backgroundImage:
+                'linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px)',
+              backgroundSize: '44px 44px',
+              maskImage: 'radial-gradient(ellipse at 50% 40%, black 20%, transparent 75%)',
+              WebkitMaskImage: 'radial-gradient(ellipse at 50% 40%, black 20%, transparent 75%)',
+            }}
+          />
 
-        {projects.length >= 6 && (
-          <div className="mt-8 flex justify-center md:mt-10">
-            <button
-              onClick={onViewAll}
-              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-5 py-2.5 text-sm font-semibold text-white/85 transition-all duration-200 hover:bg-white/[0.08] hover:border-white/25 hover:text-white"
+          {/* Ambient gradient wash */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(217,70,239,0.14),transparent_60%)]"
+          />
+
+          <div className="relative z-10 flex flex-col items-center text-center">
+            {/* Status badge */}
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#d946ef]/30 bg-[#d946ef]/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[#f0abfc] sm:text-[11px]">
+              <span className="relative flex h-1.5 w-1.5 flex-shrink-0">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#f0abfc] opacity-75" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#f0abfc]" />
+              </span>
+              In progress
+            </span>
+
+            <h3 className="mt-6 font-display text-[clamp(1.75rem,5vw,3.25rem)] font-bold leading-[1.08] tracking-tight text-white">
+              We're building this section.
+            </h3>
+
+            <p className="mx-auto mt-4 max-w-xl text-pretty text-[15px] leading-relaxed text-white/55 sm:text-base">
+              Our case studies are being rewritten with real numbers, real outcomes and the
+              full story behind each build. Worth the wait — check back soon.
+            </p>
+
+            {/* Progress rail */}
+            <div
+              className="mt-9 h-1 w-full max-w-xs overflow-hidden rounded-full bg-white/[0.07]"
+              role="presentation"
             >
-              View all work
-              <ArrowUpRight className="h-4 w-4" />
-            </button>
+              <div className="work-progress-rail h-full w-2/5 rounded-full bg-gradient-to-r from-[#ff2f86] via-[#d946ef] to-[#a855f7]" />
+            </div>
+
+            <p className="mt-8 text-[13px] text-white/40 sm:text-sm">
+              Want to see the work in the meantime?{' '}
+              <span className="text-white/70">Ask us directly — we'll walk you through it.</span>
+            </p>
           </div>
-        )}
+        </motion.div>
       </div>
 
       {/* ── Bottom CTA card ── */}
       <motion.div
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 mt-12 md:mt-20"
+        className="mx-auto mt-12 max-w-7xl px-4 sm:px-6 md:mt-20 lg:px-10"
         initial={reduced ? false : { opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         viewport={{ once: true, margin: '-100px' }}
       >
-        <div className="rounded-2xl border border-white/[0.06] bg-[var(--color-bg-elevated)] p-6 text-center grain relative overflow-hidden sm:rounded-3xl sm:p-12">
+        <div className="grain relative overflow-hidden rounded-2xl border border-white/[0.06] bg-[var(--color-bg-elevated)] p-6 text-center sm:rounded-3xl sm:p-12">
           {/* Ambient gradient */}
-          <div className="absolute inset-0 bg-gradient-to-r from-pink-500/5 via-purple-500/5 to-fuchsia-500/5 pointer-events-none" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-pink-500/5 via-purple-500/5 to-fuchsia-500/5" />
 
-          <h3 className="font-display text-3xl lg:text-4xl font-bold text-white relative z-10">
+          <h3 className="relative z-10 font-display text-3xl font-bold text-white lg:text-4xl">
             Have a project in mind?
           </h3>
-          <p className="text-white/55 mt-4 mb-8 relative z-10 max-w-md mx-auto leading-relaxed">
+          <p className="relative z-10 mx-auto mt-4 mb-8 max-w-md leading-relaxed text-white/55">
             Let's build something that ships, scales, and outlives the hype cycle.
           </p>
 
           <div ref={ctaBtnRef} className="relative z-10 inline-block">
-            <MagneticButton variant="primary" onClick={handleStartProject}>
+            <MagneticButton variant="primary" onClick={onStartProject}>
               Start a project
             </MagneticButton>
           </div>

@@ -25,7 +25,7 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onViewChange, 
 
   if (!post) {
     return (
-      <main className="relative min-h-screen overflow-hidden bg-black pt-32 text-white">
+      <main className="relative min-h-[100svh] overflow-hidden bg-black pt-32 text-white">
         <div className="mx-auto max-w-2xl px-6 text-center">
           <h1 className="font-sans text-3xl font-bold tracking-tight text-white">Article not found.</h1>
           <p className="mt-3 text-white/55">The article you’re looking for doesn’t exist or has been moved.</p>
@@ -44,7 +44,7 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onViewChange, 
   const related = POSTS.filter((p) => p.slug !== post.slug).slice(0, 2);
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-black text-white">
+    <main className="relative min-h-[100svh] overflow-hidden bg-black text-white">
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[700px] bg-brand/[0.05] rounded-full blur-[140px]" />
       </div>

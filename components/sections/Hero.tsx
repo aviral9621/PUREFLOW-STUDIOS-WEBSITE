@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState, MouseEvent } from 'react';
+// `m` instead of `motion`: `motion` pulls framer-motion's entire DOM feature set
+// (drag, layout projection, gestures) into the initial chunk. The hero only does
+// simple enter/transform animations, so it uses the lightweight `m` component and
+// the `domAnimation` feature bundle provided by the <LazyMotion> in App.tsx.
 import {
-  motion,
+  m,
   useMotionValue,
   useSpring,
   useTransform,
@@ -69,7 +73,7 @@ export function Hero({ onViewChange: _onViewChange, onOpenContact: _onOpenContac
     <section
       ref={sectionRef}
       onMouseMove={handleMouseMove}
-      className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-black px-5 pb-6 pt-20 sm:pt-24 md:pb-8"
+      className="relative flex min-h-[100svh] w-full flex-col items-center justify-center overflow-hidden bg-black px-5 pb-6 pt-20 sm:pt-24 md:pb-8"
       aria-label="Hero"
     >
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -133,7 +137,7 @@ export function Hero({ onViewChange: _onViewChange, onOpenContact: _onOpenContac
       />
 
       <div className="relative z-10 flex w-full max-w-[1080px] flex-col items-center text-center">
-        <motion.h1
+        <m.h1
           className="hero-title-stack relative flex w-full flex-col items-center text-center"
           style={prefersReducedMotion ? {} : { x: headlineX, y: headlineY }}
         >
@@ -141,7 +145,7 @@ export function Hero({ onViewChange: _onViewChange, onOpenContact: _onOpenContac
 
           <span className="hero-title-line hero-title-line-where relative z-10 flex justify-center">
             <span className="inline-block pr-6 leading-none">
-              <motion.span
+              <m.span
                 className="relative inline-block font-serif italic text-[3.4rem] font-normal tracking-normal text-white/95 sm:text-[clamp(2.8rem,5.8vw,5.8rem)]"
                 custom={0.4}
                 variants={wordUp}
@@ -153,12 +157,12 @@ export function Hero({ onViewChange: _onViewChange, onOpenContact: _onOpenContac
                   className="hero-sparkle absolute -right-8 top-3"
                   aria-hidden="true"
                 />
-              </motion.span>
+              </m.span>
             </span>
           </span>
 
           <span className="hero-title-line hero-title-line-business relative z-10 inline-block leading-none">
-            <motion.span
+            <m.span
               className="hero-business-meets inline-block whitespace-nowrap text-[2.2rem] font-black leading-none text-white drop-shadow-[0_10px_24px_rgba(0,0,0,0.85)] sm:text-[clamp(2.2rem,5.5vw,5.4rem)]"
               custom={0.55}
               variants={wordUp}
@@ -166,11 +170,11 @@ export function Hero({ onViewChange: _onViewChange, onOpenContact: _onOpenContac
               animate="visible"
             >
               business meets
-            </motion.span>
+            </m.span>
           </span>
 
           <span className="hero-title-line hero-title-line-automation relative z-10 inline-block w-full leading-none">
-            <motion.span
+            <m.span
               className="hero-automation-text inline-block text-[3rem] leading-none sm:text-[clamp(3rem,8.4vw,8.4rem)]"
               data-text="AUTOMATION"
               custom={0.8}
@@ -179,11 +183,11 @@ export function Hero({ onViewChange: _onViewChange, onOpenContact: _onOpenContac
               animate="visible"
             >
               AUTOMATION
-            </motion.span>
+            </m.span>
           </span>
-        </motion.h1>
+        </m.h1>
 
-        <motion.p
+        <m.p
           custom={1}
           variants={wordUp}
           initial={prefersReducedMotion ? false : 'hidden'}
@@ -192,9 +196,9 @@ export function Hero({ onViewChange: _onViewChange, onOpenContact: _onOpenContac
         >
           We build custom software, CRMs, AI agents, and websites that turn manual chaos into
           measurable systems - for businesses ready to stop firefighting and start scaling.
-        </motion.p>
+        </m.p>
 
-        <motion.div
+        <m.div
           custom={1.1}
           variants={wordUp}
           initial={prefersReducedMotion ? false : 'hidden'}
@@ -216,9 +220,9 @@ export function Hero({ onViewChange: _onViewChange, onOpenContact: _onOpenContac
           >
             Book a 15-min call
           </button>
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           custom={1.3}
           variants={wordUp}
           initial={prefersReducedMotion ? false : 'hidden'}
@@ -249,7 +253,7 @@ export function Hero({ onViewChange: _onViewChange, onOpenContact: _onOpenContac
               <span className="ml-2 text-sm text-white/65">4.8 on Google</span>
             </div>
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

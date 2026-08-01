@@ -17,7 +17,7 @@ export const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onViewChange, onOp
   }, []);
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-black text-white">
+    <main className="relative min-h-[100svh] overflow-hidden bg-black text-white">
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[700px] bg-brand/[0.06] rounded-full blur-[140px]" />
       </div>

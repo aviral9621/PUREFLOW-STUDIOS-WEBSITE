@@ -230,7 +230,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onViewChange }) 
   const faqData = getCurrentFAQs();
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20 animate-fade-in min-h-screen">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20 animate-fade-in min-h-[100svh]">
         
         {/* Header Section */}
         <div className="text-center max-w-3xl mx-auto mb-10">
@@ -247,7 +247,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onViewChange }) 
 
         {/* MAIN TABS */}
         <div className="flex justify-center mb-10">
-           <div className="inline-flex items-center p-1.5 bg-gray-100 dark:bg-white/[0.03] border border-gray-200 dark:border-white/5 rounded-2xl overflow-x-auto max-w-full hide-scrollbar">
+           <div className="inline-flex items-center p-1.5 bg-gray-100 dark:bg-white/[0.03] border border-gray-200 dark:border-white/5 rounded-2xl overflow-x-auto max-w-full hide-scrollbar scroll-fade-right">
               {[
                 { id: 'softwares', label: 'Softwares / CRMs' },
                 { id: 'websites', label: 'Websites' },
@@ -274,7 +274,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onViewChange }) 
         {/* SUB TABS: WEBSITES */}
         {activeTab === 'websites' && (
            <div className="flex justify-center mb-12 animate-slide-up">
-              <div className="inline-flex items-center gap-6 border-b border-gray-200 dark:border-white/5 px-8">
+              <div className="inline-flex flex-wrap justify-center items-center gap-6 border-b border-gray-200 dark:border-white/5 max-w-full px-4 sm:px-8">
                  <button 
                     onClick={() => handleWebSubTabChange('ecommerce')}
                     className={`pb-4 text-sm font-medium transition-colors relative ${webSubTab === 'ecommerce' ? 'text-brand' : 'text-gray-500 hover:text-gray-800 dark:hover:text-gray-300'}`}

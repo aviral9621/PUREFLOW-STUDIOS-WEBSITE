@@ -1,5 +1,5 @@
 import { useRef, ReactNode, MouseEvent } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { m, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { cn } from '../../lib/utils';
 
 type Variant = 'primary' | 'secondary' | 'ghost';
@@ -43,7 +43,7 @@ export function MagneticButton({
   }
 
   return (
-    <motion.button
+    <m.button
       ref={ref}
       type={type}
       style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
@@ -57,6 +57,6 @@ export function MagneticButton({
       )}
     >
       {children}
-    </motion.button>
+    </m.button>
   );
 }

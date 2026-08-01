@@ -100,7 +100,7 @@ export const Footer: React.FC<FooterProps> = ({ onViewChange }) => {
           viewport={{ once: true }}
           className="w-full text-center"
         >
-          <p className="footer-wordmark font-display font-black leading-[0.85] tracking-[-0.02em] uppercase whitespace-nowrap select-none">
+          <p className="footer-wordmark font-display leading-[0.85] tracking-[-0.02em] uppercase whitespace-nowrap select-none">
             PURE<span className="gradient-flow-text">FLOW</span> STUDIOS
           </p>
         </motion.div>

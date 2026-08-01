@@ -3,7 +3,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { ViewState } from '../types';
 import { useAllProjects } from '../hooks/useProjects';
-import { CaseStudyCard } from './sections/Work';
+import { CaseStudyCard } from './sections/CaseStudyCard';
 
 interface Props {
   onViewChange: (view: ViewState) => void;
@@ -19,7 +19,7 @@ export const WorkIndexPage: React.FC<Props> = ({ onViewChange, onOpenProject }) 
   }, []);
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-black text-white">
+    <main className="relative min-h-[100svh] overflow-hidden bg-black text-white">
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[700px] bg-brand/[0.06] rounded-full blur-[140px]" />
       </div>

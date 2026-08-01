@@ -116,7 +116,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onViewChange }) => {
   ];
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-black text-white">
+    <main className="relative min-h-[100svh] overflow-hidden bg-black text-white">
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute top-[10%] left-1/2 -translate-x-1/2 w-[900px] h-[700px] bg-brand/[0.07] rounded-full blur-[140px]" />
         <div

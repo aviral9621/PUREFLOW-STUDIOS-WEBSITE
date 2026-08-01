@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+// See the note in sections/Hero.tsx — `m` keeps the heavy feature set out of the
+// initial chunk; features come from the <LazyMotion> provider in App.tsx.
+import { m, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Menu, X, ArrowUpRight, MessageCircle } from 'lucide-react';
 import { MagneticButton } from './MagneticButton';
 import { ViewState } from '../../types';
@@ -17,7 +19,10 @@ type NavItem =
   | { label: string; section: string };
 
 const navItems: NavItem[] = [
-  { label: 'Work', view: 'work' },
+  // 'Work' is hidden while the case-study showcase is being rebuilt — the
+  // homepage section shows an "in progress" panel instead. Restore this entry
+  // once the /work index has real content again.
+  // { label: 'Work', view: 'work' },
   { label: 'Services', section: 'services' },
   { label: 'About', view: 'about' },
   { label: 'Good Stuff', view: 'blog' },
@@ -87,7 +92,7 @@ export function Navbar({ currentView, onViewChange, onOpenContact: _onOpenContac
 
   return (
     <>
-      <motion.header
+      <m.header
         initial={prefersReducedMotion ? false : { y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.3, ease: 'easeOut' }}
@@ -160,11 +165,11 @@ export function Navbar({ currentView, onViewChange, onOpenContact: _onOpenContac
             </button>
           )}
         </div>
-      </motion.header>
+      </m.header>
 
       <AnimatePresence>
         {isOpen && (
-          <motion.div
+          <m.div
             key="mobile-menu"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -210,7 +215,7 @@ export function Navbar({ currentView, onViewChange, onOpenContact: _onOpenContac
             </div>
 
             {/* Menu links */}
-            <motion.nav
+            <m.nav
               variants={prefersReducedMotion ? {} : mobileListVariant}
               initial="hidden"
               animate="visible"
@@ -219,7 +224,7 @@ export function Navbar({ currentView, onViewChange, onOpenContact: _onOpenContac
               aria-label="Mobile navigation"
             >
               {navItems.map((item) => (
-                <motion.button
+                <m.button
                   key={item.label}
                   variants={prefersReducedMotion ? {} : mobileItemVariant}
                   onClick={() => handleNav(item)}
@@ -229,12 +234,12 @@ export function Navbar({ currentView, onViewChange, onOpenContact: _onOpenContac
                     {item.label}
                   </span>
                   <ArrowUpRight className="h-5 w-5 text-white/40 transition-all duration-300 group-hover:text-[#D946EF] group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </motion.button>
+                </m.button>
               ))}
-            </motion.nav>
+            </m.nav>
 
             {/* Bottom action bar — both buttons stacked, full-width, prominent */}
-            <motion.div
+            <m.div
               variants={prefersReducedMotion ? {} : mobileItemVariant}
               initial="hidden"
               animate="visible"
@@ -258,8 +263,8 @@ export function Navbar({ currentView, onViewChange, onOpenContact: _onOpenContac
                 <MessageCircle className="h-5 w-5 flex-shrink-0" strokeWidth={2.2} />
                 Book a call
               </button>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         )}
       </AnimatePresence>
     </>

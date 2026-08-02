@@ -737,6 +737,268 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
   .nf-cta:hover { transform: none; }
 }
 
+/* ── Process — pinned scroll timeline ──────────────────────────────────────
+   Four panels stacked inside one sticky stage. A single scroll-derived
+   progress value drives every custom property below, so scrolling back up
+   replays the sequence in reverse for free. The properties are written
+   straight to the DOM on rAF by components/sections/Process.tsx — no React
+   state, so scrolling never triggers a re-render.
+
+   NOTE: no ancestor of .pf-stage may set `overflow: hidden`, or the sticky
+   positioning silently stops working. `overflow-x: clip` on html/body is safe;
+   `hidden` is not. */
+
+.pf-stage {
+  --pf-marker: 128px;
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+
+/* Cleared past the fixed navbar (72px mobile / 76px desktop) — at the reference's
+   ~40px it sat underneath the header while the stage was pinned. */
+.pf-eyebrow {
+  position: absolute;
+  top: clamp(92px, 11vh, 116px);
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.38);
+  pointer-events: none;
+}
+.pf-eyebrow::before,
+.pf-eyebrow::after {
+  content: '';
+  width: 26px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.pf-panel {
+  --io: 0;    /* marker opacity            */
+  --sc: 1;    /* marker scale              */
+  --st: 0;    /* settle: 0 centre, 1 left  */
+  --ring: 0;  /* ring draw                 */
+  --draw: 0;  /* icon stroke draw          */
+  --lb: 0;    /* week label                */
+  --ti: 0;    /* title                     */
+  --su: 0;    /* subtitle                  */
+  --ex: 0;    /* exit                      */
+  --tx: 0px;  /* travel to centre, from JS */
+  --ty: 0px;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.pf-inner {
+  width: 100%;
+  max-width: 1100px;
+  padding: 0 clamp(24px, 6vw, 72px);
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  column-gap: 72px;
+  align-items: center;
+}
+
+.pf-marker { display: flex; justify-content: center; }
+
+/* Travels from its settled slot to the centre of the stage and back, scaling
+   as it goes. Both halves are folded into one transform so it stays on the
+   compositor. */
+.pf-move {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  opacity: var(--io);
+  transform:
+    translate(
+      calc(var(--tx) * (1 - var(--st)) - var(--ex) * 28px),
+      calc(var(--ty) * (1 - var(--st)) - var(--ex) * 12px)
+    )
+    scale(var(--sc));
+  will-change: transform, opacity;
+}
+
+.pf-disc {
+  position: relative;
+  width: var(--pf-marker);
+  height: var(--pf-marker);
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 34%, rgba(217, 70, 239, 0.18), rgba(8, 6, 13, 0.94) 72%);
+}
+
+.pf-halo {
+  position: absolute;
+  inset: -46%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(217, 70, 239, 0.4), transparent 62%);
+  filter: blur(16px);
+  opacity: calc(0.2 + 0.8 * (1 - var(--st)));
+  pointer-events: none;
+}
+
+.pf-ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  overflow: visible;
+}
+.pf-ring circle { fill: none; stroke-linecap: round; }
+/* Stroke widths are divided by the scale so they stay optically constant while
+   the marker grows and shrinks. */
+.pf-ring-track { stroke: rgba(255, 255, 255, 0.1); stroke-width: calc(1.15 / var(--sc)); }
+.pf-ring-prog {
+  stroke: url(#pfProcessGrad);
+  stroke-width: calc(1.15 / var(--sc));
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--ring));
+}
+
+.pf-ico {
+  position: relative;
+  width: 42%;
+  height: 42%;
+  fill: none;
+  stroke: url(#pfProcessGrad);
+  stroke-width: calc(0.85 / var(--sc));
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.pf-ico > * { stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--draw)); }
+
+.pf-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #ff2f86 0%, #d946ef 52%, #a855f7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: var(--lb);
+  transform: translateY(calc((1 - var(--lb)) * 8px));
+  white-space: nowrap;
+}
+
+.pf-title {
+  margin: 0;
+  font-size: clamp(26px, 3.6vw, 46px);
+  font-weight: 700;
+  letter-spacing: -0.024em;
+  line-height: 1.07;
+  color: #fff;
+  opacity: var(--ti);
+  transform: translateY(calc((1 - var(--ti)) * 30px));
+  will-change: transform, opacity;
+  text-wrap: balance;
+}
+
+.pf-sub {
+  margin: 18px 0 0;
+  max-width: 42ch;
+  font-size: clamp(15px, 1.4vw, 18px);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.6);
+  opacity: var(--su);
+  transform: translateY(calc((1 - var(--su)) * 22px));
+}
+
+.pf-chips {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  margin: 30px 0 0;
+  padding: 0;
+}
+.pf-chip {
+  --c: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14.5px;
+  color: rgba(255, 255, 255, 0.6);
+  opacity: var(--c);
+  transform: translateY(calc((1 - var(--c)) * 14px));
+}
+.pf-chip::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  flex: none;
+  background: linear-gradient(135deg, #ff2f86, #a855f7);
+  transform: rotate(45deg) scale(calc(0.4 + 0.6 * var(--c)));
+}
+
+.pf-stepper {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(24px, 5vh, 52px);
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  pointer-events: none;
+}
+.pf-stepper i {
+  --f: 0;
+  position: relative;
+  display: block;
+  width: 46px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.pf-stepper i::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #ff2f86, #d946ef, #a855f7);
+  transform: scaleX(var(--f));
+  transform-origin: left;
+}
+
+/* Tablet and below: the marker stacks above the copy and the travel becomes
+   mostly vertical, which the JS measurement handles automatically. */
+@media (max-width: 860px) {
+  .pf-stage { --pf-marker: 92px; }
+  .pf-inner {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 30px;
+    justify-items: center;
+    text-align: center;
+  }
+  .pf-move { gap: 14px; }
+  .pf-sub { margin-left: auto; margin-right: auto; }
+  .pf-chips { justify-content: center; gap: 10px 20px; margin-top: 24px; }
+  .pf-chip { font-size: 13.5px; }
+  .pf-stepper i { width: 34px; }
+  .pf-eyebrow { font-size: 10px; letter-spacing: 0.22em; }
+}
+
+@media (max-width: 400px) {
+  .pf-stage { --pf-marker: 78px; }
+  .pf-chips { gap: 8px 16px; }
+  .pf-stepper i { width: 26px; }
+}
+
 .hero-business-meets {
   font-family: 'Anton', 'Arial Narrow', 'Inter', sans-serif;
   font-stretch: normal;

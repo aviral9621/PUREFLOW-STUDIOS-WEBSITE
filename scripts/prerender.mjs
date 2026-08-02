@@ -183,6 +183,26 @@ async function run() {
     await writeFile(join(outDir, 'index.html'), html, 'utf8');
   }
 
+  // Vercel serves dist/404.html for any request that matches no other static
+  // file, and serves it with a real 404 status. Writing the SPA shell here means
+  // an unknown URL gets the correct status code *and* the branded 404 view:
+  // React boots as usual and `pathToState` maps the unknown path to `not-found`.
+  //
+  // Deliberately not added to PAGES — it must stay out of the sitemap, and it is
+  // the one page that should never be indexed.
+  const notFoundHtml = setMeta(
+    buildHtml(template, {
+      path: '/404',
+      title: `Page not found — ${SITE}`,
+      description: "The page you're looking for doesn't exist or may have been moved.",
+      h1: 'Page not found',
+    }),
+    'name',
+    'robots',
+    'noindex, follow'
+  );
+  await writeFile(join(DIST, '404.html'), notFoundHtml, 'utf8');
+
   const lastmod = new Date().toISOString().slice(0, 10);
   const urls = PAGES.map(
     (p) =>
@@ -192,7 +212,7 @@ async function run() {
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
   await writeFile(join(DIST, 'sitemap.xml'), sitemap, 'utf8');
 
-  console.log(`[prerender] wrote ${PAGES.length} routes + sitemap.xml`);
+  console.log(`[prerender] wrote ${PAGES.length} routes + 404.html + sitemap.xml`);
 }
 
 run().catch((err) => {

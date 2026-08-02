@@ -42,10 +42,15 @@ const STATIC: Array<[ViewState, string]> = [
 const viewToPathMap = new Map<ViewState, string>(STATIC);
 const pathToViewMap = new Map<string, ViewState>(STATIC.map(([v, p]) => [p, v]));
 
+/** Canonical path for the 404 view. Deliberately kept out of `STATIC` so it is
+ *  never emitted into the sitemap or prerendered as a real page. */
+export const NOT_FOUND_PATH = '/404';
+
 /** Build the URL path for a view (+ slug for work-post / blog-post). */
 export function viewToPath(view: ViewState, slug?: string | null): string {
   if (view === 'work-post') return slug ? `/work/${slug}` : '/work';
   if (view === 'blog-post') return slug ? `/blog/${slug}` : '/blog';
+  if (view === 'not-found') return NOT_FOUND_PATH;
   return viewToPathMap.get(view) ?? '/';
 }
 
@@ -64,7 +69,10 @@ export function pathToState(pathname: string): RouteState {
   const view = pathToViewMap.get(p);
   if (view) return { view, slug: null };
 
-  return { view: 'home', slug: null };
+  // Unknown path → the 404 view. This previously fell back to `home`, which
+  // rendered the homepage under the wrong URL — a soft 404 that search engines
+  // index as a duplicate of `/`.
+  return { view: 'not-found', slug: null };
 }
 
 /** All static (non-slug) routes — used by the sitemap/prerender generator. */

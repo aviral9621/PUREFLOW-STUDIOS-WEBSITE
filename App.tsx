@@ -63,6 +63,9 @@ const ServiceDetailPage = lazy(() =>
 // NOTE: `SoftwareCrmPage` was lazily declared here but never rendered anywhere in
 // the tree. Rollup still saw the live import() and emitted its chunk — ~24KB gz of
 // gsap — which was deployed but unreachable. Removed; `gsap` is now unused.
+const NotFoundPage = lazy(() =>
+  import('./components/NotFoundPage').then((module) => ({ default: module.NotFoundPage }))
+);
 const GetWebsiteBuiltPage = lazy(() =>
   import('./components/GetWebsiteBuiltPage').then((module) => ({ default: module.GetWebsiteBuiltPage }))
 );
@@ -241,6 +244,9 @@ const AppContent: React.FC = () => {
       isPoppingRef.current = false;
       return;
     }
+    // The 404 view has no canonical URL of its own — it is whatever unknown path
+    // the visitor typed. Pushing here would rewrite that to /404 and lose it.
+    if (currentView === 'not-found') return;
     const slug =
       currentView === 'work-post'
         ? selectedProjectSlug
@@ -416,6 +422,16 @@ const AppContent: React.FC = () => {
     return (
       <Suspense fallback={<PageFallback />}>
         <AutomationPage onViewChange={navigateTo} />
+      </Suspense>
+    );
+  }
+
+  // Returned before the shared shell below so the 404 carries no navbar, footer
+  // or contact popup — one message, one action.
+  if (currentView === 'not-found') {
+    return (
+      <Suspense fallback={<PageFallback />}>
+        <NotFoundPage onGoHome={() => navigateTo('home')} />
       </Suspense>
     );
   }

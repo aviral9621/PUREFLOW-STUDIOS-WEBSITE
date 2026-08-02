@@ -629,6 +629,114 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
   .work-progress-rail { animation: none; }
 }
 
+/* ── 404 page ─────────────────────────────────────────────────────────────
+   Standalone view (components/NotFoundPage.tsx). Sizes are fluid via clamp()
+   so the layout stays centred and proportional from 320px up without needing
+   separate breakpoints. */
+
+.nf-glow {
+  background: radial-gradient(
+    circle at center,
+    rgba(151, 71, 255, 0.16) 0%,
+    rgba(151, 71, 255, 0.06) 35%,
+    transparent 70%
+  );
+  animation: nfBreathe 6s ease-in-out infinite;
+}
+
+/* 404 numerals — 120–150px on desktop, scaled down on small screens. */
+.nf-code {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: clamp(5.25rem, 19vw, 9.375rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: #fff;
+  text-shadow: 0 0 46px rgba(255, 255, 255, 0.1);
+}
+
+/* Centre digit: purple gradient. `background-clip: text` makes the glyph itself
+   transparent, so the glow has to come from a drop-shadow rather than a
+   text-shadow (which would render behind the invisible fill). */
+.nf-zero {
+  background: linear-gradient(180deg, #c85eff 0%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 26px rgba(151, 71, 255, 0.45));
+}
+
+/* `text-wrap: balance` keeps the break even when these do wrap on smaller
+   screens, instead of stranding a single word on the last line. */
+.nf-heading {
+  font-size: clamp(1.75rem, 6.2vw, 3rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.nf-desc {
+  font-size: clamp(1rem, 2.4vw, 1.125rem);
+  line-height: 1.7;
+  max-width: 42ch;
+  text-wrap: balance;
+}
+
+.nf-icon {
+  filter: drop-shadow(0 0 18px rgba(151, 71, 255, 0.4));
+}
+
+.nf-cta {
+  background: linear-gradient(135deg, #d946ef 0%, #7c3aed 100%);
+  box-shadow: 0 10px 38px -10px rgba(217, 70, 239, 0.55);
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: pointer;
+}
+
+.nf-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 52px -10px rgba(217, 70, 239, 0.72);
+}
+
+.nf-cta:focus-visible {
+  outline: 2px solid #f0abfc;
+  outline-offset: 3px;
+}
+
+/* Entrance: fade up once on load. */
+.nf-enter {
+  animation: nfEnter 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.nf-float {
+  animation: nfFloat 5s ease-in-out infinite;
+}
+
+@keyframes nfEnter {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes nfFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+@keyframes nfBreathe {
+  0%, 100% { opacity: 0.75; transform: scale(1); }
+  50%      { opacity: 1;    transform: scale(1.05); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nf-enter,
+  .nf-float,
+  .nf-glow { animation: none; }
+  .nf-enter { opacity: 1; transform: none; }
+  .nf-cta:hover { transform: none; }
+}
+
 .hero-business-meets {
   font-family: 'Anton', 'Arial Narrow', 'Inter', sans-serif;
   font-stretch: normal;

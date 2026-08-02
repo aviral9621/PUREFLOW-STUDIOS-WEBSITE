@@ -150,6 +150,10 @@ export const META: Record<ViewState, Meta> = {
     description:
       'Pureflow Studios is a Gen-Z software studio founded by Aviral Singh — 10 people, 100+ products shipped, built on referrals.',
   },
+  'not-found': {
+    title: `Page not found — ${SITE}`,
+    description: "The page you're looking for doesn't exist or may have been moved.",
+  },
 };
 
 function setMeta(name: string, value: string, attr: 'name' | 'property' = 'name') {
@@ -238,6 +242,16 @@ export function useDocumentMeta(view: ViewState, slug?: string | null) {
     document.title = title;
     setMeta('description', description);
     setCanonical(url);
+
+    // Unknown URLs are served the SPA shell with a 200, so `noindex` is what
+    // actually keeps them out of search results (Google executes JS and honours
+    // this). Reset it on every other route so the tag never leaks between views.
+    setMeta(
+      'robots',
+      view === 'not-found'
+        ? 'noindex, follow'
+        : 'index, follow, max-image-preview:large, max-snippet:-1'
+    );
 
     setMeta('og:title', title, 'property');
     setMeta('og:description', description, 'property');

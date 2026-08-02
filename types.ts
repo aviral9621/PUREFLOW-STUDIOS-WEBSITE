@@ -27,7 +27,8 @@ export type ViewState =
   | 'book-call'
   | 'work'
   | 'work-post'
-  | 'about';
+  | 'about'
+  | 'not-found';
 
 export interface PlanFeature {
   text: string;

@@ -17,7 +17,6 @@ const STATIC: Array<[ViewState, string]> = [
   ['about', '/about'],
   ['blog', '/blog'],
   ['contact', '/contact'],
-  ['pricing', '/pricing'],
   ['crm-demo', '/crm-demo'],
   ['refund-policy', '/refund-policy'],
   ['automation-video', '/automation'],

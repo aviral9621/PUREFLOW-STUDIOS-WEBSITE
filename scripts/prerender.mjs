@@ -49,8 +49,6 @@ const PAGES = [
     description: 'Field notes on AI, automation, CRMs, and the boring software that quietly runs growing businesses. From the Pureflow Studios team.' },
   { path: '/contact', priority: '0.7', title: `Contact — ${SITE}`,
     description: 'Talk to Pureflow Studios about your project. Email support@pureflowdesigns.com or message us on WhatsApp.' },
-  { path: '/pricing', priority: '0.6', title: `Pricing — ${SITE}`,
-    description: 'Transparent fixed-price proposals for custom software, CRMs, AI agents, and websites. Founder-led, India-based, no hourly games.' },
   { path: '/crm-demo', priority: '0.5', title: `CRM Demo — ${SITE}`,
     description: 'See a live demo of the CRMs and dashboards we build for our clients.' },
   { path: '/automation', priority: '0.5', title: `AI & Automation — ${SITE}`,
@@ -124,7 +122,7 @@ const PAGES = [
 // Internal links injected into every page's hidden SEO block (crawl paths).
 const SEO_LINKS = [
   ['/', 'Home'], ['/work', 'Work'], ['/services', 'Services'], ['/about', 'About'],
-  ['/blog', 'Good Stuff'], ['/contact', 'Contact'], ['/pricing', 'Pricing'],
+  ['/blog', 'Good Stuff'], ['/contact', 'Contact'],
   ['/work/quick-hotels', 'Quick Hotels case study'],
   ['/work/herbal-vantage', 'Herbal Vantage case study'],
   ['/work/spectrum-tour-travels', 'Spectrum Tour & Travels case study'],

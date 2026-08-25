@@ -20,11 +20,6 @@ export const META: Record<ViewState, Meta> = {
     description:
       'Custom software, CRMs, AI agents, and websites that turn manual chaos into measurable systems. A Lucknow-based design and engineering studio.',
   },
-  pricing: {
-    title: `Pricing — ${SITE}`,
-    description:
-      'Transparent fixed-price proposals for custom software, CRMs, AI agents, and websites. Founder-led, India-based, no hourly games.',
-  },
   contact: {
     title: `Contact — ${SITE}`,
     description:

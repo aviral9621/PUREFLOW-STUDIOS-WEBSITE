@@ -44,7 +44,6 @@ export const Footer: React.FC<FooterProps> = ({ onViewChange }) => {
   const studio = [
     { label: 'Work', action: () => handleNav('home') },
     { label: 'Process', action: () => handleNav('home') },
-    { label: 'Pricing', action: () => handleNav('pricing') },
     { label: 'Contact', action: () => handleNav('contact') },
   ];
 

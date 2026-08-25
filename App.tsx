@@ -45,9 +45,6 @@ const GoogleReviews = lazy(() =>
 const LocationMap = lazy(() =>
   import('./components/LocationMap').then((module) => ({ default: module.LocationMap }))
 );
-const PricingSection = lazy(() =>
-  import('./components/PricingSection').then((module) => ({ default: module.PricingSection }))
-);
 const CrmDemoPage = lazy(() =>
   import('./components/CrmDemoPage').then((module) => ({ default: module.CrmDemoPage }))
 );
@@ -555,14 +552,6 @@ const AppContent: React.FC = () => {
               onStartProjectWithService={handleStartProjectWithService}
             />
           </Suspense>
-        )}
-
-        {currentView === 'pricing' && (
-          <div className="pt-20">
-            <Suspense fallback={<PageFallback />}>
-              <PricingSection onViewChange={navigateTo} />
-            </Suspense>
-          </div>
         )}
 
         {currentView === 'crm-demo' && (

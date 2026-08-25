@@ -70,7 +70,6 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onViewChange }) => 
           {[
             { label: 'Work', view: 'home' }, 
             { label: 'Services', view: 'services' },
-            { label: 'Pricing', view: 'pricing' },
             { label: 'Contact', view: 'contact' }
           ].map((item, idx) => (
             <button

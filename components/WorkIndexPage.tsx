@@ -84,14 +84,8 @@ export const WorkIndexPage: React.FC<Props> = ({ onViewChange, onOpenProject }) 
         ) : (
           <>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 xl:grid-cols-3 xl:gap-7">
-              {visible.map((item, i) => (
-                <ProjectShowcaseCard
-                  key={item.id}
-                  item={item}
-                  reduced={reduced}
-                  index={i}
-                  onOpen={onOpenProject}
-                />
+              {visible.map((item) => (
+                <ProjectShowcaseCard key={item.id} item={item} onOpen={onOpenProject} />
               ))}
             </div>
 

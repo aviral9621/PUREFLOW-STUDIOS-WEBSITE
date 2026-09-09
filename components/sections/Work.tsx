@@ -73,12 +73,10 @@ export function Work({ onStartProject, onOpenProject, onViewAll }: WorkProps) {
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 xl:grid-cols-3 xl:gap-7">
           {showSkeletons
             ? Array.from({ length: FEATURED_COUNT }, (_, i) => <CardSkeleton key={i} />)
-            : items.map((item, i) => (
+            : items.map((item) => (
                 <ProjectShowcaseCard
                   key={item.id}
                   item={item}
-                  index={i}
-                  reduced={reduced}
                   onOpen={(slug) => onOpenProject?.(slug)}
                 />
               ))}

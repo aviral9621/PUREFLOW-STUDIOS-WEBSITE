@@ -323,12 +323,13 @@ const AppContent: React.FC = () => {
 
   // Footer is also hidden on the deep "detail" pages that have their own bottom
   // CTA (service detail, work post, blog post) — avoids a redundant second
-  // footer-style block right after the page's own CTA card — and on the blog
-  // index, which is a pure browsing surface: expanding the grid there should
-  // reveal more articles, not run the reader into a footer.
+  // footer-style block right after the page's own CTA card — and on the two
+  // listing pages, which are pure browsing surfaces: expanding the grid there
+  // should reveal more of the set, not run the visitor into a footer.
   const hideFooter =
     isFormView ||
     currentView === 'blog' ||
+    currentView === 'work' ||
     currentView === 'service-software' ||
     currentView === 'service-crm' ||
     currentView === 'service-mobile' ||

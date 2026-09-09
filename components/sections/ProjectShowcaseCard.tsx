@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import {
   ArrowUpRight,
   Building2,
@@ -181,23 +180,16 @@ const PhoneFrame: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 
 interface Props {
   item: PortfolioItem;
-  index?: number;
-  reduced?: boolean | null;
   onOpen: (slug: string) => void;
 }
 
-export const ProjectShowcaseCard: React.FC<Props> = ({
-  item,
-  index = 0,
-  reduced,
-  onOpen,
-}) => {
+export const ProjectShowcaseCard: React.FC<Props> = ({ item, onOpen }) => {
   const Icon = iconFor(item.category);
   const isPhone = item.device === 'phone';
   const open = () => onOpen(item.slug);
 
   return (
-    <motion.article
+    <article
       role="link"
       tabIndex={0}
       aria-label={`${item.name} — view project`}
@@ -209,10 +201,6 @@ export const ProjectShowcaseCard: React.FC<Props> = ({
         }
       }}
       className="pfc-card group relative isolate flex cursor-pointer flex-col overflow-hidden rounded-[14px] border border-white/[0.07] bg-[#08080d] p-6 sm:min-h-[290px] sm:rounded-[18px] sm:p-8 lg:min-h-[308px]"
-      initial={reduced ? false : { opacity: 0, y: 26 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: (index % 3) * 0.07 }}
     >
       {/* Accent wash behind the device — the only always-on colour on the card. */}
       <span
@@ -266,6 +254,6 @@ export const ProjectShowcaseCard: React.FC<Props> = ({
           <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </span>
       </div>
-    </motion.article>
+    </article>
   );
 };

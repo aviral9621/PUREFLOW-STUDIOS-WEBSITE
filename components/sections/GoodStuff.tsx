@@ -1,7 +1,22 @@
+import { useMemo, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowUpRight, Clock } from 'lucide-react';
-import { POSTS } from '../../lib/blog';
+import { ArrowRight } from 'lucide-react';
+import { BLOG_CATEGORIES, POSTS, type BlogCategory } from '../../lib/blog';
+import { BlogCard } from './BlogCard';
 import { ViewState } from '../../types';
+
+// ─────────────────────────────────────────────────────────────────────────────
+// GoodStuff — the homepage blog section: heading, category filters, three
+// compact cards and the way through to the full listing.
+//
+// The card itself lives in `./BlogCard` so this section and /blog render the
+// identical grid.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** How many cards the grid shows at once, per the section's three-up layout. */
+const CARD_COUNT = 3;
+
+type Filter = 'All' | BlogCategory;
 
 interface GoodStuffProps {
   onViewChange: (view: ViewState) => void;
@@ -10,109 +25,130 @@ interface GoodStuffProps {
 
 export function GoodStuff({ onViewChange, onOpenPost }: GoodStuffProps) {
   const reduced = useReducedMotion();
-  const featured = POSTS.slice(0, 2);
+  const [filter, setFilter] = useState<Filter>('All');
+
+  // Only offer a pill that leads somewhere — a filter matching zero posts is a
+  // dead end, so the taxonomy is intersected with what is actually published.
+  const filters = useMemo<Filter[]>(
+    () => ['All', ...BLOG_CATEGORIES.filter((c) => POSTS.some((p) => p.category === c))],
+    []
+  );
+
+  const visible = useMemo(
+    () =>
+      (filter === 'All' ? POSTS : POSTS.filter((p) => p.category === filter)).slice(
+        0,
+        CARD_COUNT
+      ),
+    [filter]
+  );
 
   return (
     <section
       id="good-stuff"
-      className="relative overflow-hidden bg-black py-16 md:py-20"
-      aria-label="Good Stuff — featured articles"
+      className="relative overflow-hidden bg-[#040A1C] py-20 md:py-28"
+      aria-label="Our blog — featured articles"
     >
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] bg-pink-600/[0.04] rounded-full blur-[140px]" />
+      {/* Background depth — kept low-opacity so the cards stay the brightest thing */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        <div className="absolute -top-32 left-1/2 h-[520px] w-[900px] max-w-full -translate-x-1/2 rounded-full bg-[#885CF6]/[0.10] blur-[150px]" />
+        <div className="absolute -bottom-40 right-[-10%] h-[420px] w-[620px] rounded-full bg-[#EC4899]/[0.07] blur-[150px]" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-5 sm:px-6 lg:px-10">
-        {/* Heading */}
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
+        {/* ── Header ── */}
         <motion.div
-          className="mb-10 flex flex-col items-center text-center md:mb-14"
-          initial={reduced ? false : { opacity: 0, y: 28 }}
+          className="flex flex-col items-center text-center"
+          initial={reduced ? false : { opacity: 0, y: 26 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
         >
-          <span className="font-serif italic text-white/95 text-[clamp(1.75rem,3.4vw,3rem)] leading-[1.1] tracking-normal">
+          <span className="inline-flex items-center gap-2 rounded-full border border-[#885CF6]/30 bg-[#885CF6]/[0.08] px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-[#C9A8FF] sm:text-[11px]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#9B4DFF]" />
+            Our Blog
+          </span>
+
+          <span className="mt-6 font-serif text-[clamp(1.6rem,3.2vw,2.75rem)] italic leading-[1.1] text-[#F5F7FF]/90">
             Some
           </span>
-          <span
-            className="hero-automation-text mt-1 inline-block leading-none text-[clamp(2.5rem,5.6vw,5rem)]"
-            data-text="GOOD STUFF."
-          >
-            GOOD STUFF.
-          </span>
-          <p className="mt-5 max-w-md text-[14px] leading-relaxed text-white/55 sm:text-base">
-            Field notes on AI, automation, and the boring software that quietly runs growing businesses.
+
+          <h2 className="gs-heading mt-1 text-[clamp(2.5rem,5.6vw,4.5rem)] leading-none">
+            Good <span className="gs-heading__accent">Stuff.</span>
+          </h2>
+
+          <p className="mt-6 max-w-xl text-[14.5px] leading-relaxed text-[#94A3B8] sm:text-base">
+            Practical writing on AI, automation, websites and software — what actually
+            moves the needle for growing businesses, and what only sounds like it does.
           </p>
         </motion.div>
 
-        {/* Blog grid (featured) */}
-        <div className="grid grid-cols-1 gap-5 sm:gap-6 lg:grid-cols-2 lg:gap-7">
-          {featured.map((post, i) => (
-            <motion.button
-              key={post.slug}
-              type="button"
-              onClick={() => onOpenPost(post.slug)}
-              className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#08060d] text-left transition-all duration-300 hover:-translate-y-1 hover:border-[#ff3f8d]/45 sm:rounded-3xl"
-              initial={reduced ? false : { opacity: 0, y: 28 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1], delay: i * 0.08 }}
-            >
-              <div className="relative aspect-[16/9] w-full overflow-hidden">
-                <img
-                  src={post.image}
-                  alt={post.imageAlt}
-                  loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
-                <span className="absolute top-3 left-3 rounded-full border border-white/15 bg-black/70 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-white/90 backdrop-blur-md sm:top-4 sm:left-4">
-                  {post.category}
-                </span>
-              </div>
+        {/* ── Category filters ── */}
+        <motion.div
+          className="gs-filters mt-10 flex gap-2.5 overflow-x-auto pb-1 sm:mt-12 sm:flex-wrap sm:justify-center sm:overflow-visible sm:pb-0"
+          initial={reduced ? false : { opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+        >
+          {filters.map((f) => {
+            const active = f === filter;
+            return (
+              <button
+                key={f}
+                type="button"
+                onClick={() => setFilter(f)}
+                aria-pressed={active}
+                className={`flex-shrink-0 rounded-full px-5 py-2.5 text-[13px] font-medium transition-all duration-300 ${
+                  active
+                    ? 'gs-pill-active text-white'
+                    : 'border border-[#1E3A5F] bg-white/[0.02] text-[#94A3B8] hover:border-[#885CF6]/45 hover:text-[#F5F7FF]'
+                }`}
+              >
+                {f}
+              </button>
+            );
+          })}
+        </motion.div>
 
-              <div className="flex flex-1 flex-col p-5 sm:p-6">
-                <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.16em] text-white/40">
-                  <span>{post.date}</span>
-                  <span className="h-1 w-1 rounded-full bg-white/30" />
-                  <span className="inline-flex items-center gap-1">
-                    <Clock className="h-3 w-3" />
-                    {post.readTime}
-                  </span>
-                </div>
-
-                <h3 className="mt-3 font-sans text-[1.15rem] font-semibold leading-[1.25] tracking-[-0.015em] text-white sm:text-[1.3rem] md:text-[1.4rem]">
-                  {post.title}
-                </h3>
-
-                <p className="mt-2.5 text-[13.5px] leading-relaxed text-white/60 sm:text-[14.5px]">
-                  {post.excerpt}
-                </p>
-
-                <span className="mt-5 inline-flex items-center gap-1.5 self-start text-[12px] font-semibold text-white/80 transition-colors duration-200 group-hover:text-white sm:text-[13px]">
-                  Read article
-                  <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 sm:h-4 sm:w-4" />
-                </span>
-              </div>
-            </motion.button>
+        {/* ── Cards ── */}
+        <div className="blog-grid mt-8 sm:mt-10">
+          {visible.map((post, i) => (
+            <BlogCard
+              // Keyed on the filter too, so a change re-runs the reveal rather
+              // than swapping text under a card that never moves.
+              key={`${filter}-${post.slug}`}
+              post={post}
+              index={i}
+              reduced={reduced}
+              onOpen={onOpenPost}
+            />
           ))}
         </div>
 
-        {/* View all */}
+        {/* ── View all ── */}
         <motion.div
-          initial={reduced ? false : { opacity: 0, y: 16 }}
+          className="mt-14 flex items-center justify-center gap-4 sm:gap-6"
+          initial={reduced ? false : { opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
-          className="mt-9 flex justify-center"
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
+          <span className="gs-rule hidden h-px w-16 sm:block sm:w-24" aria-hidden="true" />
+
           <button
+            type="button"
             onClick={() => onViewChange('blog')}
-            className="inline-flex h-12 items-center gap-2 rounded-full border border-white/20 bg-white/[0.04] px-6 text-[13px] font-semibold text-white transition-all hover:bg-white/10 hover:border-white/40 sm:h-14 sm:px-8 sm:text-[14px]"
+            className="gs-cta group inline-flex items-center gap-2.5 rounded-full px-7 py-3.5 text-[14px] font-semibold text-[#F5F7FF]"
           >
-            See all articles
-            <ArrowUpRight className="h-4 w-4" />
+            View All Articles
+            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </button>
+
+          <span
+            className="gs-rule gs-rule--flip hidden h-px w-16 sm:block sm:w-24"
+            aria-hidden="true"
+          />
         </motion.div>
       </div>
     </section>

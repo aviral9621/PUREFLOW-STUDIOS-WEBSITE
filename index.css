@@ -1206,3 +1206,140 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
   .pfc-card:hover { transform: none; }
   .pfc-card:hover .pfc-device { transform: rotateY(19deg) rotateX(5deg) rotateZ(-1.5deg); }
 }
+
+/* ── Blog section — "Some Good Stuff." (components/sections/GoodStuff.tsx) ──
+   Deep navy ground with purple → magenta accents. Gradients are reserved for
+   the heading accent, the active filter pill, the CTA border and the card
+   hover glow; everything else is flat so those four read as emphasis. */
+
+.gs-heading {
+  display: inline-block;
+  font-family: 'Anton', 'Bebas Neue', 'Impact', sans-serif;
+  font-weight: 900;
+  letter-spacing: 0;
+  transform: scaleX(0.92);
+  transform-origin: center;
+  color: #f5f7ff;
+}
+
+.gs-heading__accent {
+  background: linear-gradient(95deg, #885cf6 0%, #9b4dff 45%, #ec4899 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Filter rail — scrolls horizontally on phones without showing a scrollbar. */
+.gs-filters {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.gs-filters::-webkit-scrollbar { display: none; }
+
+.gs-pill-active {
+  background: linear-gradient(95deg, #885cf6 0%, #9b4dff 55%, #c026d3 100%);
+  border: 1px solid transparent;
+  box-shadow: 0 8px 26px -12px rgba(155, 77, 255, 0.85);
+}
+
+/* Card: lift + a purple edge glow on hover. */
+.gs-card {
+  transition:
+    transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 300ms ease,
+    box-shadow 300ms ease;
+}
+
+.gs-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(136, 92, 246, 0.55);
+  box-shadow:
+    0 22px 50px -26px rgba(136, 92, 246, 0.65),
+    0 0 0 1px rgba(136, 92, 246, 0.12);
+}
+
+.gs-card:focus-visible {
+  outline: 2px solid rgba(155, 77, 255, 0.6);
+  outline-offset: 3px;
+}
+
+.gs-card__arrow {
+  transition:
+    transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 300ms ease;
+}
+.gs-card:hover .gs-card__arrow {
+  transform: scale(1.12);
+  background-color: rgba(136, 92, 246, 0.14);
+}
+
+/* Decorative rules flanking the CTA — fade out away from the button. */
+.gs-rule {
+  background: linear-gradient(90deg, transparent 0%, rgba(136, 92, 246, 0.55) 100%);
+}
+.gs-rule--flip {
+  background: linear-gradient(90deg, rgba(136, 92, 246, 0.55) 0%, transparent 100%);
+}
+
+/* CTA: transparent fill, gradient border drawn with a masked pseudo-element. */
+.gs-cta {
+  position: relative;
+  isolation: isolate;
+  background: rgba(8, 17, 38, 0.6);
+  transition: box-shadow 300ms ease, background-color 300ms ease;
+}
+
+.gs-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(95deg, #885cf6 0%, #9b4dff 50%, #ec4899 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+}
+
+.gs-cta:hover {
+  background: rgba(136, 92, 246, 0.10);
+  box-shadow: 0 10px 34px -14px rgba(155, 77, 255, 0.8);
+}
+
+.gs-cta:focus-visible {
+  outline: 2px solid rgba(155, 77, 255, 0.6);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gs-card,
+  .gs-card__arrow,
+  .gs-cta { transition: none; }
+  .gs-card:hover { transform: none; }
+  .gs-card:hover .gs-card__arrow { transform: none; }
+}
+
+/* Blog card grid — 1 / 2 / 3 up. Flex rather than grid so a partial last row
+   centres itself: with four articles the orphan sits in the middle instead of
+   hanging off the left edge, and the same holds for two orphans out of five. */
+.blog-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.blog-grid > * {
+  flex: 0 1 100%;
+  min-width: 0;
+}
+
+@media (min-width: 640px) {
+  .blog-grid > * { flex-basis: calc((100% - 1.5rem) / 2); }
+}
+
+@media (min-width: 1024px) {
+  .blog-grid > * { flex-basis: calc((100% - 3rem) / 3); }
+}

@@ -5,7 +5,7 @@ import { ViewState } from '../types';
 import { useAllProjects } from '../hooks/useProjects';
 import { toPortfolioItems } from '../lib/portfolio';
 import { ProjectShowcaseCard } from './sections/ProjectShowcaseCard';
-import { PortfolioMore } from './sections/PortfolioMore';
+import { ShowMore } from './shared/ShowMore';
 
 /** How many cards the listing opens with, before "Show all". */
 const INITIAL_COUNT = 6;
@@ -96,7 +96,7 @@ export const WorkIndexPage: React.FC<Props> = ({ onViewChange, onOpenProject }) 
             </div>
 
             {hasMore && (
-              <PortfolioMore
+              <ShowMore
                 shown={visible.length}
                 total={items.length}
                 label={`Show all ${items.length} projects`}

@@ -108,15 +108,26 @@ const PAGES = [
     description: 'Online ordering, table booking and a kitchen dashboard for a multi-outlet restaurant.' },
 
   // ── Blog posts ──
+  { path: '/blog/ai-automation-for-small-businesses-2026', priority: '0.7',
+    h1: 'How AI Automation Can Help Small Businesses Grow in 2026',
+    title: `How AI Automation Can Help Small Businesses Grow in 2026 | ${SITE}`,
+    description: 'Not the "fire your team" version. The version where four hours of copy-paste a day quietly disappears and nobody notices except your margins.',
+    image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=1600&q=80' },
+  { path: '/blog/high-performance-website-for-growing-business-2026', priority: '0.7',
+    h1: 'Why Every Growing Business Needs a High-Performance Website in 2026',
+    title: `Why Every Growing Business Needs a High-Performance Website in 2026 | ${SITE}`,
+    description: 'Your site is not a brochure any more. It is the first employee every customer meets — and a slow one costs you real money.',
+    image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=1600&q=80' },
+  { path: '/blog/custom-software-vs-ready-made-software', priority: '0.7',
+    h1: 'Custom Software vs Ready-Made Software: Which Is Better for Your Business?',
+    title: `Custom Software vs Ready-Made Software: Which Is Better for Your Business? | ${SITE}`,
+    description: 'The honest answer is that off-the-shelf wins more often than agencies admit — until one specific thing changes.',
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=80' },
   { path: '/blog/google-gemini-omni-for-small-business', priority: '0.7',
     h1: "Google's Gemini Omni: what it actually means for small businesses",
     title: `Google's Gemini Omni: what it actually means for small businesses | ${SITE}`,
     description: 'Gemini Omni isn’t another chatbot. It’s a multimodal model that can read your CRM, watch your dashboard, and act — here’s how to use it without setting your data on fire.',
     image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=80' },
-  { path: '/blog/crm-ai-agent-integration-2026', priority: '0.7',
-    h1: 'Your CRM should be talking to an AI agent by now',
-    title: `Your CRM should be talking to an AI agent by now — here’s how we wire it up | ${SITE}`,
-    description: 'The handoff between leads, sales reps, and follow-ups is where most CRMs leak revenue. We walk through how we plug AI agents into Supabase + WhatsApp to close that gap in under 4 weeks.' },
 ];
 
 // Internal links injected into every page's hidden SEO block (crawl paths).
@@ -126,8 +137,10 @@ const SEO_LINKS = [
   ['/work/quick-hotels', 'Quick Hotels case study'],
   ['/work/herbal-vantage', 'Herbal Vantage case study'],
   ['/work/spectrum-tour-travels', 'Spectrum Tour & Travels case study'],
+  ['/blog/ai-automation-for-small-businesses-2026', 'AI automation for small businesses'],
+  ['/blog/high-performance-website-for-growing-business-2026', 'High-performance websites'],
+  ['/blog/custom-software-vs-ready-made-software', 'Custom vs ready-made software'],
   ['/blog/google-gemini-omni-for-small-business', 'Gemini Omni for small business'],
-  ['/blog/crm-ai-agent-integration-2026', 'CRM + AI agent integration'],
 ];
 
 const escText = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');

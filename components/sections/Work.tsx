@@ -4,7 +4,7 @@ import { MagneticButton } from '../shared/MagneticButton';
 import { useAllProjects } from '../../hooks/useProjects';
 import { toPortfolioItems } from '../../lib/portfolio';
 import { ProjectShowcaseCard } from './ProjectShowcaseCard';
-import { PortfolioMore } from './PortfolioMore';
+import { ShowMore } from '../shared/ShowMore';
 
 // NOTE: the grid below renders `ProjectShowcaseCard`, the reusable portfolio
 // component. It takes a `PortfolioItem` (not a `Project`), so it drops into any
@@ -86,7 +86,7 @@ export function Work({ onStartProject, onOpenProject, onViewAll }: WorkProps) {
 
         {/* See all — the way into the full listing */}
         {onViewAll && !showSkeletons && hasMore && (
-          <PortfolioMore
+          <ShowMore
             shown={items.length}
             total={total}
             label={`Show all ${total} projects`}

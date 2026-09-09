@@ -3,13 +3,13 @@ import { motion } from 'framer-motion';
 import { ArrowUpRight, Plus } from 'lucide-react';
 
 // ─────────────────────────────────────────────────────────────────────────────
-// PortfolioMore — the "you are seeing part of the work" footer under a project
-// grid: a quiet count line plus one action.
+// ShowMore — the "you are seeing part of the set" footer under a card grid: a
+// quiet count line plus one action. Shared by the work and blog listings.
 //
 // Two places use it and they mean different things by the action, so the icon
 // follows the intent:
-//   • homepage  → 'navigate', leaves for the full listing (arrow)
-//   • /work     → 'expand', reveals the rest of the grid in place (plus)
+//   • a homepage section → "navigate", leaves for the full listing (arrow)
+//   • a full listing    → "expand", reveals the rest of the grid in place (plus)
 // ─────────────────────────────────────────────────────────────────────────────
 
 interface Props {
@@ -17,15 +17,18 @@ interface Props {
   total: number;
   label: string;
   intent?: 'navigate' | 'expand';
+  /** Plural noun for the count line — "projects", "articles". */
+  noun?: string;
   onClick: () => void;
   reduced?: boolean | null;
 }
 
-export const PortfolioMore: React.FC<Props> = ({
+export const ShowMore: React.FC<Props> = ({
   shown,
   total,
   label,
   intent = 'navigate',
+  noun = 'projects',
   onClick,
   reduced,
 }) => (
@@ -37,7 +40,7 @@ export const PortfolioMore: React.FC<Props> = ({
     transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
   >
     <p className="text-[13px] text-white/40">
-      Showing {shown} of {total} projects
+      Showing {shown} of {total} {noun}
     </p>
 
     <button

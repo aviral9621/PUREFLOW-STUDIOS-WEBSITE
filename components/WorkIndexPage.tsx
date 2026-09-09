@@ -1,9 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { ViewState } from '../types';
 import { useAllProjects } from '../hooks/useProjects';
-import { CaseStudyCard } from './sections/CaseStudyCard';
+import { toPortfolioItems } from '../lib/portfolio';
+import { ProjectShowcaseCard } from './sections/ProjectShowcaseCard';
+import { PortfolioMore } from './sections/PortfolioMore';
+
+/** How many cards the listing opens with, before "Show all". */
+const INITIAL_COUNT = 6;
 
 interface Props {
   onViewChange: (view: ViewState) => void;
@@ -13,6 +18,22 @@ interface Props {
 export const WorkIndexPage: React.FC<Props> = ({ onViewChange, onOpenProject }) => {
   const reduced = useReducedMotion();
   const { projects, loading } = useAllProjects();
+  const items = useMemo(() => toPortfolioItems(projects), [projects]);
+
+  // Open with a tidy first screen; the rest is revealed in place, not on a
+  // second page — the visitor never loses their scroll position.
+  const [expanded, setExpanded] = useState(false);
+  const visible = expanded ? items : items.slice(0, INITIAL_COUNT);
+  const hasMore = items.length > visible.length;
+
+  // Expanding both appends cards and removes the button below them, which is
+  // enough of a subtree change that Chrome's scroll anchoring nudges the page
+  // (~180px in practice). Pin the offset so the grid grows under a still page.
+  const showAll = () => {
+    const y = window.scrollY;
+    setExpanded(true);
+    requestAnimationFrame(() => window.scrollTo(0, y));
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -24,7 +45,7 @@ export const WorkIndexPage: React.FC<Props> = ({ onViewChange, onOpenProject }) 
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[700px] bg-brand/[0.06] rounded-full blur-[140px]" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-4 pt-[88px] pb-20 sm:px-6 sm:pt-24 lg:px-10 lg:pt-24">
+      <div className="relative z-10 mx-auto max-w-[1440px] px-4 pt-[88px] pb-20 sm:px-6 sm:pt-24 lg:px-10 lg:pt-24">
         <button
           onClick={() => onViewChange('home')}
           className="group mb-5 flex items-center gap-2 text-sm text-white/45 transition-colors hover:text-white sm:mb-6"
@@ -61,17 +82,30 @@ export const WorkIndexPage: React.FC<Props> = ({ onViewChange, onOpenProject }) 
         ) : projects.length === 0 ? (
           <p className="py-20 text-center text-sm text-white/50">No case studies yet.</p>
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
-            {projects.map((project, i) => (
-              <CaseStudyCard
-                key={project.id}
-                project={project}
+          <>
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 xl:grid-cols-3 xl:gap-7">
+              {visible.map((item, i) => (
+                <ProjectShowcaseCard
+                  key={item.id}
+                  item={item}
+                  reduced={reduced}
+                  index={i}
+                  onOpen={onOpenProject}
+                />
+              ))}
+            </div>
+
+            {hasMore && (
+              <PortfolioMore
+                shown={visible.length}
+                total={items.length}
+                label={`Show all ${items.length} projects`}
+                intent="expand"
                 reduced={reduced}
-                index={i}
-                onOpen={onOpenProject}
+                onClick={showAll}
               />
-            ))}
-          </div>
+            )}
+          </>
         )}
       </div>
     </main>

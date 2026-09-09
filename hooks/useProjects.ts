@@ -62,6 +62,18 @@ export interface Project {
   previewUrl?: string;
   /** Optional designed mockup to render as the card thumbnail. */
   cardMockup?: 'ai-dashboard' | 'unskills-crm';
+
+  // ── Showcase-card fields (see `lib/portfolio.ts` → ProjectShowcaseCard) ──
+  /** Short brand name used as the showcase-card headline ("Quick Hotels"). */
+  name?: string;
+  /** Product-type label for the showcase-card pill ("Website", "Custom CRM"). */
+  productType?: string;
+  /** Short description for the showcase card; falls back to `description`. */
+  blurb?: string;
+  /** Device frame the showcase card renders the preview in. */
+  device?: 'browser' | 'phone';
+  /** Static image used as the showcase-card preview. */
+  cardImage?: string;
 }
 
 // Map a fallback LegacyProject to the new shape (no images, no slug → derived)
@@ -110,6 +122,12 @@ const fromCaseStudy = (cs: CaseStudy, idx: number): Project => ({
   published: true,
   previewUrl: cs.showcase?.desktop?.type === 'live' ? cs.showcase.desktop.src : undefined,
   cardMockup: cs.card?.mockup,
+  name: cs.card?.name ?? cs.name,
+  productType: cs.card?.type ?? cs.category,
+  blurb: cs.card?.blurb,
+  device: cs.card?.device,
+  cardImage:
+    cs.card?.image ?? (cs.showcase?.desktop?.type === 'image' ? cs.showcase.desktop.src : undefined),
 });
 
 // Structured case studies always appear in the listing (DB-independent) and take
@@ -230,11 +248,10 @@ export function useAllProjects(): UseProjectsState {
   return state;
 }
 
-/** Top `limit` projects for the homepage Work section. */
-export function useFeaturedProjects(limit: number): UseProjectsState {
-  const all = useAllProjects();
-  return { ...all, projects: all.projects.slice(0, limit) };
-}
+// NOTE: `useFeaturedProjects(limit)` used to live here. The homepage Work
+// section now calls `useAllProjects` and slices locally, because it needs the
+// full count for its "See all N projects" link — a pre-sliced list can't tell
+// it how many projects it is hiding.
 
 /** A single project by slug (for the detail page). */
 export function useProjectBySlug(slug: string | null): {

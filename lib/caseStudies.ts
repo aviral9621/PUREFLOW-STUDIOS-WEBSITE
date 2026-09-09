@@ -42,6 +42,14 @@ export interface CaseStudy {
   card?: {
     title?: string;
     description?: string;
+    /** Short display name for the showcase card. Defaults to `name`. */
+    name?: string;
+    /** Pill label on the showcase card — the product type ("Website", "Custom CRM"). */
+    type?: string;
+    /** Short description for the showcase card. Keep it under ~95 characters. */
+    blurb?: string;
+    /** Device frame the showcase card renders the preview in. Defaults to 'browser'. */
+    device?: 'browser' | 'phone';
     year?: string;
     /** Tailwind gradient classes for the placeholder card mockup. */
     from?: string;
@@ -100,6 +108,10 @@ export const CASE_STUDIES: CaseStudy[] = [
       title: 'Booking website + custom PMS on one backend',
       description:
         'All-inclusive pricing, split payments and a back-office that stays in sync — automatically.',
+      type: 'Website + PMS',
+      blurb:
+        'A mobile-first booking site and a custom PMS on one backend.',
+      device: 'phone',
       year: '2026',
       from: 'from-fuchsia-950/70',
       to: 'to-purple-950/50',
@@ -177,6 +189,9 @@ export const CASE_STUDIES: CaseStudy[] = [
       title: 'Premium Herbal Store Experience',
       description:
         'Modern herbal e-commerce with a luxury product showcase, smooth shopping flow, clean UI and a conversion-focused design system.',
+      type: 'E-commerce',
+      blurb:
+        'An editorial herbal storefront with a frictionless checkout.',
       year: '2026',
       from: 'from-emerald-950/70',
       to: 'to-purple-950/50',
@@ -250,6 +265,10 @@ export const CASE_STUDIES: CaseStudy[] = [
       title: 'Travel & Tour Booking Website',
       description:
         'A modern travel website with curated tour packages, destination showcases, a smooth enquiry-to-booking flow and a clean, trust-building design.',
+      name: 'Spectrum Travels',
+      type: 'Website',
+      blurb:
+        'Curated tour packages, destinations and a smooth enquiry flow.',
       year: '2026',
       from: 'from-sky-950/70',
       to: 'to-indigo-950/50',
@@ -335,6 +354,9 @@ export const CASE_STUDIES: CaseStudy[] = [
       title: 'A complete CRM for educational institutes',
       description:
         'Leads, admissions, fees, branches and student relationships — streamlined into one real-time platform with full reports and automation.',
+      type: 'Custom CRM',
+      blurb:
+        'Leads, admissions, fees and eight branches in one live dashboard.',
       year: '2025',
       from: 'from-indigo-950/70',
       to: 'to-fuchsia-950/50',
@@ -417,6 +439,10 @@ export const CASE_STUDIES: CaseStudy[] = [
     card: {
       title: 'A modern education & admissions website',
       description: 'Course catalogue, clear program pages and a smooth enquiry-to-admission flow on a fast, SEO-ready site.',
+      type: 'Website',
+      blurb:
+        'A course catalogue and a clean enquiry-to-admission flow.',
+      device: 'phone',
       year: '2025',
       from: 'from-indigo-950/70',
       to: 'to-fuchsia-950/50',
@@ -464,6 +490,10 @@ export const CASE_STUDIES: CaseStudy[] = [
     card: {
       title: 'Quick Hotels CRM',
       description: 'A modern hospitality management platform — bookings, leads, occupancy and revenue analytics in one dashboard.',
+      name: 'Quick Hotels CRM',
+      type: 'SaaS Dashboard',
+      blurb:
+        'Bookings, leads, occupancy and revenue in one dashboard.',
       year: '2025',
       from: 'from-fuchsia-950/70',
       to: 'to-purple-950/50',
@@ -512,7 +542,10 @@ export const CASE_STUDIES: CaseStudy[] = [
     liveUrl: 'https://piratesmensfashion.com/',
     card: {
       title: 'Secure clinic & patient management',
-      description: 'Appointments, patient records, prescriptions and billing in one role-based system.',
+      description: 'Appointments, records, prescriptions and billing in one system.',
+      type: 'Web App',
+      blurb:
+        'Appointments, records, prescriptions and billing in one system.',
       year: '2025',
       from: 'from-sky-950/70',
       to: 'to-indigo-950/50',
@@ -550,6 +583,8 @@ export const CASE_STUDIES: CaseStudy[] = [
     card: {
       title: 'Property listings & enquiry portal',
       description: 'Rich property listings, smart search and a frictionless enquiry-to-visit flow.',
+      type: 'Website',
+      blurb: 'Rich property listings, smart search and a frictionless enquiry flow.',
       year: '2025',
       from: 'from-emerald-950/70',
       to: 'to-teal-950/50',
@@ -588,6 +623,9 @@ export const CASE_STUDIES: CaseStudy[] = [
     card: {
       title: 'Online ordering + kitchen dashboard',
       description: 'Online ordering, table reservations and a live kitchen view across multiple outlets.',
+      name: 'Restaurant Ordering',
+      type: 'Web + Admin',
+      blurb: 'Online ordering, table bookings and a live kitchen view per outlet.',
       year: '2025',
       from: 'from-amber-950/70',
       to: 'to-orange-950/50',

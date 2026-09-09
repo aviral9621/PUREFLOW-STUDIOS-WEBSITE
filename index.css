@@ -613,22 +613,6 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
   .automation-card::after { animation: none; }
 }
 
-/* Work section — "building this" progress rail. Slides back and forth to read
-   as active work rather than a stalled loading bar. */
-.work-progress-rail {
-  animation: workProgressRail 2.6s cubic-bezier(0.65, 0, 0.35, 1) infinite;
-  will-change: transform;
-}
-
-@keyframes workProgressRail {
-  0%   { transform: translateX(-100%); }
-  100% { transform: translateX(250%); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .work-progress-rail { animation: none; }
-}
-
 /* ── 404 page ─────────────────────────────────────────────────────────────
    Standalone view (components/NotFoundPage.tsx). Sizes are fluid via clamp()
    so the layout stays centred and proportional from 320px up without needing
@@ -1149,4 +1133,76 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
 .hero-sparkle::after {
   transform: scale(0.58) rotate(45deg);
   opacity: 0.7;
+}
+
+/* ── Portfolio showcase card (components/sections/ProjectShowcaseCard.tsx) ──
+   Black, minimal, spacious. The only always-on colour is a low-opacity brand
+   wash behind the device; the border, underline and arrow pick up the accent
+   on hover only. */
+
+.pfc-card {
+  transition:
+    border-color 400ms ease,
+    background-color 400ms ease,
+    box-shadow 500ms ease,
+    transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pfc-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(217, 70, 239, 0.28);
+  box-shadow:
+    0 30px 90px -40px rgba(217, 70, 239, 0.45),
+    0 0 0 1px rgba(217, 70, 239, 0.06);
+}
+
+.pfc-card:focus-visible {
+  outline: 2px solid rgba(217, 70, 239, 0.55);
+  outline-offset: 3px;
+}
+
+.pfc-card__wash {
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(164, 82, 255, 0.14) 0%,
+    rgba(217, 70, 239, 0.06) 42%,
+    transparent 70%
+  );
+  filter: blur(6px);
+  transition: opacity 500ms ease;
+  opacity: 0.85;
+}
+
+.pfc-card:hover .pfc-card__wash { opacity: 1; }
+
+/* 3D stage for the device. `perspective-origin` sits on the left so the frame
+   recedes toward the card's right edge, where it is cropped. */
+.pfc-stage {
+  perspective: 1500px;
+  perspective-origin: 15% 50%;
+}
+
+.pfc-device {
+  transform: rotateY(19deg) rotateX(5deg) rotateZ(-1.5deg);
+  transform-origin: left center;
+  transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.pfc-card:hover .pfc-device {
+  transform: rotateY(12deg) rotateX(3deg) rotateZ(-0.5deg) translateZ(30px);
+}
+
+/* Stacked layout: flatten the angle so the device stays readable at small sizes. */
+@media (max-width: 639px) {
+  .pfc-stage { perspective: 1100px; }
+  .pfc-device { transform: rotateY(11deg) rotateX(3deg) rotateZ(-1deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pfc-card,
+  .pfc-device,
+  .pfc-card__wash { transition: none; }
+  .pfc-card:hover { transform: none; }
+  .pfc-card:hover .pfc-device { transform: rotateY(19deg) rotateX(5deg) rotateZ(-1.5deg); }
 }

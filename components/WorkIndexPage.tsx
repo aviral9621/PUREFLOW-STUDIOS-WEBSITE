@@ -1,14 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { ViewState } from '../types';
 import { useAllProjects } from '../hooks/useProjects';
 import { toPortfolioItems } from '../lib/portfolio';
 import { ProjectShowcaseCard } from './sections/ProjectShowcaseCard';
-import { ShowMore } from './shared/ShowMore';
-import { withPinnedScroll } from '../lib/utils';
-
-/** How many cards the listing opens with, before "Show all". */
-const INITIAL_COUNT = 6;
 
 interface Props {
   onViewChange: (view: ViewState) => void;
@@ -18,14 +13,6 @@ interface Props {
 export const WorkIndexPage: React.FC<Props> = ({ onViewChange, onOpenProject }) => {
   const { projects, loading } = useAllProjects();
   const items = useMemo(() => toPortfolioItems(projects), [projects]);
-
-  // Open with a tidy first screen; the rest is revealed in place, not on a
-  // second page — the visitor never loses their scroll position.
-  const [expanded, setExpanded] = useState(false);
-  const visible = expanded ? items : items.slice(0, INITIAL_COUNT);
-  const hasMore = items.length > visible.length;
-
-  const showAll = () => withPinnedScroll(() => setExpanded(true));
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -69,23 +56,11 @@ export const WorkIndexPage: React.FC<Props> = ({ onViewChange, onOpenProject }) 
         ) : projects.length === 0 ? (
           <p className="py-20 text-center text-sm text-white/50">No case studies yet.</p>
         ) : (
-          <>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 xl:grid-cols-3 xl:gap-7">
-              {visible.map((item) => (
+              {items.map((item) => (
                 <ProjectShowcaseCard key={item.id} item={item} onOpen={onOpenProject} />
               ))}
             </div>
-
-            {hasMore && (
-              <ShowMore
-                shown={visible.length}
-                total={items.length}
-                label={`Show all ${items.length} projects`}
-                intent="expand"
-                onClick={showAll}
-              />
-            )}
-          </>
         )}
       </div>
     </main>

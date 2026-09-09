@@ -80,7 +80,6 @@ export function Work({ onStartProject, onOpenProject, onViewAll }: WorkProps) {
             shown={items.length}
             total={total}
             label={`Show all ${total} projects`}
-            intent="navigate"
             onClick={onViewAll}
           />
         )}

@@ -1,13 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { ViewState } from '../types';
 import { POSTS } from '../lib/blog';
 import { BlogCard } from './sections/BlogCard';
-import { ShowMore } from './shared/ShowMore';
-import { withPinnedScroll } from '../lib/utils';
-
-/** How many articles the listing opens with, before "Show all". */
-const INITIAL_COUNT = 3;
 
 interface BlogIndexPageProps {
   onViewChange: (view: ViewState) => void;
@@ -15,14 +10,6 @@ interface BlogIndexPageProps {
 }
 
 export const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onViewChange, onOpenPost }) => {
-
-  // Open with one tidy row; the rest is revealed in place rather than on a
-  // second page, so the reader never loses their scroll position.
-  const [expanded, setExpanded] = useState(false);
-  const visible = expanded ? POSTS : POSTS.slice(0, INITIAL_COUNT);
-  const hasMore = POSTS.length > visible.length;
-
-  const showAll = () => withPinnedScroll(() => setExpanded(true));
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -61,21 +48,10 @@ export const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onViewChange, onOp
 
         {/* Posts grid */}
         <div className="blog-grid mt-12">
-          {visible.map((post) => (
+          {POSTS.map((post) => (
             <BlogCard key={post.slug} post={post} onOpen={onOpenPost} />
           ))}
         </div>
-
-        {hasMore && (
-          <ShowMore
-            shown={visible.length}
-            total={POSTS.length}
-            label={`Show all ${POSTS.length} articles`}
-            noun="articles"
-            intent="expand"
-            onClick={showAll}
-          />
-        )}
       </div>
     </main>
   );

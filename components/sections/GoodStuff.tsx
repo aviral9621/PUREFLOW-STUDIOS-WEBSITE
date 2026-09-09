@@ -1,10 +1,9 @@
 import { useMemo, useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+
 import { ArrowRight } from 'lucide-react';
 import { BLOG_CATEGORIES, POSTS, type BlogCategory } from '../../lib/blog';
 import { BlogCard } from './BlogCard';
 import { ViewState } from '../../types';
-
 // ─────────────────────────────────────────────────────────────────────────────
 // GoodStuff — the homepage blog section: heading, category filters, three
 // compact cards and the way through to the full listing.
@@ -24,7 +23,6 @@ interface GoodStuffProps {
 }
 
 export function GoodStuff({ onViewChange, onOpenPost }: GoodStuffProps) {
-  const reduced = useReducedMotion();
   const [filter, setFilter] = useState<Filter>('All');
 
   // Only offer a pill that leads somewhere — a filter matching zero posts is a
@@ -57,13 +55,7 @@ export function GoodStuff({ onViewChange, onOpenPost }: GoodStuffProps) {
 
       <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-10">
         {/* ── Header ── */}
-        <motion.div
-          className="flex flex-col items-center text-center"
-          initial={reduced ? false : { opacity: 0, y: 26 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-        >
+        <div className="flex flex-col items-center text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-[#885CF6]/30 bg-[#885CF6]/[0.08] px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-[#C9A8FF] sm:text-[11px]">
             <span className="h-1.5 w-1.5 rounded-full bg-[#9B4DFF]" />
             Our Blog
@@ -81,16 +73,10 @@ export function GoodStuff({ onViewChange, onOpenPost }: GoodStuffProps) {
             Practical writing on AI, automation, websites and software — what actually
             moves the needle for growing businesses, and what only sounds like it does.
           </p>
-        </motion.div>
+        </div>
 
         {/* ── Category filters ── */}
-        <motion.div
-          className="gs-filters mt-10 flex gap-2.5 overflow-x-auto pb-1 sm:mt-12 sm:flex-wrap sm:justify-center sm:overflow-visible sm:pb-0"
-          initial={reduced ? false : { opacity: 0, y: 14 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-        >
+        <div className="gs-filters mt-10 flex gap-2.5 overflow-x-auto pb-1 sm:mt-12 sm:flex-wrap sm:justify-center sm:overflow-visible sm:pb-0">
           {filters.map((f) => {
             const active = f === filter;
             return (
@@ -109,7 +95,7 @@ export function GoodStuff({ onViewChange, onOpenPost }: GoodStuffProps) {
               </button>
             );
           })}
-        </motion.div>
+        </div>
 
         {/* ── Cards ── */}
         <div className="blog-grid mt-8 sm:mt-10">
@@ -119,13 +105,7 @@ export function GoodStuff({ onViewChange, onOpenPost }: GoodStuffProps) {
         </div>
 
         {/* ── View all ── */}
-        <motion.div
-          className="mt-14 flex items-center justify-center gap-4 sm:gap-6"
-          initial={reduced ? false : { opacity: 0, y: 14 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        >
+        <div className="mt-14 flex items-center justify-center gap-4 sm:gap-6">
           <span className="gs-rule hidden h-px w-16 sm:block sm:w-24" aria-hidden="true" />
 
           <button
@@ -141,7 +121,7 @@ export function GoodStuff({ onViewChange, onOpenPost }: GoodStuffProps) {
             className="gs-rule gs-rule--flip hidden h-px w-16 sm:block sm:w-24"
             aria-hidden="true"
           />
-        </motion.div>
+        </div>
       </div>
     </section>
   );

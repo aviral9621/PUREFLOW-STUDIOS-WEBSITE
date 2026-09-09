@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import { ViewState } from '../types';
 import { POSTS } from '../lib/blog';
@@ -16,7 +15,6 @@ interface BlogIndexPageProps {
 }
 
 export const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onViewChange, onOpenPost }) => {
-  const reduced = useReducedMotion();
 
   // Open with one tidy row; the rest is revealed in place rather than on a
   // second page, so the reader never loses their scroll position.
@@ -46,12 +44,7 @@ export const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onViewChange, onOp
         </button>
 
         {/* Hero */}
-        <motion.div
-          initial={reduced ? false : { opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col items-center text-center"
-        >
+        <div className="flex flex-col items-center text-center">
           <span className="font-serif text-[clamp(1.6rem,3.2vw,2.75rem)] italic leading-[1.1] text-[#F5F7FF]/90">
             Some
           </span>
@@ -64,7 +57,7 @@ export const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onViewChange, onOp
             Field notes on AI, automation, and the boring software that quietly runs
             growing businesses.
           </p>
-        </motion.div>
+        </div>
 
         {/* Posts grid */}
         <div className="blog-grid mt-12">
@@ -80,7 +73,6 @@ export const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onViewChange, onOp
             label={`Show all ${POSTS.length} articles`}
             noun="articles"
             intent="expand"
-            reduced={reduced}
             onClick={showAll}
           />
         )}

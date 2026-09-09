@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { ViewState } from '../types';
 import { useAllProjects } from '../hooks/useProjects';
@@ -17,7 +16,6 @@ interface Props {
 }
 
 export const WorkIndexPage: React.FC<Props> = ({ onViewChange, onOpenProject }) => {
-  const reduced = useReducedMotion();
   const { projects, loading } = useAllProjects();
   const items = useMemo(() => toPortfolioItems(projects), [projects]);
 
@@ -49,12 +47,7 @@ export const WorkIndexPage: React.FC<Props> = ({ onViewChange, onOpenProject }) 
         </button>
 
         {/* Hero */}
-        <motion.div
-          initial={reduced ? false : { opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-8 flex flex-col items-center text-center md:mb-10"
-        >
+        <div className="mb-8 flex flex-col items-center text-center md:mb-10">
           <span className="font-serif italic text-white/95 text-[clamp(1.75rem,3.4vw,3rem)] leading-[1.1] tracking-normal">
             Everything we've
           </span>
@@ -67,7 +60,7 @@ export const WorkIndexPage: React.FC<Props> = ({ onViewChange, onOpenProject }) 
           <p className="mt-5 max-w-md text-[14px] leading-relaxed text-white/55 sm:text-base">
             Every case study. Click any card to see the full story.
           </p>
-        </motion.div>
+        </div>
 
         {loading && projects.length === 0 ? (
           <div className="flex justify-center py-20">
@@ -89,7 +82,6 @@ export const WorkIndexPage: React.FC<Props> = ({ onViewChange, onOpenProject }) 
                 total={items.length}
                 label={`Show all ${items.length} projects`}
                 intent="expand"
-                reduced={reduced}
                 onClick={showAll}
               />
             )}

@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { ArrowUpRight, Plus } from 'lucide-react';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -20,7 +19,6 @@ interface Props {
   /** Plural noun for the count line — "projects", "articles". */
   noun?: string;
   onClick: () => void;
-  reduced?: boolean | null;
 }
 
 export const ShowMore: React.FC<Props> = ({
@@ -30,15 +28,8 @@ export const ShowMore: React.FC<Props> = ({
   intent = 'navigate',
   noun = 'projects',
   onClick,
-  reduced,
 }) => (
-  <motion.div
-    className="mt-10 flex flex-col items-center gap-3 md:mt-12"
-    initial={reduced ? false : { opacity: 0, y: 16 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: '-60px' }}
-    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-  >
+  <div className="mt-10 flex flex-col items-center gap-3 md:mt-12">
     <p className="text-[13px] text-white/40">
       Showing {shown} of {total} {noun}
     </p>
@@ -54,5 +45,5 @@ export const ShowMore: React.FC<Props> = ({
         <ArrowUpRight className="h-[18px] w-[18px] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
       )}
     </button>
-  </motion.div>
+  </div>
 );

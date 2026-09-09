@@ -1,5 +1,4 @@
 import React, { useMemo, useRef } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
 import { MagneticButton } from '../shared/MagneticButton';
 import { useAllProjects } from '../../hooks/useProjects';
 import { toPortfolioItems } from '../../lib/portfolio';
@@ -26,7 +25,6 @@ const CardSkeleton: React.FC = () => (
 );
 
 export function Work({ onStartProject, onOpenProject, onViewAll }: WorkProps) {
-  const reduced = useReducedMotion();
   const ctaBtnRef = useRef<HTMLDivElement>(null);
   // The full list, sliced locally — the homepage shows the first FEATURED_COUNT
   // and the "see all" link only earns its place when there are more than that.
@@ -49,13 +47,7 @@ export function Work({ onStartProject, onOpenProject, onViewAll }: WorkProps) {
 
       {/* ── Section header ── */}
       <div className="relative z-10 mx-auto mb-12 max-w-[1440px] px-4 sm:px-6 md:mb-16 lg:px-10">
-        <motion.div
-          className="flex flex-col items-center text-center"
-          initial={reduced ? false : { opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        >
+        <div className="flex flex-col items-center text-center">
           <span className="font-serif text-[clamp(1.75rem,3.4vw,3rem)] italic leading-[1.1] tracking-normal text-white/95">
             Stuff we
           </span>
@@ -65,7 +57,7 @@ export function Work({ onStartProject, onOpenProject, onViewAll }: WorkProps) {
           >
             SHIPPED.
           </span>
-        </motion.div>
+        </div>
       </div>
 
       {/* ── Showcase grid ── */}
@@ -89,20 +81,14 @@ export function Work({ onStartProject, onOpenProject, onViewAll }: WorkProps) {
             total={total}
             label={`Show all ${total} projects`}
             intent="navigate"
-            reduced={reduced}
             onClick={onViewAll}
           />
         )}
       </div>
 
       {/* ── Bottom CTA card ── */}
-      <motion.div
-        className="relative z-10 mx-auto mt-16 max-w-[1440px] px-4 sm:px-6 md:mt-24 lg:px-10"
-        initial={reduced ? false : { opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        viewport={{ once: true, margin: '-100px' }}
-      >
+      <div
+        className="relative z-10 mx-auto mt-16 max-w-[1440px] px-4 sm:px-6 md:mt-24 lg:px-10"      >
         <div className="grain relative overflow-hidden rounded-2xl border border-white/[0.06] bg-[var(--color-bg-elevated)] p-6 text-center sm:rounded-3xl sm:p-12">
           {/* Ambient gradient */}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-pink-500/5 via-purple-500/5 to-fuchsia-500/5" />
@@ -120,7 +106,7 @@ export function Work({ onStartProject, onOpenProject, onViewAll }: WorkProps) {
             </MagneticButton>
           </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }

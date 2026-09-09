@@ -1347,3 +1347,381 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
 @media (min-width: 1024px) {
   .blog-grid > * { flex-basis: calc((100% - 3rem) / 3); }
 }
+
+/* ── Service detail pages (components/ServiceDetailPage.tsx) ────────────────
+   A restrained, editorial system: near-black ground, one atmospheric wash for
+   the page rather than a glow per component, and the pink→violet accent kept
+   for the italic headline phrase, the eyebrows, the icons and the CTA. */
+
+.svc-page {
+  background: #070708;
+  color: #f4f2f7;
+}
+
+/* One wash, top of the page only. Everything below stays neutral. */
+.svc-page__wash {
+  height: 900px;
+  background:
+    radial-gradient(60% 55% at 72% 8%, rgba(168, 85, 247, 0.16), transparent 70%),
+    radial-gradient(45% 40% at 20% 0%, rgba(236, 72, 153, 0.08), transparent 70%);
+}
+
+.svc-container {
+  position: relative;
+  margin-inline: auto;
+  max-width: 1240px;
+  padding-inline: 24px;
+}
+
+@media (min-width: 768px) { .svc-container { padding-inline: 40px; } }
+@media (min-width: 1280px) { .svc-container { padding-inline: 48px; } }
+
+/* Section rhythm — generous, and it scales down rather than off. */
+.svc-section { margin-top: 88px; }
+@media (min-width: 768px) { .svc-section { margin-top: 120px; } }
+@media (min-width: 1280px) { .svc-section { margin-top: 152px; } }
+
+/* ── Typography ── */
+
+.svc-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #c084fc;
+}
+
+.svc-h1 {
+  font-size: clamp(2.6rem, 5.4vw, 4.15rem);
+  font-weight: 500;
+  line-height: 1.06;
+  letter-spacing: -0.028em;
+  color: #f4f2f7;
+  text-wrap: balance;
+}
+
+.svc-h2 {
+  font-size: clamp(1.85rem, 3.4vw, 2.85rem);
+  font-weight: 500;
+  line-height: 1.14;
+  letter-spacing: -0.022em;
+  color: #f4f2f7;
+  text-wrap: balance;
+}
+
+/* The one italic serif phrase per heading — personality without a magazine. */
+.svc-accent {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  background: linear-gradient(96deg, #f9a8d4 0%, #d8b4fe 55%, #a78bfa 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.svc-lead {
+  font-size: 16.5px;
+  line-height: 1.7;
+  color: #96939f;
+}
+
+.svc-body {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #96939f;
+}
+
+@media (max-width: 640px) {
+  .svc-lead { font-size: 15.5px; }
+  .svc-body { font-size: 14.5px; }
+}
+
+/* ── Buttons ── */
+
+.svc-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 999px;
+  padding: 14px 26px;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #fff;
+  background: linear-gradient(96deg, #ec4899 0%, #a855f7 100%);
+  box-shadow: 0 10px 34px -16px rgba(168, 85, 247, 0.9);
+  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), filter 260ms ease,
+    box-shadow 260ms ease;
+}
+
+.svc-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+  box-shadow: 0 16px 40px -16px rgba(168, 85, 247, 1);
+}
+
+.svc-btn:focus-visible,
+.svc-link:focus-visible {
+  outline: 2px solid rgba(192, 132, 252, 0.6);
+  outline-offset: 3px;
+}
+
+.svc-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #f4f2f7;
+  padding-bottom: 3px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  transition: border-color 260ms ease, color 260ms ease;
+}
+
+.svc-link:hover {
+  color: #fff;
+  border-bottom-color: rgba(192, 132, 252, 0.75);
+}
+
+/* ── Deliverables: a hairline grid, not six floating cards ── */
+
+.svc-cell {
+  background: #0d0d11;
+  padding: 30px 28px 34px;
+  transition: background-color 320ms ease;
+}
+
+.svc-cell:hover { background: #121218; }
+
+.svc-cell__icon {
+  display: inline-flex;
+  height: 40px;
+  width: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: #c9c6d4;
+  transition: border-color 320ms ease, color 320ms ease, box-shadow 320ms ease;
+}
+
+.svc-cell:hover .svc-cell__icon {
+  border-color: rgba(192, 132, 252, 0.45);
+  color: #e9d5ff;
+  box-shadow: 0 0 20px -8px rgba(168, 85, 247, 0.9);
+}
+
+/* ── Technology chips ── */
+
+.svc-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #0d0d11;
+  padding: 9px 17px;
+  font-size: 13.5px;
+  color: #c9c6d4;
+  transition: border-color 260ms ease, color 260ms ease;
+}
+
+.svc-chip:hover {
+  border-color: rgba(192, 132, 252, 0.4);
+  color: #f4f2f7;
+}
+
+/* ── Process: a hairline rail with the steps sitting on it ── */
+
+.svc-steps {
+  position: relative;
+  display: grid;
+  gap: 44px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.svc-step { position: relative; }
+
+.svc-step__icon {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  height: 46px;
+  width: 46px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #0d0d11;
+  color: #c084fc;
+}
+
+@media (min-width: 900px) {
+  .svc-steps {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+  }
+  /* The connecting rail, drawn once behind the row of icons */
+  .svc-steps::before {
+    content: "";
+    position: absolute;
+    left: 23px;
+    right: 23px;
+    top: 23px;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      rgba(192, 132, 252, 0.35),
+      rgba(255, 255, 255, 0.09) 55%,
+      transparent
+    );
+  }
+}
+
+/* Below that the rail turns vertical and runs down the left. */
+@media (max-width: 899px) {
+  .svc-steps { padding-left: 66px; }
+  .svc-steps::before {
+    content: "";
+    position: absolute;
+    left: 23px;
+    top: 12px;
+    bottom: 12px;
+    width: 1px;
+    background: linear-gradient(
+      180deg,
+      rgba(192, 132, 252, 0.35),
+      rgba(255, 255, 255, 0.09) 55%,
+      transparent
+    );
+  }
+  .svc-step__icon { position: absolute; left: -66px; top: 0; }
+}
+
+/* ── Why Pureflow: editorial columns split by hairlines, not cards ── */
+
+.svc-why {
+  display: grid;
+  gap: 36px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media (min-width: 640px) {
+  .svc-why { grid-template-columns: repeat(2, 1fr); gap: 40px 44px; }
+  .svc-why__item:nth-child(even) {
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    padding-left: 44px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .svc-why { grid-template-columns: repeat(4, 1fr); gap: 32px; }
+  .svc-why__item:nth-child(even) { border-left: 0; padding-left: 0; }
+  .svc-why__item + .svc-why__item {
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    padding-left: 32px;
+  }
+}
+
+/* ── Final CTA ── */
+
+.svc-cta {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 36px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #0d0d11;
+  padding: 44px 32px;
+}
+
+.svc-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(50% 120% at 88% 110%, rgba(168, 85, 247, 0.22), transparent 70%),
+    radial-gradient(38% 100% at 4% -10%, rgba(236, 72, 153, 0.14), transparent 70%);
+  pointer-events: none;
+}
+
+@media (min-width: 900px) {
+  .svc-cta {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
+    padding: 64px 60px;
+  }
+}
+
+/* ── Hero visual ── */
+
+.svc-visual__sphere {
+  background:
+    radial-gradient(circle at 32% 26%, rgba(244, 242, 247, 0.16) 0%, transparent 42%),
+    radial-gradient(circle at 34% 28%, rgba(216, 180, 254, 0.34) 0%, transparent 55%),
+    radial-gradient(circle at 62% 70%, rgba(236, 72, 153, 0.2) 0%, transparent 62%),
+    linear-gradient(155deg, #17131f 0%, #0b0a10 62%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset -22px -28px 60px rgba(0, 0, 0, 0.7),
+    0 44px 100px -50px rgba(168, 85, 247, 0.75);
+}
+
+.svc-visual__grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 38px 38px;
+  mask-image: radial-gradient(circle at 50% 50%, #000 32%, transparent 72%);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 32%, transparent 72%);
+}
+
+
+
+
+
+.svc-visual__label {
+  position: absolute;
+  bottom: 4%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(13, 13, 17, 0.72);
+  backdrop-filter: blur(8px);
+  padding: 7px 14px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #c9c6d4;
+}
+
+.svc-visual__dot {
+  height: 5px;
+  width: 5px;
+  border-radius: 999px;
+  background: #c084fc;
+  box-shadow: 0 0 8px 1px rgba(192, 132, 252, 0.9);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svc-btn, .svc-cell, .svc-cell__icon, .svc-chip, .svc-link { transition: none; }
+  .svc-btn:hover { transform: none; }
+}

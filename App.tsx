@@ -330,12 +330,6 @@ const AppContent: React.FC = () => {
     isFormView ||
     currentView === 'blog' ||
     currentView === 'work' ||
-    currentView === 'service-software' ||
-    currentView === 'service-crm' ||
-    currentView === 'service-mobile' ||
-    currentView === 'service-website' ||
-    currentView === 'service-social' ||
-    currentView === 'service-ads' ||
     currentView === 'work-post' ||
     currentView === 'blog-post';
 
@@ -554,6 +548,7 @@ const AppContent: React.FC = () => {
               onViewChange={navigateTo}
               onServicesClick={navigateToServicesSection}
               onStartProjectWithService={handleStartProjectWithService}
+              onOpenProject={handleOpenProject}
             />
           </Suspense>
         )}

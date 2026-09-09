@@ -1,323 +1,280 @@
-import React from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
-import {
-  ArrowRight,
-  BarChart3,
-  CheckCircle2,
-  Cloud,
-  Code2,
-  Database,
-  Gauge,
-  Globe2,
-  Megaphone,
-  Puzzle,
-  ShieldCheck,
-  Smartphone,
-  Sparkles,
-  Users,
-  type LucideIcon,
-} from 'lucide-react';
+import React, { useMemo } from 'react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { ViewState } from '../types';
+import { PROCESS, SERVICES, WHY, type ServiceKey } from '../lib/services';
+import { useAllProjects } from '../hooks/useProjects';
+import { toPortfolioItems } from '../lib/portfolio';
+import { ProjectShowcaseCard } from './sections/ProjectShowcaseCard';
+import { HeroVisual } from './service/HeroVisual';
 
-type ServiceKey = Extract<
-  ViewState,
-  'service-software' | 'service-crm' | 'service-mobile' | 'service-website' | 'service-social' | 'service-ads'
->;
+// ─────────────────────────────────────────────────────────────────────────────
+// ServiceDetailPage — the page behind each card in the Services section.
+//
+// Section order follows one question each: what do you build (hero) → what can
+// you build for me (deliverables) → can you build it well (technology) → have
+// you built this before (work) → what will it feel like (process) → why you
+// (why) → what next (CTA).
+//
+// Selected Work renders real case studies only. A service with nothing shipped
+// under it drops the section rather than filling it with invented projects.
+// ─────────────────────────────────────────────────────────────────────────────
 
 interface ServiceDetailPageProps {
   service: ServiceKey;
   onViewChange: (view: ViewState) => void;
   onServicesClick: () => void;
-  /** Open the multi-step Start-a-Project flow with this service pre-selected. */
   onStartProjectWithService: (service: string) => void;
+  onOpenProject?: (slug: string) => void;
 }
 
-// Map each service page to the matching ServiceTier value used by the
-// StartProjectPage's step-1 "What we wire up?" chip grid.
-const SERVICE_PREFILL: Record<ServiceKey, string> = {
-  'service-software': 'software',
-  'service-crm':      'software',
-  'service-mobile':   'mobile',
-  'service-website':  'website',
-  'service-social':   'not-sure',
-  'service-ads':      'not-sure',
-};
-
-interface ServiceData {
-  eyebrow: string;
-  prefix: string;
-  bigWord: string;
-  description: string;
-  leadView: ViewState;
-  chips: string[];
-  deliverables: [string, string, LucideIcon][];
-}
-
-const SERVICES: Record<ServiceDetailPageProps['service'], ServiceData> = {
-  'service-software': {
-    eyebrow: 'Development',
-    prefix: 'Custom software built',
-    bigWord: 'FOR YOU.',
-    description:
-      'Bespoke systems, dashboards, CRMs, ERPs, and internal tools that match the way your business actually works. No templates. No WordPress. Just clean, scalable software.',
-    leadView: 'get-software-built',
-    chips: ['Next.js', 'TypeScript', 'Supabase', 'Tailwind CSS', 'Vercel'],
-    deliverables: [
-      ['Custom Web Apps', 'Full-stack apps built with Next.js and Supabase. Scalable, secure, and tailored to your workflows.', Code2],
-      ['Database & Architecture', 'Robust schemas, RLS policies, and APIs that handle growth without re-architecting.', Database],
-      ['Dashboards & Analytics', 'Live dashboards and reports that turn raw data into decisions you can act on.', BarChart3],
-      ['Auth & Roles', 'Secure authentication, role-based access, and permission systems done right.', ShieldCheck],
-      ['Integrations', 'Payment gateways, CRMs, APIs, WhatsApp, email — connected cleanly.', Puzzle],
-      ['Deploy & Support', 'Vercel deployment, monitoring, performance tuning, and post-launch maintenance.', Cloud],
-    ],
-  },
-  'service-crm': {
-    eyebrow: 'Product',
-    prefix: 'CRMs that replace',
-    bigWord: 'SPREADSHEET CHAOS.',
-    description:
-      'One clean operating system for leads, tasks, reporting, commissions, and customer management — instead of 14 WhatsApp groups and a Google Sheet that lies.',
-    leadView: 'get-software-built',
-    chips: ['CRM Logic', 'Reports', 'Automation', 'Roles', 'APIs'],
-    deliverables: [
-      ['Lead Pipelines', 'Track every lead, deal stage, and follow-up in one reliable workspace.', Users],
-      ['Custom Dashboards', 'Role-specific dashboards for founders, managers, and teams with live visibility.', BarChart3],
-      ['Workflow Automation', 'Automate assignments, reminders, approvals, and status updates.', Sparkles],
-      ['Commission Engines', 'Custom payout, incentive, target, and team performance logic.', Gauge],
-      ['Data Permissions', 'Access levels, audit trails, and approval flows to keep sensitive data safe.', ShieldCheck],
-      ['Integrations', 'WhatsApp, payments, email, analytics, and your existing tools — wired in.', Puzzle],
-    ],
-  },
-  'service-mobile': {
-    eyebrow: 'Mobile',
-    prefix: 'Mobile apps that',
-    bigWord: 'PEOPLE ACTUALLY USE.',
-    description:
-      'PWA-first and React Native experiences that feel fast, focused, and practical across Android and iOS — without doubling your budget.',
-    leadView: 'get-app-built',
-    chips: ['React Native', 'PWA', 'Android', 'iOS', 'Push'],
-    deliverables: [
-      ['App UX & Flows', 'Clean user journeys, onboarding, and dashboards shaped around real usage.', Smartphone],
-      ['Cross-platform', 'One codebase for Android, iOS, and PWA experiences where it fits.', Code2],
-      ['Backend & APIs', 'Secure APIs, auth, storage, and admin controls — fully wired up.', Database],
-      ['Push & Notifications', 'Alerts and updates that bring users back without spamming them.', Sparkles],
-      ['Performance', 'Fast loading, responsive screens, and mobile-first optimisation.', Gauge],
-      ['Launch Support', 'Testing, store releases, updates, and ongoing maintenance.', Cloud],
-    ],
-  },
-  'service-website': {
-    eyebrow: 'Web',
-    prefix: 'Websites built',
-    bigWord: 'TO CONVERT.',
-    description:
-      'Fast, SEO-friendly marketing sites, booking portals, and business websites that communicate clearly and turn attention into action.',
-    leadView: 'get-website-built',
-    chips: ['Next.js', 'SEO', 'Tailwind CSS', 'Forms', 'Analytics'],
-    deliverables: [
-      ['Conversion Pages', 'Home, service, about, contact, and landing pages structured to convert.', Globe2],
-      ['Responsive UI', 'Polished layouts across mobile, tablet, and desktop — no broken sections.', Smartphone],
-      ['SEO Foundation', 'Metadata, structure, performance, and tech basics for real search visibility.', Gauge],
-      ['Forms & Booking', 'Lead forms, booking flows, and WhatsApp links connected to your sales process.', Puzzle],
-      ['CMS-ready', 'Reusable sections and scalable structure so the site grows with you.', Code2],
-      ['Deploy & Analytics', 'Launch, domain, analytics, performance checks, and post-launch fixes.', Cloud],
-    ],
-  },
-  'service-social': {
-    eyebrow: 'Marketing',
-    prefix: 'Social media for',
-    bigWord: 'CONSISTENT DEMAND.',
-    description:
-      'Strategy, scripts, visuals, and brand voice that turn scattered content ideas into repeatable monthly output your audience actually engages with.',
-    leadView: 'get-social-media',
-    chips: ['Strategy', 'Reels', 'Carousels', 'AI Visuals', 'Brand Voice'],
-    deliverables: [
-      ['Content Strategy', 'Monthly themes, campaign angles, and content pillars matched to goals.', Sparkles],
-      ['Reel Scripts', 'Short-form scripts with hooks, structure, and CTAs for consistent posting.', Megaphone],
-      ['Carousel Design', 'Educational, promotional, and authority-building creatives for Instagram.', Globe2],
-      ['Brand Voice', 'Tone, captions, and repeatable formats that make your brand recognisable.', Users],
-      ['AI Product Visuals', 'Generated and edited assets for product, service, and campaign storytelling.', Puzzle],
-      ['Monthly Management', 'Planning, delivery, revisions, and publishing — done for you.', Cloud],
-    ],
-  },
-  'service-ads': {
-    eyebrow: 'Performance',
-    prefix: 'Ads that chase',
-    bigWord: 'ROAS, NOT VANITY.',
-    description:
-      'Meta ad campaigns with practical copy, creative testing, targeting, and optimisation tied to leads, sales, and measurable growth.',
-    leadView: 'get-ads',
-    chips: ['Meta Ads', 'A/B Tests', 'Funnels', 'Retargeting', 'Reports'],
-    deliverables: [
-      ['Campaign Strategy', 'Audience, offer, funnel, and budget planning before money hits the ad account.', Megaphone],
-      ['Creative Testing', 'Copy, visuals, hooks, and variations tested to find the strongest performers.', Sparkles],
-      ['Targeting Setup', 'Cold, warm, retargeting, and lookalike audiences structured around campaign goals.', Users],
-      ['Lead Funnels', 'Landing pages, forms, events, and conversion tracking aligned end-to-end.', BarChart3],
-      ['Budget Optimisation', 'Daily checks, spend allocation, and scaling decisions based on real data.', Gauge],
-      ['Reporting', 'Clear reporting on spend, leads, CPL, winners, losers, and next moves.', ShieldCheck],
-    ],
-  },
-};
+/** Small uppercase section label. The only place the accent colour repeats. */
+const Eyebrow: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <p className="svc-eyebrow">{children}</p>
+);
 
 export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
   service,
   onViewChange,
   onServicesClick,
   onStartProjectWithService,
+  onOpenProject,
 }) => {
-  const reduced = useReducedMotion();
   const detail = SERVICES[service];
-  const startProject = () => onStartProjectWithService(SERVICE_PREFILL[service]);
+  const startProject = () => onStartProjectWithService(detail.prefill);
+
+  const { projects } = useAllProjects();
+  const work = useMemo(() => {
+    if (detail.work.length === 0) return [];
+    const bySlug = new Map(projects.map((p) => [p.slug, p]));
+    return toPortfolioItems(
+      detail.work.map((slug) => bySlug.get(slug)).filter((p): p is NonNullable<typeof p> => !!p)
+    );
+  }, [projects, detail.work]);
 
   return (
-    <main className="relative min-h-[100svh] overflow-hidden bg-black text-white">
-      {/* Ambient bg */}
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[700px] bg-brand/[0.06] rounded-full blur-[140px]" />
-      </div>
+    <main className="svc-page relative min-h-[100svh] overflow-hidden">
+      {/* One atmospheric wash for the whole page, not a glow per section */}
+      <div className="svc-page__wash pointer-events-none absolute inset-x-0 top-0" aria-hidden="true" />
 
-      <div className="relative z-10 mx-auto max-w-6xl px-5 pt-24 pb-16 sm:px-6 sm:pt-28 lg:px-10 lg:pt-32">
-        {/* Breadcrumb */}
-        <nav className="mb-7 flex flex-wrap items-center gap-2 text-[11px] font-medium text-white/45 sm:mb-10" aria-label="Breadcrumb">
-          <button onClick={() => onViewChange('home')} className="transition-colors hover:text-white">
+      {/* ══ Hero ══ */}
+      <section className="svc-container relative z-10 pt-28 sm:pt-32 lg:pt-36">
+        <nav className="mb-10 flex flex-wrap items-center gap-2 text-[12px] text-[#96939F]" aria-label="Breadcrumb">
+          <button onClick={() => onViewChange('home')} className="transition-colors hover:text-[#F4F2F7]">
             Home
           </button>
-          <span>/</span>
-          <button onClick={onServicesClick} className="transition-colors hover:text-white">
+          <span className="text-white/20">/</span>
+          <button onClick={onServicesClick} className="transition-colors hover:text-[#F4F2F7]">
             Services
           </button>
-          <span>/</span>
-          <span className="text-white/85">{detail.eyebrow}</span>
+          <span className="text-white/20">/</span>
+          <span className="text-[#F4F2F7]">{detail.eyebrow}</span>
         </nav>
 
-        {/* ── Hero ── */}
-        <motion.div
-          initial={reduced ? false : { opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col items-center text-center"
-        >
-          <p className="gradient-flow-text mb-4 text-[10px] font-bold uppercase tracking-[0.22em]">
-            {detail.eyebrow}
-          </p>
-          <span className="font-serif italic text-white/95 text-[clamp(1.75rem,3.4vw,3rem)] leading-[1.1] tracking-normal">
-            {detail.prefix}
-          </span>
-          <span
-            className="hero-automation-text mt-1 inline-block leading-none text-[clamp(2.5rem,5.6vw,5rem)]"
-            data-text={detail.bigWord}
-          >
-            {detail.bigWord}
-          </span>
-          <p className="mt-6 max-w-2xl text-[14.5px] leading-relaxed text-white/60 sm:text-base">
-            {detail.description}
-          </p>
+        <div className="grid items-center gap-14 lg:grid-cols-[1fr_auto] lg:gap-16">
+          <div className="max-w-[600px]">
+            <Eyebrow>{detail.eyebrow}</Eyebrow>
 
-          <div className="mt-7 flex flex-wrap items-center justify-center gap-2">
-            {detail.chips.map((chip) => (
-              <span
-                key={chip}
-                className="inline-flex h-8 items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-3.5 text-[11.5px] font-semibold text-white/85"
+            <h1 className="svc-h1 mt-5">
+              {detail.headline}{' '}
+              <em className="svc-accent">{detail.headlineAccent}</em>
+            </h1>
+
+            <p className="svc-lead mt-6 max-w-[520px]">{detail.intro}</p>
+
+            <div className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4">
+              <button type="button" onClick={startProject} className="svc-btn group">
+                Start a project
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => onViewChange('work')}
+                className="svc-link group"
               >
-                <span className="h-1.5 w-1.5 rounded-full bg-[#ff3f8d]" />
-                {chip}
-              </span>
-            ))}
+                See our work
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </button>
+            </div>
+
+            <ul className="mt-12 flex flex-wrap gap-x-8 gap-y-4">
+              {detail.assurances.map(([text, Icon]) => (
+                <li key={text} className="flex items-center gap-2.5 text-[13.5px] text-[#96939F]">
+                  <Icon className="h-4 w-4 text-[#C084FC]" strokeWidth={1.6} />
+                  {text}
+                </li>
+              ))}
+            </ul>
           </div>
 
-          <button
-            type="button"
-            onClick={startProject}
-            className="mt-9 inline-flex h-12 items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-[#ff2f86] via-[#d946ef] to-[#a855f7] px-7 text-[14px] font-bold text-white shadow-[0_10px_40px_-12px_rgba(255,47,134,0.55)] transition-all hover:scale-[1.02] active:scale-[0.99] sm:h-14 sm:px-9 sm:text-[15px]"
-          >
-            Start this project
-            <ArrowRight className="h-4 w-4" />
-          </button>
-
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[11.5px] text-white/45 sm:gap-x-6">
-            {['Fixed-price in 48 hours', '4-week sprints', 'Full code ownership'].map((item) => (
-              <span key={item} className="inline-flex items-center gap-1.5">
-                <CheckCircle2 className="h-3 w-3 text-[#ff3f8d]" strokeWidth={2} />
-                {item}
-              </span>
-            ))}
+          <div className="flex justify-center lg:justify-end">
+            <HeroVisual />
           </div>
-        </motion.div>
-      </div>
+        </div>
+      </section>
 
-      {/* ── Deliverables ── */}
-      <section className="relative z-10 mx-auto max-w-6xl px-5 pb-20 sm:px-6 lg:px-10">
-        <motion.div
-          initial={reduced ? false : { opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-8 flex flex-col items-center text-center sm:mb-12"
-        >
-          <span className="font-serif italic text-white/95 text-[clamp(1.5rem,3vw,2.5rem)] leading-[1.1]">
-            What you
-          </span>
-          <span
-            className="hero-automation-text mt-1 inline-block leading-none text-[clamp(2.25rem,5vw,4.5rem)]"
-            data-text="ACTUALLY GET."
-          >
-            ACTUALLY GET.
-          </span>
-        </motion.div>
+      {/* ══ What we build ══ */}
+      <section className="svc-container svc-section relative z-10">
+        <div className="grid gap-8 md:grid-cols-[1fr_1fr] md:items-end">
+          <div>
+            <Eyebrow>What we build</Eyebrow>
+            <h2 className="svc-h2 mt-5">
+              Everything you need to
+              <br />
+              <em className="svc-accent">build, scale and grow.</em>
+            </h2>
+          </div>
+          <p className="svc-body max-w-[440px] md:justify-self-end">
+            Six things we deliver inside this service. If your project needs only two of
+            them, that is the project we scope.
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 lg:gap-5">
-          {detail.deliverables.map(([title, description, Icon], i) => (
-            <motion.article
-              key={title}
-              initial={reduced ? false : { opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay: (i % 3) * 0.06 }}
-              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#08060d] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#ff3f8d]/45 sm:p-6"
-            >
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg border border-white/85 bg-black text-white shadow-[0_0_24px_-12px_rgba(255,255,255,0.4)] sm:h-11 sm:w-11">
-                <Icon className="h-5 w-5" strokeWidth={1.9} />
+        <div className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/[0.06] sm:grid-cols-2 lg:grid-cols-3">
+          {detail.deliverables.map(({ title, description, Icon }, i) => (
+            <article key={title} className="svc-cell group">
+              <div className="flex items-start justify-between">
+                <span className="svc-cell__icon">
+                  <Icon className="h-[18px] w-[18px]" strokeWidth={1.6} />
+                </span>
+                <span className="font-mono text-[11px] tracking-[0.14em] text-white/20">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
               </div>
-              <h3 className="font-sans text-[1.05rem] font-semibold leading-tight tracking-[-0.01em] text-white sm:text-[1.1rem]">
+
+              <h3 className="mt-7 text-[16.5px] font-medium tracking-[-0.01em] text-[#F4F2F7]">
                 {title}
               </h3>
-              <p className="mt-2 text-[13px] leading-relaxed text-white/60 sm:text-[13.5px]">
-                {description}
-              </p>
-            </motion.article>
+              <p className="svc-body mt-2.5 text-[14px]">{description}</p>
+            </article>
           ))}
         </div>
       </section>
 
-      {/* ── Bottom CTA ── */}
-      <section className="relative z-10 mx-auto max-w-6xl px-5 pb-24 sm:px-6 lg:px-10">
-        <motion.div
-          initial={reduced ? false : { opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#08060d] p-7 text-center sm:p-10"
-        >
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                'radial-gradient(ellipse at 50% 0%, rgba(255,32,160,0.16) 0%, transparent 55%), radial-gradient(ellipse at 50% 100%, rgba(164,82,255,0.14) 0%, transparent 55%)',
-            }}
-          />
-          <h3 className="relative font-sans text-[1.4rem] font-semibold leading-tight tracking-[-0.015em] text-white sm:text-[1.7rem]">
-            Ready to scope this in?
-          </h3>
-          <p className="relative mt-3 text-[14px] text-white/60 sm:text-[15px]">
-            Send a 2-line brief, get a fixed-price proposal in 48 hours.
-          </p>
-          <button
-            onClick={startProject}
-            className="relative mt-6 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ff2f86] via-[#d946ef] to-[#a855f7] px-7 text-[14px] font-bold text-white shadow-[0_10px_40px_-12px_rgba(255,47,134,0.55)] transition-all hover:scale-[1.02] sm:h-14 sm:px-9 sm:text-[15px]"
-          >
-            Start this project
-            <ArrowRight className="h-4 w-4" />
+      {/* ══ Technology ══ */}
+      <section className="svc-container svc-section relative z-10">
+        <div className="grid gap-10 md:grid-cols-[1fr_1.15fr] md:items-start md:gap-16">
+          <div>
+            <Eyebrow>Technologies we work with</Eyebrow>
+            <h2 className="svc-h2 mt-5">
+              Modern tools.
+              <br />
+              <em className="svc-accent">Better results.</em>
+            </h2>
+          </div>
+
+          <div>
+            <ul className="flex flex-wrap gap-2.5">
+              {detail.tech.map((name) => (
+                <li key={name} className="svc-chip">
+                  {name}
+                </li>
+              ))}
+            </ul>
+            <p className="svc-body mt-7 max-w-[440px] text-[14px]">
+              We pick tools for the requirement, not for whatever happens to be popular
+              this year.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ══ Selected work — real projects only ══ */}
+      {work.length > 0 && (
+        <section className="svc-container svc-section relative z-10">
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <div>
+              <Eyebrow>Selected work</Eyebrow>
+              <h2 className="svc-h2 mt-5">
+                Real businesses.
+                <br />
+                <em className="svc-accent">Real software.</em>
+              </h2>
+            </div>
+            <button onClick={() => onViewChange('work')} className="svc-link group">
+              View all work
+              <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </button>
+          </div>
+
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {work.map((item) => (
+              <ProjectShowcaseCard
+                key={item.id}
+                item={item}
+                onOpen={(slug) => onOpenProject?.(slug)}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ══ Process ══ */}
+      <section className="svc-container svc-section relative z-10">
+        <Eyebrow>Our process</Eyebrow>
+        <h2 className="svc-h2 mt-5 max-w-[520px]">
+          A simple process.
+          <br />
+          <em className="svc-accent">A powerful outcome.</em>
+        </h2>
+
+        <ol className="svc-steps mt-16">
+          {PROCESS.map(({ step, title, description, Icon }) => (
+            <li key={step} className="svc-step">
+              <span className="svc-step__icon">
+                <Icon className="h-[18px] w-[18px]" strokeWidth={1.6} />
+              </span>
+              <span className="mt-6 block font-mono text-[11px] tracking-[0.18em] text-[#C084FC]">
+                {step}
+              </span>
+              <h3 className="mt-2.5 text-[16.5px] font-medium text-[#F4F2F7]">{title}</h3>
+              <p className="svc-body mt-2 max-w-[240px] text-[14px]">{description}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      {/* ══ Why Pureflow ══ */}
+      <section className="svc-container svc-section relative z-10">
+        <div className="grid gap-12 lg:grid-cols-[0.85fr_2fr] lg:gap-16">
+          <div>
+            <Eyebrow>Why Pureflow</Eyebrow>
+            <h2 className="svc-h2 mt-5">
+              More than just
+              <br />
+              <em className="svc-accent">development.</em>
+            </h2>
+          </div>
+
+          <ul className="svc-why">
+            {WHY.map(({ title, description, Icon }) => (
+              <li key={title} className="svc-why__item">
+                <Icon className="h-[18px] w-[18px] text-[#C084FC]" strokeWidth={1.6} />
+                <h3 className="mt-5 text-[15.5px] font-medium text-[#F4F2F7]">{title}</h3>
+                <p className="svc-body mt-2 text-[14px]">{description}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ══ Final CTA ══ */}
+      <section className="svc-container relative z-10 pb-28 sm:pb-32">
+        <div className="svc-cta">
+          <div className="relative z-10 max-w-[560px]">
+            <Eyebrow>Let&rsquo;s build together</Eyebrow>
+            <h2 className="svc-h2 mt-5">Have a project in mind?</h2>
+            <p className="svc-body mt-5 max-w-[460px]">
+              Tell us what you&rsquo;re working on. We&rsquo;ll come back with a fixed-price
+              proposal in 48 hours.
+            </p>
+          </div>
+
+          <button type="button" onClick={startProject} className="svc-btn group relative z-10">
+            Start a project
+            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </button>
-        </motion.div>
+        </div>
       </section>
     </main>
   );

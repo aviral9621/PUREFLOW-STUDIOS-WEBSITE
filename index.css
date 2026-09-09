@@ -1321,13 +1321,11 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
   .gs-card:hover .gs-card__arrow { transform: none; }
 }
 
-/* Blog card grid — 1 / 2 / 3 up. Flex rather than grid so a partial last row
-   centres itself: with four articles the orphan sits in the middle instead of
-   hanging off the left edge, and the same holds for two orphans out of five. */
+/* Blog card grid — 1 / 2 / 3 up. Flex rather than grid so the basis maths stays
+   in one place; a partial last row stays left-aligned with the row above it. */
 .blog-grid {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: 1.5rem;
 }
 

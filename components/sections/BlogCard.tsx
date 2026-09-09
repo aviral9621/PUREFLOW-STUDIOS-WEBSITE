@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { ArrowRight, CalendarDays, Clock, Code2, Cpu, LayoutGrid, TrendingUp } from 'lucide-react';
 import type { BlogCategory, BlogPost } from '../../lib/blog';
 
@@ -10,6 +9,14 @@ import type { BlogCategory, BlogPost } from '../../lib/blog';
 // Deliberately compact: image, category, title, metadata, arrow. No excerpt —
 // the card's only job is to get the reader to the article, and a summary in the
 // grid competes with the headline sitting right above it.
+//
+// Every card is exactly the same height: the image is a fixed ratio and the
+// title occupies exactly two lines, clamped with an ellipsis when it runs long.
+// The full headline is on the article page, which is where it has room.
+//
+// No entrance animation — cards appear immediately. Revealing the rest of the
+// grid via "Show all" should feel like the page was always that long, not like
+// a row sliding in from below.
 // ─────────────────────────────────────────────────────────────────────────────
 
 /** Per-category accent + glyph. Keeps the badges scannable without a legend. */
@@ -25,27 +32,18 @@ export const CATEGORY_STYLE: Record<
 
 interface Props {
   post: BlogPost;
-  index?: number;
-  reduced?: boolean | null;
   onOpen: (slug: string) => void;
 }
 
-export const BlogCard: React.FC<Props> = ({ post, index = 0, reduced, onOpen }) => {
+export const BlogCard: React.FC<Props> = ({ post, onOpen }) => {
   const { accent, tint, Icon } = CATEGORY_STYLE[post.category];
 
   return (
-    <motion.button
+    <button
       type="button"
       onClick={() => onOpen(post.slug)}
       aria-label={`${post.title} — read article`}
       className="gs-card group flex h-full flex-col overflow-hidden rounded-2xl border border-[#1E3A5F] bg-[#081126] text-left"
-      initial={reduced ? false : { opacity: 0, y: 22 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: 0.55,
-        ease: [0.16, 1, 0.3, 1],
-        delay: reduced ? 0 : (index % 3) * 0.08,
-      }}
     >
       {/* Feature image */}
       <div className="relative aspect-[2/1] w-full overflow-hidden">
@@ -73,7 +71,7 @@ export const BlogCard: React.FC<Props> = ({ post, index = 0, reduced, onOpen }) 
           {post.category}
         </span>
 
-        <h3 className="mt-3.5 text-[1.08rem] font-bold leading-[1.3] tracking-[-0.015em] text-[#F5F7FF] sm:text-[1.12rem]">
+        <h3 className="mt-3.5 line-clamp-2 h-[2.7em] text-[1.08rem] font-bold leading-[1.35] tracking-[-0.015em] text-[#F5F7FF] sm:text-[1.12rem]">
           {post.title}
         </h3>
 
@@ -100,6 +98,6 @@ export const BlogCard: React.FC<Props> = ({ post, index = 0, reduced, onOpen }) 
           </span>
         </div>
       </div>
-    </motion.button>
+    </button>
   );
 };

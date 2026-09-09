@@ -113,16 +113,8 @@ export function GoodStuff({ onViewChange, onOpenPost }: GoodStuffProps) {
 
         {/* ── Cards ── */}
         <div className="blog-grid mt-8 sm:mt-10">
-          {visible.map((post, i) => (
-            <BlogCard
-              // Keyed on the filter too, so a change re-runs the reveal rather
-              // than swapping text under a card that never moves.
-              key={`${filter}-${post.slug}`}
-              post={post}
-              index={i}
-              reduced={reduced}
-              onOpen={onOpenPost}
-            />
+          {visible.map((post) => (
+            <BlogCard key={post.slug} post={post} onOpen={onOpenPost} />
           ))}
         </div>
 

@@ -74,14 +74,8 @@ export const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onViewChange, onOp
 
         {/* Posts grid */}
         <div className="blog-grid mt-12">
-          {visible.map((post, i) => (
-            <BlogCard
-              key={post.slug}
-              post={post}
-              index={i}
-              reduced={reduced}
-              onOpen={onOpenPost}
-            />
+          {visible.map((post) => (
+            <BlogCard key={post.slug} post={post} onOpen={onOpenPost} />
           ))}
         </div>
 

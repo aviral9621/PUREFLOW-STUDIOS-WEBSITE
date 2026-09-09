@@ -168,17 +168,6 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onViewChange, onStartProje
               clients we became five. Then a team.
             </p>
 
-            <div className="rounded-2xl border border-[#ff3f8d]/25 bg-[#ff3f8d]/[0.06] p-5">
-              <p className="flex items-start gap-3 text-[14px] leading-relaxed text-white/80 sm:text-[15px]">
-                <Heart className="mt-1 h-4 w-4 flex-shrink-0 text-[#ff7eb2]" strokeWidth={2} />
-                <span>
-                  Three years ago we hired <strong className="text-white">Tayyaba</strong> — our
-                  first tech teammate. She’s still here today, leading engineering. Most agencies
-                  churn. We don’t.
-                </span>
-              </p>
-            </div>
-
             <p className="text-[15.5px] leading-[1.75] text-white/75 sm:text-base sm:leading-[1.8]">
               Since then we’ve grown to ten people. Designers, engineers, AI tinkerers. Every hire
               shipped a real product in their first two weeks. No bench. No theatre.

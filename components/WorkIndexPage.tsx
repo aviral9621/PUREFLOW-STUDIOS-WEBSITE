@@ -6,6 +6,7 @@ import { useAllProjects } from '../hooks/useProjects';
 import { toPortfolioItems } from '../lib/portfolio';
 import { ProjectShowcaseCard } from './sections/ProjectShowcaseCard';
 import { ShowMore } from './shared/ShowMore';
+import { withPinnedScroll } from '../lib/utils';
 
 /** How many cards the listing opens with, before "Show all". */
 const INITIAL_COUNT = 6;
@@ -26,14 +27,7 @@ export const WorkIndexPage: React.FC<Props> = ({ onViewChange, onOpenProject }) 
   const visible = expanded ? items : items.slice(0, INITIAL_COUNT);
   const hasMore = items.length > visible.length;
 
-  // Expanding both appends cards and removes the button below them, which is
-  // enough of a subtree change that Chrome's scroll anchoring nudges the page
-  // (~180px in practice). Pin the offset so the grid grows under a still page.
-  const showAll = () => {
-    const y = window.scrollY;
-    setExpanded(true);
-    requestAnimationFrame(() => window.scrollTo(0, y));
-  };
+  const showAll = () => withPinnedScroll(() => setExpanded(true));
 
   useEffect(() => {
     window.scrollTo(0, 0);

@@ -5,6 +5,7 @@ import { ViewState } from '../types';
 import { POSTS } from '../lib/blog';
 import { BlogCard } from './sections/BlogCard';
 import { ShowMore } from './shared/ShowMore';
+import { withPinnedScroll } from '../lib/utils';
 
 /** How many articles the listing opens with, before "Show all". */
 const INITIAL_COUNT = 3;
@@ -23,14 +24,7 @@ export const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onViewChange, onOp
   const visible = expanded ? POSTS : POSTS.slice(0, INITIAL_COUNT);
   const hasMore = POSTS.length > visible.length;
 
-  // Appending cards while removing the button below them is enough of a subtree
-  // change that Chrome's scroll anchoring nudges the page. Pin the offset so the
-  // grid grows under a still page.
-  const showAll = () => {
-    const y = window.scrollY;
-    setExpanded(true);
-    requestAnimationFrame(() => window.scrollTo(0, y));
-  };
+  const showAll = () => withPinnedScroll(() => setExpanded(true));
 
   useEffect(() => {
     window.scrollTo(0, 0);

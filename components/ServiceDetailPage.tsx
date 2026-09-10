@@ -70,7 +70,10 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
           <span className="text-[#F4F2F7]">{detail.eyebrow}</span>
         </nav>
 
-        <div className="grid items-center gap-14 lg:grid-cols-[1fr_auto] lg:gap-16">
+        {/* The visual column is a definite width, not `auto`: the visual inside
+            it is `w-full`, which resolves to zero against a content-sized track
+            and silently empties the right half of the hero. */}
+        <div className="grid items-center gap-14 lg:grid-cols-[minmax(0,1fr)_400px] lg:gap-14 xl:grid-cols-[minmax(0,1fr)_460px] xl:gap-16">
           <div className="max-w-[600px]">
             <Eyebrow>{detail.eyebrow}</Eyebrow>
 
@@ -97,14 +100,18 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               </button>
             </div>
 
-            <ul className="mt-12 flex flex-wrap gap-x-8 gap-y-4">
-              {detail.assurances.map(([text, Icon]) => (
-                <li key={text} className="flex items-center gap-2.5 text-[13.5px] text-[#96939F]">
-                  <Icon className="h-4 w-4 text-[#C084FC]" strokeWidth={1.6} />
-                  {text}
-                </li>
-              ))}
-            </ul>
+            {/* The stack sits in the hero rather than in a section of its own:
+                it is credibility, and credibility belongs next to the claim. */}
+            <div className="mt-14 border-t border-white/10 pt-8">
+              <Eyebrow>Technologies we work with</Eyebrow>
+              <ul className="mt-5 flex flex-wrap gap-2.5">
+                {detail.tech.map((name) => (
+                  <li key={name} className="svc-chip">
+                    {name}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           <div className="flex justify-center lg:justify-end">
@@ -148,34 +155,6 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               <p className="svc-body mt-2.5 text-[14px]">{description}</p>
             </article>
           ))}
-        </div>
-      </section>
-
-      {/* ══ Technology ══ */}
-      <section className="svc-container svc-section relative z-10">
-        <div className="grid gap-10 md:grid-cols-[1fr_1.15fr] md:items-start md:gap-16">
-          <div>
-            <Eyebrow>Technologies we work with</Eyebrow>
-            <h2 className="svc-h2 mt-5">
-              Modern tools.
-              <br />
-              <em className="svc-accent">Better results.</em>
-            </h2>
-          </div>
-
-          <div>
-            <ul className="flex flex-wrap gap-2.5">
-              {detail.tech.map((name) => (
-                <li key={name} className="svc-chip">
-                  {name}
-                </li>
-              ))}
-            </ul>
-            <p className="svc-body mt-7 max-w-[440px] text-[14px]">
-              We pick tools for the requirement, not for whatever happens to be popular
-              this year.
-            </p>
-          </div>
         </div>
       </section>
 

@@ -133,7 +133,17 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
           </div>
 
           <div className="flex justify-center lg:justify-end">
-            {isCode ? (
+            {detail.heroImage ? (
+              <img
+                src={detail.heroImage}
+                alt={detail.heroImageAlt ?? ''}
+                width={1200}
+                height={840}
+                loading="eager"
+                decoding="async"
+                className="svc-hero-img"
+              />
+            ) : isCode ? (
               <CodeEditorVisual
                 chips={detail.visualChips ?? detail.deliverables.map((d) => d.title)}
               />

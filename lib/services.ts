@@ -71,6 +71,15 @@ export interface ServiceDetail {
   visual: 'code' | 'abstract';
   /** Four capability labels floating beside the laptop, for the 'code' visual. */
   visualChips?: string[];
+  /**
+   * A ready-made hero image, served from the `public/` folder. When set it
+   * replaces the drawn scene entirely. Use a PNG or WebP with a transparent
+   * background — anything sitting on a white canvas shows as a white block
+   * against the dark hero.
+   */
+  heroImage?: string;
+  /** Alt text, required whenever `heroImage` is set. */
+  heroImageAlt?: string;
   /** Technology chips. Real stack, not a logo wall. */
   tech: string[];
   /** Label above the chips. Only the build services are 'Built with'. */

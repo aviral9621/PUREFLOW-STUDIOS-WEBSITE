@@ -73,6 +73,8 @@ export interface ServiceDetail {
   visualChips?: string[];
   /** Technology chips. Real stack, not a logo wall. */
   tech: string[];
+  /** Label above the chips. Only the build services are 'Built with'. */
+  techLabel?: string;
   /** Case-study slugs. Empty means the page omits Selected Work entirely. */
   work: string[];
   /** Which lead form this service routes into. */
@@ -202,6 +204,7 @@ export const SERVICES: Record<ServiceKey, ServiceDetail> = {
     ],
     visual: 'abstract',
     tech: ['Content Strategy', 'Reels', 'Carousels', 'Brand Voice', 'AI Visuals'],
+    techLabel: "What's included",
     work: [],
     leadView: 'get-social-media',
     prefill: 'not-sure',
@@ -223,6 +226,7 @@ export const SERVICES: Record<ServiceKey, ServiceDetail> = {
     ],
     visual: 'abstract',
     tech: ['Meta Ads', 'A/B Testing', 'Retargeting', 'Funnels', 'Analytics'],
+    techLabel: "What's included",
     work: [],
     leadView: 'get-ads',
     prefill: 'not-sure',

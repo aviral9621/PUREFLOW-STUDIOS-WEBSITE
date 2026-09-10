@@ -116,11 +116,15 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             {/* The stack sits in the hero rather than in a section of its own:
                 it is credibility, and credibility belongs next to the claim. */}
             <div className="mt-14">
-              <Eyebrow>Built with</Eyebrow>
+              <Eyebrow>{detail.techLabel ?? 'Built with'}</Eyebrow>
               <ul className="mt-5 flex flex-wrap gap-3">
                 {detail.tech.map((name) => (
                   <li key={name} className="svc-tech">
-                    <TechMark name={name} className="svc-tech__mark" />
+                    {/* Only the build services carry brand marks. On the
+                        marketing pages these chips are capabilities, not
+                        libraries, and an initials badge beside one reads as a
+                        logo that failed to load. */}
+                    {isCode && <TechMark name={name} className="svc-tech__mark" />}
                     {name}
                   </li>
                 ))}

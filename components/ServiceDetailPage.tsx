@@ -78,9 +78,9 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             and silently empties the right half of the hero. The code scene needs
             more room than the abstract one before its code stops being legible. */}
         <div
-          className={`grid items-center gap-14 lg:gap-14 xl:gap-16 ${
+          className={`grid items-center gap-14 lg:gap-12 xl:gap-14 ${
             isCode
-              ? 'lg:grid-cols-[minmax(0,1fr)_460px] xl:grid-cols-[minmax(0,1fr)_600px]'
+              ? 'lg:grid-cols-[minmax(0,1fr)_430px] xl:grid-cols-[minmax(0,1fr)_520px]'
               : 'lg:grid-cols-[minmax(0,1fr)_400px] xl:grid-cols-[minmax(0,1fr)_460px]'
           }`}
         >
@@ -90,9 +90,12 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               {detail.eyebrow}
             </p>
 
+            {/* The accent phrase takes its own line, so the gradient always
+                starts a line rather than landing mid-sentence wherever the
+                text happens to wrap. */}
             <h1 className="svc-h1 mt-6">
-              {detail.headline}{' '}
-              <span className="svc-accent">{detail.headlineAccent}</span>
+              {detail.headline}
+              <span className="svc-accent block">{detail.headlineAccent}</span>
             </h1>
 
             <p className="svc-lead mt-6 max-w-[500px]">{detail.intro}</p>
@@ -132,7 +135,9 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             </div>
           </div>
 
-          <div className="flex justify-center lg:justify-end">
+          {/* The scene runs past the container's right edge, the way it does in
+              the reference. `.svc-page` clips, so this never scrolls. */}
+          <div className="svc-hero-visual flex justify-center lg:justify-start">
             {detail.heroImage ? (
               <img
                 src={detail.heroImage}

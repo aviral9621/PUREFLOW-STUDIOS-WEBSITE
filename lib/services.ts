@@ -111,8 +111,8 @@ export const WHY: { title: string; description: string; Icon: LucideIcon }[] = [
 export const SERVICES: Record<ServiceKey, ServiceDetail> = {
   'service-software': {
     eyebrow: 'Development',
-    headline: 'Software built around',
-    headlineAccent: 'how you work.',
+    headline: 'Custom software',
+    headlineAccent: 'built for real growth.',
     intro:
       'We design and build custom web applications, internal tools and automations that fit your business — not the other way around.',
     deliverables: [
@@ -133,7 +133,7 @@ export const SERVICES: Record<ServiceKey, ServiceDetail> = {
 
   'service-crm': {
     eyebrow: 'Product',
-    headline: 'One system instead of',
+    headline: 'One system, not',
     headlineAccent: 'fourteen spreadsheets.',
     intro:
       'Leads, follow-ups, payments and reporting in one place, with the logic your business actually runs on built in.',
@@ -177,7 +177,7 @@ export const SERVICES: Record<ServiceKey, ServiceDetail> = {
 
   'service-website': {
     eyebrow: 'Web',
-    headline: 'Sites that load fast and',
+    headline: 'Sites built to',
     headlineAccent: 'earn the enquiry.',
     intro:
       'Marketing sites, booking portals and storefronts built to be fast on a phone, readable by search engines and clear about the next step.',

@@ -1393,7 +1393,7 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
 }
 
 .svc-h1 {
-  font-size: clamp(2.6rem, 5.4vw, 4.15rem);
+  font-size: clamp(2.5rem, 4.6vw, 3.7rem);
   font-weight: 500;
   line-height: 1.06;
   letter-spacing: -0.028em;
@@ -2106,4 +2106,56 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
   display: block;
   filter: drop-shadow(0 2.5rem 5rem rgba(0, 0, 0, 0.6))
     drop-shadow(0 0 3rem rgba(168, 85, 247, 0.28));
+}
+
+/* ── Hero scene, angled ────────────────────────────────────────────────────
+   The laptop sits in perspective rather than flat on, matching the reference:
+   the left edge nearer, the right receding. The floating cards stay upright in
+   front of it, which is what gives the composition its depth. */
+
+.cev__stage {
+  perspective: 2200px;
+  perspective-origin: 30% 45%;
+}
+
+.cev__laptop {
+  transform: rotateY(9deg) rotateX(3deg) rotateZ(-1deg);
+  transform-origin: 30% 50%;
+}
+
+/* Lift the cards out of the laptop's plane so they read as floating in front
+   of it rather than stuck to the lid. */
+.cev__vision,
+.cev__chips {
+  transform: translateZ(70px);
+}
+
+/* ── The script note ──
+   Larger, and set on a slight tilt with the swoosh beneath it, the way a
+   handwritten margin note sits on the page. */
+
+.cev__script {
+  right: 0;
+  bottom: -1%;
+  font-size: 2.5em;
+  transform: rotate(-7deg);
+  transform-origin: right bottom;
+}
+
+.cev__script::after {
+  height: 0.045em;
+  width: 92%;
+  margin-top: 0.1em;
+}
+
+/* The scene renders wider than its grid track and spills past the container's
+   right edge, the way it does in the reference. Anchoring it from the left
+   means the overflow goes outward, never back across the headline, and
+   `.svc-page` clips it so nothing scrolls. */
+@media (min-width: 1024px) {
+  .svc-hero-visual .cev { width: 560px; flex: none; }
+}
+
+@media (min-width: 1280px) {
+  .svc-hero-visual .cev { width: 700px; flex: none; }
 }

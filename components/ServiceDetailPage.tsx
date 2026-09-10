@@ -6,6 +6,8 @@ import { useAllProjects } from '../hooks/useProjects';
 import { toPortfolioItems } from '../lib/portfolio';
 import { ProjectShowcaseCard } from './sections/ProjectShowcaseCard';
 import { HeroVisual } from './service/HeroVisual';
+import { CodeEditorVisual } from './service/CodeEditorVisual';
+import { TechMark } from './service/TechMark';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ServiceDetailPage — the page behind each card in the Services section.
@@ -40,6 +42,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
   onOpenProject,
 }) => {
   const detail = SERVICES[service];
+  const isCode = detail.visual === 'code';
   const startProject = () => onStartProjectWithService(detail.prefill);
 
   const { projects } = useAllProjects();
@@ -72,19 +75,29 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
 
         {/* The visual column is a definite width, not `auto`: the visual inside
             it is `w-full`, which resolves to zero against a content-sized track
-            and silently empties the right half of the hero. */}
-        <div className="grid items-center gap-14 lg:grid-cols-[minmax(0,1fr)_400px] lg:gap-14 xl:grid-cols-[minmax(0,1fr)_460px] xl:gap-16">
-          <div className="max-w-[600px]">
-            <Eyebrow>{detail.eyebrow}</Eyebrow>
+            and silently empties the right half of the hero. The code scene needs
+            more room than the abstract one before its code stops being legible. */}
+        <div
+          className={`grid items-center gap-14 lg:gap-14 xl:gap-16 ${
+            isCode
+              ? 'lg:grid-cols-[minmax(0,1fr)_460px] xl:grid-cols-[minmax(0,1fr)_600px]'
+              : 'lg:grid-cols-[minmax(0,1fr)_400px] xl:grid-cols-[minmax(0,1fr)_460px]'
+          }`}
+        >
+          <div className="max-w-[620px]">
+            <p className="svc-eyebrow flex items-center gap-2.5">
+              <span className="svc-eyebrow__dot" />
+              {detail.eyebrow}
+            </p>
 
-            <h1 className="svc-h1 mt-5">
+            <h1 className="svc-h1 mt-6">
               {detail.headline}{' '}
-              <em className="svc-accent">{detail.headlineAccent}</em>
+              <span className="svc-accent">{detail.headlineAccent}</span>
             </h1>
 
-            <p className="svc-lead mt-6 max-w-[520px]">{detail.intro}</p>
+            <p className="svc-lead mt-6 max-w-[500px]">{detail.intro}</p>
 
-            <div className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4">
+            <div className="mt-10 flex flex-wrap items-center gap-4">
               <button type="button" onClick={startProject} className="svc-btn group">
                 Start a project
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -93,7 +106,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               <button
                 type="button"
                 onClick={() => onViewChange('work')}
-                className="svc-link group"
+                className="svc-btn-ghost group"
               >
                 See our work
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -102,11 +115,12 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
 
             {/* The stack sits in the hero rather than in a section of its own:
                 it is credibility, and credibility belongs next to the claim. */}
-            <div className="mt-14 border-t border-white/10 pt-8">
-              <Eyebrow>Technologies we work with</Eyebrow>
-              <ul className="mt-5 flex flex-wrap gap-2.5">
+            <div className="mt-14">
+              <Eyebrow>Built with</Eyebrow>
+              <ul className="mt-5 flex flex-wrap gap-3">
                 {detail.tech.map((name) => (
-                  <li key={name} className="svc-chip">
+                  <li key={name} className="svc-tech">
+                    <TechMark name={name} className="svc-tech__mark" />
                     {name}
                   </li>
                 ))}
@@ -115,7 +129,13 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
           </div>
 
           <div className="flex justify-center lg:justify-end">
-            <HeroVisual />
+            {isCode ? (
+              <CodeEditorVisual
+                chips={detail.visualChips ?? detail.deliverables.map((d) => d.title)}
+              />
+            ) : (
+              <HeroVisual />
+            )}
           </div>
         </div>
       </section>

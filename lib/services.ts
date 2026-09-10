@@ -63,6 +63,14 @@ export interface ServiceDetail {
   intro: string;
   /** What we build inside this service. Exactly six, one sentence each. */
   deliverables: Deliverable[];
+  /**
+   * Which hero mark this service gets. 'code' is the laptop-and-editor scene,
+   * which only makes sense where the deliverable is software; 'abstract' is the
+   * neutral sphere for the marketing services.
+   */
+  visual: 'code' | 'abstract';
+  /** Four capability labels floating beside the laptop, for the 'code' visual. */
+  visualChips?: string[];
   /** Technology chips. Real stack, not a logo wall. */
   tech: string[];
   /** Case-study slugs. Empty means the page omits Selected Work entirely. */
@@ -104,7 +112,9 @@ export const SERVICES: Record<ServiceKey, ServiceDetail> = {
       { title: 'Integrations & APIs', description: 'Payments, messaging and your existing tools, wired in cleanly.', Icon: Puzzle },
       { title: 'Auth, Roles & Infra', description: 'Secure access, permissions and deployment done properly.', Icon: ShieldCheck },
     ],
-    tech: ['Next.js', 'TypeScript', 'React', 'Node.js', 'PostgreSQL', 'Supabase', 'Tailwind CSS', 'Vercel'],
+    visual: 'code',
+    visualChips: ['Web Applications', 'Internal Tools', 'Automations', 'API Integrations'],
+    tech: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Supabase'],
     work: ['quick-hotels', 'unskills-computer-education-crm', 'ecommerce-retail-platform'],
     leadView: 'get-software-built',
     prefill: 'software',
@@ -124,7 +134,9 @@ export const SERVICES: Record<ServiceKey, ServiceDetail> = {
       { title: 'Permissions & Audit', description: 'Access levels and trails that keep sensitive data safe.', Icon: ShieldCheck },
       { title: 'Integrations', description: 'WhatsApp, payments, email and analytics connected in.', Icon: Puzzle },
     ],
-    tech: ['Next.js', 'TypeScript', 'Supabase', 'PostgreSQL', 'Node.js', 'Tailwind CSS', 'Vercel'],
+    visual: 'code',
+    visualChips: ['Lead Pipelines', 'Role Dashboards', 'Automations', 'Integrations'],
+    tech: ['Next.js', 'TypeScript', 'Supabase', 'PostgreSQL', 'Vercel'],
     work: ['unskills-computer-education-crm', 'ecommerce-retail-platform', 'quick-hotels'],
     leadView: 'get-software-built',
     prefill: 'software',
@@ -144,7 +156,9 @@ export const SERVICES: Record<ServiceKey, ServiceDetail> = {
       { title: 'Performance', description: 'Fast on mid-range devices and patchy connections.', Icon: Gauge },
       { title: 'Release & Support', description: 'Testing, store submissions, updates and maintenance.', Icon: Cloud },
     ],
-    tech: ['React Native', 'TypeScript', 'PWA', 'Supabase', 'Node.js', 'Vercel'],
+    visual: 'code',
+    visualChips: ['Mobile Apps', 'Offline Ready', 'Push & Alerts', 'Backend APIs'],
+    tech: ['React Native', 'TypeScript', 'PWA', 'Supabase'],
     work: ['quick-hotels', 'unskills-education-website'],
     leadView: 'get-app-built',
     prefill: 'mobile',
@@ -164,7 +178,9 @@ export const SERVICES: Record<ServiceKey, ServiceDetail> = {
       { title: 'Editable Sections', description: 'Reusable blocks so your team can update without us.', Icon: Blocks },
       { title: 'Deploy & Analytics', description: 'Launch, domains, analytics and post-launch fixes.', Icon: Cloud },
     ],
-    tech: ['Next.js', 'TypeScript', 'React', 'Tailwind CSS', 'Supabase', 'Vercel'],
+    visual: 'code',
+    visualChips: ['Marketing Sites', 'Booking Flows', 'SEO Foundation', 'Analytics'],
+    tech: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
     work: ['herbal-vantage', 'spectrum-tour-travels', 'unskills-education-website'],
     leadView: 'get-website-built',
     prefill: 'website',
@@ -184,6 +200,7 @@ export const SERVICES: Record<ServiceKey, ServiceDetail> = {
       { title: 'Product Visuals', description: 'Generated and edited assets for campaign storytelling.', Icon: Sparkles },
       { title: 'Monthly Delivery', description: 'Planning, revisions and publishing, handled for you.', Icon: Cloud },
     ],
+    visual: 'abstract',
     tech: ['Content Strategy', 'Reels', 'Carousels', 'Brand Voice', 'AI Visuals'],
     work: [],
     leadView: 'get-social-media',
@@ -204,6 +221,7 @@ export const SERVICES: Record<ServiceKey, ServiceDetail> = {
       { title: 'Budget Optimisation', description: 'Daily checks and scaling decisions based on real data.', Icon: Gauge },
       { title: 'Clear Reporting', description: 'Spend, leads, cost per lead and what we change next.', Icon: LifeBuoy },
     ],
+    visual: 'abstract',
     tech: ['Meta Ads', 'A/B Testing', 'Retargeting', 'Funnels', 'Analytics'],
     work: [],
     leadView: 'get-ads',

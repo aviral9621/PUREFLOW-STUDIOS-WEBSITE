@@ -1725,3 +1725,371 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
   .svc-btn, .svc-cell, .svc-cell__icon, .svc-chip, .svc-link { transition: none; }
   .svc-btn:hover { transform: none; }
 }
+
+/* ── Code-editor hero visual (components/service/CodeEditorVisual.tsx) ──────
+   Drawn in markup, not shipped as an image. Every length is in `em` against a
+   container-relative font size, so the laptop, the floating cards and the code
+   scale as one piece rather than reflowing into each other. */
+
+.cev {
+  container-type: inline-size;
+  width: 100%;
+}
+
+.cev__stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 2.1;
+  font-size: 11px; /* fallback for browsers without container units */
+  font-size: 2.42cqw;
+  color: #f4f2f7;
+}
+
+/* ── The accent line ── */
+
+.cev__line {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 0 0.5em rgba(217, 70, 239, 0.55));
+}
+
+.cev__line-dot { filter: drop-shadow(0 0 0.45em rgba(249, 168, 212, 0.95)); }
+
+/* ── Laptop ── */
+
+.cev__laptop {
+  position: absolute;
+  left: 4%;
+  top: 12%;
+  width: 74%;
+}
+
+.cev__screen {
+  position: relative;
+  border-radius: 0.85em 0.85em 0.25em 0.25em;
+  border: 0.09em solid rgba(255, 255, 255, 0.16);
+  background: linear-gradient(150deg, #2a2733 0%, #16141c 45%);
+  padding: 0.85em 0.5em 0.5em;
+  box-shadow:
+    0 2.6em 5em -2em rgba(0, 0, 0, 0.85),
+    0 0 3.4em -1em rgba(168, 85, 247, 0.45);
+}
+
+.cev__cam {
+  position: absolute;
+  top: 0.35em;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 0.22em;
+  width: 0.22em;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.cev__base {
+  height: 0.62em;
+  margin: 0 -6%;
+  border-radius: 0 0 0.5em 0.5em;
+  background: linear-gradient(180deg, #35313f 0%, #17151d 75%);
+  box-shadow: 0 1.4em 2.6em -1em rgba(0, 0, 0, 0.8);
+}
+
+.cev__base::after {
+  content: "";
+  display: block;
+  height: 0.14em;
+  width: 14%;
+  margin: 0 auto;
+  border-radius: 0 0 0.2em 0.2em;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+/* ── Editor ── */
+
+.cev__editor {
+  display: grid;
+  grid-template-columns: 34% 1fr;
+  border-radius: 0.35em;
+  background: #0b0a11;
+  overflow: hidden;
+  min-height: 15.5em;
+}
+
+.cev__tree {
+  border-right: 0.06em solid rgba(255, 255, 255, 0.07);
+  padding: 0.55em 0.5em 0.9em;
+  font-size: 0.72em;
+  line-height: 1.95;
+  color: #b9b5c6;
+}
+
+.cev__tree-head {
+  display: flex;
+  gap: 0.55em;
+  padding-bottom: 0.5em;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.cev__caret { font-family: var(--font-mono); font-size: 0.9em; }
+
+.cev__row {
+  display: flex;
+  align-items: center;
+  gap: 0.55em;
+  white-space: nowrap;
+}
+
+.cev__folder,
+.cev__file {
+  flex: none;
+  height: 0.82em;
+  width: 0.95em;
+  border: 0.09em solid rgba(196, 181, 253, 0.5);
+  border-radius: 0.12em;
+}
+
+.cev__folder { border-top-width: 0.24em; border-top-color: rgba(196, 181, 253, 0.75); }
+.cev__file { border-radius: 0.14em; border-color: rgba(255, 255, 255, 0.28); }
+.cev__row--file { color: #8f8b9c; }
+
+.cev__pane { display: flex; flex-direction: column; min-width: 0; }
+
+.cev__tabbar {
+  padding: 0.5em 0.6em 0;
+  border-bottom: 0.06em solid rgba(255, 255, 255, 0.06);
+}
+
+.cev__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9em;
+  border: 0.06em solid rgba(255, 255, 255, 0.1);
+  border-bottom: 0;
+  border-radius: 0.3em 0.3em 0 0;
+  background: #14121b;
+  padding: 0.34em 0.7em;
+  font-family: var(--font-mono);
+  font-size: 0.72em;
+  color: #ded9ea;
+}
+
+.cev__tab-x { color: rgba(255, 255, 255, 0.35); }
+
+.cev__code {
+  margin: 0;
+  padding: 0.7em 0.8em;
+  font-family: var(--font-mono);
+  font-size: 0.66em;
+  line-height: 1.75;
+  white-space: pre;
+  overflow: hidden;
+  color: #c9c6d4;
+}
+
+/* Syntax colours — one hue family, so it reads as a theme not a rainbow. */
+.cev-kw { color: #c084fc; }
+.cev-fn { color: #7dd3fc; }
+.cev-tag { color: #f472b6; }
+.cev-at { color: #a5b4fc; }
+.cev-st { color: #6ee7b7; }
+.cev-pn { color: #8b8797; }
+
+/* ── Floating: the promise ── */
+
+.cev__vision {
+  position: absolute;
+  left: 0;
+  top: 2%;
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+  border-radius: 0.9em;
+  border: 0.07em solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(135deg, rgba(46, 34, 66, 0.92), rgba(20, 16, 28, 0.92));
+  backdrop-filter: blur(0.5em);
+  padding: 0.85em 1.05em;
+  box-shadow: 0 1.6em 3em -1.2em rgba(0, 0, 0, 0.85);
+}
+
+.cev__vision-icon { display: inline-flex; color: #d8b4fe; }
+
+.cev__vision-text { display: flex; flex-direction: column; line-height: 1.35; }
+.cev__vision-a { font-size: 0.86em; color: #cfcada; }
+.cev__vision-b { font-size: 0.94em; font-weight: 500; color: #f4f2f7; }
+.cev__vision-arrow { margin-left: 0.6em; color: #cfcada; }
+
+/* ── Floating: capabilities ── */
+
+.cev__chips {
+  position: absolute;
+  right: 0;
+  top: 24%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  width: 38%;
+}
+
+.cev__chip {
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  border-radius: 0.75em;
+  border: 0.07em solid rgba(255, 255, 255, 0.13);
+  background: linear-gradient(135deg, rgba(38, 30, 54, 0.94), rgba(17, 14, 24, 0.94));
+  backdrop-filter: blur(0.5em);
+  padding: 0.72em 0.85em;
+  font-size: 0.88em;
+  font-weight: 500;
+  color: #ece9f4;
+  white-space: nowrap;
+  box-shadow: 0 1.2em 2.4em -1.1em rgba(0, 0, 0, 0.85);
+}
+
+.cev__chip-icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  height: 1.85em;
+  width: 1.85em;
+  border-radius: 0.45em;
+  border: 0.07em solid rgba(192, 132, 252, 0.35);
+  background: rgba(168, 85, 247, 0.14);
+  color: #d8b4fe;
+}
+
+/* ── The script note ── */
+
+.cev__script {
+  position: absolute;
+  right: 2%;
+  bottom: 0;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-style: italic;
+  font-size: 1.9em;
+  line-height: 1;
+  color: #f0abfc;
+  text-shadow: 0 0 0.7em rgba(217, 70, 239, 0.55);
+}
+
+.cev__script::after {
+  content: "";
+  display: block;
+  height: 0.06em;
+  width: 78%;
+  margin-top: 0.16em;
+  margin-left: auto;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, #ec4899);
+}
+
+/* ── Service hero refinements ───────────────────────────────────────────────
+   The headline accent is the same weight and family as the line it finishes,
+   carrying a pink→violet gradient instead of switching to a serif. Section
+   headings keep the italic serif, so the two never compete on one screen. */
+
+.svc-h1 {
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+
+.svc-h1 .svc-accent {
+  font-family: inherit;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: inherit;
+  background: linear-gradient(92deg, #f472b6 0%, #c084fc 48%, #a855f7 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.svc-eyebrow__dot {
+  height: 6px;
+  width: 6px;
+  flex: none;
+  border-radius: 999px;
+  background: #d946ef;
+  box-shadow: 0 0 9px 1px rgba(217, 70, 239, 0.85);
+}
+
+/* Secondary action: same silhouette as the primary, neutral fill. */
+.svc-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 13px 25px;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #f4f2f7;
+  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), border-color 260ms ease,
+    background-color 260ms ease;
+}
+
+.svc-btn-ghost:hover {
+  transform: translateY(-2px);
+  border-color: rgba(192, 132, 252, 0.5);
+  background: rgba(168, 85, 247, 0.09);
+}
+
+.svc-btn-ghost:focus-visible {
+  outline: 2px solid rgba(192, 132, 252, 0.6);
+  outline-offset: 3px;
+}
+
+/* ── "Built with" chips ── */
+
+.svc-tech {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #0d0d11;
+  padding: 10px 16px 10px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #ded9ea;
+  transition: border-color 260ms ease, background-color 260ms ease;
+}
+
+.svc-tech:hover {
+  border-color: rgba(192, 132, 252, 0.4);
+  background: #121218;
+}
+
+.svc-tech__mark {
+  height: 20px;
+  width: 20px;
+  flex: none;
+  border-radius: 5px;
+}
+
+/* Initials, for a technology with no drawn mark. */
+.cev-mark-fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  width: 20px;
+  flex: none;
+  border-radius: 5px;
+  border: 1px solid rgba(192, 132, 252, 0.35);
+  background: rgba(168, 85, 247, 0.14);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #d8b4fe;
+}

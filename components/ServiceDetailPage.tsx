@@ -168,41 +168,48 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
       </section>
 
       {/* ══ What we build ══ */}
-      <section className="svc-container svc-section relative z-10">
-        <div className="grid gap-8 md:grid-cols-[1fr_1fr] md:items-end">
+      <section className="svc-build svc-container svc-section relative z-10">
+        {/* Two soft washes at the section's edges. Purely atmospheric, sitting
+            behind the content and never crossing where text reads. */}
+        <div className="svc-build__glow" aria-hidden="true" />
+
+        <header className="relative grid gap-9 lg:grid-cols-[1.3fr_1fr] lg:items-start lg:gap-16">
           <div>
-            <Eyebrow>What we build</Eyebrow>
-            <h2 className="svc-h2 mt-5">
+            <p className="svc-eyebrow svc-eyebrow--rule">What we build</p>
+            <h2 className="svc-h2 svc-h2--strong mt-6">
               Everything you need to
-              <br />
-              <em className="svc-accent">build, scale and grow.</em>
+              <em className="svc-accent block">build, scale and grow.</em>
             </h2>
           </div>
-          <p className="svc-body max-w-[440px] md:justify-self-end">
+
+          <p className="svc-note">
             Six things we deliver inside this service. If your project needs only two of
             them, that is the project we scope.
           </p>
-        </div>
+        </header>
 
-        <div className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/[0.06] sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="svc-cards">
           {detail.deliverables.map(({ title, description, Icon }, i) => (
-            <article key={title} className="svc-cell group">
-              <div className="flex items-start justify-between">
-                <span className="svc-cell__icon">
-                  <Icon className="h-[18px] w-[18px]" strokeWidth={1.6} />
+            <li key={title}>
+              <button type="button" onClick={startProject} className="svc-card">
+                <span className="svc-card__top">
+                  <span className="svc-card__icon">
+                    <Icon className="h-[21px] w-[21px]" strokeWidth={1.6} />
+                  </span>
+                  <span className="svc-card__num">{String(i + 1).padStart(2, '0')}</span>
                 </span>
-                <span className="font-mono text-[11px] tracking-[0.14em] text-white/20">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-              </div>
 
-              <h3 className="mt-7 text-[16.5px] font-medium tracking-[-0.01em] text-[#F4F2F7]">
-                {title}
-              </h3>
-              <p className="svc-body mt-2.5 text-[14px]">{description}</p>
-            </article>
+                <h3 className="svc-card__title">{title}</h3>
+                <p className="svc-card__desc">{description}</p>
+
+                <span className="svc-card__link">
+                  Learn more
+                  <ArrowRight className="svc-card__arrow h-4 w-4" strokeWidth={2} />
+                </span>
+              </button>
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
 
       {/* ══ Selected work — real projects only ══ */}

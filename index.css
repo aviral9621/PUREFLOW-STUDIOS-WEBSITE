@@ -2191,3 +2191,228 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
   padding-bottom: 0.16em;
   margin-bottom: -0.16em;
 }
+
+/* ── "What we build" ─────────────────────────────────────────────────────────
+   Six service cards under a two-column header. The palette lives here as
+   variables so the section can be lifted into another page whole.
+
+   Gradients are confined to four places — the headline accent, the eyebrow
+   rule, the icon tile and the edge glow. Every card surface stays flat, which
+   is what keeps those four reading as emphasis rather than decoration. */
+
+.svc-build {
+  --bg: #070708;
+  --surface: #0d0d11;
+  --surface-hover: #121218;
+  --text: #f4f2f7;
+  --muted: #96939f;
+  --chip: #ded9ea;
+  --accent: #c084fc;
+  --accent-pink: #d946ef;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-hover: rgba(192, 132, 252, 0.4);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Atmosphere, not scenery: two blurred washes pinned to the section's outer
+   corners, well away from the column where the copy sits. */
+.svc-build__glow {
+  position: absolute;
+  inset: -80px -140px auto;
+  height: 420px;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(38% 60% at 2% 22%, rgba(168, 85, 247, 0.15), transparent 72%),
+    radial-gradient(34% 55% at 99% 8%, rgba(217, 70, 239, 0.12), transparent 72%);
+}
+
+/* ── Header ── */
+
+/* A short rule leads the label in, the way a caption is led in on a page. */
+.svc-eyebrow--rule {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.svc-eyebrow--rule::before {
+  content: "";
+  height: 1px;
+  width: 42px;
+  flex: none;
+  background: linear-gradient(90deg, transparent, var(--accent-pink));
+}
+
+.svc-h2--strong {
+  font-weight: 700;
+  letter-spacing: -0.032em;
+}
+
+/* The supporting line sits behind a hairline rule, which ties it to the
+   headline without needing a box around it. */
+.svc-note {
+  border-left: 1px solid rgba(192, 132, 252, 0.35);
+  padding-left: 22px;
+  max-width: 460px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+@media (min-width: 1024px) {
+  .svc-note { margin-top: 34px; }
+}
+
+@media (max-width: 640px) {
+  .svc-note { font-size: 14.5px; padding-left: 18px; }
+}
+
+/* ── Card grid ── */
+
+.svc-cards {
+  display: grid;
+  gap: 24px;
+  margin: 64px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 640px) { .svc-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) {
+  .svc-cards { grid-template-columns: repeat(3, 1fr); margin-top: 72px; }
+}
+
+/* ── Card ── */
+
+.svc-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100%;
+  width: 100%;
+  text-align: left;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 28px;
+  transition:
+    transform 260ms var(--ease),
+    border-color 260ms ease,
+    background-color 260ms ease;
+}
+
+@media (min-width: 1024px) { .svc-card { padding: 30px; } }
+
+.svc-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-hover);
+  background: var(--surface-hover);
+}
+
+.svc-card:focus-visible {
+  outline: 2px solid rgba(192, 132, 252, 0.6);
+  outline-offset: 3px;
+}
+
+/* A single faint sweep low in the card, so the surface is not dead flat. It
+   brightens slightly on hover and never reaches the text. */
+.svc-card::after {
+  content: "";
+  position: absolute;
+  right: -18%;
+  bottom: -46%;
+  height: 74%;
+  width: 78%;
+  border-radius: 999px;
+  background: radial-gradient(circle at 40% 40%, rgba(168, 85, 247, 0.16), transparent 68%);
+  opacity: 0.75;
+  transition: opacity 260ms ease;
+  pointer-events: none;
+}
+
+.svc-card:hover::after { opacity: 1; }
+
+.svc-card > * { position: relative; }
+
+.svc-card__top {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.svc-card__icon {
+  display: inline-flex;
+  height: 50px;
+  width: 50px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 13px;
+  border: 1px solid rgba(192, 132, 252, 0.22);
+  background: linear-gradient(150deg, rgba(217, 70, 239, 0.20), rgba(124, 58, 237, 0.14));
+  color: #e9d5ff;
+  transition: border-color 260ms ease, box-shadow 260ms ease;
+}
+
+.svc-card:hover .svc-card__icon {
+  border-color: rgba(192, 132, 252, 0.5);
+  box-shadow: 0 0 24px -8px rgba(168, 85, 247, 0.85);
+}
+
+.svc-card__num {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+
+.svc-card__title {
+  margin-top: 26px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+
+.svc-card__desc {
+  margin-top: 10px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+@media (max-width: 640px) {
+  .svc-card { padding: 24px; }
+  .svc-card__title { font-size: 17px; margin-top: 22px; }
+  .svc-card__desc { font-size: 14.5px; }
+}
+
+/* Pinned to the bottom so the link sits on one line across every card,
+   whatever the description's length. */
+.svc-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: auto;
+  padding-top: 22px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.svc-card__arrow { transition: transform 260ms var(--ease); }
+.svc-card:hover .svc-card__arrow { transform: translateX(4px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .svc-card,
+  .svc-card__arrow,
+  .svc-card__icon,
+  .svc-card::after { transition: none; }
+  .svc-card:hover { transform: none; }
+  .svc-card:hover .svc-card__arrow { transform: none; }
+}

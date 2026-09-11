@@ -2123,6 +2123,20 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
   height: auto;
 }
 
+/* The image renders a little wider than its grid track and runs past the
+   container's right edge — enough to feel expansive, not so much that it reads
+   as falling off the page. It is anchored from the left of the track so the
+   overflow goes outward and never back across the headline, the feathered edge
+   dissolves whatever crosses the boundary, and `.svc-page` clips the rest. */
+@media (min-width: 1024px) {
+  .svc-hero-visual { justify-content: flex-start; }
+  .svc-hero-visual .svc-hero-img { width: 530px; max-width: none; flex: none; }
+}
+
+@media (min-width: 1280px) {
+  .svc-hero-visual .svc-hero-img { width: 710px; }
+}
+
 /* ── Hero scene, angled ────────────────────────────────────────────────────
    The laptop sits in perspective rather than flat on, matching the reference:
    the left edge nearer, the right receding. The floating cards stay upright in

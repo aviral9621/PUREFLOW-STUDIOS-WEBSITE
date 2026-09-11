@@ -80,7 +80,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
         <div
           className={`grid items-center gap-14 lg:gap-12 xl:gap-14 ${
             isCode
-              ? 'lg:grid-cols-[minmax(0,1fr)_430px] xl:grid-cols-[minmax(0,1fr)_520px]'
+              ? 'lg:grid-cols-[minmax(0,1fr)_440px] xl:grid-cols-[minmax(0,1fr)_540px]'
               : 'lg:grid-cols-[minmax(0,1fr)_400px] xl:grid-cols-[minmax(0,1fr)_460px]'
           }`}
         >
@@ -135,9 +135,9 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             </div>
           </div>
 
-          {/* The scene runs past the container's right edge, the way it does in
-              the reference. `.svc-page` clips, so this never scrolls. */}
-          <div className="svc-hero-visual flex justify-center lg:justify-start">
+          {/* The scene fits its column. It used to spill past the container's
+              right edge, which read as a graphic falling off the page. */}
+          <div className="svc-hero-visual flex justify-center lg:justify-end">
             {detail.heroImage ? (
               <img
                 src={detail.heroImage}

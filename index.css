@@ -2148,14 +2148,17 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
   margin-top: 0.1em;
 }
 
-/* The scene renders wider than its grid track and spills past the container's
-   right edge, the way it does in the reference. Anchoring it from the left
-   means the overflow goes outward, never back across the headline, and
-   `.svc-page` clips it so nothing scrolls. */
-@media (min-width: 1024px) {
-  .svc-hero-visual .cev { width: 560px; flex: none; }
-}
+/* The scene stays inside the container. Letting it spill past the right edge
+   read as a graphic falling off the page rather than a composition. */
+.svc-hero-visual { width: 100%; }
+.svc-hero-visual .cev { max-width: 100%; }
 
-@media (min-width: 1280px) {
-  .svc-hero-visual .cev { width: 700px; flex: none; }
+/* `background-clip: text` paints inside the element's box, and the headline's
+   tight line-height leaves the box shorter than the glyphs. Descenders — the
+   g in "growth" — fell outside it and lost their fill. Extend the box below
+   the baseline and pull the same amount back off the margin, so the gradient
+   covers the whole glyph without moving anything. */
+.svc-h1 .svc-accent {
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
 }

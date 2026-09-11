@@ -13,8 +13,8 @@ import { BarChart3, LayoutGrid, ClipboardCheck, Workflow, Webhook, ArrowRight } 
 // whole composition scales as one piece instead of reflowing into itself.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const TREE = ['src', 'components', 'pages', 'api', 'utils', 'styles', 'public'];
-const FILES = ['.env', 'package.json', 'tsconfig.json'];
+const TREE = ['src', 'components', 'pages', 'api', 'lib'];
+const FILES = ['package.json', 'tsconfig.json'];
 
 const CHIP_ICONS = [LayoutGrid, ClipboardCheck, Workflow, Webhook];
 

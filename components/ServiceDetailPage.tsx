@@ -78,9 +78,9 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             and silently empties the right half of the hero. The code scene needs
             more room than the abstract one before its code stops being legible. */}
         <div
-          className={`grid items-center gap-14 lg:gap-10 xl:gap-11 ${
+          className={`grid items-center gap-14 lg:gap-9 xl:gap-9 ${
             isCode
-              ? 'lg:grid-cols-[minmax(0,1fr)_450px] xl:grid-cols-[minmax(0,1fr)_560px]'
+              ? 'lg:grid-cols-[minmax(0,1fr)_470px] xl:grid-cols-[minmax(0,1fr)_620px]'
               : 'lg:grid-cols-[minmax(0,1fr)_400px] xl:grid-cols-[minmax(0,1fr)_460px]'
           }`}
         >

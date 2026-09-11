@@ -80,7 +80,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
         <div
           className={`grid items-center gap-14 lg:gap-12 xl:gap-14 ${
             isCode
-              ? 'lg:grid-cols-[minmax(0,1fr)_390px] xl:grid-cols-[minmax(0,1fr)_460px]'
+              ? 'lg:grid-cols-[minmax(0,1fr)_420px] xl:grid-cols-[minmax(0,1fr)_520px]'
               : 'lg:grid-cols-[minmax(0,1fr)_400px] xl:grid-cols-[minmax(0,1fr)_460px]'
           }`}
         >
@@ -116,23 +116,6 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               </button>
             </div>
 
-            {/* The stack sits in the hero rather than in a section of its own:
-                it is credibility, and credibility belongs next to the claim. */}
-            <div className="mt-14">
-              <Eyebrow>{detail.techLabel ?? 'Built with'}</Eyebrow>
-              <ul className="mt-5 flex flex-wrap gap-2.5">
-                {detail.tech.map((name) => (
-                  <li key={name} className="svc-tech">
-                    {/* Only the build services carry brand marks. On the
-                        marketing pages these chips are capabilities, not
-                        libraries, and an initials badge beside one reads as a
-                        logo that failed to load. */}
-                    {isCode && <TechMark name={name} className="svc-tech__mark" />}
-                    {name}
-                  </li>
-                ))}
-              </ul>
-            </div>
           </div>
 
           {/* The scene fits its column. It used to spill past the container's
@@ -161,6 +144,26 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               <HeroVisual />
             )}
           </div>
+        </div>
+
+        {/* The stack runs the full width under the hero rather than inside the
+            copy column. In the column it squeezed the headline, forced the
+            chips onto two rows, and made the left side tall enough to leave the
+            image stranded in a lot of empty space. */}
+        <div className="mt-16 border-t border-white/[0.07] pt-10">
+          <Eyebrow>{detail.techLabel ?? 'Built with'}</Eyebrow>
+          <ul className="mt-5 flex flex-wrap gap-2.5">
+            {detail.tech.map((name) => (
+              <li key={name} className="svc-tech">
+                {/* Only the build services carry brand marks. On the marketing
+                    pages these chips are capabilities, not libraries, and an
+                    initials badge beside one reads as a logo that failed to
+                    load. */}
+                {isCode && <TechMark name={name} className="svc-tech__mark" />}
+                {name}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 

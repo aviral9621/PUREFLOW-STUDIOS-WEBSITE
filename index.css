@@ -2057,8 +2057,8 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: #0d0d11;
-  padding: 10px 16px;
-  font-size: 14px;
+  padding: 10px 13px;
+  font-size: 13.5px;
   font-weight: 500;
   color: #ded9ea;
   transition: border-color 260ms ease, background-color 260ms ease;
@@ -2073,8 +2073,8 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
 .svc-tech:has(.cev-mark-fallback) { padding-left: 12px; }
 
 .svc-tech__mark {
-  height: 20px;
-  width: 20px;
+  height: 18px;
+  width: 18px;
   flex: none;
   border-radius: 5px;
 }

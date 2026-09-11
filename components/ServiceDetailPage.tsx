@@ -80,11 +80,11 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
         <div
           className={`grid items-center gap-14 lg:gap-12 xl:gap-14 ${
             isCode
-              ? 'lg:grid-cols-[minmax(0,1fr)_440px] xl:grid-cols-[minmax(0,1fr)_540px]'
+              ? 'lg:grid-cols-[minmax(0,1fr)_380px] xl:grid-cols-[minmax(0,1fr)_440px]'
               : 'lg:grid-cols-[minmax(0,1fr)_400px] xl:grid-cols-[minmax(0,1fr)_460px]'
           }`}
         >
-          <div className="max-w-[620px]">
+          <div className="max-w-[660px]">
             <p className="svc-eyebrow flex items-center gap-2.5">
               <span className="svc-eyebrow__dot" />
               {detail.eyebrow}
@@ -120,7 +120,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                 it is credibility, and credibility belongs next to the claim. */}
             <div className="mt-14">
               <Eyebrow>{detail.techLabel ?? 'Built with'}</Eyebrow>
-              <ul className="mt-5 flex flex-wrap gap-3">
+              <ul className="mt-5 flex flex-wrap gap-2.5">
                 {detail.tech.map((name) => (
                   <li key={name} className="svc-tech">
                     {/* Only the build services carry brand marks. On the

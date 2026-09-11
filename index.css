@@ -2097,15 +2097,28 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
   color: #d8b4fe;
 }
 
-/* A supplied hero image, in place of the drawn scene. Sized like the scene so
-   the two are interchangeable without touching the hero grid. */
+/* A supplied hero image, in place of the drawn scene.
+
+   The artwork carries its own dark-purple backdrop rather than a transparent
+   one, so it is framed as a deliberate panel — rounded, hairline border, soft
+   glow — instead of being left as a rectangle with visible edges against the
+   page. */
 .svc-hero-img {
+  display: block;
+  width: 100%;
+  max-width: 620px;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow:
+    0 32px 70px -32px rgba(0, 0, 0, 0.9),
+    0 0 50px -22px rgba(168, 85, 247, 0.45);
+}
+
+.svc-hero-img img {
+  display: block;
   width: 100%;
   height: auto;
-  max-width: 600px;
-  display: block;
-  filter: drop-shadow(0 2.5rem 5rem rgba(0, 0, 0, 0.6))
-    drop-shadow(0 0 3rem rgba(168, 85, 247, 0.28));
 }
 
 /* ── Hero scene, angled ────────────────────────────────────────────────────

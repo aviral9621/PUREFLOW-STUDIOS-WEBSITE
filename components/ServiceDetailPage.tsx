@@ -80,7 +80,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
         <div
           className={`grid items-center gap-14 lg:gap-12 xl:gap-14 ${
             isCode
-              ? 'lg:grid-cols-[minmax(0,1fr)_380px] xl:grid-cols-[minmax(0,1fr)_440px]'
+              ? 'lg:grid-cols-[minmax(0,1fr)_390px] xl:grid-cols-[minmax(0,1fr)_460px]'
               : 'lg:grid-cols-[minmax(0,1fr)_400px] xl:grid-cols-[minmax(0,1fr)_460px]'
           }`}
         >
@@ -139,15 +139,20 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               right edge, which read as a graphic falling off the page. */}
           <div className="svc-hero-visual flex justify-center lg:justify-end">
             {detail.heroImage ? (
-              <img
-                src={detail.heroImage}
-                alt={detail.heroImageAlt ?? ''}
-                width={1200}
-                height={840}
-                loading="eager"
-                decoding="async"
-                className="svc-hero-img"
-              />
+              /* WebP first, PNG for the handful of browsers without it. The
+                 intrinsic size is declared so the hero never reflows once the
+                 image lands. */
+              <picture className="svc-hero-img">
+                <source srcSet={`${detail.heroImage}.webp`} type="image/webp" />
+                <img
+                  src={`${detail.heroImage}.png`}
+                  alt={detail.heroImageAlt ?? ''}
+                  width={1200}
+                  height={800}
+                  loading="eager"
+                  decoding="async"
+                />
+              </picture>
             ) : isCode ? (
               <CodeEditorVisual
                 chips={detail.visualChips ?? detail.deliverables.map((d) => d.title)}

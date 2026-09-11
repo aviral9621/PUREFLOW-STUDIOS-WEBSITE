@@ -73,9 +73,8 @@ export interface ServiceDetail {
   visualChips?: string[];
   /**
    * A ready-made hero image, served from the `public/` folder. When set it
-   * replaces the drawn scene entirely. Use a PNG or WebP with a transparent
-   * background — anything sitting on a white canvas shows as a white block
-   * against the dark hero.
+   * replaces the drawn scene entirely. Give the path without an extension —
+   * the page serves `.webp` and falls back to `.png`, so both must exist.
    */
   heroImage?: string;
   /** Alt text, required whenever `heroImage` is set. */
@@ -125,6 +124,9 @@ export const SERVICES: Record<ServiceKey, ServiceDetail> = {
     ],
     visual: 'code',
     visualChips: ['Web Applications', 'Internal Tools', 'Automations', 'API Integrations'],
+    heroImage: '/services/custom-software-hero',
+    heroImageAlt:
+      'A laptop running a code editor, with Web Applications, Internal Tools, Automations and API Integrations shown alongside',
     tech: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Supabase'],
     work: ['quick-hotels', 'unskills-computer-education-crm', 'ecommerce-retail-platform'],
     leadView: 'get-software-built',

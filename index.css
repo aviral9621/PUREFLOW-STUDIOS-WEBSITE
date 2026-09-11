@@ -2048,6 +2048,20 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
   outline-offset: 3px;
 }
 
+/* On a phone the two actions sit side by side rather than stacked, so they
+   read as one choice. At full desktop size they will not both fit on a 390px
+   screen, so the pair trims down just enough to share the line, and the
+   labels never wrap. */
+@media (max-width: 480px) {
+  .svc-actions .svc-btn,
+  .svc-actions .svc-btn-ghost {
+    padding-inline: 16px;
+    font-size: 13.5px;
+    gap: 8px;
+    white-space: nowrap;
+  }
+}
+
 /* ── "Built with" chips ── */
 
 .svc-tech {

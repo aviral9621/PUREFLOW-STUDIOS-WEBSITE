@@ -84,7 +84,10 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               : 'lg:grid-cols-[minmax(0,1fr)_400px] xl:grid-cols-[minmax(0,1fr)_460px]'
           }`}
         >
-          <div className="max-w-[660px]">
+          {/* Stacked, the image leads and the copy follows. The DOM keeps the
+              headline first, so a screen reader still meets the page's subject
+              before its illustration. */}
+          <div className="order-2 max-w-[660px] lg:order-1">
             <p className="svc-eyebrow flex items-center gap-2.5">
               <span className="svc-eyebrow__dot" />
               {detail.eyebrow}
@@ -100,7 +103,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
 
             <p className="svc-lead mt-6 max-w-[500px]">{detail.intro}</p>
 
-            <div className="mt-10 flex flex-wrap items-center gap-4">
+            <div className="svc-actions mt-10 flex items-center gap-3 sm:gap-4">
               <button type="button" onClick={startProject} className="svc-btn group">
                 Start a project
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -120,7 +123,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
 
           {/* The scene fits its column. It used to spill past the container's
               right edge, which read as a graphic falling off the page. */}
-          <div className="svc-hero-visual flex justify-center lg:justify-end">
+          <div className="svc-hero-visual order-1 flex justify-center lg:order-2 lg:justify-end">
             {detail.heroImage ? (
               /* WebP first, PNG for the handful of browsers without it. The
                  intrinsic size is declared so the hero never reflows once the

@@ -14,8 +14,8 @@ import {
   Stethoscope,
   UtensilsCrossed,
 } from 'lucide-react';
-import { LiveCardPreview } from './LiveCardPreview';
-import { Mockup, type MockupKind } from '../casestudy/Mockup';
+import { PreviewContent } from './PortfolioPreview';
+import type { MockupKind } from '../casestudy/Mockup';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ProjectShowcaseCard — the portfolio card used by the homepage "Stuff we
@@ -82,68 +82,6 @@ function iconFor(category: string) {
   }
   return Layers;
 }
-
-// ─── Preview content ─────────────────────────────────────────────────────────
-
-/** Neutral product-UI skeleton, used when a project has no preview asset yet. */
-const PlaceholderUI: React.FC = () => (
-  <div className="absolute inset-0 bg-[linear-gradient(150deg,#0e0b18,#08070d)]">
-    <div
-      className="absolute inset-0 opacity-60"
-      style={{
-        backgroundImage:
-          'radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px)',
-        backgroundSize: '18px 18px',
-      }}
-    />
-    <div className="absolute inset-0 flex">
-      <div className="w-[22%] space-y-2 border-r border-white/[0.06] bg-black/25 p-3">
-        <div className="h-2 w-full rounded-full bg-white/10" />
-        <div className="h-2 w-3/4 rounded-full bg-white/[0.06]" />
-        <div className="h-2 w-2/3 rounded-full bg-white/[0.05]" />
-      </div>
-      <div className="flex-1 space-y-2.5 p-3.5">
-        <div className="h-3 w-1/2 rounded-full bg-white/[0.12]" />
-        <div className="grid grid-cols-2 gap-2 pt-1">
-          <div className="h-9 rounded-lg bg-white/[0.07]" />
-          <div className="h-9 rounded-lg bg-white/[0.05]" />
-          <div className="col-span-2 h-7 rounded-lg bg-white/[0.05]" />
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
-const PreviewContent: React.FC<{
-  preview: PreviewSource;
-  name: string;
-  device: DeviceKind;
-}> = ({ preview, name, device }) => {
-  switch (preview.type) {
-    case 'image':
-      return (
-        <img
-          src={preview.src}
-          alt={preview.alt ?? `${name} product preview`}
-          loading="lazy"
-          decoding="async"
-          className="absolute inset-0 h-full w-full object-cover object-top"
-        />
-      );
-    case 'live':
-      return (
-        <LiveCardPreview
-          url={preview.src}
-          siteName={name}
-          logicalWidth={device === 'phone' ? 390 : 1440}
-        />
-      );
-    case 'mockup':
-      return <Mockup kind={preview.kind} />;
-    default:
-      return <PlaceholderUI />;
-  }
-};
 
 // ─── Device frames ───────────────────────────────────────────────────────────
 

@@ -1,11 +1,6 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { SelectedWorkCard, type SelectedWorkItem } from './SelectedWorkCard';
-import {
-  QuickHotelsCrmPreview,
-  QuickHotelsPreview,
-  UnskillsCrmPreview,
-} from './WorkPreviews';
 import { viewToPath } from '../../lib/router';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -27,14 +22,12 @@ const PROJECTS: SelectedWorkItem[] = [
     category: 'Website + PMS',
     name: 'Quick Hotels',
     description: 'A mobile-first booking site and a custom PMS on one backend.',
-    Preview: QuickHotelsPreview,
   },
   {
     slug: 'unskills-computer-education-crm',
     category: 'Custom CRM',
     name: 'UnSkills CRM',
     description: 'Leads, admissions, fees and eight branches in one live dashboard.',
-    Preview: UnskillsCrmPreview,
     featured: true,
   },
   {
@@ -42,16 +35,18 @@ const PROJECTS: SelectedWorkItem[] = [
     category: 'SaaS Dashboard',
     name: 'Quick Hotels CRM',
     description: 'Bookings, leads, occupancy and revenue in one dashboard.',
-    Preview: QuickHotelsCrmPreview,
   },
 ];
 
 interface Props {
   onOpenProject: (slug: string) => void;
   onViewAll?: () => void;
+  /** Overrides the curated list — the service pages pass their own projects. */
+  items?: SelectedWorkItem[];
 }
 
-export const SelectedWork: React.FC<Props> = ({ onOpenProject, onViewAll }) => {
+export const SelectedWork: React.FC<Props> = ({ onOpenProject, onViewAll, items }) => {
+  const projects = items ?? PROJECTS;
   const workHref = viewToPath('work');
 
   const handleViewAll = (e: React.MouseEvent) => {
@@ -104,7 +99,7 @@ export const SelectedWork: React.FC<Props> = ({ onOpenProject, onViewAll }) => {
         {/* Single column centres its capped-width cards; from sm up the cards
             fill their track as normal. */}
         <div className="mt-10 grid grid-cols-1 justify-items-center gap-4 sm:mt-[60px] sm:grid-cols-2 sm:justify-items-stretch sm:gap-5 lg:mt-[72px] lg:grid-cols-3 lg:gap-6">
-          {PROJECTS.map((project, i) => (
+          {projects.map((project, i) => (
             <SelectedWorkCard
               key={project.slug}
               item={project}

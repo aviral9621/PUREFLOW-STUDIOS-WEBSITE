@@ -452,3 +452,16 @@ export const QuickHotelsCrmPreview: React.FC = () => (
     </div>
   </div>
 );
+
+// ─── Registry ────────────────────────────────────────────────────────────────
+
+/**
+ * Case-study slug → its purpose-built mockup. A project listed here renders its
+ * designed interface anywhere a `SelectedWorkCard` appears; anything missing
+ * falls back to `PortfolioPreview` (screenshot / live embed / skeleton).
+ */
+export const DESIGNED_PREVIEWS: Record<string, React.ComponentType> = {
+  'quick-hotels': QuickHotelsPreview,
+  'unskills-computer-education-crm': UnskillsCrmPreview,
+  'ecommerce-retail-platform': QuickHotelsCrmPreview,
+};

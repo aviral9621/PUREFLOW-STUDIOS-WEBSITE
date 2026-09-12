@@ -1,6 +1,9 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { viewToPath } from '../../lib/router';
+import { DESIGNED_PREVIEWS } from './WorkPreviews';
+import { PortfolioPreview } from './PortfolioPreview';
+import type { DeviceKind, PortfolioItem, PreviewSource } from './ProjectShowcaseCard';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // SelectedWorkCard — one project in the "Selected work" grid.
@@ -25,10 +28,28 @@ export interface SelectedWorkItem {
   name: string;
   /** One or two lines, no more. */
   description: string;
-  /** The designed product mockup (see `WorkPreviews.tsx`). */
-  Preview: React.ComponentType;
+  /**
+   * Fallback preview for a project with no designed mockup. Ignored when the
+   * slug has an entry in `DESIGNED_PREVIEWS`.
+   */
+  preview?: PreviewSource;
+  device?: DeviceKind;
   /** Marks the one card that carries the purple emphasis. */
   featured?: boolean;
+}
+
+/** Narrow a `PortfolioItem` (the shape the project data layer produces) to what
+ *  this card needs, so the same card renders on the homepage and the service
+ *  pages from one source of truth. */
+export function toSelectedWorkItem(item: PortfolioItem): SelectedWorkItem {
+  return {
+    slug: item.slug,
+    category: item.category,
+    name: item.name,
+    description: item.description,
+    preview: item.preview,
+    device: item.device,
+  };
 }
 
 interface Props {
@@ -39,8 +60,9 @@ interface Props {
 }
 
 export const SelectedWorkCard: React.FC<Props> = ({ item, index, onOpen }) => {
-  const { slug, category, name, description, Preview, featured } = item;
+  const { slug, category, name, description, preview, device, featured } = item;
   const href = viewToPath('work-post', slug);
+  const Designed = DESIGNED_PREVIEWS[slug];
 
   // Let the browser handle modified clicks (new tab / new window) natively;
   // only a plain left click is taken over by the SPA router.
@@ -78,7 +100,15 @@ export const SelectedWorkCard: React.FC<Props> = ({ item, index, onOpen }) => {
           this from ballooning on a wide single-column screen. */}
       <div className="sw-stage relative mt-3.5 aspect-[16/9] w-full overflow-hidden rounded-[8px] border border-[var(--sw-ghost)] bg-[#07070c] sm:mt-4 sm:rounded-[10px]">
         <div className="sw-stage__inner absolute inset-0">
-          <Preview />
+          {Designed ? (
+            <Designed />
+          ) : (
+            <PortfolioPreview
+              preview={preview ?? { type: 'placeholder' }}
+              name={name}
+              device={device ?? 'browser'}
+            />
+          )}
         </div>
       </div>
 

@@ -2430,3 +2430,191 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
   .svc-card:hover { transform: none; }
   .svc-card:hover .svc-card__arrow { transform: none; }
 }
+
+/* ── Selected work ───────────────────────────────────────────────────────────
+   Three curated products under an editorial header (components/sections/
+   SelectedWork.tsx). Same palette as "What we build", kept in section-scoped
+   variables so the block can be lifted whole into another page.
+
+   Colour is rationed to four places — the eyebrow, the headline accent, the
+   featured card's border, and whatever the pointer is on. Card surfaces stay
+   flat; that restraint is what makes the product previews read as the content
+   rather than competing with the chrome. */
+
+.sw-section {
+  --sw-bg: #070708;
+  --sw-surface: #0d0d11;
+  --sw-surface-hover: #121218;
+  --sw-text: #f4f2f7;
+  --sw-text-soft: #ded9ea;
+  --sw-muted: #96939f;
+  --sw-accent: #c084fc;
+  --sw-accent-pink: #d946ef;
+  --sw-border: rgba(255, 255, 255, 0.1);
+  --sw-ghost: rgba(255, 255, 255, 0.14);
+  --sw-border-hover: rgba(192, 132, 252, 0.4);
+  --sw-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  background: var(--sw-bg);
+}
+
+/* Atmosphere, not scenery: one wash per opposite corner, far enough out that
+   neither lands behind the copy or a preview. */
+.sw-glow {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 9999px;
+  filter: blur(120px);
+}
+
+.sw-glow--tl {
+  top: -240px;
+  left: -220px;
+  width: 620px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.13), transparent 68%);
+}
+
+.sw-glow--br {
+  right: -240px;
+  bottom: -260px;
+  width: 620px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(217, 70, 239, 0.1), transparent 68%);
+}
+
+/* ── Header ── */
+
+.sw-headline-accent {
+  background: linear-gradient(92deg, #f472b6 0%, #c084fc 48%, #a855f7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.sw-viewall {
+  position: relative;
+  padding-bottom: 5px;
+  transition: color 260ms ease;
+}
+
+.sw-viewall::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  transition: background-color 260ms ease;
+}
+
+.sw-viewall:hover { color: var(--sw-accent); }
+.sw-viewall:hover::after { background: var(--sw-accent); }
+
+.sw-viewall:focus-visible {
+  outline: 2px solid rgba(192, 132, 252, 0.6);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.sw-viewall__arrow { transition: transform 260ms var(--sw-ease); }
+.sw-viewall:hover .sw-viewall__arrow { transform: translate(4px, -2px); }
+
+/* ── Card ── */
+
+.sw-card {
+  height: 100%;
+  border: 1px solid var(--sw-border);
+  background: var(--sw-surface);
+  cursor: pointer;
+  transition:
+    transform 260ms var(--sw-ease),
+    border-color 260ms ease,
+    background-color 260ms ease,
+    box-shadow 260ms ease;
+}
+
+/* The featured card carries its emphasis at rest, so the row has a centre of
+   gravity before anyone touches it. */
+.sw-card--featured {
+  border-color: var(--sw-border-hover);
+  box-shadow: 0 20px 60px rgba(168, 85, 247, 0.1);
+}
+
+.sw-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--sw-border-hover);
+  background: var(--sw-surface-hover);
+}
+
+.sw-card--featured:hover {
+  box-shadow: 0 24px 68px rgba(168, 85, 247, 0.16);
+}
+
+/* One tab stop per card: the project-name anchor is stretched over the whole
+   surface. The hit area is the card; the accessible name stays the project. */
+.sw-card__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+}
+
+/* ── Product preview ── */
+
+/* The stage is the container the mockups size themselves against — everything
+   inside `.sw-ui` is laid out in `em`, and 1em resolves to 1% of this box's
+   width. Changing the card width rescales the whole interface. */
+.sw-stage {
+  container-type: inline-size;
+}
+
+.sw-ui {
+  font-size: 3.2px; /* fallback ≈ one desktop card's worth of width */
+  font-size: 1cqw;
+  font-family: var(--font-sans);
+  line-height: 1.2;
+}
+
+.sw-stage__inner {
+  transform-origin: center;
+  transition: transform 260ms var(--sw-ease);
+}
+
+.sw-card:hover .sw-stage__inner { transform: scale(1.015); }
+
+/* ── View project ── */
+
+.sw-cta::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  transition: background-color 260ms ease;
+}
+
+.sw-cta,
+.sw-cta__arrow { transition: color 260ms ease, transform 260ms var(--sw-ease); }
+
+.sw-card:hover .sw-cta,
+.sw-card:hover .sw-cta__arrow { color: var(--sw-accent); }
+.sw-card:hover .sw-cta::after { background: var(--sw-accent); }
+.sw-card:hover .sw-cta__arrow { transform: translate(4px, -2px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .sw-card,
+  .sw-cta,
+  .sw-cta__arrow,
+  .sw-stage__inner,
+  .sw-viewall__arrow { transition: none; }
+  .sw-card:hover { transform: none; }
+  .sw-card:hover .sw-stage__inner,
+  .sw-card:hover .sw-cta__arrow,
+  .sw-viewall:hover .sw-viewall__arrow { transform: none; }
+}

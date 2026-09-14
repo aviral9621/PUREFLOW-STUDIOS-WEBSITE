@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Check } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { ViewState } from '../types';
 import { PROCESS, PROCESS_DEFAULT_ACTIVE, SERVICES, WHY, type ServiceKey } from '../lib/services';
@@ -29,6 +29,14 @@ interface ServiceDetailPageProps {
   onStartProjectWithService: (service: string) => void;
   onOpenProject?: (slug: string) => void;
 }
+
+/** What every engagement includes, whichever service brought you here. */
+const ASSURANCES = [
+  'Fixed-price proposals',
+  'Scope doc in 48 hours',
+  '30-day post-launch support',
+  'GST invoices included',
+];
 
 /** Small uppercase section label. The only place the accent colour repeats. */
 const Eyebrow: React.FC<{ children: React.ReactNode }> = ({ children }) => (
@@ -332,23 +340,40 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
       </section>
 
       {/* ══ Why Pureflow ══ */}
-      <section className="svc-container svc-section relative z-10">
-        <div className="grid gap-12 lg:grid-cols-[0.85fr_2fr] lg:gap-16">
-          <div>
-            <Eyebrow>Why Pureflow</Eyebrow>
-            <h2 className="svc-h2 mt-5">
-              More than just
-              <br />
-              <em className="svc-accent">development.</em>
+      <section className="why-section svc-container svc-section relative z-10">
+        {/* Gradient the icon strokes pick up via `stroke: url(#whyGrad)`. */}
+        <svg width="0" height="0" aria-hidden="true" className="absolute">
+          <defs>
+            <linearGradient id="whyGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stopColor="#ff2f8a" />
+              <stop offset="0.55" stopColor="#e52cff" />
+              <stop offset="1" stopColor="#8b3dff" />
+            </linearGradient>
+          </defs>
+        </svg>
+
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,2fr)] lg:items-start lg:gap-14">
+          <div className="why-head">
+            <span className="why-pill">Why Pureflow</span>
+
+            <h2 className="mt-6">
+              <span className="hero-automation-text why-display" data-text="MORE THAN">
+                MORE THAN
+              </span>
+              <span className="hero-automation-text why-display" data-text="JUST CODE.">
+                JUST CODE.
+              </span>
             </h2>
+
+            <p className="why-tagline mt-4">We build the business, not the backlog.</p>
           </div>
 
-          <ul className="svc-why">
+          <ul className="why-cards">
             {WHY.map(({ title, description, Icon }) => (
-              <li key={title} className="svc-why__item">
-                <Icon className="h-[18px] w-[18px] text-[#C084FC]" strokeWidth={1.6} />
-                <h3 className="mt-5 text-[15.5px] font-medium text-[#F4F2F7]">{title}</h3>
-                <p className="svc-body mt-2 text-[14px]">{description}</p>
+              <li key={title} className="why-card">
+                <Icon className="why-card__icon" strokeWidth={1.6} aria-hidden="true" />
+                <h3 className="why-card__title">{title}</h3>
+                <p className="why-card__desc">{description}</p>
               </li>
             ))}
           </ul>
@@ -356,21 +381,53 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
       </section>
 
       {/* ══ Final CTA ══ */}
-      <section className="svc-container relative z-10 pb-28 sm:pb-32">
-        <div className="svc-cta">
-          <div className="relative z-10 max-w-[560px]">
-            <Eyebrow>Let&rsquo;s build together</Eyebrow>
-            <h2 className="svc-h2 mt-5">Have a project in mind?</h2>
-            <p className="svc-body mt-5 max-w-[460px]">
-              Tell us what you&rsquo;re working on. We&rsquo;ll come back with a fixed-price
-              proposal in 48 hours.
-            </p>
-          </div>
+      <section className="svc-container relative z-10 pb-24 sm:pb-32">
+        <div className="cta-card">
+          <span aria-hidden="true" className="cta-card__grid" />
+          <span aria-hidden="true" className="cta-card__glow" />
 
-          <button type="button" onClick={startProject} className="svc-btn group relative z-10">
-            Start a project
-            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-          </button>
+          <div className="cta-card__inner">
+            <span className="cta-pill">
+              <span aria-hidden="true" className="cta-pill__dot" />
+              Taking new projects
+            </span>
+
+            {/* Kept to one line at every width — see `.cta-display`. Wrapped,
+                this always breaks at the hyphen ("BOOK THE 45- / MINUTE CALL."),
+                and the usual fix, a non-breaking hyphen, is not available:
+                Anton has no U+2011, so it would render that one glyph from a
+                fallback face in the middle of the heading. */}
+            <h2 className="mt-7">
+              <span className="hero-automation-text cta-display" data-text="BOOK THE 45-MINUTE CALL.">
+                BOOK THE 45-MINUTE CALL.
+              </span>
+            </h2>
+
+            <p className="cta-lead mt-5">
+              You&rsquo;ve seen how we work. Tell us what you&rsquo;re building and we&rsquo;ll come
+              back with a fixed-price proposal in 48 hours.
+            </p>
+
+            <div className="cta-actions mt-9">
+              <button type="button" onClick={() => onViewChange('book-call')} className="svc-btn group">
+                Book a 45-min call
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </button>
+
+              <button type="button" onClick={startProject} className="cta-ghost">
+                Send project details
+              </button>
+            </div>
+
+            <ul className="cta-assurances">
+              {ASSURANCES.map((item) => (
+                <li key={item} className="cta-assurance">
+                  <Check className="h-[15px] w-[15px] flex-none" strokeWidth={2.4} aria-hidden="true" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
     </main>

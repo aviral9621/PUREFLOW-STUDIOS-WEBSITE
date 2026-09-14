@@ -490,7 +490,7 @@ const AppContent: React.FC = () => {
             </LazySection>
 
             <LazySection>
-              <About />
+              <About onStartProject={handleStartProject} />
             </LazySection>
 
             {/* Continuous gradient flow across Reviews → Google → Map */}

@@ -1,94 +1,123 @@
+import React, { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { Rocket, ShieldCheck, Sparkles, Users } from 'lucide-react';
+import { ArrowRight, Rocket, ShieldCheck, Sparkles, Users } from 'lucide-react';
+
+// ─────────────────────────────────────────────────────────────────────────────
+// About — "Who we are". Two columns: the message on the left, four numbered
+// commitments on the right.
+//
+// The section is carried by typography and space, not boxes. The only colour
+// is the display heading's gradient, the eyebrow, and whichever row the pointer
+// is on — so the accent always means "this one", never decoration.
+//
+// The rows are not focusable. They perform no action, so giving them tab stops
+// would add four dead stops for a keyboard user; the highlight is a pointer
+// affordance and every row's content is already read in order. The CTA is the
+// section's one interactive element and carries the focus ring.
+//
+// Styling lives in the `.wa-*` block in index.css.
+// ─────────────────────────────────────────────────────────────────────────────
 
 const PILLARS = [
   {
-    icon: Rocket,
-    title: 'Ship fast.',
-    body: 'Daily commits, weekly demos, live staging from day one. No agency theatre.',
+    Icon: Rocket,
+    title: 'Weekly, shippable progress',
+    body: 'Daily commits, weekly demos, and live staging from day one.',
   },
   {
-    icon: ShieldCheck,
-    title: 'Own your code.',
-    body: 'Source code, repos, and infra transfer to your org on full payment. Nothing locked in.',
+    Icon: ShieldCheck,
+    title: 'Full code ownership',
+    body: 'Source, repos, and infra transfer to your org on final payment.',
   },
   {
-    icon: Users,
-    title: 'One direct line.',
-    body: 'You talk to the founder, not a project manager forwarding emails.',
+    Icon: Users,
+    title: 'A direct line to the founder',
+    body: 'You talk to the person building it, not a project manager.',
   },
   {
-    icon: Sparkles,
-    title: 'Built to last.',
-    body: 'TypeScript, Next.js, Supabase — modern foundations that outlive the hype cycle.',
+    Icon: Sparkles,
+    title: 'A stack built to last',
+    body: 'TypeScript, Next.js, and Supabase — foundations that outlive the hype cycle.',
   },
 ];
 
-export function About() {
+/** Row highlighted before the pointer arrives, so the section is never inert. */
+const INITIAL_ACTIVE = 1;
+
+interface Props {
+  onStartProject?: () => void;
+}
+
+export function About({ onStartProject }: Props) {
   const reduced = useReducedMotion();
+  const [active, setActive] = useState(INITIAL_ACTIVE);
+
+  const rise = (delay = 0) =>
+    reduced
+      ? {}
+      : {
+          initial: { opacity: 0, y: 20 },
+          whileInView: { opacity: 1, y: 0 },
+          viewport: { once: true, amount: 0.3 },
+          transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as const, delay },
+        };
 
   return (
     <section
       id="about"
-      className="relative overflow-hidden bg-black py-16 md:py-20"
-      aria-label="About Pureflow Studios"
+      className="wa-section relative overflow-hidden py-[64px] md:py-[100px] lg:py-[140px]"
+      aria-labelledby="about-title"
     >
-      {/* Ambient */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-purple-600/5 rounded-full blur-[130px]" />
-      </div>
+      <span aria-hidden="true" className="wa-glow" />
 
-      <div className="relative max-w-7xl mx-auto px-5 sm:px-6 lg:px-10">
-        {/* Heading */}
-        <motion.div
-          className="mb-12 flex flex-col items-center text-center md:mb-16"
-          initial={reduced ? false : { opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <span className="font-serif italic text-white/95 text-[clamp(1.75rem,3.4vw,3rem)] leading-[1.1] tracking-normal">
-            A small studio.
-          </span>
-          <span
-            className="hero-automation-text mt-1 inline-block leading-none text-[clamp(2.5rem,5.6vw,5rem)]"
-            data-text="BUILT TO SHIP."
-          >
-            BUILT TO SHIP.
-          </span>
-          <p className="mt-6 max-w-2xl text-[15px] leading-relaxed text-white/65 sm:text-base">
-            Pureflow Studios is a Lucknow-based design and engineering studio. We help founders and growing teams replace
-            WhatsApp chaos and spreadsheets with custom software — CRMs, dashboards, AI agents, and web apps that
-            actually move the business forward.
+      <div className="relative z-10 mx-auto grid w-full max-w-[1240px] grid-cols-1 gap-[50px] px-6 md:px-10 lg:grid-cols-[minmax(0,45fr)_minmax(0,55fr)] lg:gap-20 xl:gap-[112px] xl:px-12">
+        {/* ── Left: the message ── */}
+        <motion.div className="wa-col" {...rise()}>
+          <p className="wa-label">Who we are</p>
+
+          <h2 id="about-title" className="mt-5">
+            <span className="hero-automation-text wa-display" data-text="BUILT TO SHIP.">
+              BUILT TO SHIP.
+            </span>
+          </h2>
+
+          <p className="wa-tagline mt-4">A senior team that builds software you actually own.</p>
+
+          <p className="wa-lede mt-6">
+            Pureflow Studios is a Lucknow-based design and engineering studio. We replace WhatsApp
+            chaos and spreadsheets with custom software — CRMs, dashboards, AI agents, and web apps.
           </p>
+
+          {onStartProject && (
+            <button type="button" onClick={onStartProject} className="wa-cta mt-9">
+              Start a project
+              <ArrowRight aria-hidden="true" className="wa-cta__arrow h-4 w-4" />
+            </button>
+          )}
         </motion.div>
 
-        {/* Pillars */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4 lg:gap-6">
-          {PILLARS.map((p, i) => {
-            const Icon = p.icon;
-            return (
-              <motion.div
-                key={p.title}
-                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#08060d] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#ff3f8d]/45"
-                initial={reduced ? false : { opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: i * 0.08 }}
-              >
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg border border-white/85 bg-black text-white shadow-[0_0_24px_-12px_rgba(255,255,255,0.4)]">
-                  <Icon className="h-5 w-5" strokeWidth={1.9} />
-                </div>
-                <h3 className="font-sans text-[1.05rem] font-semibold leading-tight tracking-[-0.01em] text-white">
-                  {p.title}
-                </h3>
-                <p className="mt-2 text-[13.5px] leading-relaxed text-white/60">
-                  {p.body}
-                </p>
-              </motion.div>
-            );
-          })}
-        </div>
+        {/* ── Right: the commitments ── */}
+        <ul className="wa-list" onMouseLeave={() => setActive(INITIAL_ACTIVE)}>
+          {PILLARS.map(({ Icon, title, body }, i) => (
+            <motion.li
+              key={title}
+              className={`wa-item ${i === active ? 'is-active' : ''}`}
+              onMouseEnter={() => setActive(i)}
+              {...rise(reduced ? 0 : i * 0.08)}
+            >
+              <span aria-hidden="true" className="wa-num">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+
+              <Icon aria-hidden="true" className="wa-icon" strokeWidth={1.5} />
+
+              <div className="min-w-0">
+                <h3 className="wa-title">{title}</h3>
+                <p className="wa-body">{body}</p>
+              </div>
+            </motion.li>
+          ))}
+        </ul>
       </div>
     </section>
   );

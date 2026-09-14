@@ -2597,3 +2597,206 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
   .sw-card:hover .sw-cta__arrow,
   .sw-viewall:hover .sw-viewall__arrow { transform: none; }
 }
+
+/* ── Who we are (components/sections/About.tsx) ──────────────────────────────
+   Two columns carried by typography and space. Colour is rationed to three
+   places — the eyebrow, the display heading's gradient, and whichever row the
+   pointer is on — so the accent always reads as "this one" rather than
+   decoration. No card surfaces: the rows are separated by hairlines only. */
+
+.wa-section {
+  --wa-text: #f5f5f5;
+  --wa-secondary: #a1a1aa;
+  --wa-muted: #71717a;
+  --wa-accent: #ff4fa3;
+  --wa-accent-purple: #8b5cf6;
+  --wa-rule: rgba(255, 255, 255, 0.1);
+  --wa-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  background: #050505;
+}
+
+/* A single wash high and centred, fading out well before the copy. */
+.wa-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    60% 42% at 50% 0%,
+    rgba(124, 58, 237, 0.2),
+    transparent 62%
+  );
+}
+
+/* ── Left column ── */
+
+.wa-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--wa-accent);
+}
+
+/* The left column is the heading's measuring stick. Sizing off the viewport
+   wraps "BUILT TO SHIP." onto two lines at some widths, because the heading's
+   `scaleX(0.9)` is visual only — the line box is still the unscaled width,
+   which for this string in Anton is 5.18x the font size. 18.5cqw keeps it on
+   one line in the column at every width, with a vw fallback first for browsers
+   without container queries. */
+.wa-col { container-type: inline-size; }
+
+/* `hero-automation-text` scales on its centre, which pulls a left-aligned
+   heading off the column's edge. Re-anchor it to the left. */
+.wa-display {
+  transform-origin: left center;
+  font-size: clamp(42px, 6.4vw, 86px);
+  font-size: clamp(42px, 18.5cqw, 96px);
+  line-height: 0.92;
+}
+
+.wa-tagline {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(21px, 2.3vw, 30px);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: rgba(245, 245, 245, 0.95);
+}
+
+.wa-lede {
+  max-width: 460px;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--wa-secondary);
+}
+
+@media (min-width: 1024px) {
+  .wa-lede { font-size: 17px; }
+}
+
+.wa-cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--wa-text);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: color 250ms ease;
+}
+
+.wa-cta::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.25);
+  transition: background-color 250ms ease;
+}
+
+.wa-cta:hover { color: var(--wa-accent); }
+.wa-cta:hover::after { background: var(--wa-accent); }
+.wa-cta__arrow { transition: transform 250ms var(--wa-ease); }
+.wa-cta:hover .wa-cta__arrow { transform: translateX(6px); }
+
+.wa-cta:focus-visible {
+  outline: 2px solid rgba(255, 79, 163, 0.7);
+  outline-offset: 5px;
+  border-radius: 3px;
+}
+
+/* ── Right column ── */
+
+.wa-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wa-item {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: start;
+  gap: 14px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--wa-rule);
+  /* `translate`, not `transform`: framer-motion writes an inline transform on
+     this row for the entrance animation and would overwrite the shift. */
+  transition: translate 250ms var(--wa-ease), border-color 250ms ease;
+}
+
+@media (min-width: 640px) {
+  .wa-item { gap: 22px; padding: 24px 0; }
+}
+
+.wa-num {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1.7;
+  color: var(--wa-muted);
+  transition: color 250ms ease;
+}
+
+.wa-icon {
+  height: 21px;
+  width: 21px;
+  flex: none;
+  margin-top: 1px;
+  color: var(--wa-secondary);
+  transition: color 250ms ease, transform 250ms var(--wa-ease);
+}
+
+.wa-title {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: rgba(245, 245, 245, 0.92);
+  transition: color 250ms ease;
+}
+
+@media (min-width: 1024px) {
+  .wa-title { font-size: 18px; }
+}
+
+.wa-body {
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--wa-muted);
+  transition: color 250ms ease;
+}
+
+@media (min-width: 1024px) {
+  .wa-body { font-size: 14.5px; }
+}
+
+/* One highlight at a time — hover moves it, and it rests on the second row. */
+.wa-item.is-active {
+  translate: 4px;
+  border-bottom-color: rgba(255, 79, 163, 0.55);
+}
+
+.wa-item.is-active .wa-num { color: var(--wa-accent); }
+.wa-item.is-active .wa-icon { color: var(--wa-accent); transform: scale(1.06); }
+.wa-item.is-active .wa-title { color: #ffffff; }
+.wa-item.is-active .wa-body { color: var(--wa-secondary); }
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-item,
+  .wa-icon,
+  .wa-cta__arrow { transition: color 250ms ease, border-color 250ms ease; }
+  .wa-item.is-active { translate: none; }
+  .wa-item.is-active .wa-icon { transform: none; }
+  .wa-cta:hover .wa-cta__arrow { transform: none; }
+}

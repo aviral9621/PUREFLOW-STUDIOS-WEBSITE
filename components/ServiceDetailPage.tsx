@@ -256,23 +256,14 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
       <section className="pr-section svc-container svc-section relative z-10">
         <span aria-hidden="true" className="pr-glow" />
 
-        {/* Header: the claim on the left, the span of it on the right. */}
-        <div className="relative z-10 flex items-start justify-between gap-8">
-          <div className="pr-head">
-            <Eyebrow>Our process</Eyebrow>
-            <p className="pr-kicker mt-4">From first call to</p>
-            <h2 className="mt-1">
-              <span className="hero-automation-text pr-display" data-text="LIVE IN 4 WEEKS.">
-                LIVE IN 4 WEEKS.
-              </span>
-            </h2>
-          </div>
-
-          {/* Repeats the heading, so it is decorative to a screen reader. */}
-          <div className="pr-span hidden md:block" aria-hidden="true">
-            <span className="pr-span__num">4</span>
-            <span className="pr-span__unit">Weeks</span>
-          </div>
+        <div className="pr-head relative z-10">
+          <Eyebrow>Our process</Eyebrow>
+          <p className="pr-kicker mt-4">From first call to</p>
+          <h2 className="mt-1">
+            <span className="hero-automation-text pr-display" data-text="LIVE IN 4 WEEKS.">
+              LIVE IN 4 WEEKS.
+            </span>
+          </h2>
         </div>
 
         <ol className="pr-steps">

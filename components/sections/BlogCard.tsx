@@ -43,7 +43,7 @@ export const BlogCard: React.FC<Props> = ({ post, onOpen }) => {
       type="button"
       onClick={() => onOpen(post.slug)}
       aria-label={`${post.title} — read article`}
-      className="gs-card group flex h-full flex-col overflow-hidden rounded-2xl border border-[#1E3A5F] bg-[#081126] text-left"
+      className="gs-card group flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0b0b10] text-left"
     >
       {/* Feature image */}
       <div className="relative aspect-[2/1] w-full overflow-hidden">
@@ -54,7 +54,7 @@ export const BlogCard: React.FC<Props> = ({ post, onOpen }) => {
           decoding="async"
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#081126] via-[#081126]/25 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b10] via-[#0b0b10]/25 to-transparent" />
       </div>
 
       {/* Body */}
@@ -71,18 +71,18 @@ export const BlogCard: React.FC<Props> = ({ post, onOpen }) => {
           {post.category}
         </span>
 
-        <h3 className="mt-3.5 line-clamp-2 h-[2.7em] text-[1.08rem] font-bold leading-[1.35] tracking-[-0.015em] text-[#F5F7FF] sm:text-[1.12rem]">
+        <h3 className="mt-3.5 line-clamp-2 h-[2.7em] text-[1.08rem] font-bold leading-[1.35] tracking-[-0.015em] text-[#F4F2F7] sm:text-[1.12rem]">
           {post.title}
         </h3>
 
         {/* Metadata + arrow, pinned to the bottom so cards stay level */}
         <div className="mt-auto flex items-end justify-between gap-3 pt-5">
-          <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[12px] text-[#64748B]">
+          <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[12px] text-[#96939f]">
             <span className="inline-flex items-center gap-1.5">
               <CalendarDays className="h-3.5 w-3.5" />
               {post.date}
             </span>
-            <span className="h-1 w-1 rounded-full bg-[#64748B]/60" />
+            <span className="h-1 w-1 rounded-full bg-[#96939f]/60" />
             <span className="inline-flex items-center gap-1.5">
               <Clock className="h-3.5 w-3.5" />
               {post.readTime}

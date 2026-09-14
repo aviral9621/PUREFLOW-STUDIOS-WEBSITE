@@ -44,7 +44,7 @@ export function GoodStuff({ onViewChange, onOpenPost }: GoodStuffProps) {
   return (
     <section
       id="good-stuff"
-      className="relative overflow-hidden bg-[#040A1C] py-20 md:py-28"
+      className="relative overflow-hidden bg-black py-20 md:py-28"
       aria-label="Our blog — featured articles"
     >
       {/* Background depth — kept low-opacity so the cards stay the brightest thing */}
@@ -61,7 +61,7 @@ export function GoodStuff({ onViewChange, onOpenPost }: GoodStuffProps) {
             Our Blog
           </span>
 
-          <span className="mt-6 font-serif text-[clamp(1.6rem,3.2vw,2.75rem)] italic leading-[1.1] text-[#F5F7FF]/90">
+          <span className="mt-6 font-serif text-[clamp(1.6rem,3.2vw,2.75rem)] italic leading-[1.1] text-[#F4F2F7]/90">
             Some
           </span>
 
@@ -69,7 +69,7 @@ export function GoodStuff({ onViewChange, onOpenPost }: GoodStuffProps) {
             Good <span className="gs-heading__accent">Stuff.</span>
           </h2>
 
-          <p className="mt-6 max-w-xl text-[14.5px] leading-relaxed text-[#94A3B8] sm:text-base">
+          <p className="mt-6 max-w-xl text-[14.5px] leading-relaxed text-[#96939f] sm:text-base">
             Practical writing on AI, automation, websites and software — what actually
             moves the needle for growing businesses, and what only sounds like it does.
           </p>
@@ -88,7 +88,7 @@ export function GoodStuff({ onViewChange, onOpenPost }: GoodStuffProps) {
                 className={`flex-shrink-0 rounded-full px-5 py-2.5 text-[13px] font-medium transition-all duration-300 ${
                   active
                     ? 'gs-pill-active text-white'
-                    : 'border border-[#1E3A5F] bg-white/[0.02] text-[#94A3B8] hover:border-[#885CF6]/45 hover:text-[#F5F7FF]'
+                    : 'border border-white/10 bg-white/[0.02] text-[#96939f] hover:border-[#885CF6]/45 hover:text-[#F4F2F7]'
                 }`}
               >
                 {f}
@@ -111,7 +111,7 @@ export function GoodStuff({ onViewChange, onOpenPost }: GoodStuffProps) {
           <button
             type="button"
             onClick={() => onViewChange('blog')}
-            className="gs-cta group inline-flex items-center gap-2.5 rounded-full px-7 py-3.5 text-[14px] font-semibold text-[#F5F7FF]"
+            className="gs-cta group inline-flex items-center gap-2.5 rounded-full px-7 py-3.5 text-[14px] font-semibold text-[#F4F2F7]"
           >
             View All Articles
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />

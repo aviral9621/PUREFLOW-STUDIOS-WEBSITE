@@ -1142,7 +1142,7 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
 }
 
 /* ── Blog section — "Some Good Stuff." (components/sections/GoodStuff.tsx) ──
-   Deep navy ground with purple → magenta accents. Gradients are reserved for
+   Black ground with purple → magenta accents. Gradients are reserved for
    the heading accent, the active filter pill, the CTA border and the card
    hover glow; everything else is flat so those four read as emphasis. */
 
@@ -1153,7 +1153,7 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
   letter-spacing: 0;
   transform: scaleX(0.92);
   transform-origin: center;
-  color: #f5f7ff;
+  color: #f4f2f7;
 }
 
 .gs-heading__accent {

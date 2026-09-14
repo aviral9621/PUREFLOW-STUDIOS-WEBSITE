@@ -16,7 +16,7 @@ export const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onViewChange, onOp
   }, []);
 
   return (
-    <main className="relative min-h-[100svh] overflow-hidden bg-[#040A1C] text-white">
+    <main className="relative min-h-[100svh] overflow-hidden bg-black text-white">
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute -top-24 left-1/2 h-[620px] w-[1100px] max-w-full -translate-x-1/2 rounded-full bg-[#885CF6]/[0.10] blur-[150px]" />
       </div>
@@ -24,7 +24,7 @@ export const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onViewChange, onOp
       <div className="relative z-10 mx-auto max-w-7xl px-5 pt-24 pb-24 sm:px-6 sm:pt-28 lg:px-10 lg:pt-32">
         <button
           onClick={() => onViewChange('home')}
-          className="group mb-8 flex items-center gap-2 text-sm text-[#94A3B8] transition-colors hover:text-white sm:mb-10"
+          className="group mb-8 flex items-center gap-2 text-sm text-[#96939f] transition-colors hover:text-white sm:mb-10"
         >
           <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
           Back to home
@@ -32,7 +32,7 @@ export const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onViewChange, onOp
 
         {/* Hero */}
         <div className="flex flex-col items-center text-center">
-          <span className="font-serif text-[clamp(1.6rem,3.2vw,2.75rem)] italic leading-[1.1] text-[#F5F7FF]/90">
+          <span className="font-serif text-[clamp(1.6rem,3.2vw,2.75rem)] italic leading-[1.1] text-[#F4F2F7]/90">
             Some
           </span>
 
@@ -40,7 +40,7 @@ export const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onViewChange, onOp
             Good <span className="gs-heading__accent">Stuff.</span>
           </h1>
 
-          <p className="mt-6 max-w-xl text-[14.5px] leading-relaxed text-[#94A3B8] sm:text-base">
+          <p className="mt-6 max-w-xl text-[14.5px] leading-relaxed text-[#96939f] sm:text-base">
             Field notes on AI, automation, and the boring software that quietly runs
             growing businesses.
           </p>

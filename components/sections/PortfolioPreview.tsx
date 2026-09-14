@@ -1,7 +1,7 @@
 import React from 'react';
 import { LiveCardPreview } from './LiveCardPreview';
 import { Mockup } from '../casestudy/Mockup';
-import type { DeviceKind, PreviewSource } from './ProjectShowcaseCard';
+import type { DeviceKind, PreviewSource } from '../../lib/portfolio';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // PortfolioPreview — renders a project's `PreviewSource` (screenshot, live
@@ -13,8 +13,8 @@ import type { DeviceKind, PreviewSource } from './ProjectShowcaseCard';
 // (`font-size: 1cqw` — see index.css), so the chrome scales with the card the
 // same way the designed mockups do.
 //
-// `PreviewContent` is also used by the older `ProjectShowcaseCard`, which draws
-// its own device frames; it is exported unwrapped for that reason.
+// `PreviewContent` is exported on its own so a caller that supplies its own
+// device frame can reuse the source-to-element mapping.
 // ─────────────────────────────────────────────────────────────────────────────
 
 /** Neutral product-UI skeleton, used when a project has no preview asset yet. */

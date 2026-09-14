@@ -63,7 +63,7 @@ export interface Project {
   /** Optional designed mockup to render as the card thumbnail. */
   cardMockup?: 'ai-dashboard' | 'unskills-crm';
 
-  // ── Showcase-card fields (see `lib/portfolio.ts` → ProjectShowcaseCard) ──
+  // ── Showcase-card fields (see `lib/portfolio.ts` → SelectedWorkCard) ──
   /** Short brand name used as the showcase-card headline ("Quick Hotels"). */
   name?: string;
   /** Product-type label for the showcase-card pill ("Website", "Custom CRM"). */

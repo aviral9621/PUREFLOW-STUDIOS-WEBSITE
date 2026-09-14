@@ -3,10 +3,11 @@ import { ArrowUpRight } from 'lucide-react';
 import { viewToPath } from '../../lib/router';
 import { DESIGNED_PREVIEWS } from './WorkPreviews';
 import { PortfolioPreview } from './PortfolioPreview';
-import type { DeviceKind, PortfolioItem, PreviewSource } from './ProjectShowcaseCard';
+import type { DeviceKind, PortfolioItem, PreviewSource } from '../../lib/portfolio';
 
 // ─────────────────────────────────────────────────────────────────────────────
-// SelectedWorkCard — one project in the "Selected work" grid.
+// SelectedWorkCard — one project card. Used by the homepage "Selected work"
+// grid, the service pages and the /work index, so all three read identically.
 //
 // Reading order is fixed and identical on every card:
 //
@@ -17,6 +18,11 @@ import type { DeviceKind, PortfolioItem, PreviewSource } from './ProjectShowcase
 // tab stop per card, the accessible name is the project name, and the browser's
 // own affordances (middle-click, copy link, open in new tab) all work — while a
 // click anywhere on the card still opens the case study through the SPA router.
+//
+// COLOUR lives in the `.sw-*` block in index.css, never in a Tailwind class
+// here: `text-[var(--token)]` is ambiguous (Tailwind cannot tell a colour from
+// a font-size) and silently compiles to no colour at all. Layout and type scale
+// stay in Tailwind; anything that reads a `--sw-*` token is a CSS class.
 // ─────────────────────────────────────────────────────────────────────────────
 
 export interface SelectedWorkItem {
@@ -39,8 +45,7 @@ export interface SelectedWorkItem {
 }
 
 /** Narrow a `PortfolioItem` (the shape the project data layer produces) to what
- *  this card needs, so the same card renders on the homepage and the service
- *  pages from one source of truth. */
+ *  this card needs, so every grid on the site renders from one source of truth. */
 export function toSelectedWorkItem(item: PortfolioItem): SelectedWorkItem {
   return {
     slug: item.slug,
@@ -82,13 +87,13 @@ export const SelectedWorkCard: React.FC<Props> = ({ item, index, onOpen }) => {
     >
       {/* 1–2 · Category + index */}
       <div className="flex items-center justify-between gap-3">
-        <span className="inline-flex items-center gap-[7px] rounded-full border border-[var(--sw-ghost)] bg-white/[0.03] py-1 pl-2 pr-2.5 text-[11.5px] font-medium leading-[1.45] text-[var(--sw-text-soft)] sm:text-[12px]">
-          <span className="h-1.5 w-1.5 rounded-full bg-[var(--sw-accent)]" aria-hidden="true" />
+        <span className="sw-pill inline-flex items-center gap-[7px] rounded-full border py-1 pl-2 pr-2.5 text-[11.5px] font-medium leading-[1.45] sm:text-[12px]">
+          <span className="sw-pill__dot h-1.5 w-1.5 rounded-full" aria-hidden="true" />
           {category}
         </span>
         <span
           aria-hidden="true"
-          className="font-mono text-[11px] font-medium tracking-[0.08em] text-[var(--sw-accent)]/75"
+          className="sw-num font-mono text-[11px] font-medium tracking-[0.08em]"
         >
           {String(index).padStart(2, '0')}
         </span>
@@ -98,7 +103,7 @@ export const SelectedWorkCard: React.FC<Props> = ({ item, index, onOpen }) => {
           against this box's width, and a shorter box would crop the phone in
           the Quick Hotels composition. The card's max-width above is what keeps
           this from ballooning on a wide single-column screen. */}
-      <div className="sw-stage relative mt-3.5 aspect-[16/9] w-full overflow-hidden rounded-[8px] border border-[var(--sw-ghost)] bg-[#07070c] sm:mt-4 sm:rounded-[10px]">
+      <div className="sw-stage relative mt-3.5 aspect-[16/9] w-full overflow-hidden rounded-[8px] border bg-[#07070c] sm:mt-4 sm:rounded-[10px]">
         <div className="sw-stage__inner absolute inset-0">
           {Designed ? (
             <Designed />
@@ -113,29 +118,18 @@ export const SelectedWorkCard: React.FC<Props> = ({ item, index, onOpen }) => {
       </div>
 
       {/* 4–5 · Name + blurb */}
-      <h3 className="mt-3.5 text-[18px] font-bold leading-[1.2] tracking-[-0.025em] text-[var(--sw-text)] sm:mt-4 sm:text-[20px]">
-        <a
-          href={href}
-          onClick={handleClick}
-          className="sw-card__link rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-[var(--sw-accent)]/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--sw-surface)]"
-        >
+      <h3 className="sw-title mt-3.5 text-[18px] font-bold leading-[1.2] tracking-[-0.025em] sm:mt-4 sm:text-[20px]">
+        <a href={href} onClick={handleClick} className="sw-card__link">
           {name}
         </a>
       </h3>
 
-      <p className="mt-1.5 text-[13.5px] leading-[1.55] text-[var(--sw-muted)] sm:text-[14px]">
-        {description}
-      </p>
+      <p className="sw-desc mt-1.5 text-[13.5px] leading-[1.55] sm:text-[14px]">{description}</p>
 
       {/* 6 · View project */}
       <div className="mt-3.5 flex items-center gap-1.5 pt-0 sm:mt-auto sm:pt-4">
-        <span className="sw-cta relative text-[13px] font-medium text-[var(--sw-text)]">
-          View Project
-        </span>
-        <ArrowUpRight
-          aria-hidden="true"
-          className="sw-cta__arrow h-[13px] w-[13px] text-[var(--sw-text)]"
-        />
+        <span className="sw-cta relative text-[13px] font-medium">View Project</span>
+        <ArrowUpRight aria-hidden="true" className="sw-cta__arrow h-[13px] w-[13px]" />
       </div>
     </article>
   );

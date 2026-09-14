@@ -1,18 +1,41 @@
 import type { Project } from '../hooks/useProjects';
-import type {
-  DeviceKind,
-  PortfolioItem,
-  PreviewSource,
-} from '../components/sections/ProjectShowcaseCard';
+import type { MockupKind } from '../components/casestudy/Mockup';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // The single adapter between the project data layer (`hooks/useProjects` —
 // Supabase rows, structured case studies and the hardcoded seed all normalised
-// into `Project`) and the presentational showcase card.
+// into `Project`) and the cards that present it.
 //
-// The card knows nothing about `Project`; anything that can produce a
+// A card knows nothing about `Project`; anything that can produce a
 // `PortfolioItem` can render one. Keep every "which field wins" decision here.
+// The shape lives here rather than in a card component so that swapping the
+// card does not move the type.
 // ─────────────────────────────────────────────────────────────────────────────
+
+export type DeviceKind = 'browser' | 'phone';
+
+export type PreviewSource =
+  /** A static screenshot / product shot. */
+  | { type: 'image'; src: string; alt?: string }
+  /** The real site, embedded live and scaled to fit (lazy, non-interactive). */
+  | { type: 'live'; src: string }
+  /** A designed in-app mockup, for products with no public URL. */
+  | { type: 'mockup'; kind: MockupKind }
+  /** Nothing supplied — renders a neutral UI skeleton. */
+  | { type: 'placeholder' };
+
+export interface PortfolioItem {
+  id: string;
+  slug: string;
+  /** Pill label. A product type reads best here ("Website", "Custom CRM"). */
+  category: string;
+  /** Short brand name — this is the headline, so keep it to a few words. */
+  name: string;
+  /** One or two lines. Anything longer is clamped rather than left to sprawl. */
+  description: string;
+  device: DeviceKind;
+  preview: PreviewSource;
+}
 
 /** Trim trailing punctuation and the " · Industry" suffix off a client string. */
 function brandFrom(project: Project): string {

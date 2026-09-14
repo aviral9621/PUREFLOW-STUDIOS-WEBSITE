@@ -3,7 +3,7 @@ import { ArrowLeft, Loader2 } from 'lucide-react';
 import { ViewState } from '../types';
 import { useAllProjects } from '../hooks/useProjects';
 import { toPortfolioItems } from '../lib/portfolio';
-import { ProjectShowcaseCard } from './sections/ProjectShowcaseCard';
+import { SelectedWorkCard, toSelectedWorkItem } from './sections/SelectedWorkCard';
 
 interface Props {
   onViewChange: (view: ViewState) => void;
@@ -12,7 +12,12 @@ interface Props {
 
 export const WorkIndexPage: React.FC<Props> = ({ onViewChange, onOpenProject }) => {
   const { projects, loading } = useAllProjects();
-  const items = useMemo(() => toPortfolioItems(projects), [projects]);
+  // Same card as the homepage "Selected work" grid and the service pages —
+  // see `sections/SelectedWorkCard.tsx`.
+  const items = useMemo(
+    () => toPortfolioItems(projects).map(toSelectedWorkItem),
+    [projects]
+  );
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -56,9 +61,14 @@ export const WorkIndexPage: React.FC<Props> = ({ onViewChange, onOpenProject }) 
         ) : projects.length === 0 ? (
           <p className="py-20 text-center text-sm text-white/50">No case studies yet.</p>
         ) : (
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 xl:grid-cols-3 xl:gap-7">
-              {items.map((item) => (
-                <ProjectShowcaseCard key={item.id} item={item} onOpen={onOpenProject} />
+            <div className="mx-auto grid max-w-[1240px] grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 sm:justify-items-stretch sm:gap-5 lg:grid-cols-3 lg:gap-6">
+              {items.map((item, i) => (
+                <SelectedWorkCard
+                  key={item.slug}
+                  item={item}
+                  index={i + 1}
+                  onOpen={onOpenProject}
+                />
               ))}
             </div>
         )}

@@ -68,14 +68,14 @@ export const SelectedWork: React.FC<Props> = ({ onOpenProject, onViewAll, items 
         {/* ── Header ── */}
         <header className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-10">
           <div>
-            <p className="flex items-center gap-3 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-[var(--sw-accent)]">
-              <span aria-hidden="true" className="h-px w-7 bg-[var(--sw-accent)]/55" />
+            <p className="sw-eyebrow flex items-center gap-3 font-mono text-[11px] font-medium uppercase tracking-[0.2em]">
+              <span aria-hidden="true" className="sw-eyebrow__rule h-px w-7" />
               Selected work
             </p>
 
             <h2
               id="selected-work-title"
-              className="mt-6 text-[clamp(2.4rem,4vw,3.2rem)] font-bold leading-[1.06] tracking-[-0.035em] text-[var(--sw-text)]"
+              className="sw-h2 mt-6 text-[clamp(2.4rem,4vw,3.2rem)] font-bold leading-[1.06] tracking-[-0.035em]"
             >
               Real businesses.
               <br />
@@ -87,7 +87,7 @@ export const SelectedWork: React.FC<Props> = ({ onOpenProject, onViewAll, items 
             <a
               href={workHref}
               onClick={handleViewAll}
-              className="sw-viewall group/all inline-flex w-fit items-center gap-1.5 self-start text-[15px] font-medium text-[var(--sw-text)] md:mb-2 md:self-auto"
+              className="sw-viewall group/all inline-flex w-fit items-center gap-1.5 self-start text-[15px] font-medium md:mb-2 md:self-auto"
             >
               View all work
               <ArrowUpRight aria-hidden="true" className="sw-viewall__arrow h-4 w-4" />

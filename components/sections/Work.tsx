@@ -9,7 +9,7 @@ import { SelectedWork } from './SelectedWork';
 // reused elsewhere as-is.
 //
 // The data-driven grid that used to live here now serves the /work index —
-// see `components/WorkIndexPage.tsx` and `./ProjectShowcaseCard.tsx`.
+// see `components/WorkIndexPage.tsx`, which renders the same `SelectedWorkCard`.
 
 interface WorkProps {
   onStartProject: () => void;

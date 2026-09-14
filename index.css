@@ -1846,14 +1846,14 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
    One centred card: availability, the ask, two ways to take it, and what the
    engagement includes. The grid and the glow are the only decoration. */
 
-/* Deliberately tighter than the page's 88/120/152 section rhythm. This card
-   closes the page instead of starting a new topic, so a full section break
-   reads as a hole above it; roughly half of one keeps it attached to what it
-   follows while still giving it air. */
-.cta-section { margin-top: 56px; }
+/* Deliberately much tighter than the page's 88/120/152 section rhythm. This
+   card closes the page instead of starting a new topic, so a section-sized
+   break reads as a hole above it — it should sit close to what it follows,
+   with just enough air that the two do not touch. */
+.cta-section { margin-top: 36px; }
 
-@media (min-width: 768px) { .cta-section { margin-top: 72px; } }
-@media (min-width: 1280px) { .cta-section { margin-top: 88px; } }
+@media (min-width: 768px) { .cta-section { margin-top: 44px; } }
+@media (min-width: 1280px) { .cta-section { margin-top: 52px; } }
 
 .cta-card {
   position: relative;

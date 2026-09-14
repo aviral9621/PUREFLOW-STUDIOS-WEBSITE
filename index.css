@@ -1220,7 +1220,7 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
 .gs-cta {
   position: relative;
   isolation: isolate;
-  background: rgba(8, 17, 38, 0.6);
+  background: rgba(11, 11, 16, 0.6);
   transition: box-shadow 300ms ease, background-color 300ms ease;
 }
 

@@ -381,10 +381,11 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
       </section>
 
       {/* ══ Final CTA ══ */}
-      {/* `svc-section` for the top margin: every other section on this page
-          carries it, and without it the card butts straight up against the end
-          of "Why Pureflow". */}
-      <section className="svc-container svc-section relative z-10 pb-24 sm:pb-32">
+      {/* Its own spacing, not `svc-section`: this card closes the page rather
+          than opening a new topic, so a full section break leaves a hole above
+          it — but with no margin at all it butts against the end of Why
+          Pureflow. See `.cta-section`. */}
+      <section className="cta-section svc-container relative z-10 pb-24 sm:pb-32">
         <div className="cta-card">
           <span aria-hidden="true" className="cta-card__grid" />
           <span aria-hidden="true" className="cta-card__glow" />

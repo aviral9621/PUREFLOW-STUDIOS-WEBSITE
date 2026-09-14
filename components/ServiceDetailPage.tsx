@@ -1,7 +1,8 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { ViewState } from '../types';
-import { PROCESS, SERVICES, WHY, type ServiceKey } from '../lib/services';
+import { PROCESS, PROCESS_DEFAULT_ACTIVE, SERVICES, WHY, type ServiceKey } from '../lib/services';
 import { useAllProjects } from '../hooks/useProjects';
 import { toPortfolioItems } from '../lib/portfolio';
 import { SelectedWorkCard, toSelectedWorkItem } from './sections/SelectedWorkCard';
@@ -42,6 +43,8 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
   onOpenProject,
 }) => {
   const detail = SERVICES[service];
+  const reduced = useReducedMotion();
+  const [activeStep, setActiveStep] = useState(PROCESS_DEFAULT_ACTIVE);
   const isCode = detail.visual === 'code';
   const startProject = () => onStartProjectWithService(detail.prefill);
 
@@ -250,25 +253,88 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
       )}
 
       {/* ══ Process ══ */}
-      <section className="svc-container svc-section relative z-10">
-        <Eyebrow>Our process</Eyebrow>
-        <h2 className="svc-h2 mt-5 max-w-[520px]">
-          A simple process.
-          <br />
-          <em className="svc-accent">A powerful outcome.</em>
-        </h2>
+      <section className="pr-section svc-container svc-section relative z-10">
+        <span aria-hidden="true" className="pr-glow" />
 
-        <ol className="svc-steps mt-16">
-          {PROCESS.map(({ step, title, description, Icon }) => (
-            <li key={step} className="svc-step">
-              <span className="svc-step__icon">
-                <Icon className="h-[18px] w-[18px]" strokeWidth={1.6} />
+        {/* Header: the claim on the left, the span of it on the right. */}
+        <div className="relative z-10 flex items-start justify-between gap-8">
+          <div className="pr-head">
+            <Eyebrow>Our process</Eyebrow>
+            <p className="pr-kicker mt-4">From first call to</p>
+            <h2 className="mt-1">
+              <span className="hero-automation-text pr-display" data-text="LIVE IN 4 WEEKS.">
+                LIVE IN 4 WEEKS.
               </span>
-              <span className="mt-6 block font-mono text-[11px] tracking-[0.18em] text-[#C084FC]">
-                {step}
-              </span>
-              <h3 className="mt-2.5 text-[16.5px] font-medium text-[#F4F2F7]">{title}</h3>
-              <p className="svc-body mt-2 max-w-[240px] text-[14px]">{description}</p>
+            </h2>
+          </div>
+
+          {/* Repeats the heading, so it is decorative to a screen reader. */}
+          <div className="pr-span hidden md:block" aria-hidden="true">
+            <span className="pr-span__num">4</span>
+            <span className="pr-span__unit">Weeks</span>
+          </div>
+        </div>
+
+        <ol className="pr-steps">
+          {PROCESS.map(({ step, week, title, description, tags, Icon }, i) => (
+            <li
+              key={step}
+              className={`pr-step ${i === activeStep ? 'is-active' : ''} ${
+                i < activeStep ? 'is-lit' : ''
+              }`}
+              onMouseEnter={() => setActiveStep(i)}
+            >
+              {/* The rail segment reaching the next node. */}
+              {i < PROCESS.length - 1 && (
+                <motion.span
+                  aria-hidden="true"
+                  className="pr-line"
+                  /* opacity carries the mobile rail, which is vertical and so is
+                     not drawn by scaleX. */
+                  initial={reduced ? false : { scaleX: 0, opacity: 0 }}
+                  whileInView={{ scaleX: 1, opacity: 1 }}
+                  viewport={{ once: true, amount: 0.6 }}
+                  transition={{
+                    duration: 0.7,
+                    ease: [0.22, 1, 0.36, 1],
+                    delay: reduced ? 0 : 0.12 + i * 0.16,
+                  }}
+                />
+              )}
+
+              <motion.span
+                className="pr-node"
+                initial={reduced ? false : { opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, amount: 0.6 }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: reduced ? 0 : i * 0.16 }}
+              >
+                <Icon className="h-[19px] w-[19px]" strokeWidth={1.5} aria-hidden="true" />
+              </motion.span>
+
+              <motion.div
+                className="pr-body"
+                initial={reduced ? false : { opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{
+                  duration: 0.6,
+                  ease: [0.22, 1, 0.36, 1],
+                  delay: reduced ? 0 : 0.1 + i * 0.16,
+                }}
+              >
+                <span className="pr-num">{step}</span>
+                <span className="pr-week">{week}</span>
+                <h3 className="pr-title">{title}</h3>
+                <p className="pr-desc">{description}</p>
+                <ul className="pr-tags">
+                  {tags.map((t) => (
+                    <li key={t} className="pr-tag">
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
             </li>
           ))}
         </ol>

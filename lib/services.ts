@@ -91,13 +91,58 @@ export interface ServiceDetail {
   prefill: string;
 }
 
-/** Shared across every service — the way we work does not change per service. */
-export const PROCESS: { step: string; title: string; description: string; Icon: LucideIcon }[] = [
-  { step: '01', title: 'Discover', description: 'Understand your goals, workflow and constraints.', Icon: Search },
-  { step: '02', title: 'Design', description: 'Map the flows and design the interface around them.', Icon: PenTool },
-  { step: '03', title: 'Build', description: 'Develop, test and iterate with you in the loop.', Icon: Code2 },
-  { step: '04', title: 'Launch', description: 'Deploy, monitor and support what comes next.', Icon: Rocket },
+/**
+ * Shared across every service — the way we work does not change per service.
+ *
+ * `week` and `tags` are what turn this from a list into a timeline: the week
+ * anchors each stage to the four-week claim the homepage makes, and the two
+ * tags are the stage's actual deliverables, so a reader can see what they get
+ * rather than only what we do.
+ */
+export const PROCESS: {
+  step: string;
+  week: string;
+  title: string;
+  description: string;
+  tags: [string, string];
+  Icon: LucideIcon;
+}[] = [
+  {
+    step: '01',
+    week: 'Week 0',
+    title: 'Discover',
+    description: 'Understand your goals, workflow and constraints.',
+    tags: ['Scope doc', 'Fixed price'],
+    Icon: Search,
+  },
+  {
+    step: '02',
+    week: 'Week 1',
+    title: 'Design',
+    description: 'Map the flows and design the interface around them.',
+    tags: ['Figma prototype', 'DB schema'],
+    Icon: PenTool,
+  },
+  {
+    step: '03',
+    week: 'Weeks 2–4',
+    title: 'Build',
+    description: 'Develop, test and iterate with you in the loop.',
+    tags: ['Daily commits', 'Friday demos'],
+    Icon: Code2,
+  },
+  {
+    step: '04',
+    week: 'Week 4+',
+    title: 'Launch',
+    description: 'Deploy, monitor and support what comes next.',
+    tags: ['Repo handover', '30-day support'],
+    Icon: Rocket,
+  },
 ];
+
+/** The stage lit before the pointer arrives, so the rail is never inert. */
+export const PROCESS_DEFAULT_ACTIVE = 2;
 
 /** Why work with us — four claims we can actually stand behind. */
 export const WHY: { title: string; description: string; Icon: LucideIcon }[] = [

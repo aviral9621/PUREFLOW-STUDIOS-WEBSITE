@@ -381,7 +381,10 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
       </section>
 
       {/* ══ Final CTA ══ */}
-      <section className="svc-container relative z-10 pb-24 sm:pb-32">
+      {/* `svc-section` for the top margin: every other section on this page
+          carries it, and without it the card butts straight up against the end
+          of "Why Pureflow". */}
+      <section className="svc-container svc-section relative z-10 pb-24 sm:pb-32">
         <div className="cta-card">
           <span aria-hidden="true" className="cta-card__grid" />
           <span aria-hidden="true" className="cta-card__glow" />

@@ -1,7 +1,6 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { viewToPath } from '../../lib/router';
-import { DESIGNED_PREVIEWS } from './WorkPreviews';
 import { PortfolioPreview } from './PortfolioPreview';
 import type { DeviceKind, PortfolioItem, PreviewSource } from '../../lib/portfolio';
 
@@ -34,10 +33,8 @@ export interface SelectedWorkItem {
   name: string;
   /** One or two lines, no more. */
   description: string;
-  /**
-   * Fallback preview for a project with no designed mockup. Ignored when the
-   * slug has an entry in `DESIGNED_PREVIEWS`.
-   */
+  /** The project's real preview: a live embed of the site, a screenshot of
+   *  the product, or a designed mockup where neither exists. */
   preview?: PreviewSource;
   device?: DeviceKind;
   /** Marks the one card that carries the purple emphasis. */
@@ -67,7 +64,6 @@ interface Props {
 export const SelectedWorkCard: React.FC<Props> = ({ item, index, onOpen }) => {
   const { slug, category, name, description, preview, device, featured } = item;
   const href = viewToPath('work-post', slug);
-  const Designed = DESIGNED_PREVIEWS[slug];
 
   // Let the browser handle modified clicks (new tab / new window) natively;
   // only a plain left click is taken over by the SPA router.
@@ -99,21 +95,17 @@ export const SelectedWorkCard: React.FC<Props> = ({ item, index, onOpen }) => {
         </span>
       </div>
 
-      {/* 3 · Product preview — 16:9 is the floor: the mockups are laid out
-          against this box's width, and a shorter box would crop the phone in
-          the Quick Hotels composition. The card's max-width above is what keeps
+      {/* 3 · Product preview — 16:9 keeps the card compact; the preview shells
+          in `PortfolioPreview` are sized against this box, and a shorter box
+          would crop the phone frame. The card's max-width above is what keeps
           this from ballooning on a wide single-column screen. */}
       <div className="sw-stage relative mt-3.5 aspect-[16/9] w-full overflow-hidden rounded-[8px] border bg-[#07070c] sm:mt-4 sm:rounded-[10px]">
         <div className="sw-stage__inner absolute inset-0">
-          {Designed ? (
-            <Designed />
-          ) : (
-            <PortfolioPreview
-              preview={preview ?? { type: 'placeholder' }}
-              name={name}
-              device={device ?? 'browser'}
-            />
-          )}
+          <PortfolioPreview
+            preview={preview ?? { type: 'placeholder' }}
+            name={name}
+            device={device ?? 'browser'}
+          />
         </div>
       </div>
 

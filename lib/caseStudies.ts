@@ -111,7 +111,9 @@ export const CASE_STUDIES: CaseStudy[] = [
       type: 'Website + PMS',
       blurb:
         'A mobile-first booking site and a custom PMS on one backend.',
-      device: 'phone',
+      // Browser, not phone: the card embeds the real site, and the desktop
+      // hero fills the thumbnail where a phone frame leaves it mostly empty.
+      device: 'browser',
       year: '2026',
       from: 'from-fuchsia-950/70',
       to: 'to-purple-950/50',
@@ -360,6 +362,10 @@ export const CASE_STUDIES: CaseStudy[] = [
       year: '2025',
       from: 'from-indigo-950/70',
       to: 'to-fuchsia-950/50',
+      // The real dashboard screenshot. `image` beats `mockup` in
+      // `lib/portfolio.ts` → previewFrom, so the card shows the product; the
+      // mockup stays as the case-study showcase, where there is no screenshot.
+      image: '/unskill-crm-dash.webp',
       mockup: 'unskills-crm',
     },
 
@@ -497,7 +503,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       year: '2025',
       from: 'from-fuchsia-950/70',
       to: 'to-purple-950/50',
-      image: '/quickhotel%20crm.png',
+      image: '/quickhotel-crm.webp',
     },
     snapshot: { client: 'Retail Brand', industry: 'E-commerce', services: 'Web Dev · Payments · POS', platforms: 'Web + POS', timeline: '7 weeks', stack: 'Next.js · Stripe · Tailwind' },
     challenge:

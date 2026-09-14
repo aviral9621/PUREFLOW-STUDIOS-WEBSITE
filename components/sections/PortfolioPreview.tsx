@@ -6,7 +6,7 @@ import type { DeviceKind, PreviewSource } from '../../lib/portfolio';
 // ─────────────────────────────────────────────────────────────────────────────
 // PortfolioPreview — renders a project's `PreviewSource` (screenshot, live
 // embed, designed mockup, or nothing) for any project that has no purpose-built
-// mockup in `WorkPreviews.tsx`.
+// mockup of its own.
 //
 // Two shells, picked by device: a browser window that fills the whole preview
 // box, or a phone centred in it. Sizes are in `em` against `.sw-ui`

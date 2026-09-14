@@ -1,42 +1,26 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ArrowUpRight } from 'lucide-react';
-import { SelectedWorkCard, type SelectedWorkItem } from './SelectedWorkCard';
+import { SelectedWorkCard, toSelectedWorkItem, type SelectedWorkItem } from './SelectedWorkCard';
+import { useAllProjects } from '../../hooks/useProjects';
+import { toPortfolioItems } from '../../lib/portfolio';
 import { viewToPath } from '../../lib/router';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // SelectedWork — the homepage portfolio section: three curated products, each
-// with a designed preview of the real interface, above a link into the full
-// /work listing.
+// showing the real interface, above a link into the full /work listing.
 //
-// The list below is the section's single source of truth. To change what the
-// homepage shows, reorder or swap an entry — `slug` must match a case study in
-// `lib/caseStudies.ts` so the card links somewhere real, and exactly one entry
-// should carry `featured` (it gets the purple emphasis and anchors the row).
+// FEATURED is the only thing curated here: the slugs, and which one carries the
+// purple emphasis. Everything else — name, category, blurb and the preview
+// itself — comes from `lib/caseStudies.ts` through the same adapter the /work
+// index and the service pages use, so a card can never drift from the case
+// study it links to, and the preview is whatever real asset that project has
+// (a live embed of the site, or a screenshot of the product).
 //
 // Styling lives in the `.sw-*` block in index.css.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const PROJECTS: SelectedWorkItem[] = [
-  {
-    slug: 'quick-hotels',
-    category: 'Website + PMS',
-    name: 'Quick Hotels',
-    description: 'A mobile-first booking site and a custom PMS on one backend.',
-  },
-  {
-    slug: 'unskills-computer-education-crm',
-    category: 'Custom CRM',
-    name: 'UnSkills CRM',
-    description: 'Leads, admissions, fees and eight branches in one live dashboard.',
-    featured: true,
-  },
-  {
-    slug: 'ecommerce-retail-platform',
-    category: 'SaaS Dashboard',
-    name: 'Quick Hotels CRM',
-    description: 'Bookings, leads, occupancy and revenue in one dashboard.',
-  },
-];
+const FEATURED = ['quick-hotels', 'unskills-computer-education-crm', 'ecommerce-retail-platform'];
+const FEATURED_ACCENT = 'unskills-computer-education-crm';
 
 interface Props {
   onOpenProject: (slug: string) => void;
@@ -46,14 +30,29 @@ interface Props {
 }
 
 export const SelectedWork: React.FC<Props> = ({ onOpenProject, onViewAll, items }) => {
-  const projects = items ?? PROJECTS;
+  const { projects } = useAllProjects();
   const workHref = viewToPath('work');
+
+  const curated = useMemo(() => {
+    const bySlug = new Map(projects.map((p) => [p.slug, p]));
+    const picked = FEATURED.map((slug) => bySlug.get(slug)).filter(
+      (p): p is NonNullable<typeof p> => !!p
+    );
+    return toPortfolioItems(picked).map((item) => ({
+      ...toSelectedWorkItem(item),
+      featured: item.slug === FEATURED_ACCENT,
+    }));
+  }, [projects]);
+
+  const shown = items ?? curated;
 
   const handleViewAll = (e: React.MouseEvent) => {
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     e.preventDefault();
     onViewAll?.();
   };
+
+  if (shown.length === 0) return null;
 
   return (
     <section
@@ -99,7 +98,7 @@ export const SelectedWork: React.FC<Props> = ({ onOpenProject, onViewAll, items 
         {/* Single column centres its capped-width cards; from sm up the cards
             fill their track as normal. */}
         <div className="mt-10 grid grid-cols-1 justify-items-center gap-4 sm:mt-[60px] sm:grid-cols-2 sm:justify-items-stretch sm:gap-5 lg:mt-[72px] lg:grid-cols-3 lg:gap-6">
-          {projects.map((project, i) => (
+          {shown.map((project, i) => (
             <SelectedWorkCard
               key={project.slug}
               item={project}

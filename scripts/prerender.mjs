@@ -67,6 +67,8 @@ const PAGES = [
 
   { path: '/start-project', priority: '0.4', title: `Start a Project — ${SITE}`,
     description: 'Tell us what you’re building. Six quick questions and we’ll come back with a fixed-price proposal in 48 hours.' },
+  { path: '/start', priority: '0.4', title: `Get a Free Consultation — ${SITE}`,
+    description: 'Tell us about your business in a minute. Our team calls you back within 24 hours with the right software, website or app plan.' },
   { path: '/book-call', priority: '0.4', title: `Book a Call — ${SITE}`,
     description: 'Pick a date and time for a free 15- or 30-minute call with the Pureflow Studios team.' },
   { path: '/privacy', priority: '0.2', title: `Privacy Policy — ${SITE}`,

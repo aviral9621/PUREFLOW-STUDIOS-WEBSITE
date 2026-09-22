@@ -22,6 +22,7 @@ const STATIC: Array<[ViewState, string]> = [
   ['automation-video', '/automation'],
   ['start-project', '/start-project'],
   ['book-call', '/book-call'],
+  ['start', '/start'],
   ['privacy', '/privacy'],
   ['terms', '/terms'],
   ['cookies', '/cookies'],

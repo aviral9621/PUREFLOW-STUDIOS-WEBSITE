@@ -24,6 +24,7 @@ export type ViewState =
   | 'blog-post'
   | 'start-project'
   | 'book-call'
+  | 'start'
   | 'work'
   | 'work-post'
   | 'about'

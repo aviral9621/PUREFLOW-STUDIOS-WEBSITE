@@ -125,6 +125,11 @@ export const META: Record<ViewState, Meta> = {
     description:
       'Tell us what you’re building. Six quick questions and we’ll come back with a fixed-price proposal in 48 hours.',
   },
+  start: {
+    title: `Get a Free Consultation — ${SITE}`,
+    description:
+      'Tell us about your business in a minute. Our team calls you back within 24 hours with the right software, website or app plan.',
+  },
   'book-call': {
     title: `Book a Call — ${SITE}`,
     description:

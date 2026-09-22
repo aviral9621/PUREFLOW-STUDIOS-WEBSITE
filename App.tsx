@@ -90,6 +90,9 @@ const BlogIndexPage = lazy(() =>
 const BlogPostPage = lazy(() =>
   import('./components/BlogPostPage').then((module) => ({ default: module.BlogPostPage }))
 );
+const StartPage = lazy(() =>
+  import('./components/StartPage').then((module) => ({ default: module.StartPage }))
+);
 const StartProjectPage = lazy(() =>
   import('./components/StartProjectPage').then((module) => ({ default: module.StartProjectPage }))
 );
@@ -319,7 +322,7 @@ const AppContent: React.FC = () => {
 
   // Form views render a distraction-free shell: minimal navbar (logo only) and
   // no footer. Keeps the user focused on completing the intake / booking.
-  const isFormView = currentView === 'start-project' || currentView === 'book-call';
+  const isFormView = currentView === 'start-project' || currentView === 'book-call' || currentView === 'start';
 
   // Footer is also hidden on the deep "detail" pages that have their own bottom
   // CTA (service detail, work post, blog post) — avoids a redundant second
@@ -600,6 +603,12 @@ const AppContent: React.FC = () => {
               prefillService={prefillService}
               onPrefillConsumed={() => setPrefillService(null)}
             />
+          </Suspense>
+        )}
+
+        {currentView === 'start' && (
+          <Suspense fallback={<PageFallback />}>
+            <StartPage onViewChange={navigateTo} />
           </Suspense>
         )}
 

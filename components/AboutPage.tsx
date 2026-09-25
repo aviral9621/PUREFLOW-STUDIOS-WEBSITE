@@ -25,6 +25,31 @@ const STATS: { value: string; label: string }[] = [
   { value: '10',   label: 'People & growing' },
 ];
 
+const LEADERSHIP: { name: string; initials: string; role: string; photo?: string; photoPosition?: string; bio: string }[] = [
+  {
+    name: 'Aviral Singh',
+    initials: 'AS',
+    role: 'Founder & CEO',
+    photo: '/founder pureflow.jpeg',
+    bio: 'Aviral founded PureFlow Studios and leads the company’s vision, strategy, and technical architecture. He works closely with clients in India, the US, the UK, and Australia to design custom CRMs, web and mobile apps, automation systems, and SaaS products that solve real business problems.',
+  },
+  {
+    name: 'Mayank Chakrawarti',
+    initials: 'MC',
+    role: 'Chief Operating Officer (COO)',
+    photo: '/mayank.webp',
+    photoPosition: '68% 50%',
+    bio: 'Mayank runs PureFlow’s day-to-day operations and leads the sales team. He makes sure projects, people, and processes move smoothly, so every client gets a reliable experience from the first conversation to final delivery.',
+  },
+  {
+    name: 'Tayyaba',
+    initials: 'T',
+    role: 'Chief Delivery Officer (CDO) · Founding Team Member',
+    photo: '/tayyaba.webp',
+    bio: 'Part of PureFlow since day one, Tayyaba leads project delivery and client relationships. She builds websites, works directly with clients to understand their needs, and makes sure every project is delivered to the standard PureFlow is known for.',
+  },
+];
+
 const SERVICES: { icon: React.ElementType; title: string; sub: string }[] = [
   { icon: Brain,      title: 'Custom software & CRMs',     sub: 'Built for your business, not a template.' },
   { icon: Globe2,     title: 'Websites that convert',      sub: 'Loads fast. Reads clean. Sells more.' },
@@ -105,85 +130,76 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onViewChange, onStartProje
           ))}
         </motion.div>
 
-        {/* ── Story: founder image + narrative ── */}
-        <div className="mt-16 grid grid-cols-1 items-start gap-8 sm:mt-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] lg:gap-12">
-          {/* Image */}
-          <motion.div
-            initial={reduced ? false : { opacity: 0, scale: 0.96, y: 20 }}
-            whileInView={{ opacity: 1, scale: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            className="relative mx-auto w-full max-w-[420px] lg:sticky lg:top-28"
-          >
-            {/* gradient halo */}
-            <div
-              className="pointer-events-none absolute -inset-6 rounded-[2.2rem] opacity-70"
-              style={{
-                background:
-                  'radial-gradient(closest-side, rgba(255,47,134,0.35) 0%, rgba(164,82,255,0.18) 45%, transparent 75%)',
-                filter: 'blur(28px)',
-              }}
-              aria-hidden="true"
-            />
-            <div className="relative overflow-hidden rounded-[1.8rem] border border-white/15 bg-black shadow-[0_30px_80px_-30px_rgba(255,47,134,0.45)]">
-              <img
-                src="/founder pureflow.jpeg"
-                alt="Aviral Singh, founder of Pureflow Studios"
-                className="block aspect-[4/5] w-full object-cover"
-                loading="eager"
-              />
-              {/* bottom gradient + name plate */}
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/70 to-transparent pb-4 pt-12 px-5">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#ff7eb2]">
-                  Founder · CEO
+        {/* ── Leadership ── */}
+        <motion.div
+          initial={reduced ? false : { opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-16 sm:mt-20"
+        >
+          <div className="flex flex-col items-center text-center">
+            <span className="font-serif italic text-white/95 text-[clamp(1.5rem,3vw,2.5rem)] leading-[1.1]">
+              The people
+            </span>
+            <span
+              className="hero-automation-text mt-1 inline-block leading-none text-[clamp(2.25rem,5vw,4.5rem)]"
+              data-text="RUNNING IT."
+            >
+              RUNNING IT.
+            </span>
+          </div>
+          <div className="mt-9 grid grid-cols-1 gap-5 md:grid-cols-3 lg:gap-6">
+            {LEADERSHIP.map((p, i) => (
+              <motion.div
+                key={p.name}
+                initial={reduced ? false : { opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay: i * 0.08 }}
+                className="flex h-full flex-col overflow-hidden rounded-[1.6rem] border border-white/10 bg-[#08060d] transition-colors duration-300 hover:border-[#ff3f8d]/45"
+              >
+                {/* Photo panel: same 4:5 frame on every card */}
+                <div className="relative aspect-[4/5] w-full overflow-hidden bg-black">
+                  {p.photo ? (
+                    <img
+                      src={p.photo}
+                      alt={`${p.name}, ${p.role} of Pureflow Studios`}
+                      className="absolute inset-0 h-full w-full object-cover"
+                      style={p.photoPosition ? { objectPosition: p.photoPosition } : undefined}
+                      loading="eager"
+                    />
+                  ) : (
+                    <div
+                      className="absolute inset-0 flex items-center justify-center"
+                      style={{
+                        background:
+                          'radial-gradient(closest-side at 50% 42%, rgba(255,47,134,0.38) 0%, rgba(164,82,255,0.2) 50%, transparent 80%), #07050b',
+                      }}
+                      aria-hidden="true"
+                    >
+                      <span className="font-display text-[5.5rem] font-bold leading-none tracking-tight text-white/90">
+                        {p.initials}
+                      </span>
+                    </div>
+                  )}
+                  {/* bottom gradient + name plate */}
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/70 to-transparent px-5 pb-4 pt-14">
+                    <p className="text-[10px] font-semibold uppercase leading-snug tracking-[0.2em] text-[#ff7eb2]">
+                      {p.role}
+                    </p>
+                    <h3 className="mt-1 font-sans text-[1.3rem] font-semibold leading-tight tracking-[-0.015em] text-white sm:text-[1.45rem]">
+                      {p.name}
+                    </h3>
+                  </div>
+                </div>
+                <p className="flex-1 p-5 text-[13.5px] leading-relaxed text-white/65 sm:p-6 sm:text-[14px]">
+                  {p.bio}
                 </p>
-                <p className="mt-1 font-sans text-[1.3rem] font-semibold leading-tight tracking-[-0.015em] text-white sm:text-[1.5rem]">
-                  Aviral Singh
-                </p>
-                <p className="text-[12px] text-white/60">Pureflow Studios · Est. 2022 · Lucknow, India</p>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Narrative */}
-          <motion.div
-            initial={reduced ? false : { opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-            className="space-y-7"
-          >
-            <div>
-              <p className="gradient-flow-text text-[10px] font-bold uppercase tracking-[0.22em]">
-                The story
-              </p>
-              <h2 className="mt-3 font-sans text-[1.75rem] font-bold leading-[1.1] tracking-[-0.015em] text-white sm:text-[2.1rem] md:text-[2.4rem]">
-                One client. One referral. Repeat.
-              </h2>
-            </div>
-
-            <p className="text-[15.5px] leading-[1.75] text-white/75 sm:text-base sm:leading-[1.8]">
-              Pureflow Studios didn’t start with a pitch deck. It started with one client, one
-              product, one week of relentless work. They liked it. They referred us. From two
-              clients we became five. Then a team.
-            </p>
-
-            <p className="text-[15.5px] leading-[1.75] text-white/75 sm:text-base sm:leading-[1.8]">
-              Since then we’ve grown to ten people. Designers, engineers, AI tinkerers. Every hire
-              shipped a real product in their first two weeks. No bench. No theatre.
-            </p>
-
-            <p className="text-[15.5px] leading-[1.75] text-white/75 sm:text-base sm:leading-[1.8]">
-              The thing that got us here is the same thing we ship today: quality, on time, built
-              like we own it. That’s why most of our clients come from another client.
-            </p>
-
-            {/* Pull-quote */}
-            <blockquote className="relative border-l-2 border-[#ff3f8d] bg-white/[0.02] px-5 py-4 font-sans text-[16px] italic leading-[1.6] text-white sm:text-[18px]">
-              We’re young. We move fast. And we don’t fake polish.
-            </blockquote>
-          </motion.div>
-        </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
 
         {/* ── What we ship ── */}
         <motion.div

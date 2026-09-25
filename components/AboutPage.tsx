@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import {
   ArrowRight,
@@ -149,7 +149,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onViewChange, onStartProje
               RUNNING IT.
             </span>
           </div>
-          <div className="mt-9 grid grid-cols-1 gap-5 md:grid-cols-3 lg:gap-6">
+          <div className="mx-auto mt-9 grid max-w-[420px] grid-cols-1 gap-5 lg:max-w-none lg:grid-cols-3 lg:gap-6">
             {LEADERSHIP.map((p, i) => (
               <motion.div
                 key={p.name}
@@ -157,45 +157,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onViewChange, onStartProje
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay: i * 0.08 }}
-                className="flex h-full flex-col overflow-hidden rounded-[1.6rem] border border-white/10 bg-[#08060d] transition-colors duration-300 hover:border-[#ff3f8d]/45"
               >
-                {/* Photo panel: same 4:5 frame on every card */}
-                <div className="relative aspect-[4/5] w-full overflow-hidden bg-black">
-                  {p.photo ? (
-                    <img
-                      src={p.photo}
-                      alt={`${p.name}, ${p.role} of Pureflow Studios`}
-                      className="absolute inset-0 h-full w-full object-cover"
-                      style={p.photoPosition ? { objectPosition: p.photoPosition } : undefined}
-                      loading="eager"
-                    />
-                  ) : (
-                    <div
-                      className="absolute inset-0 flex items-center justify-center"
-                      style={{
-                        background:
-                          'radial-gradient(closest-side at 50% 42%, rgba(255,47,134,0.38) 0%, rgba(164,82,255,0.2) 50%, transparent 80%), #07050b',
-                      }}
-                      aria-hidden="true"
-                    >
-                      <span className="font-display text-[5.5rem] font-bold leading-none tracking-tight text-white/90">
-                        {p.initials}
-                      </span>
-                    </div>
-                  )}
-                  {/* bottom gradient + name plate */}
-                  <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/70 to-transparent px-5 pb-4 pt-14">
-                    <p className="text-[10px] font-semibold uppercase leading-snug tracking-[0.2em] text-[#ff7eb2]">
-                      {p.role}
-                    </p>
-                    <h3 className="mt-1 font-sans text-[1.3rem] font-semibold leading-tight tracking-[-0.015em] text-white sm:text-[1.45rem]">
-                      {p.name}
-                    </h3>
-                  </div>
-                </div>
-                <p className="flex-1 p-5 text-[13.5px] leading-relaxed text-white/65 sm:p-6 sm:text-[14px]">
-                  {p.bio}
-                </p>
+                <LeaderCard person={p} />
               </motion.div>
             ))}
           </div>
@@ -338,6 +301,96 @@ function PhilosophyCard({
         {title}
       </h3>
       <p className="mt-1.5 text-[13px] leading-relaxed text-white/55 sm:text-[13.5px]">{body}</p>
+    </div>
+  );
+}
+
+// Flip card: photo on the front, bio on the back. Hover flips it on
+// devices with a mouse; tap (or Enter/Space) toggles it everywhere else.
+// The rotating layer ignores the pointer so hover is tracked on the flat
+// outer box: otherwise the card's projected edge swings in and out from
+// under a cursor parked near its border and it jitters mid-flip.
+function LeaderCard({ person: p }: { person: (typeof LEADERSHIP)[number] }) {
+  const [flipped, setFlipped] = useState(false);
+  const toggle = () => setFlipped((f) => !f);
+
+  return (
+    <div
+      role="button"
+      tabIndex={0}
+      aria-pressed={flipped}
+      aria-label={`${p.name}, ${p.role}. ${flipped ? 'Show photo' : 'Read bio'}`}
+      onClick={toggle}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggle();
+        }
+      }}
+      onMouseLeave={() => setFlipped(false)}
+      className="group relative aspect-[4/5] w-full cursor-pointer rounded-[1.6rem] outline-none perspective-[1600px] focus-visible:ring-2 focus-visible:ring-[#ff3f8d]/70 focus-visible:ring-offset-4 focus-visible:ring-offset-black"
+    >
+      <div
+        className={`pointer-events-none relative h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] transform-3d group-hover:rotate-y-180 motion-reduce:duration-0 ${
+          flipped ? 'rotate-y-180' : ''
+        }`}
+      >
+        {/* Front: photo + name plate */}
+        <div className="absolute inset-0 overflow-hidden rounded-[1.6rem] border border-white/10 bg-black backface-hidden">
+          {p.photo ? (
+            <img
+              src={p.photo}
+              alt={`${p.name}, ${p.role} of Pureflow Studios`}
+              className="absolute inset-0 h-full w-full object-cover"
+              style={p.photoPosition ? { objectPosition: p.photoPosition } : undefined}
+              loading="eager"
+            />
+          ) : (
+            <div
+              className="absolute inset-0 flex items-center justify-center"
+              style={{
+                background:
+                  'radial-gradient(closest-side at 50% 42%, rgba(255,47,134,0.38) 0%, rgba(164,82,255,0.2) 50%, transparent 80%), #07050b',
+              }}
+              aria-hidden="true"
+            >
+              <span className="font-display text-[5.5rem] font-bold leading-none tracking-tight text-white/90">
+                {p.initials}
+              </span>
+            </div>
+          )}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/70 to-transparent px-5 pb-4 pt-14">
+            <p className="text-[10px] font-semibold uppercase leading-snug tracking-[0.2em] text-[#ff7eb2]">
+              {p.role}
+            </p>
+            <h3 className="mt-1 font-sans text-[1.3rem] font-semibold leading-tight tracking-[-0.015em] text-white sm:text-[1.45rem]">
+              {p.name}
+            </h3>
+          </div>
+        </div>
+
+        {/* Back: bio */}
+        <div className="absolute inset-0 flex flex-col justify-center overflow-hidden rounded-[1.6rem] border border-[#ff3f8d]/35 bg-[#08060d] p-6 rotate-y-180 sm:p-7 backface-hidden">
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                'radial-gradient(ellipse at 0% 0%, rgba(255,32,160,0.16) 0%, transparent 55%), radial-gradient(ellipse at 100% 100%, rgba(164,82,255,0.16) 0%, transparent 55%)',
+            }}
+            aria-hidden="true"
+          />
+          <div className="relative">
+            <p className="text-[10px] font-semibold uppercase leading-snug tracking-[0.2em] text-[#ff7eb2]">
+              {p.role}
+            </p>
+            <p className="mt-1 font-sans text-[1.3rem] font-semibold leading-tight tracking-[-0.015em] text-white sm:text-[1.45rem]">
+              {p.name}
+            </p>
+            <div className="mt-4 h-px w-12 bg-gradient-to-r from-[#ff2f86] to-[#a855f7]" />
+          </div>
+          <p className="relative mt-4 text-[13.5px] leading-[1.7] text-white/70 sm:text-[14px]">{p.bio}</p>
+        </div>
+      </div>
     </div>
   );
 }

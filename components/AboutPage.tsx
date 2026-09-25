@@ -44,7 +44,7 @@ const LEADERSHIP: { name: string; initials: string; role: string; photo?: string
   {
     name: 'Tayyaba',
     initials: 'T',
-    role: 'Chief Delivery Officer (CDO) · Founding Team Member',
+    role: 'Chief Delivery Officer (CDO)',
     photo: '/tayyaba.webp',
     bio: 'Part of PureFlow since day one, Tayyaba leads project delivery and client relationships. She builds websites, works directly with clients to understand their needs, and makes sure every project is delivered to the standard PureFlow is known for.',
   },

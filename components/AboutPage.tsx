@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import React, { useCallback, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from 'framer-motion';
 import {
   ArrowRight,
   Brain,
@@ -308,28 +309,19 @@ function useMediaQuery(query: string) {
 }
 
 const EASE = [0.16, 1, 0.3, 1] as const;
+const MORPH = { duration: 0.55, ease: EASE };
 
 // Leadership cards.
 //   lg and up: three equal cards in one row; hover flips a card to its bio.
-//   below lg:  Aviral full width on top, Mayank and Tayyaba half width beneath
-//              him, left and right. Tapping Mayank or Tayyaba lines all three
-//              up in one row with the tapped person's bio underneath; tapping
-//              outside the section (or the same card again) puts them back.
+//   below lg:  Aviral full width on top (tap flips him to his bio), Mayank and
+//              Tayyaba half width beneath him. Tapping either one grows their
+//              card into a pop-up with their bio over a blurred page; tapping
+//              the pop-up shrinks it back into the card.
 function TeamDeck({ reduced }: { reduced: boolean }) {
   const isDesktop = useMediaQuery('(min-width: 1024px)');
-  const [lined, setLined] = useState(false);
-  const [active, setActive] = useState(0);
-  const deckRef = useRef<HTMLDivElement>(null);
-
-  // Tap anywhere outside the section to send the cards back.
-  useEffect(() => {
-    if (!lined) return;
-    const onDown = (e: PointerEvent) => {
-      if (!deckRef.current?.contains(e.target as Node)) setLined(false);
-    };
-    document.addEventListener('pointerdown', onDown);
-    return () => document.removeEventListener('pointerdown', onDown);
-  }, [lined]);
+  const [aviralFlipped, setAviralFlipped] = useState(false);
+  const [open, setOpen] = useState<number | null>(null);
+  const close = useCallback(() => setOpen(null), []);
 
   if (isDesktop) {
     return (
@@ -349,140 +341,218 @@ function TeamDeck({ reduced }: { reduced: boolean }) {
     );
   }
 
-  const layoutTransition = reduced ? { duration: 0 } : { duration: 0.6, ease: EASE };
-  const person = LEADERSHIP[active];
+  const [aviral, ...rest] = LEADERSHIP;
 
   return (
-    <div ref={deckRef} className="mx-auto mt-9 max-w-[420px]">
-      <div className={`grid gap-3 ${lined ? 'grid-cols-3' : 'grid-cols-2'}`}>
-        {LEADERSHIP.map((p, i) => {
-          const isAviral = i === 0;
-          // Lined up, Aviral takes the middle: Mayank · Aviral · Tayyaba.
-          const order = lined ? (isAviral ? 2 : i === 1 ? 1 : 3) : i + 1;
-          const onActivate = lined
-            ? () => (i === active ? setLined(false) : setActive(i))
-            : isAviral
-              ? undefined // full-width card: tap flips it, as before
-              : () => {
-                  setActive(i);
-                  setLined(true);
-                };
-
+    <LayoutGroup id="team">
+      <div className="mx-auto mt-9 grid max-w-[420px] grid-cols-2 gap-3">
+        <div className="col-span-2">
+          <LeaderCard
+            person={aviral}
+            flipped={aviralFlipped}
+            onToggle={() => setAviralFlipped((f) => !f)}
+          />
+        </div>
+        {rest.map((p, j) => {
+          const i = j + 1;
           return (
-            <motion.div
-              key={p.name}
-              layout
-              transition={layoutTransition}
-              className={!lined && isAviral ? 'col-span-2' : ''}
-              style={{ order }}
-            >
-              <LeaderCard
-                person={p}
-                size={lined ? 'mini' : isAviral ? 'full' : 'half'}
-                canFlip={!lined && isAviral}
-                selected={lined && i === active}
-                onActivate={onActivate}
-              />
-            </motion.div>
+            <div key={p.name} className="aspect-[4/5]">
+              {/* While its pop-up is open the card is lifted out of the grid;
+                  the empty cell keeps the layout from shifting. */}
+              {open !== i && (
+                <HalfCard
+                  person={p}
+                  reduced={reduced}
+                  onOpen={() => {
+                    setAviralFlipped(false);
+                    setOpen(i);
+                  }}
+                />
+              )}
+            </div>
           );
         })}
       </div>
 
-      <AnimatePresence mode="wait">
-        {lined && (
-          <motion.div
-            key={person.name}
-            initial={reduced ? false : { opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduced ? undefined : { opacity: 0, y: 8 }}
-            transition={{ duration: 0.35, ease: EASE }}
-            className="relative mt-4 overflow-hidden rounded-2xl border border-[#ff3f8d]/35 bg-[#08060d] p-5"
-            aria-live="polite"
-          >
-            <div
-              className="pointer-events-none absolute inset-0"
-              style={{ background: BACK_GLOW }}
-              aria-hidden="true"
-            />
-            <div className="relative">
-              <p className="text-[10px] font-semibold uppercase leading-snug tracking-[0.2em] text-[#ff7eb2]">
-                {person.role}
-              </p>
-              <p className="mt-1 font-sans text-[1.25rem] font-semibold leading-tight tracking-[-0.015em] text-white">
-                {person.name}
-              </p>
-              <div className="mt-3 h-px w-12 bg-gradient-to-r from-[#ff2f86] to-[#a855f7]" />
-              <p className="mt-3 text-[13.5px] leading-[1.7] text-white/70">{person.bio}</p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+      <BioPopup
+        person={open === null ? null : LEADERSHIP[open]}
+        reduced={reduced}
+        onClose={close}
+      />
+    </LayoutGroup>
   );
 }
+
+type Leader = (typeof LEADERSHIP)[number];
 
 const BACK_GLOW =
   'radial-gradient(ellipse at 0% 0%, rgba(255,32,160,0.16) 0%, transparent 55%), radial-gradient(ellipse at 100% 100%, rgba(164,82,255,0.16) 0%, transparent 55%)';
 
-type CardSize = 'full' | 'half' | 'mini';
+function Photo({ person: p }: { person: Leader }) {
+  return p.photo ? (
+    <img
+      src={p.photo}
+      alt={`${p.name}, ${p.role} of Pureflow Studios`}
+      className="absolute inset-0 h-full w-full object-cover"
+      style={p.photoPosition ? { objectPosition: p.photoPosition } : undefined}
+      loading="eager"
+      draggable={false}
+    />
+  ) : (
+    <div
+      className="absolute inset-0 flex items-center justify-center"
+      style={{
+        background:
+          'radial-gradient(closest-side at 50% 42%, rgba(255,47,134,0.38) 0%, rgba(164,82,255,0.2) 50%, transparent 80%), #07050b',
+      }}
+      aria-hidden="true"
+    >
+      <span className="font-display text-[3.5rem] font-bold leading-none tracking-tight text-white/90">
+        {p.initials}
+      </span>
+    </div>
+  );
+}
 
-// Name-plate and corner styles per card size.
-const CARD_SIZE: Record<CardSize, { radius: string; plate: string; role: string | null; name: string }> = {
-  full: {
-    radius: 'rounded-[1.6rem]',
-    plate: 'px-5 pb-4 pt-14',
-    role: 'text-[10px] tracking-[0.2em]',
-    name: 'mt-1 text-[1.3rem] sm:text-[1.45rem]',
-  },
-  half: {
-    radius: 'rounded-[1.1rem]',
-    plate: 'px-3 pb-3 pt-10',
-    role: 'text-[7.5px] tracking-[0.12em]',
-    name: 'mt-0.5 text-[14px]',
-  },
-  mini: {
-    radius: 'rounded-[0.9rem]',
-    plate: 'px-2 pb-2 pt-8',
-    role: null,
-    name: 'text-[11.5px]',
-  },
-};
+// Mobile half-width card. Shares layoutIds with BioPopup so the card itself
+// grows into the pop-up and shrinks back out of it.
+function HalfCard({ person: p, reduced, onOpen }: { person: Leader; reduced: boolean; onOpen: () => void }) {
+  return (
+    <motion.button
+      type="button"
+      layoutId={`team-card-${p.name}`}
+      transition={reduced ? { duration: 0 } : MORPH}
+      onClick={onOpen}
+      aria-label={`${p.name}, ${p.role}. Read bio`}
+      className="relative block h-full w-full overflow-hidden border border-white/10 bg-black text-left outline-none focus-visible:ring-2 focus-visible:ring-[#ff3f8d]/70"
+      style={{ borderRadius: 18 }}
+    >
+      <motion.div
+        layoutId={`team-photo-${p.name}`}
+        transition={reduced ? { duration: 0 } : MORPH}
+        className="absolute inset-0"
+      >
+        <Photo person={p} />
+      </motion.div>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/70 to-transparent px-3 pb-3 pt-10">
+        <p className="text-[7.5px] font-semibold uppercase leading-snug tracking-[0.12em] text-[#ff7eb2]">{p.role}</p>
+        <p className="mt-0.5 font-sans text-[14px] font-semibold leading-tight tracking-[-0.015em] text-white">
+          {p.name}
+        </p>
+      </div>
+    </motion.button>
+  );
+}
+
+// Pop-up bio over a blurred page. Rendered into <body> so no transformed
+// ancestor can trap the fixed overlay. Tapping anywhere closes it.
+function BioPopup({
+  person: p,
+  reduced,
+  onClose,
+}: {
+  person: Leader | null;
+  reduced: boolean;
+  onClose: () => void;
+}) {
+  useEffect(() => {
+    if (!p) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [p, onClose]);
+
+  if (typeof document === 'undefined') return null;
+
+  return createPortal(
+    <AnimatePresence>
+      {p && (
+        <div
+          key={p.name}
+          className="fixed inset-0 z-[120] flex items-center justify-center px-5"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${p.name}, ${p.role}`}
+          onClick={onClose}
+        >
+          <motion.div
+            className="absolute inset-0 bg-black/45 backdrop-blur-[6px]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: reduced ? 0 : 0.35 }}
+            aria-hidden="true"
+          />
+          <motion.div
+            layoutId={`team-card-${p.name}`}
+            transition={reduced ? { duration: 0 } : MORPH}
+            className="relative w-full max-w-[380px] cursor-pointer overflow-hidden border border-[#ff3f8d]/35 bg-[#08060d] shadow-[0_30px_80px_-20px_rgba(255,47,134,0.45)]"
+            style={{ borderRadius: 22 }}
+          >
+            <motion.div
+              layoutId={`team-photo-${p.name}`}
+              transition={reduced ? { duration: 0 } : MORPH}
+              className="relative aspect-[16/11] w-full"
+            >
+              <Photo person={p} />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#08060d] to-transparent" />
+            </motion.div>
+            <motion.div
+              className="relative px-5 pb-5 pt-1"
+              initial={reduced ? false : { opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0, transition: { duration: 0.35, delay: reduced ? 0 : 0.2 } }}
+              exit={{ opacity: 0, transition: { duration: reduced ? 0 : 0.12 } }}
+            >
+              <div className="pointer-events-none absolute inset-0" style={{ background: BACK_GLOW }} aria-hidden="true" />
+              <p className="relative text-[10px] font-semibold uppercase leading-snug tracking-[0.2em] text-[#ff7eb2]">
+                {p.role}
+              </p>
+              <p className="relative mt-1 font-sans text-[1.3rem] font-semibold leading-tight tracking-[-0.015em] text-white">
+                {p.name}
+              </p>
+              <div className="relative mt-3 h-px w-12 bg-gradient-to-r from-[#ff2f86] to-[#a855f7]" />
+              <p className="relative mt-3 text-[13.5px] leading-[1.7] text-white/70">{p.bio}</p>
+              <p className="relative mt-4 text-[10.5px] uppercase tracking-[0.16em] text-white/35">Tap to close</p>
+            </motion.div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>,
+    document.body,
+  );
+}
 
 // Flip card: photo on the front, bio on the back. A mouse flips it on hover;
-// tap (or Enter/Space) toggles it everywhere else. When onActivate is given,
-// a tap calls it instead of flipping. The rotating layer ignores the pointer
-// so hover is tracked on the flat outer box: otherwise the card's projected
-// edge swings in and out from under a cursor near its border.
+// tap (or Enter/Space) toggles it everywhere else. Pass flipped/onToggle to
+// control it from outside. The rotating layer ignores the pointer so hover is
+// tracked on the flat outer box: otherwise the card's projected edge swings in
+// and out from under a cursor near its border.
 function LeaderCard({
   person: p,
-  size = 'full',
-  canFlip = true,
-  selected = false,
-  onActivate,
+  flipped: flippedProp,
+  onToggle,
 }: {
-  person: (typeof LEADERSHIP)[number];
-  size?: CardSize;
-  canFlip?: boolean;
-  selected?: boolean;
-  onActivate?: () => void;
+  person: Leader;
+  flipped?: boolean;
+  onToggle?: () => void;
 }) {
-  const [flipped, setFlipped] = useState(false);
+  const [flippedState, setFlippedState] = useState(false);
   const [hovered, setHovered] = useState(false);
-  const s = CARD_SIZE[size];
-  const toggle = () => {
-    if (onActivate) onActivate();
-    else setFlipped((f) => !f);
-  };
-  const showBack = canFlip && (flipped || hovered);
-  // The smallest cards show just the first name so it fits on one line.
-  const name = size === 'mini' ? p.name.split(' ')[0] : p.name;
+  const flipped = flippedProp ?? flippedState;
+  const toggle = onToggle ?? (() => setFlippedState((f) => !f));
+  const showBack = flipped || hovered;
 
   return (
     <div
       role="button"
       tabIndex={0}
-      aria-pressed={onActivate ? selected : showBack}
-      aria-label={`${p.name}, ${p.role}. ${onActivate ? 'Show bio' : showBack ? 'Show photo' : 'Read bio'}`}
+      aria-pressed={showBack}
+      aria-label={`${p.name}, ${p.role}. ${showBack ? 'Show photo' : 'Read bio'}`}
       onClick={toggle}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -496,9 +566,9 @@ function LeaderCard({
       onPointerLeave={(e) => {
         if (e.pointerType !== 'mouse') return;
         setHovered(false);
-        setFlipped(false);
+        if (flippedProp === undefined) setFlippedState(false);
       }}
-      className={`relative aspect-[4/5] w-full cursor-pointer outline-none perspective-[1600px] focus-visible:ring-2 focus-visible:ring-[#ff3f8d]/70 focus-visible:ring-offset-4 focus-visible:ring-offset-black ${s.radius}`}
+      className="relative aspect-[4/5] w-full cursor-pointer rounded-[1.6rem] outline-none perspective-[1600px] focus-visible:ring-2 focus-visible:ring-[#ff3f8d]/70 focus-visible:ring-offset-4 focus-visible:ring-offset-black"
     >
       <div
         className={`pointer-events-none relative h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] transform-3d motion-reduce:duration-0 ${
@@ -506,41 +576,14 @@ function LeaderCard({
         }`}
       >
         {/* Front: photo + name plate */}
-        <div
-          className={`absolute inset-0 overflow-hidden border bg-black transition-colors backface-hidden ${s.radius} ${
-            selected ? 'border-[#ff3f8d]/80' : 'border-white/10'
-          }`}
-        >
-          {p.photo ? (
-            <img
-              src={p.photo}
-              alt={`${p.name}, ${p.role} of Pureflow Studios`}
-              className="absolute inset-0 h-full w-full object-cover"
-              style={p.photoPosition ? { objectPosition: p.photoPosition } : undefined}
-              loading="eager"
-            />
-          ) : (
-            <div
-              className="absolute inset-0 flex items-center justify-center"
-              style={{
-                background:
-                  'radial-gradient(closest-side at 50% 42%, rgba(255,47,134,0.38) 0%, rgba(164,82,255,0.2) 50%, transparent 80%), #07050b',
-              }}
-              aria-hidden="true"
-            >
-              <span className="font-display text-[5.5rem] font-bold leading-none tracking-tight text-white/90">
-                {p.initials}
-              </span>
-            </div>
-          )}
-          <div
-            className={`pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/70 to-transparent ${s.plate}`}
-          >
-            {s.role && (
-              <p className={`font-semibold uppercase leading-snug text-[#ff7eb2] ${s.role}`}>{p.role}</p>
-            )}
-            <h3 className={`font-sans font-semibold leading-tight tracking-[-0.015em] text-white ${s.name}`}>
-              {name}
+        <div className="absolute inset-0 overflow-hidden rounded-[1.6rem] border border-white/10 bg-black backface-hidden">
+          <Photo person={p} />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/70 to-transparent px-5 pb-4 pt-14">
+            <p className="text-[10px] font-semibold uppercase leading-snug tracking-[0.2em] text-[#ff7eb2]">
+              {p.role}
+            </p>
+            <h3 className="mt-1 font-sans text-[1.3rem] font-semibold leading-tight tracking-[-0.015em] text-white sm:text-[1.45rem]">
+              {p.name}
             </h3>
           </div>
         </div>

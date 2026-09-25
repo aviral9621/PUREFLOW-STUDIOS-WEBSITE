@@ -139,11 +139,11 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onViewChange, onStartProje
           className="mt-16 sm:mt-20"
         >
           <div className="flex flex-col items-center text-center">
-            <span className="font-serif italic text-white/95 text-[clamp(1.5rem,3vw,2.5rem)] leading-[1.1]">
+            <span className="font-serif italic text-white/95 text-[2rem] sm:text-[clamp(1.5rem,3vw,2.5rem)] leading-[1.1]">
               The people
             </span>
             <span
-              className="hero-automation-text mt-1 inline-block leading-none text-[clamp(2.25rem,5vw,4.5rem)]"
+              className="hero-automation-text mt-1 inline-block leading-none text-[3.25rem] sm:text-[clamp(2.25rem,5vw,4.5rem)]"
               data-text="RUNNING IT."
             >
               RUNNING IT.

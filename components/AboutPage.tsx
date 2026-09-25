@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import {
   ArrowRight,
   Brain,
@@ -149,19 +149,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onViewChange, onStartProje
               RUNNING IT.
             </span>
           </div>
-          <div className="mx-auto mt-9 grid max-w-[420px] grid-cols-1 gap-5 lg:max-w-none lg:grid-cols-3 lg:gap-6">
-            {LEADERSHIP.map((p, i) => (
-              <motion.div
-                key={p.name}
-                initial={reduced ? false : { opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay: i * 0.08 }}
-              >
-                <LeaderCard person={p} />
-              </motion.div>
-            ))}
-          </div>
+          <TeamDeck reduced={!!reduced} />
         </motion.div>
 
         {/* ── What we ship ── */}
@@ -305,21 +293,196 @@ function PhilosophyCard({
   );
 }
 
-// Flip card: photo on the front, bio on the back. Hover flips it on
-// devices with a mouse; tap (or Enter/Space) toggles it everywhere else.
-// The rotating layer ignores the pointer so hover is tracked on the flat
-// outer box: otherwise the card's projected edge swings in and out from
-// under a cursor parked near its border and it jitters mid-flip.
-function LeaderCard({ person: p }: { person: (typeof LEADERSHIP)[number] }) {
+function useMediaQuery(query: string) {
+  const [matches, setMatches] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia(query).matches,
+  );
+  useEffect(() => {
+    const mql = window.matchMedia(query);
+    const update = () => setMatches(mql.matches);
+    update();
+    mql.addEventListener('change', update);
+    return () => mql.removeEventListener('change', update);
+  }, [query]);
+  return matches;
+}
+
+const EASE = [0.16, 1, 0.3, 1] as const;
+
+// Leadership cards.
+//   lg and up: three equal cards in one row; hover flips a card to its bio.
+//   below lg:  Aviral full width on top, Mayank and Tayyaba half width beneath
+//              him, left and right. Tapping Mayank or Tayyaba lines all three
+//              up in one row with the tapped person's bio underneath; tapping
+//              outside the section (or the same card again) puts them back.
+function TeamDeck({ reduced }: { reduced: boolean }) {
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
+  const [lined, setLined] = useState(false);
+  const [active, setActive] = useState(0);
+  const deckRef = useRef<HTMLDivElement>(null);
+
+  // Tap anywhere outside the section to send the cards back.
+  useEffect(() => {
+    if (!lined) return;
+    const onDown = (e: PointerEvent) => {
+      if (!deckRef.current?.contains(e.target as Node)) setLined(false);
+    };
+    document.addEventListener('pointerdown', onDown);
+    return () => document.removeEventListener('pointerdown', onDown);
+  }, [lined]);
+
+  if (isDesktop) {
+    return (
+      <div className="mt-9 grid grid-cols-3 gap-6">
+        {LEADERSHIP.map((p, i) => (
+          <motion.div
+            key={p.name}
+            initial={reduced ? false : { opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.55, ease: EASE, delay: i * 0.08 }}
+          >
+            <LeaderCard person={p} />
+          </motion.div>
+        ))}
+      </div>
+    );
+  }
+
+  const layoutTransition = reduced ? { duration: 0 } : { duration: 0.6, ease: EASE };
+  const person = LEADERSHIP[active];
+
+  return (
+    <div ref={deckRef} className="mx-auto mt-9 max-w-[420px]">
+      <div className={`grid gap-3 ${lined ? 'grid-cols-3' : 'grid-cols-2'}`}>
+        {LEADERSHIP.map((p, i) => {
+          const isAviral = i === 0;
+          // Lined up, Aviral takes the middle: Mayank · Aviral · Tayyaba.
+          const order = lined ? (isAviral ? 2 : i === 1 ? 1 : 3) : i + 1;
+          const onActivate = lined
+            ? () => (i === active ? setLined(false) : setActive(i))
+            : isAviral
+              ? undefined // full-width card: tap flips it, as before
+              : () => {
+                  setActive(i);
+                  setLined(true);
+                };
+
+          return (
+            <motion.div
+              key={p.name}
+              layout
+              transition={layoutTransition}
+              className={!lined && isAviral ? 'col-span-2' : ''}
+              style={{ order }}
+            >
+              <LeaderCard
+                person={p}
+                size={lined ? 'mini' : isAviral ? 'full' : 'half'}
+                canFlip={!lined && isAviral}
+                selected={lined && i === active}
+                onActivate={onActivate}
+              />
+            </motion.div>
+          );
+        })}
+      </div>
+
+      <AnimatePresence mode="wait">
+        {lined && (
+          <motion.div
+            key={person.name}
+            initial={reduced ? false : { opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduced ? undefined : { opacity: 0, y: 8 }}
+            transition={{ duration: 0.35, ease: EASE }}
+            className="relative mt-4 overflow-hidden rounded-2xl border border-[#ff3f8d]/35 bg-[#08060d] p-5"
+            aria-live="polite"
+          >
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{ background: BACK_GLOW }}
+              aria-hidden="true"
+            />
+            <div className="relative">
+              <p className="text-[10px] font-semibold uppercase leading-snug tracking-[0.2em] text-[#ff7eb2]">
+                {person.role}
+              </p>
+              <p className="mt-1 font-sans text-[1.25rem] font-semibold leading-tight tracking-[-0.015em] text-white">
+                {person.name}
+              </p>
+              <div className="mt-3 h-px w-12 bg-gradient-to-r from-[#ff2f86] to-[#a855f7]" />
+              <p className="mt-3 text-[13.5px] leading-[1.7] text-white/70">{person.bio}</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+const BACK_GLOW =
+  'radial-gradient(ellipse at 0% 0%, rgba(255,32,160,0.16) 0%, transparent 55%), radial-gradient(ellipse at 100% 100%, rgba(164,82,255,0.16) 0%, transparent 55%)';
+
+type CardSize = 'full' | 'half' | 'mini';
+
+// Name-plate and corner styles per card size.
+const CARD_SIZE: Record<CardSize, { radius: string; plate: string; role: string | null; name: string }> = {
+  full: {
+    radius: 'rounded-[1.6rem]',
+    plate: 'px-5 pb-4 pt-14',
+    role: 'text-[10px] tracking-[0.2em]',
+    name: 'mt-1 text-[1.3rem] sm:text-[1.45rem]',
+  },
+  half: {
+    radius: 'rounded-[1.1rem]',
+    plate: 'px-3 pb-3 pt-10',
+    role: 'text-[7.5px] tracking-[0.12em]',
+    name: 'mt-0.5 text-[14px]',
+  },
+  mini: {
+    radius: 'rounded-[0.9rem]',
+    plate: 'px-2 pb-2 pt-8',
+    role: null,
+    name: 'text-[11.5px]',
+  },
+};
+
+// Flip card: photo on the front, bio on the back. A mouse flips it on hover;
+// tap (or Enter/Space) toggles it everywhere else. When onActivate is given,
+// a tap calls it instead of flipping. The rotating layer ignores the pointer
+// so hover is tracked on the flat outer box: otherwise the card's projected
+// edge swings in and out from under a cursor near its border.
+function LeaderCard({
+  person: p,
+  size = 'full',
+  canFlip = true,
+  selected = false,
+  onActivate,
+}: {
+  person: (typeof LEADERSHIP)[number];
+  size?: CardSize;
+  canFlip?: boolean;
+  selected?: boolean;
+  onActivate?: () => void;
+}) {
   const [flipped, setFlipped] = useState(false);
-  const toggle = () => setFlipped((f) => !f);
+  const [hovered, setHovered] = useState(false);
+  const s = CARD_SIZE[size];
+  const toggle = () => {
+    if (onActivate) onActivate();
+    else setFlipped((f) => !f);
+  };
+  const showBack = canFlip && (flipped || hovered);
+  // The smallest cards show just the first name so it fits on one line.
+  const name = size === 'mini' ? p.name.split(' ')[0] : p.name;
 
   return (
     <div
       role="button"
       tabIndex={0}
-      aria-pressed={flipped}
-      aria-label={`${p.name}, ${p.role}. ${flipped ? 'Show photo' : 'Read bio'}`}
+      aria-pressed={onActivate ? selected : showBack}
+      aria-label={`${p.name}, ${p.role}. ${onActivate ? 'Show bio' : showBack ? 'Show photo' : 'Read bio'}`}
       onClick={toggle}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -327,16 +490,27 @@ function LeaderCard({ person: p }: { person: (typeof LEADERSHIP)[number] }) {
           toggle();
         }
       }}
-      onMouseLeave={() => setFlipped(false)}
-      className="group relative aspect-[4/5] w-full cursor-pointer rounded-[1.6rem] outline-none perspective-[1600px] focus-visible:ring-2 focus-visible:ring-[#ff3f8d]/70 focus-visible:ring-offset-4 focus-visible:ring-offset-black"
+      onPointerEnter={(e) => {
+        if (e.pointerType === 'mouse') setHovered(true);
+      }}
+      onPointerLeave={(e) => {
+        if (e.pointerType !== 'mouse') return;
+        setHovered(false);
+        setFlipped(false);
+      }}
+      className={`relative aspect-[4/5] w-full cursor-pointer outline-none perspective-[1600px] focus-visible:ring-2 focus-visible:ring-[#ff3f8d]/70 focus-visible:ring-offset-4 focus-visible:ring-offset-black ${s.radius}`}
     >
       <div
-        className={`pointer-events-none relative h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] transform-3d group-hover:rotate-y-180 motion-reduce:duration-0 ${
-          flipped ? 'rotate-y-180' : ''
+        className={`pointer-events-none relative h-full w-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] transform-3d motion-reduce:duration-0 ${
+          showBack ? 'rotate-y-180' : ''
         }`}
       >
         {/* Front: photo + name plate */}
-        <div className="absolute inset-0 overflow-hidden rounded-[1.6rem] border border-white/10 bg-black backface-hidden">
+        <div
+          className={`absolute inset-0 overflow-hidden border bg-black transition-colors backface-hidden ${s.radius} ${
+            selected ? 'border-[#ff3f8d]/80' : 'border-white/10'
+          }`}
+        >
           {p.photo ? (
             <img
               src={p.photo}
@@ -359,26 +533,21 @@ function LeaderCard({ person: p }: { person: (typeof LEADERSHIP)[number] }) {
               </span>
             </div>
           )}
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/70 to-transparent px-5 pb-4 pt-14">
-            <p className="text-[10px] font-semibold uppercase leading-snug tracking-[0.2em] text-[#ff7eb2]">
-              {p.role}
-            </p>
-            <h3 className="mt-1 font-sans text-[1.3rem] font-semibold leading-tight tracking-[-0.015em] text-white sm:text-[1.45rem]">
-              {p.name}
+          <div
+            className={`pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/70 to-transparent ${s.plate}`}
+          >
+            {s.role && (
+              <p className={`font-semibold uppercase leading-snug text-[#ff7eb2] ${s.role}`}>{p.role}</p>
+            )}
+            <h3 className={`font-sans font-semibold leading-tight tracking-[-0.015em] text-white ${s.name}`}>
+              {name}
             </h3>
           </div>
         </div>
 
         {/* Back: bio */}
         <div className="absolute inset-0 flex flex-col justify-center overflow-hidden rounded-[1.6rem] border border-[#ff3f8d]/35 bg-[#08060d] p-6 rotate-y-180 sm:p-7 backface-hidden">
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                'radial-gradient(ellipse at 0% 0%, rgba(255,32,160,0.16) 0%, transparent 55%), radial-gradient(ellipse at 100% 100%, rgba(164,82,255,0.16) 0%, transparent 55%)',
-            }}
-            aria-hidden="true"
-          />
+          <div className="pointer-events-none absolute inset-0" style={{ background: BACK_GLOW }} aria-hidden="true" />
           <div className="relative">
             <p className="text-[10px] font-semibold uppercase leading-snug tracking-[0.2em] text-[#ff7eb2]">
               {p.role}

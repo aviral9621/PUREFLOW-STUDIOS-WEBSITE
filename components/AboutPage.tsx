@@ -414,7 +414,7 @@ function Photo({ person: p }: { person: Leader }) {
   );
 }
 
-// Mobile half-width card. Shares layoutIds with BioPopup so the card itself
+// Mobile half-width card. Shares a layoutId with BioPopup so the card itself
 // grows into the pop-up and shrinks back out of it.
 function HalfCard({ person: p, reduced, onOpen }: { person: Leader; reduced: boolean; onOpen: () => void }) {
   return (
@@ -427,13 +427,7 @@ function HalfCard({ person: p, reduced, onOpen }: { person: Leader; reduced: boo
       className="relative block h-full w-full overflow-hidden border border-white/10 bg-black text-left outline-none focus-visible:ring-2 focus-visible:ring-[#ff3f8d]/70"
       style={{ borderRadius: 18 }}
     >
-      <motion.div
-        layoutId={`team-photo-${p.name}`}
-        transition={reduced ? { duration: 0 } : MORPH}
-        className="absolute inset-0"
-      >
-        <Photo person={p} />
-      </motion.div>
+      <Photo person={p} />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/70 to-transparent px-3 pb-3 pt-10">
         <p className="text-[7.5px] font-semibold uppercase leading-snug tracking-[0.12em] text-[#ff7eb2]">{p.role}</p>
         <p className="mt-0.5 font-sans text-[14px] font-semibold leading-tight tracking-[-0.015em] text-white">
@@ -494,30 +488,25 @@ function BioPopup({
             className="relative w-full max-w-[380px] cursor-pointer overflow-hidden border border-[#ff3f8d]/35 bg-[#08060d] shadow-[0_30px_80px_-20px_rgba(255,47,134,0.45)]"
             style={{ borderRadius: 22 }}
           >
+            <div className="pointer-events-none absolute inset-0" style={{ background: BACK_GLOW }} aria-hidden="true" />
+            {/* Text fades in once the card has grown, and out before it shrinks. */}
             <motion.div
-              layoutId={`team-photo-${p.name}`}
-              transition={reduced ? { duration: 0 } : MORPH}
-              className="relative aspect-[16/11] w-full"
-            >
-              <Photo person={p} />
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#08060d] to-transparent" />
-            </motion.div>
-            <motion.div
-              className="relative px-5 pb-5 pt-1"
+              className="relative px-6 pb-5 pt-6"
               initial={reduced ? false : { opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0, transition: { duration: 0.35, delay: reduced ? 0 : 0.2 } }}
+              animate={{ opacity: 1, y: 0, transition: { duration: 0.35, delay: reduced ? 0 : 0.25 } }}
               exit={{ opacity: 0, transition: { duration: reduced ? 0 : 0.12 } }}
             >
-              <div className="pointer-events-none absolute inset-0" style={{ background: BACK_GLOW }} aria-hidden="true" />
-              <p className="relative text-[10px] font-semibold uppercase leading-snug tracking-[0.2em] text-[#ff7eb2]">
+              <p className="text-[10px] font-semibold uppercase leading-snug tracking-[0.2em] text-[#ff7eb2]">
                 {p.role}
               </p>
-              <p className="relative mt-1 font-sans text-[1.3rem] font-semibold leading-tight tracking-[-0.015em] text-white">
+              <p className="mt-1 font-sans text-[1.35rem] font-semibold leading-tight tracking-[-0.015em] text-white">
                 {p.name}
               </p>
-              <div className="relative mt-3 h-px w-12 bg-gradient-to-r from-[#ff2f86] to-[#a855f7]" />
-              <p className="relative mt-3 text-[13.5px] leading-[1.7] text-white/70">{p.bio}</p>
-              <p className="relative mt-4 text-[10.5px] uppercase tracking-[0.16em] text-white/35">Tap to close</p>
+              <div className="mt-3 h-px w-12 bg-gradient-to-r from-[#ff2f86] to-[#a855f7]" />
+              <p className="mt-3 text-[14px] leading-[1.7] text-white/75">{p.bio}</p>
+              <p className="mt-5 border-t border-white/10 pt-3 text-center text-[10.5px] uppercase tracking-[0.18em] text-white/40">
+                Tap to close
+              </p>
             </motion.div>
           </motion.div>
         </div>

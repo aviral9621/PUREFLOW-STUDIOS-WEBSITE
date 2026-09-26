@@ -2914,6 +2914,49 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
   container-type: inline-size;
 }
 
+/* ── Showcase pages (components/showcase/ShowcasePage.tsx) ── */
+
+/* Left-aligned display word. `hero-automation-text` squeezes on its centre,
+   which would pull a left-aligned heading off the column edge. */
+.sc-display {
+  transform-origin: left center;
+  line-height: 0.95;
+}
+
+/* The brand glow behind a display word: a soft pink → violet bloom, so the
+   gradient word reads as lit rather than printed. The blur is on a static
+   pseudo-element, so it is painted once and never animates. */
+.sc-glow {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+}
+
+.sc-glow::before {
+  content: '';
+  position: absolute;
+  inset: 5% -10% -10% -6%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    closest-side,
+    rgba(255, 47, 134, 0.46),
+    rgba(168, 85, 247, 0.28) 55%,
+    transparent 100%
+  );
+  filter: blur(30px);
+}
+
+/* Numbers set in the brand gradient (process steps, product index, impact). */
+.sc-num {
+  font-family: 'Anton', 'Bebas Neue', 'Impact', sans-serif;
+  background: linear-gradient(90deg, #ff2f86 0%, #d946ef 50%, #a855f7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
 /* ── Homepage work stack (components/sections/WorkStack.tsx) ── */
 
 /* Each card gets its own compositor layer, so the per-frame scale never

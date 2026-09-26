@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { ViewState } from '../types';
 import { viewToPath } from './router';
 import { getCaseStudyBySlug } from './caseStudies';
+import { getShowcaseBySlug } from './showcases';
 import { findPost } from './blog';
 
 interface Meta {
@@ -195,10 +196,25 @@ export function resolveMeta(view: ViewState, slug?: string | null) {
   let m = META[view] ?? META.home;
   let ogImage = DEFAULT_OG;
   let extraJsonLd: Record<string, unknown> | null = null;
+  // Aliased showcase URLs (an old per-product slug) canonicalise to the showcase.
+  let canonicalSlug = slug;
 
   if (view === 'work-post' && slug) {
+    const sc = getShowcaseBySlug(slug);
     const cs = getCaseStudyBySlug(slug);
-    if (cs) {
+    if (sc) {
+      canonicalSlug = sc.slug;
+      const headline = `${sc.headline.lead} ${sc.headline.word.toLowerCase()}`;
+      m = { title: `${sc.client} — ${sc.focus.join(', ')} | Case Study | ${SITE}`, description: headline };
+      extraJsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'CreativeWork',
+        name: `${sc.client}: ${sc.focus.join(', ')}`,
+        description: headline,
+        url: `${BASE_URL}${viewToPath(view, sc.slug)}`,
+        creator: { '@type': 'Organization', name: SITE },
+      };
+    } else if (cs) {
       m = { title: `${cs.name} — ${cs.category} Case Study | ${SITE}`, description: cs.tagline };
       extraJsonLd = {
         '@context': 'https://schema.org',
@@ -230,7 +246,7 @@ export function resolveMeta(view: ViewState, slug?: string | null) {
     }
   }
 
-  const url = `${BASE_URL}${viewToPath(view, slug)}`;
+  const url = `${BASE_URL}${viewToPath(view, canonicalSlug)}`;
   return { title: m.title, description: m.description, url, ogImage, extraJsonLd };
 }
 

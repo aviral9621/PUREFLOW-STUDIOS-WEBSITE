@@ -7,6 +7,7 @@ import { ViewState } from './types';
 import { ThemeProvider } from './components/ThemeContext';
 import { useDocumentMeta } from './lib/seo';
 import { getCaseStudyBySlug } from './lib/caseStudies';
+import { getShowcaseBySlug } from './lib/showcases';
 import { pathToState, viewToPath } from './lib/router';
 
 const Footer = lazy(() =>
@@ -104,6 +105,9 @@ const WorkPostPage = lazy(() =>
 );
 const CaseStudyPage = lazy(() =>
   import('./components/casestudy/CaseStudyPage').then((module) => ({ default: module.CaseStudyPage }))
+);
+const ShowcasePage = lazy(() =>
+  import('./components/showcase/ShowcasePage').then((module) => ({ default: module.ShowcasePage }))
 );
 const AboutPage = lazy(() =>
   import('./components/AboutPage').then((module) => ({ default: module.AboutPage }))
@@ -620,7 +624,15 @@ const AppContent: React.FC = () => {
 
         {currentView === 'work-post' && selectedProjectSlug && (
           <Suspense fallback={<PageFallback />}>
-            {getCaseStudyBySlug(selectedProjectSlug) ? (
+            {/* Editorial showcase first (lib/showcases.ts), then the older
+                structured case study, then the Supabase-driven post. */}
+            {getShowcaseBySlug(selectedProjectSlug) ? (
+              <ShowcasePage
+                showcase={getShowcaseBySlug(selectedProjectSlug)!}
+                onViewChange={navigateTo}
+                onOpenProject={handleOpenProject}
+              />
+            ) : getCaseStudyBySlug(selectedProjectSlug) ? (
               <CaseStudyPage
                 caseStudy={getCaseStudyBySlug(selectedProjectSlug)!}
                 onViewChange={navigateTo}

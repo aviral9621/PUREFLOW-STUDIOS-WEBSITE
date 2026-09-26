@@ -90,9 +90,10 @@ const PAGES = [
   { path: '/work/spectrum-tour-travels', priority: '0.9', h1: 'Spectrum Tour & Travels',
     title: `Spectrum Tour & Travels — Travel & Tourism Case Study | ${SITE}`,
     description: 'A complete travel and tour booking experience — packages, enquiries and trips online.' },
-  { path: '/work/unskills-computer-education-crm', priority: '0.9', h1: 'UnSkills CRM',
-    title: `UnSkills CRM — CRM for Educational Institutes | ${SITE}`,
-    description: 'A complete CRM for educational institutes — leads, admissions, fees, branches and student relationships streamlined into one real-time platform.' },
+  // UnSkills' institute management system is a showcase (lib/showcases.ts).
+  { path: '/work/unskills-computer-education-crm', priority: '0.9', h1: 'UnSkills Computer Education',
+    title: `UnSkills Computer Education — Institute Management System | Case Study | ${SITE}`,
+    description: 'One management system for a multi-branch institute.' },
   { path: '/work/unskills-education-website', priority: '0.8', h1: 'UnSkills Education',
     title: `UnSkills Education — Education Website Case Study | ${SITE}`,
     description: 'A modern education website — courses, admissions and enquiries, all in one place.' },

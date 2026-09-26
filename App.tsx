@@ -12,14 +12,11 @@ import { pathToState, viewToPath } from './lib/router';
 const Footer = lazy(() =>
   import('./components/Footer').then((module) => ({ default: module.Footer }))
 );
-const TrustStrip = lazy(() =>
-  import('./components/sections/TrustStrip').then((module) => ({ default: module.TrustStrip }))
+const WorkStack = lazy(() =>
+  import('./components/sections/WorkStack').then((module) => ({ default: module.WorkStack }))
 );
 const Services = lazy(() =>
   import('./components/sections/Services').then((module) => ({ default: module.Services }))
-);
-const Work = lazy(() =>
-  import('./components/sections/Work').then((module) => ({ default: module.Work }))
 );
 const Process = lazy(() =>
   import('./components/sections/Process').then((module) => ({ default: module.Process }))
@@ -474,20 +471,17 @@ const AppContent: React.FC = () => {
           <>
             <Hero onViewChange={navigateTo} onOpenContact={handleOpenContact} onStartProject={handleStartProject} onBookCall={handleBookCall} />
             <LazySection>
-              <TrustStrip />
+              <WorkStack
+                onOpenProject={handleOpenProject}
+                onStartProject={handleStartProject}
+                onViewAll={() => navigateTo('work')}
+              />
             </LazySection>
             <div id="services">
               <LazySection>
                 <Services onViewChange={navigateTo} />
               </LazySection>
             </div>
-            <LazySection>
-              <Work
-                onStartProject={handleStartProject}
-                onOpenProject={handleOpenProject}
-                onViewAll={() => navigateTo('work')}
-              />
-            </LazySection>
             <LazySection>
               <Process />
             </LazySection>

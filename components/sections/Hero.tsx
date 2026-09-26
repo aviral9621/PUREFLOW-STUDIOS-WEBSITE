@@ -229,14 +229,6 @@ export function Hero({ onViewChange: _onViewChange, onOpenContact: _onOpenContac
           animate="visible"
           className="mt-5 flex w-full flex-col items-center gap-4 md:mt-6"
         >
-          <div className="flex w-full max-w-[640px] flex-wrap items-center justify-center gap-x-5 gap-y-2 opacity-75 sm:max-w-none sm:gap-x-8">
-            <span className="font-display text-[13px] font-bold uppercase tracking-[0.14em] text-white/85 sm:text-[14px]">Herbal Vantage</span>
-            <span className="font-serif text-[14px] italic tracking-tight text-white/85 sm:text-[16px]">Quick Hotels</span>
-            <span className="font-display text-[13px] font-semibold uppercase tracking-[0.18em] text-white/80 sm:text-[14px]">Spectrum Tour</span>
-            <span className="font-serif text-[14px] tracking-wide text-white/80 sm:text-[16px]">UnSkills</span>
-            <span className="font-display text-[13px] font-black uppercase tracking-[0.16em] text-white/80 sm:text-[14px]">Laxmi Agro</span>
-          </div>
-
           <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6">
             <span className="text-center text-sm leading-snug text-white/65">
               Trusted by 100+ founders across India

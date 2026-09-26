@@ -290,67 +290,6 @@ html:not(.dark) .custom-scrollbar::-webkit-scrollbar-thumb { background: #ccc; }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #555; }
 
 /* ── Premium card hover effects (migrated from index.html) ── */
-/* Trust strip marquee */
-.trust-marquee {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-}
-
-.trust-marquee::before,
-.trust-marquee::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: min(14vw, 180px);
-  z-index: 2;
-  pointer-events: none;
-}
-
-.trust-marquee::before {
-  left: 0;
-  background: linear-gradient(90deg, #000 0%, transparent 100%);
-}
-
-.trust-marquee::after {
-  right: 0;
-  background: linear-gradient(270deg, #000 0%, transparent 100%);
-}
-
-.trust-marquee__track {
-  display: flex;
-  width: max-content;
-  animation: trustMarquee 28s linear infinite;
-  will-change: transform;
-}
-
-.trust-marquee__group {
-  display: flex;
-  flex: 0 0 auto;
-  gap: clamp(3rem, 6vw, 6.5rem);
-  padding-right: clamp(3rem, 6vw, 6.5rem);
-}
-
-.trust-marquee__item {
-  flex: 0 0 auto;
-  min-width: clamp(9.5rem, 13vw, 14rem);
-  opacity: 0.92;
-  text-shadow: 0 0 22px rgba(255, 255, 255, 0.12);
-}
-
-@keyframes trustMarquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .trust-marquee__track {
-    animation: none;
-    transform: translateX(0);
-  }
-}
-
 .pf-card {
   position: relative;
   transition: transform 500ms cubic-bezier(.2,.8,.2,1), box-shadow 500ms cubic-bezier(.2,.8,.2,1);
@@ -2970,8 +2909,43 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
 /* The stage is the container the mockups size themselves against — everything
    inside `.sw-ui` is laid out in `em`, and 1em resolves to 1% of this box's
    width. Changing the card width rescales the whole interface. */
-.sw-stage {
+.sw-stage,
+.ws-screen {
   container-type: inline-size;
+}
+
+/* ── Homepage work stack (components/sections/WorkStack.tsx) ── */
+
+/* Each card gets its own compositor layer, so the per-frame scale never
+   repaints the card, its shadow or its screenshots. */
+.ws-card {
+  will-change: transform;
+  backface-visibility: hidden;
+  box-shadow:
+    0 -10px 30px -18px rgba(30, 15, 50, 0.16),
+    0 36px 70px -36px rgba(30, 15, 50, 0.32);
+}
+
+/* `hero-automation-text` is lit for a black page: a white sheen across the
+   top of the letters. On the light canvas that sheen reads as fading, so the
+   work heading keeps only the moving brand gradient. */
+.ws-display {
+  background: linear-gradient(90deg, #A452FF 0%, #FF20A0 50%, #A452FF 100%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: wsGradientShift 3s linear infinite;
+}
+
+.ws-display::after { display: none; }
+
+@keyframes wsGradientShift {
+  from { background-position: 0% 50%; }
+  to { background-position: 200% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ws-display { animation: none; }
 }
 
 .sw-ui {

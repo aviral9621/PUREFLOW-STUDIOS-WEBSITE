@@ -6,6 +6,7 @@ import { Menu, X, ArrowUpRight, MessageCircle } from 'lucide-react';
 import { MagneticButton } from './MagneticButton';
 import { ViewState } from '../../types';
 import { viewToPath } from '../../lib/router';
+import { usePageTone } from '../../lib/pageTone';
 
 interface NavbarProps {
   currentView: ViewState;
@@ -46,6 +47,9 @@ export function Navbar({ currentView, onViewChange, onOpenContact: _onOpenContac
   const [scrolled, setScrolled] = useState(false);
   const [pendingSection, setPendingSection] = useState<string | null>(null);
   const prefersReducedMotion = useReducedMotion();
+  // Light while a section has turned the page light (the homepage work stack).
+  // The mobile menu overlay keeps its own dark styling either way.
+  const light = usePageTone() === 'light';
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -96,17 +100,19 @@ export function Navbar({ currentView, onViewChange, onOpenContact: _onOpenContac
         initial={prefersReducedMotion ? false : { y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.3, ease: 'easeOut' }}
-        className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? 'bg-black/75 backdrop-blur-md border-b border-white/[0.08]'
-            : 'bg-transparent border-b border-transparent'
+        className={`fixed top-0 inset-x-0 z-50 transition-[background-color,border-color] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+          !scrolled
+            ? 'bg-transparent border-b border-transparent'
+            : light
+              ? 'bg-[#f4f2f7]/85 backdrop-blur-md border-b border-[#0d0b12]/[0.07]'
+              : 'bg-black/75 backdrop-blur-md border-b border-white/[0.08]'
         }`}
       >
         <div className="mx-auto flex h-[72px] w-full items-center justify-between px-5 sm:px-6 md:h-[76px] md:px-7">
           <a
             href="/"
             onClick={(e) => { e.preventDefault(); onViewChange('home'); }}
-            className="font-display text-[26px] leading-none tracking-[0.01em] text-white select-none transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D946EF] focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm sm:text-[30px] md:text-[34px]"
+            className={`font-display text-[26px] leading-none tracking-[0.01em] select-none transition-[color,opacity] duration-700 hover:opacity-80 ${light ? 'text-[#0d0b12]' : 'text-white'} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D946EF] focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm sm:text-[30px] md:text-[34px]`}
             aria-label="PureFlow Studios - go to home"
           >
             PURE<span className="gradient-flow-text">FLOW</span> STUDIOS
@@ -124,7 +130,11 @@ export function Navbar({ currentView, onViewChange, onOpenContact: _onOpenContac
                   key={item.label}
                   href={hrefFor(item)}
                   onClick={(e) => { e.preventDefault(); handleNav(item); }}
-                  className="group relative pb-4 text-[15px] font-medium leading-none text-white/90 transition-colors hover:text-white focus-visible:outline-none focus-visible:text-white"
+                  className={`group relative pb-4 text-[15px] font-medium leading-none transition-colors duration-700 focus-visible:outline-none ${
+                    light
+                      ? 'text-[#0d0b12]/80 hover:text-[#0d0b12] focus-visible:text-[#0d0b12]'
+                      : 'text-white/90 hover:text-white focus-visible:text-white'
+                  }`}
                 >
                   {item.label}
                   <span
@@ -151,7 +161,7 @@ export function Navbar({ currentView, onViewChange, onOpenContact: _onOpenContac
 
           {!minimal && (
             <button
-              className="lg:hidden text-white hover:text-[#D946EF] transition-colors p-2 -mr-2 focus-visible:outline-none focus-visible:text-[#D946EF]"
+              className={`lg:hidden hover:text-[#D946EF] transition-colors duration-700 p-2 -mr-2 focus-visible:outline-none focus-visible:text-[#D946EF] ${light ? 'text-[#0d0b12]' : 'text-white'}`}
               onClick={() => setIsOpen(true)}
               aria-label="Open navigation menu"
               aria-expanded={isOpen}

@@ -84,8 +84,15 @@ const FEATURED: Featured[] = [
       desktop: '/work/herbal-vantage-desktop.webp',
       mobile: '/work/herbal-vantage-mobile.webp',
     },
+    mockup: '/work/herbal-vantage-showcase.webp',
+    logo: { src: '/work/herbal-vantage-logo.webp', width: 671, height: 160 },
   },
-  { slug: 'ecommerce-retail-platform', glow: '217,70,239' },
+  {
+    slug: 'ecommerce-retail-platform',
+    glow: '217,70,239',
+    mockup: '/work/quick-hotels-crm-showcase.webp',
+    logo: { src: '/work/quick-hotels-logo.webp', width: 333, height: 160 },
+  },
   {
     slug: 'spectrum-tour-travels',
     glow: '249,115,22',
@@ -93,6 +100,8 @@ const FEATURED: Featured[] = [
       desktop: '/work/spectrum-tour-travels-desktop.webp',
       mobile: '/work/spectrum-tour-travels-mobile.webp',
     },
+    mockup: '/work/spectrum-tour-travels-showcase.webp',
+    logo: { src: '/work/spectrum-tour-travels-logo.webp', width: 277, height: 160 },
   },
 ];
 
@@ -400,7 +409,7 @@ const StackCard: React.FC<CardProps> = ({
   step,
   onOpen,
 }) => {
-  const { slug, name, description, preview, glow, phone, mockup, logo } = item;
+  const { slug, name, description, showcaseLine, preview, glow, phone, mockup, logo } = item;
   const href = viewToPath('work-post', slug);
 
   // Shrinks by SHRINK for every card that has slid over this one — partially
@@ -482,9 +491,17 @@ const StackCard: React.FC<CardProps> = ({
           </span>
         </div>
 
-        <p className="min-w-0 flex-1 line-clamp-2 min-h-[3em] text-[14px] leading-[1.5] text-[#0d0b12]/60 sm:text-[15px] md:min-h-0 lg:text-[16px]">
-          {description}
-        </p>
+        {/* What the product is, in one line ("MLM Software + Online Store");
+            cards without one fall back to the two-line blurb. */}
+        {showcaseLine ? (
+          <p className="min-w-0 flex-1 truncate text-[16px] font-semibold leading-[1.3] tracking-[-0.015em] text-[#0d0b12] sm:text-[17px] md:text-[15px] lg:text-[18px] xl:text-[19px]">
+            {showcaseLine}
+          </p>
+        ) : (
+          <p className="min-w-0 flex-1 line-clamp-2 min-h-[3em] text-[14px] leading-[1.5] text-[#0d0b12]/60 sm:text-[15px] md:min-h-0 lg:text-[16px]">
+            {description}
+          </p>
+        )}
 
         <span
           aria-hidden="true"

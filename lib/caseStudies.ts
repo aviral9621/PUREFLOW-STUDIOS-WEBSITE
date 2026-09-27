@@ -48,6 +48,12 @@ export interface CaseStudy {
     type?: string;
     /** Short description for the showcase card. Keep it under ~95 characters. */
     blurb?: string;
+    /**
+     * What the product is, in one line, for the homepage work stack
+     * ("MLM Software + Online Store"). Shown instead of `blurb` there.
+     * Keep it to ~30 characters so it stays on one line at tablet width.
+     */
+    showcaseLine?: string;
     /** Device frame the showcase card renders the preview in. Defaults to 'browser'. */
     device?: 'browser' | 'phone';
     year?: string;
@@ -111,6 +117,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       type: 'Website + PMS',
       blurb:
         'A mobile-first booking site and a custom PMS on one backend.',
+      showcaseLine: 'Hotel Booking Website + PMS',
       // Browser, not phone: the card embeds the real site, and the desktop
       // hero fills the thumbnail where a phone frame leaves it mostly empty.
       device: 'browser',
@@ -194,6 +201,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       type: 'E-commerce',
       blurb:
         'An editorial herbal storefront with a frictionless checkout.',
+      showcaseLine: 'MLM Software + Online Store',
       year: '2026',
       from: 'from-emerald-950/70',
       to: 'to-purple-950/50',
@@ -271,6 +279,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       type: 'Website',
       blurb:
         'Curated tour packages, destinations and a smooth enquiry flow.',
+      showcaseLine: 'CRM for Tour & Travel Companies',
       year: '2026',
       from: 'from-sky-950/70',
       to: 'to-indigo-950/50',
@@ -359,6 +368,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       type: 'Custom CRM',
       blurb:
         'Leads, admissions, fees and eight branches in one live dashboard.',
+      showcaseLine: 'CRM for Schools & Institutes',
       year: '2025',
       from: 'from-indigo-950/70',
       to: 'to-fuchsia-950/50',
@@ -500,6 +510,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       type: 'SaaS Dashboard',
       blurb:
         'Bookings, leads, occupancy and revenue in one dashboard.',
+      showcaseLine: 'Hotel Management Software',
       year: '2025',
       from: 'from-fuchsia-950/70',
       to: 'to-purple-950/50',

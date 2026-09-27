@@ -70,6 +70,8 @@ export interface Project {
   productType?: string;
   /** Short description for the showcase card; falls back to `description`. */
   blurb?: string;
+  /** One-line "what it is" for the homepage work stack ("MLM Software + Online Store"). */
+  showcaseLine?: string;
   /** Device frame the showcase card renders the preview in. */
   device?: 'browser' | 'phone';
   /** Static image used as the showcase-card preview. */
@@ -125,6 +127,7 @@ const fromCaseStudy = (cs: CaseStudy, idx: number): Project => ({
   name: cs.card?.name ?? cs.name,
   productType: cs.card?.type ?? cs.category,
   blurb: cs.card?.blurb,
+  showcaseLine: cs.card?.showcaseLine,
   device: cs.card?.device,
   cardImage:
     cs.card?.image ?? (cs.showcase?.desktop?.type === 'image' ? cs.showcase.desktop.src : undefined),

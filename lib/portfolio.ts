@@ -33,6 +33,8 @@ export interface PortfolioItem {
   name: string;
   /** One or two lines. Anything longer is clamped rather than left to sprawl. */
   description: string;
+  /** What the product is, in one line ("MLM Software + Online Store"), if set. */
+  showcaseLine?: string;
   device: DeviceKind;
   preview: PreviewSource;
 }
@@ -80,6 +82,7 @@ export function toPortfolioItem(project: Project): PortfolioItem {
     category: project.productType || project.category,
     name,
     description: project.blurb || project.description,
+    showcaseLine: project.showcaseLine,
     device: deviceFrom(project, preview),
     preview,
   };

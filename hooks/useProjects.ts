@@ -76,6 +76,8 @@ export interface Project {
   device?: 'browser' | 'phone';
   /** Static image used as the showcase-card preview. */
   cardImage?: string;
+  /** A finished 2:1 image on white; shown whole, frameless. Wins over `cardImage`. */
+  cardCover?: string;
 }
 
 // Map a fallback LegacyProject to the new shape (no images, no slug → derived)
@@ -131,6 +133,7 @@ const fromCaseStudy = (cs: CaseStudy, idx: number): Project => ({
   device: cs.card?.device,
   cardImage:
     cs.card?.image ?? (cs.showcase?.desktop?.type === 'image' ? cs.showcase.desktop.src : undefined),
+  cardCover: cs.card?.cover,
 });
 
 // Structured case studies always appear in the listing (DB-independent) and take

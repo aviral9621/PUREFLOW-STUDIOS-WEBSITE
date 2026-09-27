@@ -68,9 +68,10 @@ export const ShowcasePage: React.FC<Props> = ({ showcase: s, onViewChange }) => 
       <Process s={s} reduced={reduced} />
       <Products s={s} reduced={reduced} />
       <DesignSystem s={s} reduced={reduced} />
-      <Impact s={s} reduced={reduced} />
+      {s.impact.length > 0 && <Impact s={s} reduced={reduced} />}
       {s.testimonial && <Words s={s} reduced={reduced} />}
       <Closing
+        lead={s.ctaLead ?? 'Running your business on spreadsheets?'}
         reduced={reduced}
         onStart={() => onViewChange('start-project')}
         onCall={() => onViewChange('book-call')}
@@ -414,7 +415,7 @@ const Process: React.FC<{ s: Showcase; reduced: boolean }> = ({ s, reduced }) =>
       <Reveal reduced={reduced} className="lg:sticky lg:top-32 lg:self-start">
         <Heading lead="Our" word="PROCESS." />
         <p className="mt-6 max-w-[420px] text-[16px] leading-[1.7] text-white/55">
-          From the first workshop to the day every branch went live.
+          {s.processNote ?? 'From the first workshop to launch day.'}
         </p>
       </Reveal>
       <ol>
@@ -672,10 +673,11 @@ const PROMISES = ['Fixed-price proposals', 'Reply within 24 hours', '30-day post
 
 /** Closing call to action: centred, framed in a gradient-edged panel with the brand glow. */
 const Closing: React.FC<{
+  lead: string;
   reduced: boolean;
   onStart: () => void;
   onCall: () => void;
-}> = ({ reduced, onStart, onCall }) => (
+}> = ({ lead, reduced, onStart, onCall }) => (
   <section className="relative py-20 sm:py-28 lg:py-32">
     <div className={WRAP}>
       <Reveal reduced={reduced}>
@@ -706,7 +708,7 @@ const Closing: React.FC<{
               <Eyebrow>Your turn</Eyebrow>
               <h2 className="mt-5 flex flex-col items-center">
                 <span className="font-serif text-[clamp(1.6rem,3.2vw,2.75rem)] italic leading-[1.1] tracking-normal text-white/95">
-                  Running an institute on spreadsheets?
+                  {lead}
                 </span>
                 <span className="sc-glow mt-1">
                   <span

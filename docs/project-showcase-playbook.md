@@ -36,6 +36,10 @@ Files you will touch:
 ## 1. The two surfaces
 
 ### A. Homepage work section (`WorkStack.tsx`, right under the hero)
+- A one-line intro, then **Software / Websites / Apps tabs**. Switching drops the old
+  cards away and raises the new ones in from below. Behind the cards, `DotGlow.tsx`
+  draws a faint dot grid with a pink/violet glow that follows the cursor (it drifts on
+  touch screens and stays still with reduced motion).
 - The page fades to a light canvas (`#f4f2f7`), the navbar goes light (black logo)
   via `lib/pageTone.ts`, and project cards **stack** as you scroll (sticky, each new
   card slides over the last). It ends with "Liked what you saw? / LET'S BUILD YOURS."
@@ -445,12 +449,19 @@ Keep each image ≲ 150 KB (cards are 15–35 KB each).
 ```ts
 {
   slug: 'quick-hotels',                       // must exist in lib/caseStudies.ts
+  kind: 'website',                            // tab: 'software' | 'website' | 'app'
   glow: '255,47,134',                         // tint for the fallback card style
   mockup: '/work/quick-hotels-mockup.webp',   // 2:1 on white → replaces the screenshot frames
   logo: { src: '/work/quick-hotels-logo.webp', width: 333, height: 160 },
 },
 ```
-The array order is the card order. The card's one-liner is `card.blurb` in `lib/caseStudies.ts`.
+The array order is the card order within each tab (Software / Websites / Apps; a tab with
+no projects shows a "coming soon" card). The card's one-liner is `card.blurb` in
+`lib/caseStudies.ts`.
+
+**/work index card:** set `card.cover` in `lib/caseStudies.ts` to the same 2:1 image, and it
+is shown whole on white, with no browser frame (it beats `card.image` and the live embed).
+Website projects without a mockup use `card.image` (a still screenshot) instead of a live embed.
 
 ### Showcase page: `lib/showcases.ts`, one `Showcase` entry
 ```ts
@@ -471,8 +482,14 @@ The array order is the card order. The card's one-liner is `card.blurb` in `lib/
   palette: [ … ], type: [ … ],               // used only when there's no systemImage
   impact: [{ label: 'Admissions', value: '+42%', caption: 'more admissions converted' }, …],
   testimonial: { quote: '…', name: '…', role: '…' },
+  processNote: '…',                          // optional line under "Our PROCESS."
+  ctaLead: 'Running an institute on spreadsheets?', // optional serif line in the CTA
 }
 ```
+- Sections without real material are left out: `impact: []` hides The IMPACT, no
+  `testimonial` hides In their WORDS, no `problemCards` shows the problem as text only,
+  and a product without `cards`/`gallery` shows its name, summary and chips only.
+  **Never fill them with invented content.**
 - Every image in one card row must have the **same width/height** (§7).
 - `App.tsx` renders a showcase for `/work/<slug>` automatically, ahead of the older
   `CaseStudyPage`. `lib/seo.ts` builds the title/description/canonical from it.
@@ -523,11 +540,16 @@ The array order is the card order. The card's one-liner is `card.blurb` in `lib/
 | Project | Homepage card | Showcase page |
 |---|---|---|
 | **UnSkills: Institute Management System** | ✅ T2 feature showcase + black logo | ✅ live: hero, 6 problem cards, 7 feature cards, design system |
+| **Smart Agro: Agri Business Management System** | ✅ hub image (below) + black logo | ✅ live at `/work/smart-agro`: hero, brief, problem (text only), process, features, design system (coded). No impact or testimonial yet |
 | **Quick Hotels** (website) | ✅ T1 mockup + black logo | ⏳ old `CaseStudyPage` |
 | **Herbal Vantage** (website) | ⏳ screenshot fallback, name as text | ⏳ old page |
 | **Quick Hotels PMS** (`ecommerce-retail-platform`, card named "Quick Hotels CRM") | ⏳ T7 prompt ready (below); rename to "Quick Hotels PMS" pending the owner's OK | ⏳ old page |
 | **Spectrum Tour & Travels** | ⏳ website screenshot fallback. A Spectrum **CRM** T7 prompt is ready (below); the owner decides whether the card becomes the CRM | ⏳ old page |
 | UnSkills mobile app / UnSkills website | not started. Separate showcases later | not started |
+
+Removed from the site on the owner's request: UnSkills Education (its old URLs open the
+UnSkills showcase), Clinic Management System, Real Estate Portal, Restaurant Ordering.
+Don't bring them back.
 
 ### UnSkills: Institute Management System (`/work/unskills-computer-education-crm`)
 
@@ -879,6 +901,70 @@ QUALITY RULES
 - Swatch colours must match their hex codes exactly.
 - Balanced, airy, professional; aligned to a clear grid.
 - No watermark, no devices, no captions beyond what's specified.
+```
+</details>
+
+### Smart Agro: Agri Business Management System (`/work/smart-agro`)
+
+**Decisions**
+- The owner found the dense bento (a headline + 8 filled mini-UI cards) **too cluttered**,
+  and a simplified dashboard **too plain**. The one that worked is a **hub layout**:
+  - the REAL dashboard, recreated exactly (every sidebar item, stat cards, alert strips, charts) in the centre;
+  - 4 features per side as **plain text** (icon + bold title + one grey line);
+  - one thin arrow from each feature to the exact dashboard element it powers;
+  - no logo on top, no handwritten notes, one compact headline.
+  **Use this hub layout as the default for software homepage cards.**
+- The live dashboard figures (₹56,40,104 revenue etc.) are the client's real numbers.
+  The owner chose to show them; ask before doing that for another client.
+- The detail page is a showcase with no impact numbers or testimonial yet. Add them when real ones exist.
+- "Product bid" in the owner's brief was read as product **batches** per godown. Confirm before reusing.
+
+**Brand material (sampled)**
+- Logo: `https://www.smartagrocare.in/smart-agro-cr.png` (transparent) → `public/work/smart-agro-logo.webp` (black, drop-shadow removed).
+- Smart Red `#D01A1B`, Agro Green `#307120` (logo); Forest `#01411D`, Leaf `#28B94C` (product); Canvas `#F7F8F7`.
+- Fonts: Poppins (headings), Inter (body), from smartagrocare.in.
+- Image: `public/work/smart-agro-mockup.webp` (1774×887, homepage card + showcase hero).
+
+<details><summary>Hub image prompt (the version that was used)</summary>
+
+```
+Create a premium, clean SaaS feature image for "Smart Agro", a complete business management system for agriculture companies. Idea: ONE real system in the centre, its features around it, each connected by a thin arrow to the exact part of the dashboard it powers. The dashboard must look like a real, fully working product. Clean and balanced, never cluttered. Show the software UI directly: no laptop, no phone, no device, no browser chrome.
+
+FORMAT
+- Exactly 2:1 landscape (2400 × 1200 px). If 2:1 isn't possible, use 16:9.
+- Background: flat pure white (#FFFFFF), seamless. No border, no gradient, no texture, no people, no logo outside the dashboard.
+- About 5% white margin on the left, right and top. The dashboard window may run off the bottom edge.
+
+TYPE & COLOUR
+- Geometric sans-serif throughout (Plus Jakarta Sans / Inter style). Near-black #0F172A, grey #64748B, leaf green #22A447 as the accent, forest green #0F5132 for the dashboard sidebar.
+- Feature icons: simple line icons in leaf green inside identical soft-green rounded squares (#EAF7EE).
+
+LAYOUT: 3 COLUMNS
+
+1) HEADLINE (top ~12%, centred, one compact line, bold, about 5% of the image height)
+"One system. Every part of your agri business." with "Every part of your agri business." in leaf green. No subheadline, no chips, no logo.
+
+2) CENTRE: THE DASHBOARD (≈56% of the image width, centred)
+A flat app window: 16px rounded corners, a thin light-grey border, a large, very soft shadow. Recreate the attached Smart Agro dashboard EXACTLY (same layout, spacing, colours, icons, font), fully filled:
+• SIDEBAR (forest green, white text): the Smart Agro logo tile + "Smart Agro" / "LAXMI AGRO CRM"; "Dashboard" active (leaf-green pill); "SALES & CRM": Leads (›), Pending Activities (red "99+"), Targets, Customers; "AFFILIATE": Affiliate Applications, Affiliate Commissions; "OPERATIONS": Products, Product Reviews, Website, Blog, Inventory, Quotations, Orders; thin dividers; a user card at the bottom (green "A", "Aviral", "Admin").
+• TOP BAR: "Good morning, Aviral ☀️" / "Here's what's happening with your business today."; a bell with a red "3"; a user pill (green "A", "Aviral", "Admin", chevron).
+• STAT CARDS (4, each with a pastel icon tile, an uppercase label, a bold value, a sparkline): "TOTAL REVENUE" ₹56,40,104 · "↑ 140% vs last 7 days"; "TOTAL ORDERS" 2,678 · "42 today"; "TOTAL LEADS" 11,898 · "↑ 362% vs last 7 days"; "TOTAL PRODUCTS" 70 · "5 new this month".
+• ALERT STRIPS: amber "You need to talk to 5,947 leads" / "No status change or note for over 24 hours. Tap to open the follow-up list."; amber "Stock is zero — 2 orders are waiting. Refill the stock." / "No invoice or dispatch until refilled."; soft red "4 products in negative stock — restock needed" / "Sold beyond available stock."; two half-width strips: amber "115 awaiting dispatch · Tap to manage queue", soft red "26 low stock products · Tap to restock".
+• BOTTOM: "Sales Overview" (Last 7 days; leaf-green area chart, 0–80k, 20–26 Sep, peak 24 Sep) and "Leads by Source" (a donut "11,898 Total"; WhatsApp 86%, Manual 8%, Facebook 3%, Instagram 2%, Phone 1%; "Top Source · WhatsApp · 86%").
+
+3) LEFT COLUMN (≈19% width, right-aligned, evenly spaced over the dashboard's height; icon tile + bold title + one grey line, no boxes):
+"Leads, auto-distributed" / "Every lead to the right seller, instantly" · "Team roles & targets" / "Sellers see only their leads and goals" · "Quotations" / "Professional quotes in a few clicks" · "E-commerce & orders" / "Online store to dispatch, one flow"
+
+4) RIGHT COLUMN (same style, left-aligned):
+"Accounting & GST" / "Books, GST returns and reports" · "WhatsApp automation" / "Built in. No third-party BSP fees" · "Inventory & godowns" / "Stock and batches in every godown" · "Meta Ads auto-sync" / "Facebook & Instagram leads flow straight in"
+
+5) CONNECTOR ARROWS: thin smooth curves (1.5px, #9AD9AE) with small arrowheads, entering the window only at its edge, never crossing each other or any text:
+Leads → "Leads" sidebar item; Team roles → "Targets"; Quotations → "Quotations"; E-commerce → "Orders"; Accounting → the stat card row; WhatsApp → the "5,947 leads" strip; Inventory → the "26 low stock products" strip; Meta Ads → the "Leads by Source" donut.
+
+QUALITY RULES
+- Every word and number exactly as written, sharp and legible; no gibberish, no extra text, no invented names or numbers.
+- Only: the headline, the dashboard, 8 features, 8 arrows. No handwritten notes, no decorations. Symmetrical and balanced.
+- Feature titles readable at 1200 px wide. No devices, watermark, borders or logo outside the dashboard.
 ```
 </details>
 

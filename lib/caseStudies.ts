@@ -64,6 +64,9 @@ export interface CaseStudy {
     mockup?: 'ai-dashboard' | 'unskills-crm';
     /** Static image used as the card thumbnail. */
     image?: string;
+    /** A finished 2:1 image on white (the homepage card mockup). Shown whole on
+     *  the /work card, with no browser frame; wins over `image`. */
+    cover?: string;
   };
 
   snapshot: {
@@ -195,6 +198,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     liveUrl: 'https://herbal-vantage-website.vercel.app/',
 
     card: {
+      image: '/work/herbal-vantage-desktop.webp',
       title: 'Premium Herbal Store Experience',
       description:
         'Modern herbal e-commerce with a luxury product showcase, smooth shopping flow, clean UI and a conversion-focused design system.',
@@ -362,6 +366,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     },
 
     card: {
+      cover: '/work/unskills-crm-showcase.webp',
       title: 'A complete CRM for educational institutes',
       description:
         'Leads, admissions, fees, branches and student relationships — streamlined into one real-time platform with full reports and automation.',
@@ -444,48 +449,6 @@ export const CASE_STUDIES: CaseStudy[] = [
     },
   },
 
-  // ── Additional portfolio projects (representative work) ─────────────────────
-  {
-    slug: 'unskills-education-website',
-    matchSlugs: ['saas-analytics-dashboard'],
-    name: 'UnSkills Education',
-    tagline: 'A modern education website — courses, admissions and enquiries, all in one place.',
-    category: 'Education / EdTech',
-    liveUrl: 'https://www.unskillseducation.org/',
-    card: {
-      title: 'A modern education & admissions website',
-      description: 'Course catalogue, clear program pages and a smooth enquiry-to-admission flow on a fast, SEO-ready site.',
-      type: 'Website',
-      blurb:
-        'A course catalogue and a clean enquiry-to-admission flow.',
-      device: 'phone',
-      year: '2025',
-      from: 'from-indigo-950/70',
-      to: 'to-fuchsia-950/50',
-    },
-    snapshot: { client: 'UnSkills Education', industry: 'Education / EdTech', services: 'Product Design · Web Dev · SEO', platforms: 'Website', timeline: '5 weeks', stack: 'Next.js · Tailwind · Vercel' },
-    challenge:
-      'UnSkills needed a public website that builds trust and turns visitors into admission enquiries — clearly showcasing its courses and making it effortless to apply or get in touch.',
-    whatWeBuilt: [
-      { title: 'Courses & Admissions', icon: 'globe', items: ['Course catalogue with clear program pages', 'A smooth enquiry-to-admission flow', 'Fast, mobile-first browsing', 'Trust-building design and clear CTAs'] },
-      { title: 'Reach & Performance', icon: 'dashboard', items: ['SEO-ready structure to get found', 'Quick contact and WhatsApp shortcuts', 'Optimised, globally delivered front end', 'Easy content and course updates'] },
-    ],
-    techStack: [
-      { name: 'Next.js', logo: 'nextjs' },
-      { name: 'React', logo: 'react' },
-      { name: 'Tailwind CSS', logo: 'tailwind' },
-      { name: 'Vercel', logo: 'vercel' },
-    ],
-    showcase: {
-      desktop: { type: 'live', src: 'https://www.unskillseducation.org/' },
-      mobile: { type: 'live', src: 'https://www.unskillseducation.org/' },
-    },
-    outcome: 'A website that turns curious visitors into admission enquiries — clear, fast and trustworthy.',
-    outcomeHighlight: 'admission enquiries',
-    metrics: [],
-    testimonial: null,
-  },
-
   {
     slug: 'ecommerce-retail-platform',
     name: 'Modern Hospitality Management Platform',
@@ -551,125 +514,74 @@ export const CASE_STUDIES: CaseStudy[] = [
     },
   },
 
+  // ── Smart Agro — agri business management system (Laxmi Agro) ─────────────
+  // The detail page is the editorial showcase in lib/showcases.ts; this entry
+  // feeds the homepage card and the /work index.
   {
-    slug: 'healthcare-clinic-system',
-    name: 'Clinic Management System',
-    tagline: 'Appointments, patient records and billing in one secure clinic platform.',
-    category: 'Healthcare',
-    liveUrl: 'https://piratesmensfashion.com/',
+    slug: 'smart-agro',
+    name: 'Smart Agro',
+    tagline:
+      'One system to run an entire agri business: leads, WhatsApp, e-commerce, quotations, inventory, godowns and GST accounting.',
+    category: 'Agriculture',
+    liveUrl: '',
     card: {
-      title: 'Secure clinic & patient management',
-      description: 'Appointments, records, prescriptions and billing in one system.',
-      type: 'Web App',
-      blurb:
-        'Appointments, records, prescriptions and billing in one system.',
-      year: '2025',
-      from: 'from-sky-950/70',
-      to: 'to-indigo-950/50',
+      cover: '/work/smart-agro-mockup.webp',
+      title: 'Agri business management system',
+      description:
+        'Leads, WhatsApp automation, e-commerce, inventory across godowns and GST-ready accounting in one system.',
+      name: 'Smart Agro',
+      type: 'Business Management System',
+      blurb: 'Leads, WhatsApp, orders, stock and GST accounting in one system.',
+      year: '2026',
+      image: '/work/smart-agro-mockup.webp',
     },
-    snapshot: { client: 'Healthcare Provider', industry: 'Healthcare', services: 'Product Design · Web Dev', platforms: 'Web App', timeline: '10 weeks', stack: 'Next.js · Supabase · Node.js' },
+    snapshot: {
+      client: 'Smart Agro (Laxmi Agro)',
+      industry: 'Agriculture',
+      services: 'Product Design · Custom Software Development',
+      platforms: 'Web',
+      stack: 'Next.js · Supabase · WhatsApp Cloud API · Meta Lead Ads',
+    },
     challenge:
-      'Patient records, appointments and billing were spread across paper and disconnected apps — slow, error-prone and hard to keep secure. They needed one careful, access-controlled system for the whole clinic workflow.',
+      'Smart Agro sells seeds, fertilisers and crop-protection products through a sales team, an online store and WhatsApp. Leads, orders, stock across godowns and the books needed to live in one system, with every seller seeing only their own work.',
     whatWeBuilt: [
-      { title: 'Patients & Appointments', icon: 'dashboard', items: ['Patient records with full history', 'Appointment scheduling and reminders', 'Prescriptions and visit notes', 'Role-based, access-controlled data'] },
-      { title: 'Billing & Insight', icon: 'globe', items: ['Invoicing and payment tracking', 'Daily collection and dues overview', 'Doctor and department reporting', 'Secure, audit-friendly records'] },
+      {
+        title: 'Sales & CRM',
+        icon: 'dashboard',
+        items: [
+          'Leads from WhatsApp, Meta Ads and forms, auto-distributed to sellers',
+          'Built-in WhatsApp automation, no third-party BSP fees',
+          'Team roles, permissions and targets per seller',
+          'Quotations and customer records',
+        ],
+      },
+      {
+        title: 'Operations & Accounts',
+        icon: 'globe',
+        items: [
+          'Online store, orders and dispatch in one flow',
+          'Inventory and batches across every godown',
+          'Accounting with receivables, payables and GST reports',
+          'Affiliate applications and commissions',
+        ],
+      },
     ],
     techStack: [
       { name: 'Next.js', logo: 'nextjs' },
       { name: 'Supabase', logo: 'supabase' },
-      { name: 'Node.js', logo: '' },
-      { name: 'Tailwind CSS', logo: 'tailwind' },
+      { name: 'WhatsApp Cloud API', logo: '' },
+      { name: 'Meta Lead Ads', logo: '' },
     ],
     showcase: {
-      desktop: { type: 'live', src: 'https://piratesmensfashion.com/' },
-      mobile: { type: 'live', src: 'https://piratesmensfashion.com/' },
+      desktop: { type: 'image', src: '/work/smart-agro-mockup.webp' },
+      mobile: { type: 'image', src: '/work/smart-agro-mockup.webp' },
     },
-    outcome: 'The whole clinic runs from one secure system — records, appointments and billing finally in sync.',
-    outcomeHighlight: 'one secure system',
+    outcome: 'One system now runs Smart Agro\'s leads, sales, stock and accounts.',
+    outcomeHighlight: 'one system',
     metrics: [],
     testimonial: null,
   },
 
-  {
-    slug: 'real-estate-portal',
-    name: 'Real Estate Portal',
-    tagline: 'Property listings, search and enquiry — a portal that turns browsers into leads.',
-    category: 'Real Estate',
-    liveUrl: '',
-    hero: { image: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=1400&q=72&auto=format&fit=crop' },
-    card: {
-      title: 'Property listings & enquiry portal',
-      description: 'Rich property listings, smart search and a frictionless enquiry-to-visit flow.',
-      type: 'Website',
-      blurb: 'Rich property listings, smart search and a frictionless enquiry flow.',
-      year: '2025',
-      from: 'from-emerald-950/70',
-      to: 'to-teal-950/50',
-      image: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=900&q=70&auto=format&fit=crop',
-    },
-    snapshot: { client: 'Property Developer', industry: 'Real Estate', services: 'Web Dev · SEO', platforms: 'Website', timeline: '6 weeks', stack: 'Next.js · Tailwind · Vercel' },
-    challenge:
-      'Listings were hard to browse and enquiries leaked through scattered forms and calls. They needed a fast, trustworthy portal that showcases properties well and makes enquiring effortless.',
-    whatWeBuilt: [
-      { title: 'Listings & Search', icon: 'globe', items: ['Rich property listings with galleries', 'Map and filter-based search', 'Clear, trust-building detail pages', 'Fast, mobile-first, SEO-ready'] },
-      { title: 'Enquiries & Leads', icon: 'dashboard', items: ['Smooth enquiry-to-visit flow', 'Lead capture and follow-up tracking', 'WhatsApp and contact shortcuts', 'Easy listing updates for the team'] },
-    ],
-    techStack: [
-      { name: 'Next.js', logo: 'nextjs' },
-      { name: 'Tailwind CSS', logo: 'tailwind' },
-      { name: 'Supabase', logo: 'supabase' },
-      { name: 'Vercel', logo: 'vercel' },
-    ],
-    showcase: {
-      desktop: { type: 'image', src: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=1400&q=72&auto=format&fit=crop' },
-      mobile: { type: 'image', src: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=1400&q=72&auto=format&fit=crop' },
-    },
-    outcome: 'A property portal that looks the part and turns curious visitors into booked site visits.',
-    outcomeHighlight: 'booked site visits',
-    metrics: [],
-    testimonial: null,
-  },
-
-  {
-    slug: 'restaurant-ordering-platform',
-    name: 'Restaurant Ordering Platform',
-    tagline: 'Online ordering, table booking and a kitchen dashboard for a multi-outlet restaurant.',
-    category: 'Food & Hospitality',
-    liveUrl: '',
-    hero: { image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1400&q=72&auto=format&fit=crop' },
-    card: {
-      title: 'Online ordering + kitchen dashboard',
-      description: 'Online ordering, table reservations and a live kitchen view across multiple outlets.',
-      name: 'Restaurant Ordering',
-      type: 'Web + Admin',
-      blurb: 'Online ordering, table bookings and a live kitchen view per outlet.',
-      year: '2025',
-      from: 'from-amber-950/70',
-      to: 'to-orange-950/50',
-      image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=900&q=70&auto=format&fit=crop',
-    },
-    snapshot: { client: 'Restaurant Group', industry: 'Food & Hospitality', services: 'Web Dev · Ordering · Admin', platforms: 'Web + Admin', timeline: '8 weeks', stack: 'Next.js · Supabase · Razorpay' },
-    challenge:
-      'Orders came through phone, chat and walk-ins with no single view, and the kitchen had no live queue. They needed one platform for online ordering, reservations and a real-time kitchen dashboard across outlets.',
-    whatWeBuilt: [
-      { title: 'Ordering & Booking', icon: 'globe', items: ['Online menu and ordering', 'Table reservations', 'Secure payments via Razorpay', 'Mobile-first, fast checkout'] },
-      { title: 'Kitchen & Admin', icon: 'dashboard', items: ['Live kitchen order queue', 'Multi-outlet menu and pricing', 'Sales and order reporting', 'Role-based staff access'] },
-    ],
-    techStack: [
-      { name: 'Next.js', logo: 'nextjs' },
-      { name: 'Supabase', logo: 'supabase' },
-      { name: 'Razorpay', logo: 'razorpay' },
-      { name: 'Tailwind CSS', logo: 'tailwind' },
-    ],
-    showcase: {
-      desktop: { type: 'image', src: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1400&q=72&auto=format&fit=crop' },
-      mobile: { type: 'image', src: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1400&q=72&auto=format&fit=crop' },
-    },
-    outcome: 'Orders, bookings and the kitchen run from one platform — across every outlet, in real time.',
-    outcomeHighlight: 'in real time',
-    metrics: [],
-    testimonial: null,
-  },
 ];
 
 // Alias map: canonical slug + any matchSlugs all point at the same case study.

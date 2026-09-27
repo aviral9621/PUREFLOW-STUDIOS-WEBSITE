@@ -15,6 +15,8 @@ import type { MockupKind } from '../components/casestudy/Mockup';
 export type DeviceKind = 'browser' | 'phone';
 
 export type PreviewSource =
+  /** A finished image on white (a homepage mockup), shown whole with no frame. */
+  | { type: 'cover'; src: string; alt?: string }
   /** A static screenshot / product shot. */
   | { type: 'image'; src: string; alt?: string }
   /** The real site, embedded live and scaled to fit (lazy, non-interactive). */
@@ -48,6 +50,7 @@ function brandFrom(project: Project): string {
 
 /**
  * Preference order for the preview, best-looking first:
+ *   0. a finished cover image (the homepage mockup), shown whole
  *   1. a real screenshot / product shot
  *   2. a designed in-app mockup (products with no public URL)
  *   3. the live site, embedded and scaled
@@ -55,6 +58,7 @@ function brandFrom(project: Project): string {
  *   5. a neutral UI skeleton
  */
 function previewFrom(project: Project, name: string): PreviewSource {
+  if (project.cardCover) return { type: 'cover', src: project.cardCover, alt: `${name} overview` };
   if (project.cardImage) return { type: 'image', src: project.cardImage, alt: `${name} interface` };
   if (project.cardMockup) return { type: 'mockup', kind: project.cardMockup };
   if (project.previewUrl) return { type: 'live', src: project.previewUrl };

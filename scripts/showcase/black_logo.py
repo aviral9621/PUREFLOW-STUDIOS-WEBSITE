@@ -5,7 +5,8 @@
 
 Every coloured, grey or gold part becomes black; near-neutral whites inside the
 logo (knock-outs, e.g. the white "Un" in the UnSkills circle) stay white; the
-transparent background stays transparent. Output is 160px tall, trimmed.
+transparent background stays transparent; a soft drop-shadow is removed.
+Output is 160px tall, trimmed.
 Prints width/height for lib/showcases.ts / WorkStack.tsx.
 
 The logo MUST have a transparent background. A JPG/PNG on a white or coloured
@@ -24,7 +25,15 @@ if lg.getextrema()[3][0] == 255:
 lg = lg.crop(lg.getbbox())
 lg = lg.resize((round(lg.width * h / lg.height), h), Image.LANCZOS)
 a = np.array(lg).astype(np.float32)
+# Drop soft drop-shadows: faint, colourless pixels (they would turn into a grey
+# smudge). Anti-aliased letter edges keep their colour, so they survive.
+rgb = a[..., :3]
+chroma = rgb.max(axis=2) - rgb.min(axis=2)
+a[..., 3][(a[..., 3] < 160) & (chroma < 70)] = 0
 white = np.clip((a[..., :3].min(axis=2) - 185) / 40, 0, 1)   # smooth ramp keeps edges clean
 v = (white * 255)[..., None].repeat(3, axis=2)
-Image.fromarray(np.dstack([v, a[..., 3]]).astype(np.uint8)).save(out, 'WEBP', quality=92, method=6)
-print(f'{out}  width: {lg.width}, height: {lg.height}')
+res = Image.fromarray(np.dstack([v, a[..., 3]]).astype(np.uint8))
+res = res.crop(res.getbbox())
+res = res.resize((round(res.width * h / res.height), h), Image.LANCZOS)
+res.save(out, 'WEBP', quality=92, method=6)
+print(f'{out}  width: {res.width}, height: {res.height}')

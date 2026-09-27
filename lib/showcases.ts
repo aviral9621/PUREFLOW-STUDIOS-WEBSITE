@@ -76,6 +76,8 @@ export interface Showcase {
   problemGallery?: ShowcaseImage[];
 
   process: string[];
+  /** One line under "Our PROCESS." Default: "From the first workshop to launch day." */
+  processNote?: string;
   products: ShowcaseProduct[];
 
   /** A finished design-system sheet; replaces the coded swatches/specimens. */
@@ -83,8 +85,11 @@ export interface Showcase {
   palette: { name: string; hex: string }[];
   type: { family: string; role: string; weights: string; google?: string }[];
 
+  /** Real results only; leave empty (the section is hidden) until there are some. */
   impact: { label: string; value: string; caption: string }[];
   testimonial?: { quote: string; name: string; role: string };
+  /** Serif line above "LET'S BUILD YOURS." Default: "Running your business on spreadsheets?" */
+  ctaLead?: string;
 }
 
 const U = '/work/unskills';
@@ -92,6 +97,8 @@ const U = '/work/unskills';
 export const SHOWCASES: Showcase[] = [
   {
     slug: 'unskills-computer-education-crm',
+    // The retired UnSkills Education case study's URLs.
+    matchSlugs: ['unskills-education-website', 'saas-analytics-dashboard'],
     client: 'UnSkills Computer Education',
     logo: { src: '/work/unskills-logo.webp', width: 356, height: 160 },
     focus: ['Institute Management System'],
@@ -137,6 +144,7 @@ export const SHOWCASES: Showcase[] = [
       ],
     ],
 
+    processNote: 'From the first workshop to the day every branch went live.',
     process: [
       'Discovery & workflow mapping',
       'Information architecture',
@@ -226,6 +234,7 @@ export const SHOWCASES: Showcase[] = [
       { family: 'Inter', role: 'Interface & body', weights: 'Semibold · Medium · Regular' },
     ],
 
+    ctaLead: 'Running an institute on spreadsheets?',
     impact: [
       { label: 'Admissions', value: '+42%', caption: 'more admissions converted' },
       { label: 'Fee collection', value: '+35%', caption: 'faster fee collection' },
@@ -238,6 +247,84 @@ export const SHOWCASES: Showcase[] = [
       name: 'UnSkills Leadership',
       role: 'Computer Education Institute',
     },
+  },
+  {
+    slug: 'smart-agro',
+    client: 'Smart Agro',
+    logo: { src: '/work/smart-agro-logo.webp', width: 504, height: 160 },
+    focus: ['Agri Business Management System'],
+    headline: { lead: 'One system for an entire', word: 'AGRI BUSINESS.' },
+    hero: {
+      src: '/work/smart-agro-mockup.webp',
+      width: 1774,
+      height: 887,
+      alt: 'Smart Agro dashboard with its features: leads, WhatsApp, Meta Ads, orders, quotations, inventory and accounting',
+    },
+
+    brief:
+      'Smart Agro (Laxmi Agro) sells seeds, fertilisers and crop-protection products through a sales team, an online store and WhatsApp. The brief was **one system for the whole business**: leads and sellers, **WhatsApp and Meta Ads**, the online store and orders, quotations, **stock across every godown**, and **GST-ready accounting**.',
+    facts: [
+      { label: 'Industry', value: 'Agriculture · Farm inputs' },
+      { label: 'Delivered', value: 'Agri Business Management System' },
+      { label: 'Services', value: 'Product Design · Custom Software Development' },
+      { label: 'Stack', value: 'Next.js · Supabase · WhatsApp Cloud API · Meta Lead Ads' },
+    ],
+
+    problem:
+      'Leads arrived from **WhatsApp, Facebook, Instagram and forms**, and had to be shared fairly across a team of sellers. WhatsApp at scale usually means **paying a third-party provider**. Orders, stock in **multiple godowns** and the books all had to agree, with **GST returns** out of the same numbers.',
+
+    process: [
+      'Discovery & workflow mapping',
+      'Information architecture',
+      'UX & interface design',
+      'Development & integrations',
+      'Testing with the sales team',
+      'Launch, training & support',
+    ],
+
+    products: [
+      {
+        kind: 'crm',
+        name: 'Agri Business Management System',
+        summary:
+          'One system for the whole business: the sales team works its leads, the store and orders run through it, and stock and accounts stay in sync.',
+        features: [
+          'Leads, auto-distributed',
+          'Meta Ads auto-sync',
+          'WhatsApp automation, no BSP fees',
+          'Team roles & permissions',
+          'Seller targets',
+          'E-commerce & orders',
+          'Quotations',
+          'Inventory & godowns',
+          'Accounting & GST',
+          'Affiliate commissions',
+        ],
+        gallery: [],
+      },
+    ],
+
+    // Sampled from the logo (red, green), the product (forest, leaf) and the
+    // store's fonts (smartagrocare.in: Poppins headings, Inter body).
+    palette: [
+      { name: 'Smart Red', hex: '#D01A1B' },
+      { name: 'Agro Green', hex: '#307120' },
+      { name: 'Forest', hex: '#01411D' },
+      { name: 'Leaf', hex: '#28B94C' },
+      { name: 'Canvas', hex: '#F7F8F7' },
+    ],
+    type: [
+      {
+        family: 'Poppins',
+        role: 'Headings',
+        weights: 'SemiBold · Bold',
+        google: 'Poppins:wght@600;700',
+      },
+      { family: 'Inter', role: 'Interface & body', weights: 'SemiBold · Medium · Regular' },
+    ],
+
+    ctaLead: 'Running your agri business on spreadsheets?',
+    impact: [],
   },
 ];
 

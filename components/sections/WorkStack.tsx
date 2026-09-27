@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
+  AnimatePresence,
   m,
   useMotionValue,
   useMotionValueEvent,
@@ -8,12 +9,13 @@ import {
   useTransform,
   type MotionValue,
 } from 'framer-motion';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Smartphone } from 'lucide-react';
 import { useAllProjects } from '../../hooks/useProjects';
 import { toPortfolioItems, type PortfolioItem, type PreviewSource } from '../../lib/portfolio';
 import { viewToPath } from '../../lib/router';
 import { setPageTone } from '../../lib/pageTone';
 import { PreviewContent } from './PortfolioPreview';
+import { DotGlow } from './DotGlow';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // WorkStack — the homepage work section, directly under the hero.
@@ -24,6 +26,10 @@ import { PreviewContent } from './PortfolioPreview';
 //   2. Project cards pin under the navbar and stack: each new card slides up
 //      over the last, while the ones beneath shrink back.
 //   3. Once the stack runs out, a closing "build yours next" prompt.
+//
+// Tabs (Software / Websites / Apps, `kind` in FEATURED) filter the stack; a
+// switch drops the old cards away and raises the new ones in from below.
+// Behind the cards, `DotGlow` lays a dot grid with a cursor-following glow.
 //
 // Content comes from `lib/caseStudies.ts` through the same adapter as every
 // other project card on the site; FEATURED picks the projects, their order,
@@ -43,8 +49,19 @@ import { PreviewContent } from './PortfolioPreview';
 // don't add `overflow-hidden` to this section or its wrappers.
 // ─────────────────────────────────────────────────────────────────────────────
 
+type WorkKind = 'software' | 'website' | 'app';
+
+/** The tabs over the stack. A tab with no projects shows a "coming soon" card. */
+const TABS: { id: WorkKind; label: string }[] = [
+  { id: 'software', label: 'Software' },
+  { id: 'website', label: 'Websites' },
+  { id: 'app', label: 'Apps' },
+];
+
 interface Featured {
   slug: string;
+  /** Which tab the card lives under. */
+  kind: WorkKind;
   glow: string;
   /** Stills of a live site: a desktop capture (16:10) and a phone capture (9:19.5). */
   shots?: { desktop: string; mobile: string };
@@ -61,8 +78,26 @@ interface Featured {
 }
 
 const FEATURED: Featured[] = [
+  // ── Software ──
+  {
+    slug: 'unskills-computer-education-crm',
+    kind: 'software',
+    glow: '168,85,247',
+    mockup: '/work/unskills-crm-showcase.webp',
+    logo: { src: '/work/unskills-logo.webp', width: 356, height: 160 },
+  },
+  {
+    slug: 'smart-agro',
+    kind: 'software',
+    glow: '40,185,76',
+    mockup: '/work/smart-agro-mockup.webp',
+    logo: { src: '/work/smart-agro-logo.webp', width: 504, height: 160 },
+  },
+  { slug: 'ecommerce-retail-platform', kind: 'software', glow: '217,70,239' },
+  // ── Websites ──
   {
     slug: 'quick-hotels',
+    kind: 'website',
     glow: '255,47,134',
     shots: {
       desktop: '/work/quick-hotels-desktop.webp',
@@ -72,13 +107,8 @@ const FEATURED: Featured[] = [
     logo: { src: '/work/quick-hotels-logo.webp', width: 333, height: 160 },
   },
   {
-    slug: 'unskills-computer-education-crm',
-    glow: '168,85,247',
-    mockup: '/work/unskills-crm-showcase.webp',
-    logo: { src: '/work/unskills-logo.webp', width: 356, height: 160 },
-  },
-  {
     slug: 'herbal-vantage',
+    kind: 'website',
     glow: '34,197,94',
     shots: {
       desktop: '/work/herbal-vantage-desktop.webp',
@@ -95,6 +125,7 @@ const FEATURED: Featured[] = [
   },
   {
     slug: 'spectrum-tour-travels',
+    kind: 'website',
     glow: '249,115,22',
     shots: {
       desktop: '/work/spectrum-tour-travels-desktop.webp',
@@ -119,6 +150,7 @@ const GAP = { mobile: 28, desktop: 120 };
 const SHRINK = 0.035;
 
 type StackItem = PortfolioItem & {
+  kind: WorkKind;
   glow: string;
   phone?: string;
   mockup?: string;
@@ -159,18 +191,26 @@ export function WorkStack({ onOpenProject, onStartProject, onViewAll }: Props) {
   const step = isDesktop ? STEP.desktop : STEP.mobile;
   const gap = isDesktop ? GAP.desktop : GAP.mobile;
 
-  const items = useMemo<StackItem[]>(() => {
+  const allItems = useMemo<StackItem[]>(() => {
     const bySlug = new Map(projects.map((p) => [p.slug, p]));
-    return FEATURED.flatMap(({ slug, glow, shots, mockup, logo }) => {
+    return FEATURED.flatMap(({ slug, kind, glow, shots, mockup, logo }) => {
       const project = bySlug.get(slug);
       if (!project) return [];
       const [item] = toPortfolioItems([project]);
       const preview: PreviewSource = shots
         ? { type: 'image', src: shots.desktop, alt: `${item.name} website` }
         : item.preview;
-      return [{ ...item, preview, glow, phone: shots?.mobile, mockup, logo }];
+      return [{ ...item, preview, kind, glow, phone: shots?.mobile, mockup, logo }];
     });
   }, [projects]);
+
+  // ── Tabs ──
+  const [tab, setTab] = useState<WorkKind>('software');
+  const items = useMemo(() => allItems.filter((it) => it.kind === tab), [allItems, tab]);
+  const counts = useMemo(
+    () => Object.fromEntries(TABS.map((t) => [t.id, allItems.filter((it) => it.kind === t.id).length])),
+    [allItems]
+  ) as Record<WorkKind, number>;
 
   // ── Dark → light → dark ──
   // Light while the section's top is above 30% of the viewport and its bottom
@@ -233,6 +273,13 @@ export function WorkStack({ onOpenProject, onStartProject, onViewAll }: Props) {
     layoutVersion.set(layoutVersion.get() + 1);
   }, [items.length, pin, step, gap, layoutVersion]);
 
+  // A tab switch swaps the cards (exit, then the new ones rise in); re-measure
+  // once they have settled so the stack's scroll geometry matches them.
+  useEffect(() => {
+    const id = window.setTimeout(measure, 900);
+    return () => window.clearTimeout(id);
+  }, [tab, measure]);
+
   useEffect(() => {
     measure();
     const ro = new ResizeObserver(measure);
@@ -248,7 +295,7 @@ export function WorkStack({ onOpenProject, onStartProject, onViewAll }: Props) {
     onViewAll();
   };
 
-  if (items.length === 0) return null;
+  if (allItems.length === 0) return null;
 
   return (
     // No z-index or transform on the section: the tone layer is `fixed` and has
@@ -264,6 +311,7 @@ export function WorkStack({ onOpenProject, onStartProject, onViewAll }: Props) {
           transition: `opacity ${TONE_MS}ms cubic-bezier(0.4, 0, 0.2, 1)`,
         }}
       />
+      <DotGlow active={isLight} reduceMotion={reduceMotion} />
 
       <div className="relative z-[16]">
         {/* ── Intro ── */}
@@ -288,44 +336,68 @@ export function WorkStack({ onOpenProject, onStartProject, onViewAll }: Props) {
               REAL BUSINESSES.
             </span>
           </h2>
-          <p
-            style={inkSoft}
-            className="mt-5 max-w-[520px] text-[15px] leading-[1.65] md:text-[17px]"
-          >
-            From hotel groups to growing institutes, we design and ship the systems teams open every
-            morning: booking engines, CRMs, storefronts and more.
+          <p style={inkSoft} className="mt-5 max-w-[520px] text-[15px] leading-[1.6] md:text-[17px]">
+            Software, websites and apps that businesses run on every day.
           </p>
+          <WorkTabs tab={tab} counts={counts} isLight={isLight} onChange={setTab} />
         </header>
 
         {/* ── Stack ── */}
-        <div ref={stackRef} className="relative px-3 sm:px-6 lg:px-12">
-          {items.map((item, i) => (
-            <div
-              key={item.slug}
-              ref={(el) => {
-                cardRefs.current[i] = el;
-              }}
-              className="pointer-events-none sticky mx-auto w-full max-w-[1240px]"
-              style={{
-                top: pin + i * step,
-                marginBottom: i === items.length - 1 ? 0 : gap,
-              }}
+        {/* The outer div stays mounted (it is what `measure` reads); the keyed
+            list inside swaps on a tab change: the old cards drop away, then the
+            new ones rise in from below, one after another. */}
+        <div
+          ref={stackRef}
+          id="work-stack"
+          role="tabpanel"
+          aria-labelledby={`work-tab-${tab}`}
+          className="relative px-3 sm:px-6 lg:px-12"
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            <m.div
+              key={tab}
+              exit={
+                reduceMotion
+                  ? { opacity: 0, transition: { duration: 0.15 } }
+                  : { opacity: 0, y: 56, transition: { duration: 0.3, ease: [0.4, 0, 1, 1] } }
+              }
             >
-              <StackCard
-                item={item}
-                index={i}
-                total={items.length}
-                scrollY={scrollY}
-                layoutVersion={layoutVersion}
-                layout={layout}
-                reduceMotion={reduceMotion}
-                isDesktop={isDesktop}
-                pin={pin}
-                step={step}
-                onOpen={onOpenProject}
-              />
-            </div>
-          ))}
+              {items.length === 0 ? (
+                <ComingSoon onStartProject={onStartProject} />
+              ) : (
+                items.map((item, i) => (
+                  <m.div
+                    key={item.slug}
+                    ref={(el: HTMLDivElement | null) => {
+                      cardRefs.current[i] = el;
+                    }}
+                    initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 140 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1], delay: 0.09 * i }}
+                    className="pointer-events-none sticky mx-auto w-full max-w-[1240px]"
+                    style={{
+                      top: pin + i * step,
+                      marginBottom: i === items.length - 1 ? 0 : gap,
+                    }}
+                  >
+                    <StackCard
+                      item={item}
+                      index={i}
+                      total={items.length}
+                      scrollY={scrollY}
+                      layoutVersion={layoutVersion}
+                      layout={layout}
+                      reduceMotion={reduceMotion}
+                      isDesktop={isDesktop}
+                      pin={pin}
+                      step={step}
+                      onOpen={onOpenProject}
+                    />
+                  </m.div>
+                ))
+              )}
+            </m.div>
+          </AnimatePresence>
           {/* Holds the finished stack on screen for a beat before it scrolls away. */}
           <div aria-hidden="true" className="h-[10svh]" />
         </div>
@@ -381,6 +453,123 @@ export function WorkStack({ onOpenProject, onStartProject, onViewAll }: Props) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+
+/** Software / Websites / Apps — a segmented control with a sliding gradient pill. */
+const WorkTabs: React.FC<{
+  tab: WorkKind;
+  counts: Record<WorkKind, number>;
+  isLight: boolean;
+  onChange: (t: WorkKind) => void;
+}> = ({ tab, counts, isLight, onChange }) => {
+  const btnRefs = useRef<Partial<Record<WorkKind, HTMLButtonElement | null>>>({});
+  const [pill, setPill] = useState({ x: 0, w: 0 });
+
+  useEffect(() => {
+    const place = () => {
+      const b = btnRefs.current[tab];
+      if (b) setPill({ x: b.offsetLeft, w: b.offsetWidth });
+    };
+    place();
+    window.addEventListener('resize', place);
+    // Web fonts can land after first paint and change the button widths.
+    document.fonts?.ready.then(place);
+    return () => window.removeEventListener('resize', place);
+  }, [tab]);
+
+  const move = (dir: 1 | -1) => {
+    const i = TABS.findIndex((t) => t.id === tab);
+    const next = TABS[(i + dir + TABS.length) % TABS.length].id;
+    onChange(next);
+    btnRefs.current[next]?.focus();
+  };
+
+  return (
+    <div
+      role="tablist"
+      aria-label="Filter work"
+      className={`relative mt-8 inline-flex rounded-full border p-1 backdrop-blur-sm transition-colors duration-700 md:mt-10 ${
+        isLight
+          ? 'border-[#0d0b12]/[0.08] bg-white/80 shadow-[0_8px_30px_-12px_rgba(30,15,50,0.18)]'
+          : 'border-white/15 bg-white/[0.06]'
+      }`}
+      onKeyDown={(e) => {
+        if (e.key === 'ArrowRight') move(1);
+        if (e.key === 'ArrowLeft') move(-1);
+      }}
+    >
+      <m.span
+        aria-hidden="true"
+        className="absolute bottom-1 top-1 rounded-full bg-gradient-to-r from-[#ff2f86] via-[#d946ef] to-[#a855f7] shadow-[0_6px_20px_-6px_rgba(217,70,239,0.6)]"
+        initial={false}
+        animate={{ x: pill.x - 4, width: pill.w }}
+        style={{ left: 4 }}
+        transition={{ type: 'spring', stiffness: 420, damping: 36 }}
+      />
+      {TABS.map((t) => {
+        const active = t.id === tab;
+        return (
+          <button
+            key={t.id}
+            id={`work-tab-${t.id}`}
+            ref={(el) => {
+              btnRefs.current[t.id] = el;
+            }}
+            role="tab"
+            aria-selected={active}
+            aria-controls="work-stack"
+            tabIndex={active ? 0 : -1}
+            onClick={() => onChange(t.id)}
+            className={`relative z-10 flex h-10 items-center gap-2 rounded-full px-4 text-[14px] font-semibold transition-colors duration-300 sm:h-11 sm:px-6 sm:text-[15px] ${
+              active ? 'text-white' : isLight ? 'text-[#0d0b12]/60 hover:text-[#0d0b12]' : 'text-white/65 hover:text-white'
+            }`}
+          >
+            {t.label}
+            {counts[t.id] > 0 ? (
+              <span className={`text-[12px] tabular-nums ${active ? 'text-white/80' : 'opacity-50'}`}>
+                {counts[t.id]}
+              </span>
+            ) : (
+              <span
+                className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.08em] ${
+                  active ? 'bg-white/20 text-white' : isLight ? 'bg-[#0d0b12]/[0.06]' : 'bg-white/10'
+                }`}
+              >
+                Soon
+              </span>
+            )}
+          </button>
+        );
+      })}
+    </div>
+  );
+};
+
+/** What a tab with no projects yet shows (Apps, for now). */
+const ComingSoon: React.FC<{ onStartProject: () => void }> = ({ onStartProject }) => (
+  <m.div
+    initial={{ opacity: 0, y: 60 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+    className="mx-auto flex w-full max-w-[1240px] flex-col items-center rounded-[20px] border border-[#0d0b12]/[0.07] bg-white px-6 py-16 text-center shadow-[0_36px_70px_-36px_rgba(30,15,50,0.32)] sm:rounded-[28px] sm:py-20"
+  >
+    <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#ff2f86]/15 to-[#a855f7]/15 text-[#c026d3]">
+      <Smartphone className="h-6 w-6" />
+    </span>
+    <h3 className="mt-5 text-[22px] font-bold tracking-[-0.02em] text-[#0d0b12] sm:text-[26px]">
+      App case studies are on the way
+    </h3>
+    <p className="mt-2 max-w-[420px] text-[15px] leading-[1.6] text-[#0d0b12]/60">
+      We're putting the finishing touches on them. Got an app idea in the meantime?
+    </p>
+    <button
+      onClick={onStartProject}
+      className="mt-7 flex h-12 items-center gap-2 rounded-full bg-gradient-to-r from-[#ff2f86] via-[#d946ef] to-[#a855f7] px-7 text-sm font-semibold text-white shadow-[0_12px_32px_-10px_rgba(255,47,134,0.55)] transition-transform hover:scale-[1.04]"
+    >
+      Start a project
+      <ArrowUpRight className="h-5 w-5" />
+    </button>
+  </m.div>
+);
 
 interface CardProps {
   item: StackItem;

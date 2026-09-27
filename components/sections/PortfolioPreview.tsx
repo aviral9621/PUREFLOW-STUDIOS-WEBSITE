@@ -52,6 +52,16 @@ export const PreviewContent: React.FC<{
   device: DeviceKind;
 }> = ({ preview, name, device }) => {
   switch (preview.type) {
+    case 'cover':
+      return (
+        <img
+          src={preview.src}
+          alt={preview.alt ?? `${name} overview`}
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 h-full w-full bg-white object-contain"
+        />
+      );
     case 'image':
       return (
         <img
@@ -84,6 +94,15 @@ interface Props {
 }
 
 export const PortfolioPreview: React.FC<Props> = ({ preview, name, device }) => {
+  // A cover is a finished composition: no browser or phone frame around it.
+  if (preview.type === 'cover') {
+    return (
+      <div className="absolute inset-0 bg-white">
+        <PreviewContent preview={preview} name={name} device={device} />
+      </div>
+    );
+  }
+
   if (device === 'phone') {
     return (
       <div className="sw-ui absolute inset-0 flex items-center justify-center bg-[#0a0a10]">

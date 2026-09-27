@@ -27,7 +27,7 @@ import { DotGlow } from './DotGlow';
 //      over the last, while the ones beneath shrink back.
 //   3. Once the stack runs out, a closing "build yours next" prompt.
 //
-// Tabs (Software / Websites / Apps, `kind` in FEATURED) filter the stack; a
+// Tabs (Software / Websites / Apps, `kinds` in FEATURED) filter the stack; a
 // switch drops the old cards away and raises the new ones in from below.
 // Behind the cards, `DotGlow` lays a dot grid with a cursor-following glow.
 //
@@ -60,8 +60,8 @@ const TABS: { id: WorkKind; label: string }[] = [
 
 interface Featured {
   slug: string;
-  /** Which tab the card lives under. */
-  kind: WorkKind;
+  /** Which tab(s) the card appears under, in FEATURED order within each. */
+  kinds: WorkKind[];
   glow: string;
   /** Stills of a live site: a desktop capture (16:10) and a phone capture (9:19.5). */
   shots?: { desktop: string; mobile: string };
@@ -81,34 +81,40 @@ const FEATURED: Featured[] = [
   // ── Software ──
   {
     slug: 'unskills-computer-education-crm',
-    kind: 'software',
+    kinds: ['software'],
     glow: '168,85,247',
     mockup: '/work/unskills-crm-showcase.webp',
     logo: { src: '/work/unskills-logo.webp', width: 356, height: 160 },
   },
   {
     slug: 'smart-agro',
-    kind: 'software',
+    kinds: ['software'],
     glow: '40,185,76',
     mockup: '/work/smart-agro-mockup.webp',
     logo: { src: '/work/smart-agro-logo.webp', width: 504, height: 160 },
   },
-  { slug: 'ecommerce-retail-platform', kind: 'software', glow: '217,70,239' },
-  // ── Websites ──
   {
-    slug: 'quick-hotels',
-    kind: 'website',
-    glow: '255,47,134',
-    shots: {
-      desktop: '/work/quick-hotels-desktop.webp',
-      mobile: '/work/quick-hotels-mobile.webp',
-    },
-    mockup: '/work/quick-hotels-mockup.webp',
+    slug: 'ecommerce-retail-platform',
+    kinds: ['software'],
+    glow: '217,70,239',
+    mockup: '/work/quick-hotels-crm-showcase.webp',
     logo: { src: '/work/quick-hotels-logo.webp', width: 333, height: 160 },
   },
   {
+    slug: 'spectrum-tour-travels',
+    kinds: ['software'],
+    glow: '249,115,22',
+    shots: {
+      desktop: '/work/spectrum-tour-travels-desktop.webp',
+      mobile: '/work/spectrum-tour-travels-mobile.webp',
+    },
+    mockup: '/work/spectrum-tour-travels-showcase.webp',
+    logo: { src: '/work/spectrum-tour-travels-logo.webp', width: 277, height: 160 },
+  },
+  // MLM software + the brand's online store: under both tabs.
+  {
     slug: 'herbal-vantage',
-    kind: 'website',
+    kinds: ['software', 'website'],
     glow: '34,197,94',
     shots: {
       desktop: '/work/herbal-vantage-desktop.webp',
@@ -117,22 +123,17 @@ const FEATURED: Featured[] = [
     mockup: '/work/herbal-vantage-showcase.webp',
     logo: { src: '/work/herbal-vantage-logo.webp', width: 671, height: 160 },
   },
+  // ── Websites ──
   {
-    slug: 'ecommerce-retail-platform',
-    glow: '217,70,239',
-    mockup: '/work/quick-hotels-crm-showcase.webp',
-    logo: { src: '/work/quick-hotels-logo.webp', width: 333, height: 160 },
-  },
-  {
-    slug: 'spectrum-tour-travels',
-    kind: 'website',
-    glow: '249,115,22',
+    slug: 'quick-hotels',
+    kinds: ['website'],
+    glow: '255,47,134',
     shots: {
-      desktop: '/work/spectrum-tour-travels-desktop.webp',
-      mobile: '/work/spectrum-tour-travels-mobile.webp',
+      desktop: '/work/quick-hotels-desktop.webp',
+      mobile: '/work/quick-hotels-mobile.webp',
     },
-    mockup: '/work/spectrum-tour-travels-showcase.webp',
-    logo: { src: '/work/spectrum-tour-travels-logo.webp', width: 277, height: 160 },
+    mockup: '/work/quick-hotels-mockup.webp',
+    logo: { src: '/work/quick-hotels-logo.webp', width: 333, height: 160 },
   },
 ];
 
@@ -150,7 +151,7 @@ const GAP = { mobile: 28, desktop: 120 };
 const SHRINK = 0.035;
 
 type StackItem = PortfolioItem & {
-  kind: WorkKind;
+  kinds: WorkKind[];
   glow: string;
   phone?: string;
   mockup?: string;
@@ -193,22 +194,22 @@ export function WorkStack({ onOpenProject, onStartProject, onViewAll }: Props) {
 
   const allItems = useMemo<StackItem[]>(() => {
     const bySlug = new Map(projects.map((p) => [p.slug, p]));
-    return FEATURED.flatMap(({ slug, kind, glow, shots, mockup, logo }) => {
+    return FEATURED.flatMap(({ slug, kinds, glow, shots, mockup, logo }) => {
       const project = bySlug.get(slug);
       if (!project) return [];
       const [item] = toPortfolioItems([project]);
       const preview: PreviewSource = shots
         ? { type: 'image', src: shots.desktop, alt: `${item.name} website` }
         : item.preview;
-      return [{ ...item, preview, kind, glow, phone: shots?.mobile, mockup, logo }];
+      return [{ ...item, preview, kinds, glow, phone: shots?.mobile, mockup, logo }];
     });
   }, [projects]);
 
   // ── Tabs ──
   const [tab, setTab] = useState<WorkKind>('software');
-  const items = useMemo(() => allItems.filter((it) => it.kind === tab), [allItems, tab]);
+  const items = useMemo(() => allItems.filter((it) => it.kinds.includes(tab)), [allItems, tab]);
   const counts = useMemo(
-    () => Object.fromEntries(TABS.map((t) => [t.id, allItems.filter((it) => it.kind === t.id).length])),
+    () => Object.fromEntries(TABS.map((t) => [t.id, allItems.filter((it) => it.kinds.includes(t.id)).length])),
     [allItems]
   ) as Record<WorkKind, number>;
 

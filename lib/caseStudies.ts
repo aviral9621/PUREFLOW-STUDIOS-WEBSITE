@@ -198,7 +198,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     liveUrl: 'https://herbal-vantage-website.vercel.app/',
 
     card: {
-      image: '/work/herbal-vantage-desktop.webp',
+      cover: '/work/herbal-vantage-showcase.webp',
       title: 'Premium Herbal Store Experience',
       description:
         'Modern herbal e-commerce with a luxury product showcase, smooth shopping flow, clean UI and a conversion-focused design system.',
@@ -531,6 +531,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         'Leads, WhatsApp automation, e-commerce, inventory across godowns and GST-ready accounting in one system.',
       name: 'Smart Agro',
       type: 'Business Management System',
+      showcaseLine: 'Agri Business Management System',
       blurb: 'Leads, WhatsApp, orders, stock and GST accounting in one system.',
       year: '2026',
       image: '/work/smart-agro-mockup.webp',

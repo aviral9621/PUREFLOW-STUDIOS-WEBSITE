@@ -449,7 +449,7 @@ Keep each image ≲ 150 KB (cards are 15–35 KB each).
 ```ts
 {
   slug: 'quick-hotels',                       // must exist in lib/caseStudies.ts
-  kind: 'website',                            // tab: 'software' | 'website' | 'app'
+  kinds: ['website'],                         // tab(s): 'software' | 'website' | 'app'
   glow: '255,47,134',                         // tint for the fallback card style
   mockup: '/work/quick-hotels-mockup.webp',   // 2:1 on white → replaces the screenshot frames
   logo: { src: '/work/quick-hotels-logo.webp', width: 333, height: 160 },
@@ -542,9 +542,9 @@ Website projects without a mockup use `card.image` (a still screenshot) instead 
 | **UnSkills: Institute Management System** | ✅ T2 feature showcase + black logo | ✅ live: hero, 6 problem cards, 7 feature cards, design system |
 | **Smart Agro: Agri Business Management System** | ✅ hub image (below) + black logo | ✅ live at `/work/smart-agro`: hero, brief, problem (text only), process, features, design system (coded). No impact or testimonial yet |
 | **Quick Hotels** (website) | ✅ T1 mockup + black logo | ⏳ old `CaseStudyPage` |
-| **Herbal Vantage** (website) | ⏳ screenshot fallback, name as text | ⏳ old page |
-| **Quick Hotels PMS** (`ecommerce-retail-platform`, card named "Quick Hotels CRM") | ⏳ T7 prompt ready (below); rename to "Quick Hotels PMS" pending the owner's OK | ⏳ old page |
-| **Spectrum Tour & Travels** | ⏳ website screenshot fallback. A Spectrum **CRM** T7 prompt is ready (below); the owner decides whether the card becomes the CRM | ⏳ old page |
+| **Herbal Vantage** (MLM software + online store) | ✅ showcase image + black logo · tabs: Software **and** Websites | ⏳ old page |
+| **Quick Hotels CRM/PMS** (`ecommerce-retail-platform`) | ✅ T7 image + black logo · tab: Software | ⏳ old page |
+| **Spectrum: travel CRM** (`spectrum-tour-travels`) | ✅ T7 CRM image + black logo · tab: Software | ⏳ old page (still about the website) |
 | UnSkills mobile app / UnSkills website | not started. Separate showcases later | not started |
 
 Removed from the site on the owner's request: UnSkills Education (its old URLs open the

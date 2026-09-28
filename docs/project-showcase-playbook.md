@@ -540,7 +540,7 @@ Website projects without a mockup use `card.image` (a still screenshot) instead 
 | Project | Homepage card | Showcase page |
 |---|---|---|
 | **UnSkills: Institute Management System** | ✅ T2 feature showcase + black logo | ✅ live: hero, 6 problem cards, 7 feature cards, design system |
-| **Smart Agro: Agri Business Management System** | ✅ hub image (below) + black logo | ✅ live at `/work/smart-agro`: hero, brief, problem (text only), process, features, design system (coded). No impact or testimonial yet |
+| **Smart Agro: Agri Business Management System** | ✅ hub image (below) + black logo | ✅ live at `/work/smart-agro`: hero (T3 image, `smart-agro/hero.webp`), brief, problem (6 cut cards), process, features (7 cut cards), design system (T6 image), impact (live dashboard totals: 11,898 leads · 2,678 orders · ₹56.4L · 86% via WhatsApp; scale, not before/after). No testimonial yet |
 | **Quick Hotels** (website) | ✅ T1 mockup + black logo | ⏳ old `CaseStudyPage` |
 | **Herbal Vantage** (MLM software + online store) | ✅ showcase image + black logo · tabs: Software **and** Websites | ⏳ old page |
 | **Quick Hotels CRM/PMS** (`ecommerce-retail-platform`) | ✅ T7 image + black logo · tab: Software | ⏳ old page |
@@ -916,14 +916,17 @@ QUALITY RULES
   **Use this hub layout as the default for software homepage cards.**
 - The live dashboard figures (₹56,40,104 revenue etc.) are the client's real numbers.
   The owner chose to show them; ask before doing that for another client.
-- The detail page is a showcase with no impact numbers or testimonial yet. Add them when real ones exist.
+- The IMPACT shows the live dashboard's own totals (11,898 leads, 2,678 orders, ₹56.4L revenue, 86% of leads via WhatsApp), not before/after gains, because the client hasn't given any. Replace them with real before/after figures once the client confirms some; never invent them. No testimonial yet.
 - "Product bid" in the owner's brief was read as product **batches** per godown. Confirm before reusing.
 
 **Brand material (sampled)**
 - Logo: `https://www.smartagrocare.in/smart-agro-cr.png` (transparent) → `public/work/smart-agro-logo.webp` (black, drop-shadow removed).
 - Smart Red `#D01A1B`, Agro Green `#307120` (logo); Forest `#01411D`, Leaf `#28B94C` (product); Canvas `#F7F8F7`.
 - Fonts: Poppins (headings), Inter (body), from smartagrocare.in.
-- Image: `public/work/smart-agro-mockup.webp` (1774×887, homepage card + showcase hero).
+- Images: `public/work/smart-agro-mockup.webp` (1774×887, homepage card and /work index card); `public/work/smart-agro/hero.webp` (1672×941, showcase hero, from "Smart Sec - 1.png" made with the T3 prompt below, flattened with the Node port of `flatten_white.py`).
+- `public/work/smart-agro/problem-1…6.webp` 596×414 each, cut from "Smart Sec - 2.png" (T4 prompt below). The auto-finder missed cards 04 and 05 (a gap in their faint borders let the fill in), so their boxes were written by hand: row 2 = `[40,494,595,860]`, `[611,494,1165,860]`, `[1180,494,1734,861]`; row 1 was found as `[40,107,595,480]`, `[611,107,1165,480]`, `[1180,108,1735,481]`. One canvas for both rows so all six match. No notes were clipped.
+- `public/work/smart-agro/crm-card-{leads,whatsapp,orders}.webp` 500×466 and `crm-card-{targets,inventory,quotations,accounting}.webp` 456×404, cut from "Smart Sec - 3.png" (T5 prompt below); all 7 found automatically. The leads card (747 px wide) is scaled 0.67 to fit its row, as UnSkills' student card was; a bigger canvas would only shrink its two neighbours, because the grid gives every card in a row the same width.
+- `public/work/smart-agro/design-system.webp` 1774×887 from "Smart Sec - 4.png" (T6 prompt below). Flattened at **250, not 247**: the Canvas swatch (#F7F8F7 → ~#F8F9F9) would otherwise turn pure white and look like the White swatch. Every swatch was checked against its hex label (max difference 9/255). The sheet's top-left lockup is a redrawn "Smart Agro / LAXMI AGRO CRM" wordmark without the leaf mark, not the attached logo; regenerate with "Use the attached logo exactly" if the owner wants it exact.
 
 <details><summary>Hub image prompt (the version that was used)</summary>
 
@@ -977,6 +980,363 @@ CHECK-IN / CHECK-OUT / GUESTS & ROOMS plus a blue Search button. The logo is the
 Files: `public/work/quick-hotels-mockup.webp`, `public/work/quick-hotels-logo.webp`.
 
 ### Prepared, not yet used
+
+<details><summary>Smart Agro design system sheet (T6): for <code>/work/smart-agro</code>, prepared 2026-09-27, USED 2026-09-28 → <code>smart-agro/design-system.webp</code></summary>
+
+Hexes sampled on 2026-09-27 (median of regions): logo red #D31C1C and green #317320
+(kept as the logged Smart Red #D01A1B / Agro Green #307120); sidebar #00411D and active
+pill #28B94D (Forest #01411D / Leaf #28B94C); Info #2B65F6 (Facebook legend), Warning
+#FA960B (alert icon), Danger #F01E5B ("99+" badge), Mint Tint #E6FDF2 (stat icon tile),
+Ink #0A0919. Fonts as logged: Poppins headings, Inter body. Attach the logo only. When it
+comes back: flatten to `public/work/smart-agro/design-system.webp` and set `systemImage`
+in `lib/showcases.ts` (it then replaces the coded palette and type).
+
+```
+Create a clean, premium DESIGN SYSTEM sheet for "Smart Agro", an agri business management system, in the style of a professional design-agency case study (like a Figma style-guide page). It shows the product's colour palette, typography and core UI components, neatly organised on white, with a few hand-drawn arrows and handwritten notes.
+
+FORMAT
+- Exactly 2:1 landscape (2400 × 1200 px). If 2:1 isn't possible, use 16:9.
+- Background: flat pure white (#FFFFFF), seamless. No border, no frame, no gradient, no devices, no people.
+- About 5% white margin on all sides. Nothing touches the edges.
+
+GENERAL STYLE
+- Organised into 3 zones with generous spacing and thin light-grey (#E5E7EB) divider lines.
+- Every zone has a small uppercase grey label (letter-spaced, Inter Medium): "COLOUR", "TYPOGRAPHY", "COMPONENTS".
+- Swatches and cards: 20px rounded corners, very soft shadow.
+- Hand-drawn elements: 3 loose curved marker arrows with short handwritten notes in a casual marker script, Smart Red (#D01A1B) and dark charcoal (#1F2937). They sit in the white space and never cover text.
+
+ZONE 1 — COLOUR (left half of the image)
+
+Row 1: "Brand", 4 large tall swatches side by side. Each shows its colour as a solid block, then the name in bold and the hex code in a small monospace pill:
+- "Smart Red" #D01A1B
+- "Agro Green" #307120
+- "Forest" #01411D
+- "Leaf" #28B94C
+
+Row 2: "Status", 5 smaller square swatches, same labelling:
+- "Success" #28B94C
+- "Info" #2B65F6
+- "Warning" #FA960B
+- "Danger" #F01E5B
+- "Mint Tint" #E6FDF2 (with a thin grey outline so it shows on white)
+
+Row 3: "Neutrals", 3 small swatches:
+- "Canvas" #F7F8F7 (with a thin grey outline so it shows on white)
+- "White" #FFFFFF (with a thin grey outline)
+- "Ink" #0A0919
+
+Handwritten note with an arrow pointing at the Smart Red and Agro Green swatches: "Taken straight from the logo" ("logo" in red).
+Handwritten note with an arrow pointing at the Forest and Leaf swatches: "The colours of the fields" ("fields" in red).
+
+ZONE 2 — TYPOGRAPHY (top right)
+
+Two specimen cards side by side:
+- Card 1: a huge "Aa" set in Poppins SemiBold, then "Poppins", "Headings & numbers", and the weights "SemiBold · Bold". A small line of sample text in Poppins: "Good morning, Aviral".
+- Card 2: a huge "Aa" set in Inter SemiBold, then "Inter", "Interface & body text", and the weights "SemiBold · Medium · Regular". A small line of sample text in Inter: "Track leads, orders and stock in every godown."
+
+Under the two cards, a type-scale list (a left column showing each style's name and size, a right column showing that style as rendered text):
+- "Page title · Poppins SemiBold 28" → "Good morning, Aviral"
+- "Stat value · Poppins SemiBold 24" → "₹56,40,104"
+- "Card title · Inter SemiBold 16" → "Leads by Source"
+- "Body · Inter Regular 14" → "Here's what's happening with your business today."
+- "Label · Inter Medium 11 · Uppercase" → "TOTAL REVENUE"
+
+ZONE 3 — COMPONENTS (bottom right, one tidy row of real UI pieces from the system)
+- A primary button: solid Leaf (#28B94C), white text "Add Lead" with a small user-plus icon.
+- A secondary button: white with a thin grey border, "New Quotation" with a small document icon.
+- Three status pills: "Delivered" (green on light green), "Pending" (amber on light amber), "Low stock" (red on light red).
+- A stat card: "TOTAL ORDERS" / "2,678" / "42 today", with a pastel Mint Tint icon tile top-right and a small leaf-green sparkline.
+- A search input: "Search leads, products or orders…" with a magnifier icon.
+- A sidebar item in its active state: a short Forest (#01411D) sidebar strip with the item "Dashboard" in a Leaf-green pill, white text and a white icon.
+Handwritten note with an arrow at the components: "Same pieces across every screen" ("every" in red).
+
+LOGO
+- Place the attached Smart Agro logo small in the top-left corner above Zone 1, with "Design System" beside it in Poppins SemiBold. Copy the logo exactly; do not redesign it.
+
+QUALITY RULES
+- Every hex code, name and word exactly as written above, sharp and legible. No gibberish, no extra colours or fonts, no invented values.
+- Swatch colours must match their hex codes exactly.
+- Balanced, airy, professional; aligned to a clear grid.
+- No watermark, no devices, no captions beyond what's specified.
+```
+</details>
+
+<details><summary>Smart Agro feature bento (T5): for <code>/work/smart-agro</code>, prepared 2026-09-27, USED 2026-09-28 → <code>smart-agro/crm-card-*.webp</code></summary>
+
+Modelled on the UnSkills feature bento. The 10 feature chips in `lib/showcases.ts` are
+folded into 7 cards: A leads + Meta Ads, B WhatsApp automation, C e-commerce & orders,
+D targets + roles, E inventory & godowns, F quotations, G accounting & GST + affiliate
+commissions. Real figures where the dashboard has them (2,678 orders, 42 today, 115
+awaiting dispatch, 26 low stock products, 11,898 leads); the rest is demo data in the
+client's context. Attach the dashboard screenshot (names blurred) and the logo. When it
+comes back: cut into `public/work/smart-agro/crm-card-*.webp` with
+`cut_cards.py --size 620x470,432x392` and add `cards` to the product in `lib/showcases.ts`.
+
+```
+Create a clean, modern SaaS feature image for "Smart Agro", the business management system of an agriculture company that sells fertilisers, bio-stimulants and crop-protection products through a sales team, an online store and WhatsApp. Style: a bento grid of 7 rounded feature cards, each with a pastel icon tile, a bold title, one short description line and a compact, realistic UI illustration fully filled with data. A few playful hand-drawn arrows and handwritten notes. Show the software UI directly: no laptop, no phone, no device, no browser chrome.
+
+FORMAT
+- Exactly 2:1 landscape (2400 × 1200 px). If 2:1 isn't possible, use 16:9.
+- Background: flat pure white (#FFFFFF), seamless. No border, no frame, no headline, no people photos (small round avatars and initials inside the UI are fine).
+- About 4% white margin on all sides. Nothing touches the edges.
+
+VISUAL LANGUAGE
+- Match the attached Smart Agro dashboard: white and very light grey (#F7F8F7) surfaces, thin light-grey borders, Plus Jakarta Sans / Inter-style sans-serif, simple line icons, forest green (#0F5132) for dark UI accents.
+- Accent: leaf green (#22A447) for charts, active tabs and main buttons. Green (#16A34A) for paid / delivered / done, amber (#F59E0B) for pending, soft red (#EF4444) for low stock.
+- Cards: white, 24px rounded corners, thin light-grey border (#E5E7EB), very soft shadow, generous padding, equal gaps between cards.
+- Card header: a rounded-square pastel icon tile, then a bold near-black title (#0F172A) and one short grey line (#64748B).
+- Hand-drawn notes: 5 short notes in a casual marker script, charcoal (#1F2937) with one key word in Smart Agro red (#D01A1B), each with a short curved marker arrow. EVERY NOTE STAYS INSIDE ITS OWN CARD'S BORDER, in white space inside that card; none in the gaps between cards; never covering UI text or numbers.
+
+LAYOUT
+Top row: 3 cards (widths ~40% / 30% / 30%). Bottom row: 4 equal cards. Cards in the same row are exactly the same height.
+
+TOP ROW
+
+Card A (widest) — icon: people. Title: "Leads & Meta Ads". Line: "Every lead lands in one list and goes to the right seller."
+UI: a lead list with a header "Leads · 11,898" and a filter chip "Today". 4 rows, each with an initials avatar, a farmer's name and town, a source chip (plain text) and the seller it was assigned to:
+- "Ganesh Pawar · Nashik" · chip "WhatsApp" · "→ Priya More"
+- "Sunita Jadhav · Pune" · chip "Facebook ad" · "→ Rahul Deshmukh"
+- "Mahesh Shinde · Jalgaon" · chip "Instagram ad" · "→ Amit Kulkarni"
+- "Kavita Patil · Ahmednagar" · chip "Website form" · "→ Priya More"
+Above the list, a small green toast: "New lead from Facebook ad · auto-assigned to Rahul Deshmukh".
+Note inside the card, with an arrow at the toast: "Right seller, instantly" ("instantly" in red).
+
+Card B — icon: chat bubble. Title: "WhatsApp automation". Line: "Built in, with no third-party BSP fees."
+UI: a vertical flow of 4 small steps joined by short curved arrows:
+- "New enquiry on WhatsApp" · "Ganesh Pawar · Chilli Special"
+- "Product details sent" · "Price, dose and photos"
+- "Auto follow-up" · a tiny green chat bubble "Shall we book your order for tomorrow?"
+- "Order placed ✓" (green pill)
+Note inside the card: "No BSP fees" ("No" in red).
+
+Card C — icon: shopping bag. Title: "E-commerce & orders". Line: "From the online store to dispatch, one flow."
+UI: a 2×2 grid of mini tiles: "Total orders 2,678" (green), "Today 42" (blue), "Awaiting dispatch 115" (amber), "Delivered today 38" (green); under it an order row "Order #2291 · Virat + Panchgavya Combo · ₹1,700" with a blue "Dispatched" pill.
+Note inside the card, with an arrow at the dispatch tile: "Store to dispatch" ("dispatch" in red).
+
+BOTTOM ROW
+
+Card D — icon: target. Title: "Targets & team roles". Line: "Each seller sees only their leads and goals."
+UI: "September targets" with 3 seller rows, each with an initials avatar, a name, a thin leaf-green progress bar and a percentage: "Priya More · ₹3,20,000 of ₹4,00,000 · 80%", "Rahul Deshmukh · ₹2,10,000 of ₹3,00,000 · 70%", "Amit Kulkarni · ₹1,35,000 of ₹2,50,000 · 54%"; a row of role chips "Admin · Manager · Seller".
+
+Card E — icon: warehouse. Title: "Inventory & godowns". Line: "Stock and batches in every godown."
+UI: a product header "Maple EM-1" and 3 godown rows with stock counts: "Nashik godown · 1,240", "Jalgaon godown · 860", "Ahmednagar godown · 312"; a batch row "Batch MPL-0924 · Exp. Mar 2027"; a small red chip "26 low stock products · Restock".
+Note inside the card: "Every godown, live" ("live" in red).
+
+Card F — icon: document. Title: "Quotations". Line: "Professional quotes in a few clicks."
+UI: a mini quotation document "Quotation #QT-1182" / "Shree Krishi Kendra, Nashik" with 3 item rows: "Hunter Plus × 20 · ₹28,000", "Maple EM-1 × 10 · ₹10,000", "Flower Booster × 12 · ₹7,200"; a total line "Total · ₹45,200"; and a leaf-green button "Send on WhatsApp".
+
+Card G — icon: ₹. Title: "Accounting & GST". Line: "Books, GST returns and affiliate payouts."
+UI: two small status rows with green ticks: "GSTR-1 · September · Ready ✓", "GSTR-3B · September · Ready ✓"; a mini bar chart "Sales vs Expenses" for Apr → Sep (leaf-green and grey bars); and a row "Affiliate commissions · ₹18,450 due" with an amber "Pending" pill.
+Note inside the card: "GST-ready" ("GST" in red).
+
+LOGO (copy the attached Smart Agro logo exactly; do not redesign it)
+- Once, small, inside Card A's top-right corner: the "Smart Agro" wordmark with "Smart" in red and "Agro" in green, exactly as in the attached file.
+
+QUALITY RULES
+- Every word and number exactly as written above, sharp and legible. No gibberish, no invented names or numbers. Use ONLY the names given; never copy names from the reference screenshot.
+- No empty states; every tile, list and chart is filled.
+- No official third-party logos: WhatsApp, Facebook and Instagram appear only as plain text chips or simple line icons.
+- Card titles must stay readable when the whole image is shown at 1200 px wide.
+- Balanced, uncluttered, equal gaps between cards; every note inside its own card.
+- No devices, no watermark, no captions, no borders.
+```
+</details>
+
+<details><summary>Smart Agro problem bento (T4): for <code>/work/smart-agro</code>, prepared 2026-09-27, USED 2026-09-28 → <code>smart-agro/problem-1…6.webp</code></summary>
+
+Modelled on the UnSkills problem bento. The six problems come from the showcase's own
+brief/problem text (leads from WhatsApp, Facebook, Instagram and forms; sharing leads
+fairly; follow-ups; paying a BSP for WhatsApp; stock in several godowns; books and GST
+agreeing). Names, products and figures inside the cards are demo data in the client's
+context (smartagrocare.in products, Maharashtra names). Attach nothing, or the UnSkills
+problem screenshot as a style reference only. When it comes back: cut it into
+`public/work/smart-agro/problem-1…6.webp` with `cut_cards.py --size 574x440` and add
+`problemCards` to the Smart Agro entry in `lib/showcases.ts`.
+
+```
+Create a clean, modern SaaS explainer image: "Before Smart Agro — how an agri business used to run". The business sells fertilisers, bio-stimulants and crop-protection products to farmers through a sales team, an online store and WhatsApp. Style: a bento grid of 6 rounded cards on white, each showing one everyday problem as a small, realistic UI illustration, with a few playful hand-drawn notes. Honest and slightly chaotic INSIDE each card; the overall image stays neat, balanced and premium.
+
+FORMAT
+- Exactly 2:1 landscape (2400 × 1200 px). If 2:1 isn't possible, use 16:9.
+- Background: flat pure white (#FFFFFF), seamless. No border, no frame, no gradient, no devices, no people photos (small round avatars or initials inside the UI are fine).
+- About 4% white margin on all sides. Nothing touches the edges.
+
+VISUAL LANGUAGE
+- Cards: white, 24px rounded corners, thin light-grey border (#E5E7EB), very soft shadow, generous padding. ALL 6 CARDS EXACTLY THE SAME SIZE, with equal gaps between them.
+- Each card: a small illustration panel on top (very light grey #F7F7F9, rounded), then a number "01" … "06" in Smart Agro red (#D01A1B), a bold near-black title (#0F172A) and one short grey line (#64748B) under it.
+- UI inside the illustrations: Inter-style sans-serif, thin borders, simple line icons, muted greys. Whatever is broken is marked with small red/pink badges (#E11D48 text on #FFE4E6); "waiting" states use amber (#B45309 text on #FEF3C7).
+- Handwritten notes: short phrases in a casual marker script, charcoal (#1F2937) with one key word in red (#D01A1B), each with a short curved marker arrow. EVERY NOTE STAYS INSIDE ITS OWN CARD'S BORDER, in the top-right corner of that card's illustration panel. Never put a note or an arrow in the gap between cards.
+
+LAYOUT: 3 columns × 2 rows, all cards the same size.
+
+Card 01 — "Leads everywhere"
+Line: "Enquiries came in on WhatsApp, Facebook, Instagram and forms, never in one list."
+Illustration: 4 stacked source rows, each with a simple line icon (chat bubble, thumbs-up, camera, form) and the platform name as plain text, plus a green unread badge: "WhatsApp · 312 new", "Facebook ads · 86 new", "Instagram DMs · 41 new", "Website form · 19 new". A small red badge across the bottom row: "Not in one list".
+Note inside the card: "Where's the full list?" ("list" in red), arrow pointing at the red badge.
+
+Card 02 — "Leads shared unfairly"
+Line: "Some sellers were flooded while others waited for work."
+Illustration: 3 seller rows, each with an initials avatar, a name and a horizontal bar: "Rahul Deshmukh · 146 leads" (long bar, red badge "Overloaded"), "Priya More · 12 leads" (short bar), "Amit Kulkarni · 3 leads" (tiny bar, amber badge "Waiting").
+Note inside the card: "Not fair" ("fair" in red), arrow pointing at "Overloaded".
+
+Card 03 — "Follow-ups slipped through"
+Line: "Farmers asked about a product and nobody called back in time."
+Illustration: 3 lead rows, each with a missed-call icon, a product and a farmer's name with a masked number, and a red badge: "Enquiry · Chilli Special" / "Ganesh Pawar · +91 98xxx 42117" / "5 days, no call"; "Enquiry · Maple EM-1" / "Sunita Jadhav · +91 97xxx 30564" / "3 days, no call"; "Price query · Hunter Plus" / "Mahesh Shinde · +91 99xxx 18823" / "Missed call".
+
+Card 04 — "Paying per WhatsApp message"
+Line: "Bulk WhatsApp meant a third-party provider billing every message."
+Illustration: a small monthly bill card titled "WhatsApp provider · September" with rows "Messages sent · 38,400", "Rate per message · ₹0.78", a divider, and "Total · ₹29,952" in bold, plus a red badge "Every month".
+Note inside the card: "Paying per message" ("per message" in red), arrow pointing at the total.
+
+Card 05 — "Stock in separate registers"
+Line: "Each godown kept its own count, so nobody knew what was really there."
+Illustration: two small side-by-side godown cards with a warehouse icon: "Godown 1 · Nashik" / "Maple EM-1 · 120 in stock" (green pill), and "Godown 2 · Jalgaon" / "Maple EM-1 · ?" (grey question mark, amber pill "Not updated"). Below them a thin red strip: "Order #2291 stuck · out of stock".
+
+Card 06 — "Books never matched"
+Line: "Orders, stock and accounts disagreed every time GST was due."
+Illustration: three small figure tiles in a row: "Orders · ₹9,80,000", "Books · ₹9,12,500", "GST return · ?" (greyed), joined by a red "≠" circle between the first two, and a red badge under them: "Mismatch at filing time".
+Note inside the card: "Numbers never matched" ("never" in red), arrow pointing at the "≠".
+
+QUALITY RULES
+- Every word and number exactly as written above, sharp and legible. No gibberish, no extra text, no invented names or numbers. Use ONLY the names given.
+- No official third-party logos: WhatsApp, Facebook and Instagram appear only as plain text with simple line icons.
+- Card titles must stay readable when the whole image is shown at 1200 px wide.
+- Neat and balanced overall: the "mess" lives inside the small illustrations, not in the layout. Every note stays inside its own card.
+- No watermark, no device frames, no browser chrome, no background scenery.
+```
+</details>
+
+<details><summary>Smart Agro showcase hero (T3): for <code>/work/smart-agro</code>, prepared 2026-09-27, USED 2026-09-28 → <code>smart-agro/hero.webp</code></summary>
+
+Modelled on the UnSkills hero (dashboard + 4 floating cards + 5 hand-drawn notes). The
+dashboard figures are Smart Agro's real ones (the owner already chose to show them). The
+floating cards use demo data in the client's context: products from smartagrocare.in
+(Virat + Panchgavya Combo, Maple EM-1, Hunter Plus, Flower Booster) and Maharashtra
+names and towns. Attach the dashboard screenshot (names blurred) and the logo. When it
+comes back: flatten to `public/work/smart-agro/hero.webp` and point `hero` in
+`lib/showcases.ts` at it (the homepage card keeps `smart-agro-mockup.webp`).
+
+```
+Create a premium SaaS hero image for a software agency case study of "Smart Agro", a complete business management system for an agriculture company that sells fertilisers, bio-stimulants and crop-protection products through a sales team, an online store and WhatsApp. Show the software UI DIRECTLY: no laptop, no phone, no tablet, no monitor, no device of any kind, no browser chrome. Style: a clean product-launch explainer with floating UI cards and playful hand-drawn arrows and handwritten notes.
+
+FORMAT
+- 16:9 landscape (2400 × 1350 px). If 16:9 isn't possible, use the closest landscape size.
+- Background: flat pure white (#FFFFFF), seamless, edge to edge. No border, no frame, no gradient, no texture, no desk, no props, no hands, no people.
+- About 5% white margin on all sides. Nothing touches the edges.
+
+MAIN ELEMENT — THE DASHBOARD WINDOW (centre, about 66% of the image width)
+- A flat, front-facing app window with 18px rounded corners, a thin light-grey border and a large, very soft shadow, floating on the white background. It is just the UI panel itself: no device frame, no bezel, no stand.
+- Recreate the attached Smart Agro dashboard faithfully (same layout, colours, icons, Plus Jakarta Sans / Inter-style font), fully filled:
+  • Left sidebar, forest green (#0F5132) with white text: the Smart Agro logo tile + "Smart Agro" / "LAXMI AGRO CRM". "Dashboard" active (leaf-green pill #22A447). "SALES & CRM": Leads, Pending Activities (red "99+" badge), Targets, Customers. "AFFILIATE": Affiliate Applications, Affiliate Commissions. "OPERATIONS": Products, Product Reviews, Website, Blog, Inventory, Quotations, Orders. A user card at the bottom: green "A", "Aviral", "Admin".
+  • Top bar: "Good morning, Aviral ☀️" / "Here's what's happening with your business today."; a bell with a red "3" badge; a user pill with a green "A", "Aviral", "Admin" and a chevron.
+  • Four stat cards (pastel icon tile, uppercase label, bold value, small sparkline): "TOTAL REVENUE" ₹56,40,104 · "↑ 140% vs last 7 days"; "TOTAL ORDERS" 2,678 · "42 today"; "TOTAL LEADS" 11,898 · "↑ 362% vs last 7 days"; "TOTAL PRODUCTS" 70 · "5 new this month".
+  • Alert strips:
+    – amber: "You need to talk to 5,947 leads" / "No status change or note for over 24 hours. Tap to open the follow-up list."
+    – amber: "Stock is zero — 2 orders are waiting. Refill the stock." / "No invoice or dispatch until refilled."
+    – soft red: "4 products in negative stock — restock needed" / "Sold beyond available stock."
+    – two half-width strips: amber "115 awaiting dispatch" / "Tap to manage queue"; soft red "26 low stock products" / "Tap to restock".
+  • Bottom row (may be slightly cut by the window's lower edge): "Sales Overview" (Last 7 days, a smooth leaf-green area chart, 20 Sep → 26 Sep) and "Leads by Source" (a donut with "11,898" / "Total"; WhatsApp 86%, Manual 8%, Facebook 3%, Instagram 2%, Phone 1%).
+
+FLOATING CARDS (white, 20px rounded corners, thin light-grey border, soft shadow, tilted 3–5°, overlapping the window's edges slightly, as if popping out of the UI)
+- Top-left: "Monthly Sales", a smooth leaf-green (#22A447) line chart Apr → Sep with a light green fill, y-axis ₹0 / ₹3L / ₹6L / ₹9L / ₹12L, the peak labelled in a small green tag "Sep · ₹11,20,000".
+- Bottom-left: "Leads this week", 7 leaf-green bars Mon → Sun, with a small green chip "↑ 362% vs last 7 days".
+- Right: "Recent Orders", 4 rows, each with a small green box icon, a customer name and town, a product, an amount and a status pill:
+  "Sandeep Patil · Nashik" · "Virat + Panchgavya Combo" · "₹1,700" · green "Delivered"
+  "Anil Jadhav · Pune" · "Maple EM-1" · "₹1,000" · blue "Dispatched"
+  "Suresh Pawar · Ahmednagar" · "Hunter Plus" · "₹1,400" · blue "Dispatched"
+  "Vikas Shinde · Jalgaon" · "Flower Booster" · "₹600" · green "Delivered"
+- Bottom-right: a small chip with a green chat-bubble icon (a plain line icon, not the official WhatsApp logo) and "Follow-up sent on WhatsApp ✓".
+
+HAND-DRAWN ARROWS + HANDWRITTEN NOTES
+Style: loose, slightly wobbly curved marker arrows with simple open arrowheads, about 3px thick, in Smart Agro red (#D01A1B). Notes are short phrases in a casual handwritten marker script, dark charcoal (#1F2937), with one key word in red (#D01A1B), slightly tilted. They sit in the white space and never cover any UI text, number or chart.
+Add exactly these 5:
+a) From "Monthly Sales" → curved arrow to the "TOTAL REVENUE ₹56,40,104" card. Note: "Sales tracked live" ("live" in red).
+b) From "Leads this week" → curved arrow to the "TOTAL LEADS 11,898" card. Note: "Leads up 362%" ("362%" in red).
+c) From "Recent Orders" → curved arrow to the "115 awaiting dispatch" strip. Note: "Order to dispatch, one flow" ("one flow" in red).
+d) Top centre, above the window: note "Every godown. One dashboard." ("One" in red) with a short arrow curving down into the dashboard.
+e) From the WhatsApp chip → short arrow to the "You need to talk to 5,947 leads" strip. Note under the chip: "Follow-ups on autopilot" ("autopilot" in red).
+
+LOGO (copy the attached Smart Agro logo exactly; do not redesign it)
+- Used only inside the dashboard's sidebar tile: the "Smart Agro" wordmark with "Smart" in red and "Agro" in green, exactly as in the attached file.
+
+QUALITY RULES
+- Every word and number exactly as written above, sharp and legible. No gibberish, no invented names or numbers. Use ONLY the names given; never copy names from the reference screenshot.
+- No empty states, no zero values: every card, chart and list is filled.
+- Clean, balanced, generous spacing; the arrows guide the eye without clutter; nothing overlaps the dashboard's numbers.
+- No official third-party logos (WhatsApp, Facebook and Instagram appear only as plain text or simple line icons).
+- No devices, no watermark, no captions, no borders.
+```
+</details>
+
+<details><summary>Smart Agro v2 (hub, 5 + 5 features): refresh of the homepage card, prepared 2026-09-27</summary>
+
+The owner asked for the card to also show WhatsApp campaigns, targets, products, stock,
+low stock and product reviews. Same hub layout as the version above, with 5 features a
+side. Attach the Smart Agro dashboard screenshot (names blurred) or, failing that, the
+current card image as the dashboard reference, plus the logo from
+`https://www.smartagrocare.in/smart-agro-cr.png`. If 10 features look crowded, drop
+"Product reviews" and "Low-stock alerts" to get back to the 4 + 4 that worked.
+
+```
+Create a premium, clean SaaS feature image for "Smart Agro", a complete business management system for agriculture companies. Idea: ONE real system in the centre, its features around it, each connected by a thin arrow to the exact part of the dashboard it powers. The dashboard must look like a real, fully working product. Clean and balanced, never cluttered. Show the software UI directly: no laptop, no phone, no device, no browser chrome.
+
+FORMAT
+- Exactly 2:1 landscape (2400 × 1200 px). If 2:1 isn't possible, use 16:9.
+- Background: flat pure white (#FFFFFF), seamless. No border, no frame, no gradient, no texture, no props, no hands, no people, no logo outside the dashboard.
+- About 5% white margin on the left, right and top; nothing touches the edges. The dashboard window may run off the bottom edge.
+
+TYPE & COLOUR
+- Geometric sans-serif throughout (Plus Jakarta Sans / Inter style).
+- Headline: bold, near-black #0F172A. Feature titles: bold, near-black #0F172A. Feature lines: regular, grey #64748B.
+- Accent: leaf green #22A447. Dashboard sidebar: forest green #0F5132 with white text.
+- Feature icons: simple line icons in leaf green inside identical soft-green rounded squares (#EAF7EE), all the same size.
+
+LAYOUT: 3 COLUMNS
+
+1) HEADLINE (top ~12%, centred, one compact line, about 5% of the image height)
+"One system. Every part of your agri business." with "Every part of your agri business." in leaf green. No subheadline, no chips, no logo pill.
+
+2) CENTRE: THE DASHBOARD (≈54% of the image width, centred)
+A flat app window: 16px rounded corners, a thin light-grey border, a large, very soft shadow. Recreate the attached Smart Agro dashboard EXACTLY (same layout, spacing, colours, icons, font), fully filled:
+• SIDEBAR (forest green, white text): the Smart Agro logo tile + "Smart Agro" / "LAXMI AGRO CRM"; "Dashboard" active (leaf-green pill); "SALES & CRM": Leads, Pending Activities (red "99+" badge), Targets, Customers; "AFFILIATE": Affiliate Applications, Affiliate Commissions; "OPERATIONS": Products, Product Reviews, Website, Blog, Inventory, Quotations, Orders; thin dividers between groups; a user card at the bottom (green "A", "Aviral", "Admin").
+• TOP BAR: "Good morning, Aviral ☀️" / "Here's what's happening with your business today."; a bell with a red "3"; a user pill (green "A", "Aviral", "Admin", chevron).
+• STAT CARDS (4, each with a pastel icon tile, an uppercase label, a bold value and a small sparkline): "TOTAL REVENUE" ₹56,40,104 · "↑ 140% vs last 7 days"; "TOTAL ORDERS" 2,678 · "42 today"; "TOTAL LEADS" 11,898 · "↑ 362% vs last 7 days"; "TOTAL PRODUCTS" 70 · "5 new this month".
+• ALERT STRIPS:
+  – amber: "You need to talk to 5,947 leads" / "No status change or note for over 24 hours. Tap to open the follow-up list."
+  – amber: "Stock is zero — 2 orders are waiting. Refill the stock." / "No invoice or dispatch until refilled. Open Orders to see what's short and process them."
+  – soft red: "4 products in negative stock — restock needed" / "Sold beyond available stock. Restocking absorbs the shortfall automatically."
+  – two half-width strips: amber "115 awaiting dispatch" / "Tap to manage queue"; soft red "26 low stock products" / "Tap to restock".
+• BOTTOM: "Sales Overview" (a "Last 7 days" dropdown; a smooth leaf-green area chart, y-axis 0 / 20k / 40k / 60k / 80k, x-axis 20 Sep → 26 Sep, peak on 24 Sep) and "Leads by Source" (a donut with "11,898" / "Total"; legend WhatsApp 86%, Manual 8%, Facebook 3%, Instagram 2%, Phone 1%; a footer "Top Source · WhatsApp · 86%").
+
+3) LEFT COLUMN (≈19% of the width, right-aligned, 5 features evenly spaced down the dashboard's height; each = icon tile + bold title + one grey line, no boxes, no cards):
+- "Leads, auto-distributed" / "Every lead to the right seller, instantly" (icon: people)
+- "Team roles & targets" / "Sellers see only their leads and goals" (icon: target)
+- "Product reviews" / "Every customer review in one place" (icon: star)
+- "Quotations" / "Professional quotes in a few clicks" (icon: document)
+- "E-commerce & orders" / "Online store to dispatch, one flow" (icon: shopping bag)
+
+4) RIGHT COLUMN (same size and style, left-aligned, 5 features evenly spaced):
+- "Accounting & GST" / "Books, GST returns and reports" (icon: ₹)
+- "WhatsApp campaigns" / "Bulk follow-ups, no third-party BSP fees" (icon: WhatsApp-style chat bubble, drawn as a plain line icon, not the official logo)
+- "Stock in every godown" / "Live stock and batches, godown by godown" (icon: warehouse)
+- "Low-stock alerts" / "Restock before an order is stuck" (icon: bell with alert)
+- "Social media leads" / "Facebook & Instagram ads sync straight in" (icon: megaphone)
+
+5) CONNECTOR ARROWS: 10 thin smooth curves (1.5px, soft green #9AD9AE) with small arrowheads. Each starts beside its feature's icon and enters the dashboard window only at its edge, next to its target. They never cross each other and never cross any text:
+Left side → sidebar items: Leads → "Leads"; Team roles & targets → "Targets"; Product reviews → "Product Reviews"; Quotations → "Quotations"; E-commerce & orders → "Orders".
+Right side → main area: Accounting & GST → the stat card row; WhatsApp campaigns → the "5,947 leads" strip; Stock in every godown → the "4 products in negative stock" strip; Low-stock alerts → the "26 low stock products" strip; Social media leads → the "Leads by Source" donut.
+
+LOGO (copy the attached Smart Agro logo exactly; do not redesign it)
+- Used only inside the dashboard's sidebar tile: the "Smart Agro" wordmark, "Smart" in red and "Agro" in green, as in the attached file.
+
+QUALITY RULES
+- Every word and number exactly as written above, sharp and legible. No gibberish, no extra text, no invented names or numbers. Use ONLY the names given; never copy names from the reference screenshot.
+- No empty states: every tile, strip and chart is filled exactly as described.
+- Only: the headline, the dashboard, 10 features, 10 arrows. No handwritten notes, no decorations, no badges. Symmetrical and balanced: the two feature columns mirror each other in size and spacing.
+- Feature titles and the headline must stay readable when the image is shown at 1200 px wide.
+- No official third-party logos (WhatsApp, Facebook, Instagram appear only as plain text or simple line icons). No devices, no watermark, no captions, no borders.
+```
+</details>
 
 <details><summary>Spectrum CRM (T7 explainer bento): for the Spectrum homepage card, pending the owner's decision</summary>
 

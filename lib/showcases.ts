@@ -255,10 +255,10 @@ export const SHOWCASES: Showcase[] = [
     focus: ['Agri Business Management System'],
     headline: { lead: 'One system for an entire', word: 'AGRI BUSINESS.' },
     hero: {
-      src: '/work/smart-agro-mockup.webp',
-      width: 1774,
-      height: 887,
-      alt: 'Smart Agro dashboard with its features: leads, WhatsApp, Meta Ads, orders, quotations, inventory and accounting',
+      src: '/work/smart-agro/hero.webp',
+      width: 1672,
+      height: 941,
+      alt: 'Smart Agro dashboard with monthly sales, leads this week, recent orders and WhatsApp follow-ups around it',
     },
 
     brief:
@@ -272,6 +272,19 @@ export const SHOWCASES: Showcase[] = [
 
     problem:
       'Leads arrived from **WhatsApp, Facebook, Instagram and forms**, and had to be shared fairly across a team of sellers. WhatsApp at scale usually means **paying a third-party provider**. Orders, stock in **multiple godowns** and the books all had to agree, with **GST returns** out of the same numbers.',
+    // Cut from the T4 bento ("Smart Sec - 2.png"); every card 596×414.
+    problemCards: [
+      [
+        { src: '/work/smart-agro/problem-1.webp', width: 596, height: 414, alt: 'Leads everywhere' },
+        { src: '/work/smart-agro/problem-2.webp', width: 596, height: 414, alt: 'Leads shared unfairly' },
+        { src: '/work/smart-agro/problem-3.webp', width: 596, height: 414, alt: 'Follow-ups slipped through' },
+      ],
+      [
+        { src: '/work/smart-agro/problem-4.webp', width: 596, height: 414, alt: 'Paying per WhatsApp message' },
+        { src: '/work/smart-agro/problem-5.webp', width: 596, height: 414, alt: 'Stock in separate registers' },
+        { src: '/work/smart-agro/problem-6.webp', width: 596, height: 414, alt: 'Books never matched' },
+      ],
+    ],
 
     process: [
       'Discovery & workflow mapping',
@@ -300,10 +313,68 @@ export const SHOWCASES: Showcase[] = [
           'Accounting & GST',
           'Affiliate commissions',
         ],
+        // Cut from the T5 bento ("Smart Sec - 3.png"). Top row 500×466 (the wide
+        // leads card is scaled to fit), bottom row 456×404.
+        cards: [
+          [
+            {
+              src: '/work/smart-agro/crm-card-leads.webp',
+              width: 500,
+              height: 466,
+              alt: 'Leads & Meta Ads: every lead in one list, auto-assigned to a seller',
+            },
+            {
+              src: '/work/smart-agro/crm-card-whatsapp.webp',
+              width: 500,
+              height: 466,
+              alt: 'WhatsApp automation: enquiry to order with no third-party BSP fees',
+            },
+            {
+              src: '/work/smart-agro/crm-card-orders.webp',
+              width: 500,
+              height: 466,
+              alt: 'E-commerce & orders: from the online store to dispatch',
+            },
+          ],
+          [
+            {
+              src: '/work/smart-agro/crm-card-targets.webp',
+              width: 456,
+              height: 404,
+              alt: 'Targets & team roles',
+            },
+            {
+              src: '/work/smart-agro/crm-card-inventory.webp',
+              width: 456,
+              height: 404,
+              alt: 'Inventory & godowns',
+            },
+            {
+              src: '/work/smart-agro/crm-card-quotations.webp',
+              width: 456,
+              height: 404,
+              alt: 'Quotations',
+            },
+            {
+              src: '/work/smart-agro/crm-card-accounting.webp',
+              width: 456,
+              height: 404,
+              alt: 'Accounting & GST',
+            },
+          ],
+        ],
         gallery: [],
       },
     ],
 
+    // The T6 sheet ("Smart Sec - 4.png"), flattened at 250 so the Canvas swatch
+    // (#F7F8F7) doesn't turn white. Its swatches match their hex labels.
+    systemImage: {
+      src: '/work/smart-agro/design-system.webp',
+      width: 1774,
+      height: 887,
+      alt: 'Smart Agro design system: colours, typography and components',
+    },
     // Sampled from the logo (red, green), the product (forest, leaf) and the
     // store's fonts (smartagrocare.in: Poppins headings, Inter body).
     palette: [
@@ -324,7 +395,15 @@ export const SHOWCASES: Showcase[] = [
     ],
 
     ctaLead: 'Running your agri business on spreadsheets?',
-    impact: [],
+    // Scale, not before/after: these are the live dashboard's own totals
+    // (the owner chose to show Smart Agro's real figures). Swap in real
+    // before/after gains once the client confirms them; never invent them.
+    impact: [
+      { label: 'Leads', value: '11,898', caption: 'leads handled in one system' },
+      { label: 'Orders', value: '2,678', caption: 'orders from store to dispatch' },
+      { label: 'Revenue', value: '₹56.4L', caption: 'sales tracked in one place' },
+      { label: 'WhatsApp', value: '86%', caption: 'of leads come in on WhatsApp' },
+    ],
   },
 ];
 

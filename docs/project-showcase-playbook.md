@@ -541,9 +541,9 @@ Website projects without a mockup use `card.image` (a still screenshot) instead 
 |---|---|---|
 | **UnSkills: Institute Management System** | ✅ T2 feature showcase + black logo | ✅ live: hero, 6 problem cards, 7 feature cards, design system |
 | **Smart Agro: Agri Business Management System** | ✅ hub image (below) + black logo | ✅ live at `/work/smart-agro`: hero (T3 image, `smart-agro/hero.webp`), brief, problem (6 cut cards), process, features (7 cut cards), design system (T6 image), impact (live dashboard totals: 11,898 leads · 2,678 orders · ₹56.4L · 86% via WhatsApp; scale, not before/after). No testimonial yet |
-| **Quick Hotels** (website) | ✅ T1 mockup + black logo | ✅ showcase (text-only sections: homepage image as hero, real features as chips, coded palette + Playfair Display/Nunito from quickhotels.co). Needs problem, feature and design-system images |
+| **Quick Hotels** (website) | ✅ T1 mockup + black logo | ✅ live at `/work/quick-hotels`: hero (T3, PMS dashboard), problem (6 cut cards), process, features (website: 3 cut cards, PMS: 4 cut cards), design system (T6 image), impact (real facts only: 12 hotels from the PMS, 1000+ guests (quickhotels.co's own claim), 5+ cities, 100% GST-inclusive prices; the hero image's revenue/occupancy are demo and not repeated). No testimonial yet |
 | **Herbal Vantage** (MLM software + online store) | ✅ showcase image + black logo · tabs: Software **and** Websites | ✅ live at `/work/herbal-vantage`: hero (T3), problem (6 cut cards), process, MLM Software features (7 cut cards), Online Store (chips only), design system (T6 image), impact (live dashboard figures: 69 members, 87% active (60/69), PV 45.6L, sales ₹48.6L; scale, not before/after). No testimonial yet |
-| **Quick Hotels CRM/PMS** (`ecommerce-retail-platform`) | ✅ T7 image + black logo · tab: Software | ✅ showcase (text-only sections: homepage image as hero, real features as chips, coded palette sampled from the dashboard; no type, the CRM font is unknown). The old page's retail/POS copy, metrics and testimonial were placeholders and are NOT used. Needs images |
+| **Quick Hotels CRM/PMS** (`ecommerce-retail-platform`) | ✅ T7 image + black logo · tab: Software | ✅ live at `/work/ecommerce-retail-platform` (the Software-tab card): reuses the `public/work/quick-hotels/` assets: PMS-dashboard hero, the 6 problem cards, the 4 PMS feature cards, the design-system sheet, and the same real-facts impact. The old page's retail/POS copy, metrics and testimonial were placeholders and are not used |
 | **Spectrum: travel CRM** (`spectrum-tour-travels`) | ✅ T7 CRM image + black logo · tab: Software | ✅ live at `/work/spectrum-tour-travels`: hero (T3), problem (6 cut cards), process, features (7 cut cards), design system (T6 image), impact (live dashboard figures: +35% leads (34.8%, rounded to fit), ₹4.1L revenue, 29 upcoming tours, 47 payments tracked; not before/after). Covers the CRM, not the website. No testimonial yet |
 | UnSkills mobile app / UnSkills website | not started. Separate showcases later | not started |
 
@@ -980,6 +980,333 @@ CHECK-IN / CHECK-OUT / GUESTS & ROOMS plus a blue Search button. The logo is the
 Files: `public/work/quick-hotels-mockup.webp`, `public/work/quick-hotels-logo.webp`.
 
 ### Prepared, not yet used
+
+<details><summary>Quick Hotels design system sheet (T6): for <code>/work/quick-hotels</code>, prepared 2026-09-30, USED 2026-09-30 → <code>quick-hotels/design-system.webp</code> (from the owner's chat attachment, 1774×887; flattened at 250; swatches within 10/255 of their labels except Deep Navy, rendered lighter at #122E56 for #0F2645)</summary>
+
+Brand row and fonts read from quickhotels.co (computed styles, 2026-09-30): gold #D4A853, Search
+gradient #1A5FAC → #0F2645, footer navy #0A1B33, body #111827; Playfair Display + Nunito. PMS row
+sampled from its dashboard: sidebar #0E1A33, active #3175F1, ink #1D2436, tiles #E6F7EF / #FFF4E0,
+canvas #F7F8FA. Attach the logo only. When it comes back: flatten at 250 (four near-white
+swatches) to `public/work/quick-hotels/design-system.webp` and set `systemImage`.
+
+```
+Create a clean, premium DESIGN SYSTEM sheet for "Quick Hotels", a hotel booking website and property management system (PMS) on one backend, in the style of a professional design-agency case study (like a Figma style-guide page). It shows the colour palette, typography and core UI components, neatly organised on white, with a few hand-drawn arrows and handwritten notes.
+
+FORMAT
+- Exactly 2:1 landscape (2400 × 1200 px). If 2:1 isn't possible, use 16:9.
+- Background: flat pure white (#FFFFFF), seamless. No border, no frame, no gradient, no devices, no people.
+- About 5% white margin on all sides. Nothing touches the edges.
+
+GENERAL STYLE
+- Organised into 3 zones with generous spacing and thin light-grey (#E5E7EB) divider lines.
+- Every zone has a small uppercase grey label (letter-spaced, Nunito SemiBold): "COLOUR", "TYPOGRAPHY", "COMPONENTS".
+- Swatches and cards: 20px rounded corners, very soft shadow.
+- Hand-drawn elements: 3 loose curved marker arrows in royal blue (#1A5FAC) with short handwritten notes in a casual marker script, dark charcoal (#1F2937) with one key word in deep gold (#B8860B). They sit in the white space and never cover text.
+
+ZONE 1 — COLOUR (left half of the image)
+
+Row 1: "Brand", 4 large tall swatches side by side. Each shows its colour as a solid block, then the name in bold and the hex code in a small monospace pill:
+- "Stay Gold" #D4A853
+- "Royal Blue" #1A5FAC
+- "Deep Navy" #0F2645
+- "Night Navy" #0A1B33
+
+Row 2: "PMS", 5 smaller square swatches, same labelling:
+- "Sidebar Navy" #0E1A33
+- "Active Blue" #3175F1
+- "Ink" #1D2436
+- "Mint Tile" #E6F7EF (with a thin grey outline so it shows on white)
+- "Amber Tile" #FFF4E0 (with a thin grey outline)
+
+Row 3: "Neutrals", 3 small swatches:
+- "Canvas" #F7F8FA (with a thin grey outline so it shows on white)
+- "White" #FFFFFF (with a thin grey outline)
+- "Text" #111827
+
+Handwritten note with an arrow pointing at the Stay Gold and Royal Blue swatches: "Straight from the website" ("website" in gold).
+Handwritten note with an arrow pointing at the PMS row: "Same blues, PMS side" ("PMS" in gold).
+
+ZONE 2 — TYPOGRAPHY (top right)
+
+Two specimen cards side by side:
+- Card 1: a huge "Aa" set in Playfair Display Bold, then "Playfair Display", "Headings", and the weights "Bold · Bold Italic". A small line of sample text in Playfair Display: "Find Your Perfect Stay" with "Perfect" in gold italic (#D4A853).
+- Card 2: a huge "Aa" set in Nunito Bold, then "Nunito", "Interface & body text", and the weights "Bold · SemiBold · Regular". A small line of sample text in Nunito: "Bookings, rooms and payouts on one backend."
+
+Under the two cards, a type-scale list (a left column showing each style's name and size, a right column showing that style as rendered text):
+- "Hero heading · Playfair Display Bold 36" → "Find Your Perfect Stay"
+- "Page title · Nunito Bold 26" → "Welcome back! Here's what's happening today."
+- "Stat value · Nunito Bold 24" → "₹14,82,600"
+- "Body · Nunito Regular 14" → "Budget-friendly luxury across India"
+- "Label · Nunito SemiBold 11 · Uppercase" → "CHECK-IN"
+
+ZONE 3 — COMPONENTS (bottom right, one tidy row of real UI pieces)
+- A primary button: a royal-blue gradient (#1A5FAC → #0F2645), white text "Search" with a small magnifier icon.
+- A secondary button: white with a thin grey border, "View all bookings →".
+- Three status pills: "Confirmed" (green on light green), "30% paid" (amber on light amber), "₹3,450 due" (red on light red).
+- A stat card: "Active Hotels" / "12" / "Currently accepting bookings", with a pastel blue icon tile top-left.
+- A booking-bar field: "CHECK-IN" / "25 Sep '26 Fri" with a small calendar icon.
+- A sidebar item in its active state: a short Sidebar Navy (#0E1A33) strip with the item "Dashboard" in an Active Blue (#3175F1) pill, white text and a white grid icon.
+Handwritten note with an arrow at the components: "Same pieces, site and PMS" ("site and PMS" in gold).
+
+LOGO
+- Place the attached Quick Hotels logo small in the top-left corner above Zone 1, in Deep Navy, with "Design System" beside it in Playfair Display Bold. Copy the logo exactly (the stacked "Quick / Hotels" wordmark with speed lines before "Quick" and a small house with a tick forming the "o" in "Hotels"); do not redesign it.
+
+QUALITY RULES
+- Every hex code, name and word exactly as written above, sharp and legible. No gibberish, no extra colours or fonts, no invented values.
+- Swatch colours must match their hex codes exactly.
+- Balanced, airy, professional; aligned to a clear grid.
+- No watermark, no devices, no captions beyond what's specified.
+```
+</details>
+
+<details><summary>Quick Hotels feature bento (T5): for <code>/work/quick-hotels</code>, prepared 2026-09-30, USED 2026-09-30 → <code>quick-hotels/crm-card-*.webp</code> (from the owner's chat attachment, 1774×887; no file in Downloads). The finder caught inner panels, so boxes by hand: top <code>[31,49,626,487] [639,49,1182,487] [1200,49,1744,487]</code> (632×474, top row → product 01), bottom <code>[32,504,489,850] [501,504,881,850] [894,504,1301,850] [1311,504,1744,850]</code> (470×392 → product 02). The "Every city, one search" note was generated in the gutter; it was erased (rects 612,305,662,405 and 624,370,752,436) with a Node port of the erase routine before cutting.</summary>
+
+The page has two products, so the bento is split by row: the top 3 cards go to product 01
+(Guest Booking Website), the bottom 4 to product 02 (PMS), each as its own one-row `cards`.
+Features are the case study's own lists (search across cities, GST-inclusive pricing, 30%
+now / rest at check-in via Razorpay; bookings + live availability, payments + balances,
+inventory + pricing, role-based access). Property names from the PMS; prices demo. Attach
+`1-website-desktop.png`, `4-pms-dashboard-no-guest-names.png` and the logo.
+
+```
+Create a clean, modern SaaS feature image for "Quick Hotels", a guest booking website and a property management system (PMS) built on one backend, for budget-friendly stays across India. Style: a bento grid of 7 rounded feature cards, each with a pastel icon tile, a bold title, one short description line and a compact, realistic UI illustration fully filled with data. A few playful hand-drawn arrows and handwritten notes. Show the UI directly: no laptop, no phone, no device, no browser chrome.
+
+FORMAT
+- Exactly 2:1 landscape (2400 × 1200 px). If 2:1 isn't possible, use 16:9.
+- Background: flat pure white (#FFFFFF), seamless. No border, no frame, no headline text on the image, no people photos (small round avatars and initials inside the UI are fine; small hotel-room photo thumbnails are fine).
+- About 4% white margin on all sides. Nothing touches the edges.
+
+VISUAL LANGUAGE
+- Match the attached Quick Hotels screenshots: white and very light grey (#F7F8FA) surfaces, thin light borders, a rounded Nunito-style sans-serif, simple line icons.
+- Accent: royal blue (#1A5FAC) for charts, active tabs and main buttons; gold (#D4A853) for highlights; green (#16A34A) for paid / confirmed / done; amber (#F59E0B) for pending; soft red (#EF4444) for dues.
+- Cards: white, 24px rounded corners, thin light-grey border (#E5E7EB), very soft shadow, generous padding, equal gaps between cards.
+- Card header: a rounded-square pastel icon tile, then a bold near-black title (#0F172A) and one short grey line (#64748B).
+- Hand-drawn notes: 5 short notes in a casual marker script, charcoal (#1F2937) with one key word in deep gold (#B8860B), each with a short curved marker arrow in royal blue. EVERY NOTE STAYS INSIDE ITS OWN CARD'S BORDER, in white space inside that card; none in the gaps between cards; never covering UI text or numbers.
+
+LAYOUT
+- Top row: 3 cards of EXACTLY EQUAL width and height (the guest website).
+- Bottom row: 4 cards of EXACTLY EQUAL width and height (the PMS).
+- The two rows span the same total width.
+
+TOP ROW — GUEST BOOKING WEBSITE
+
+Card A — icon: magnifier over a map pin. Title: "Search every city". Line: "Guests find and book stays across India."
+UI: a compact search bar "WHERE TO · Delhi" · "25–26 Sep" · "2 Adults · 1 Room" with a blue "Search" button; under it 3 result rows, each with a small room photo thumbnail, a property, a city and a price: "Quick Hotel - GK2 · Delhi · ₹2,499", "Quick Hotel - Karol Bagh · Delhi · ₹2,199", "Quick Hotel - Whitefield · Bengaluru · ₹2,799"; a row of city chips "Delhi", "Bengaluru", "Noida", "Rishikesh", "Mathura".
+Note inside the card, with an arrow at the results: "Every city, one search" ("one search" in gold).
+
+Card B — icon: price tag. Title: "GST-inclusive pricing". Line: "The price a guest sees is the price they pay."
+UI: a price card "Deluxe Room · 1 night" with a big "₹2,499" and a small grey line "Taxes & fees included"; under it a green chip "No surprises at checkout ✓"; and a small breakdown row "Room ₹2,118 · GST ₹381 · Total ₹2,499".
+Note inside the card: "No surprise tax" ("No" in gold).
+
+Card C — icon: credit card. Title: "Pay 30% now". Line: "Confirm with a part payment, settle the rest at check-in."
+UI: a payment card "Booking #QH-8842 · ₹2,499" with a split bar: a filled blue part "30% now · ₹750" and a light part "At check-in · ₹1,749"; a line "Paid via Razorpay (plain text) ✓" with a green pill "Confirmed"; a small lock icon with "Secure checkout".
+Note inside the card, with an arrow at the split bar: "Book now, pay later" ("pay later" in gold).
+
+BOTTOM ROW — PROPERTY MANAGEMENT SYSTEM
+
+Card D — icon: calendar. Title: "Bookings & availability". Line: "Every booking and room, live across properties."
+UI: a mini availability grid for "Quick Hotel - GK2" with 4 rooms (101, 102, 204, 305) across 5 days (24–28 Sep): blue "Booked" blocks and white "Free" cells; a small chip "3 rooms free tonight".
+Note inside the card: "Live, no double entry" ("Live" in gold).
+
+Card E — icon: rupee coin. Title: "Payments & dues". Line: "Balances tracked against every booking."
+UI: two rows: "Room 204 · Quick Hotel - GK2 · ₹3,450 due" with a blue "Collect" button, and "Room 112 · Quick Hotel - Karol Bagh · Paid in full" with a green pill; a strip "Departing today · 2 with dues" (amber).
+
+Card F — icon: bed. Title: "Inventory & pricing". Line: "Rooms, rates and amenities per property."
+UI: a room-type table for "Quick Hotel - Whitefield": "Standard · 8 rooms · ₹1,999", "Deluxe · 12 rooms · ₹2,799", "Suite · 3 rooms · ₹4,499", each with a small blue toggle "On sale"; a small row of amenity chips "Wi-Fi", "AC", "Breakfast".
+Note inside the card, with an arrow at the rates: "Rates updated everywhere" ("everywhere" in gold).
+
+Card G — icon: shield with a person. Title: "Users & roles". Line: "Every staff member sees only what they need."
+UI: a staff list of 3 rows, each with an initials avatar, a name and a role pill: "Akhil Pratap · Owner", "Priya Nair · Hotel Manager", "Rohit Das · Front Desk"; beside it a small permission grid with toggles: "Bookings ✓", "Check-in ✓", "Finance ✕", "Reports ✓" (blue toggles on, grey off).
+
+LOGO (copy the attached Quick Hotels logo exactly; do not redesign it)
+- Once, small, inside Card A's top-right corner: the stacked "Quick / Hotels" wordmark with speed lines before "Quick" and a small house with a tick forming the "o" in "Hotels", in navy.
+
+QUALITY RULES
+- Every word and number exactly as written above, sharp and legible. No gibberish, no invented names or numbers. Use ONLY the names given; never copy names from the reference screenshots.
+- No empty states; every tile, list and chart is filled.
+- No official third-party logos: Razorpay appears only as plain text.
+- Card titles must stay readable when the whole image is shown at 1200 px wide.
+- Balanced, uncluttered, equal gaps between cards; every note inside its own card.
+- No devices, no watermark, no captions, no borders.
+```
+</details>
+
+<details><summary>Quick Hotels problem bento (T4): for <code>/work/quick-hotels</code>, prepared 2026-09-30, USED 2026-09-30 → <code>quick-hotels/problem-1…6.webp</code> (from "Quick hotels sec 2.png"; the finder caught inner panels, so all six boxes by hand on one grid: columns 27–592, 606–1169, 1182–1746; rows 49–466, 479–862; rows 604×456 and 604×424)</summary>
+
+The six problems come from the page's own problem text (two systems, double entry, availability
+that never matched, GST-inclusive pricing) plus the PMS's real modules (pending dues at
+departure, commission + GST + hotel payouts, multi-property). Property names are from the
+PMS; figures are demo (₹2,118 + ₹381 GST = ₹2,499). No headline on the image. When it comes
+back: cut into `public/work/quick-hotels/problem-1…6.webp` and add `problemCards`.
+
+```
+Create a clean, modern SaaS explainer image: "Before Quick Hotels' booking website and PMS — how a budget hotel chain used to run". The chain runs budget-friendly stays in Delhi, Bengaluru, Noida, Rishikesh and Mathura, takes bookings online and at the front desk, and pays each partner hotel its share. Style: a bento grid of 6 rounded cards on white, each showing one everyday problem as a small, realistic UI illustration, with a few playful hand-drawn notes. Honest and slightly chaotic INSIDE each card; the overall image stays neat, balanced and premium.
+
+FORMAT
+- Exactly 2:1 landscape (2400 × 1200 px). If 2:1 isn't possible, use 16:9.
+- Background: flat pure white (#FFFFFF), seamless. No border, no frame, no gradient, no headline text on the image, no devices, no people photos (small round avatars or initials inside the UI are fine).
+- About 4% white margin on all sides. Nothing touches the edges.
+
+VISUAL LANGUAGE
+- Cards: white, 24px rounded corners, thin light-grey border (#E5E7EB), very soft shadow, generous padding. ALL 6 CARDS EXACTLY THE SAME SIZE, with equal gaps between them.
+- Each card: a small illustration panel on top (very light grey #F7F7F9, rounded), then a number "01" … "06" in royal blue (#1A5FAC), a bold near-black title (#0F172A) and one short grey line (#64748B) under it.
+- UI inside the illustrations: a rounded Nunito-style sans-serif, thin borders, simple line icons, muted greys. Whatever is broken is marked with small red/pink badges (#E11D48 text on #FFE4E6); "waiting" states use amber (#B45309 text on #FEF3C7).
+- Handwritten notes: short phrases in a casual marker script, charcoal (#1F2937) with one key word in deep gold (#B8860B), each with a short curved marker arrow in royal blue. EVERY NOTE STAYS INSIDE ITS OWN CARD'S BORDER, in the top-right corner of that card's illustration panel. Never put a note or an arrow in the gap between cards.
+
+LAYOUT: 3 columns × 2 rows, all cards the same size.
+
+Card 01 — "Bookings in two places"
+Line: "Online bookings and walk-ins lived in separate systems."
+Illustration: two small side-by-side lists: "Website bookings · 14" and a lined-paper "Front desk register · 9"; the same row "Room 204 · 25 Sep" appears in both, joined by a red "2×" badge; under them a red strip "Entered twice".
+Note inside the card: "Which one is right?" ("right" in gold), arrow pointing at the "2×" badge.
+
+Card 02 — "Availability never matched"
+Line: "The website showed rooms the front desk had already given away."
+Illustration: a small room card "Quick Hotel - GK2 · Deluxe Room" with two rows: "Website says · 3 rooms left" (green pill) and "Front desk · 0 rooms left" (grey pill), a red "≠" circle between them, and a red badge "Overbooked".
+Note inside the card: "Sorry, we're full…" ("full" in gold), arrow pointing at "Overbooked".
+
+Card 03 — "Surprise tax at checkout"
+Line: "Guests saw one price, then paid more once GST was added."
+Illustration: a mini price card "Deluxe Room · 1 night" with a line "₹2,118" (struck through in grey), a line "+ GST ₹381" (red), a bold "Total ₹2,499", and a small red badge "Guest left the page".
+Note inside the card: "Why did it go up?" ("up" in gold), arrow pointing at "+ GST".
+
+Card 04 — "Dues chased at the door"
+Line: "Guests checked out before anyone collected the balance."
+Illustration: a checkout row "Room 112 · Quick Hotel - Karol Bagh · checked out 11:05 AM" with a green pill "Checked out"; under it "Balance · ₹1,980" with an amber "?" and a red strip "Balance not collected".
+Note inside the card: "Who collects this?" ("collects" in gold), arrow pointing at the red strip.
+
+Card 05 — "Payouts worked out by hand"
+Line: "Commission, GST and each hotel's share done on a spreadsheet."
+Illustration: a spreadsheet file row with a green Excel-style icon "Hotel_payouts_Sept_v3.xlsx" and a red badge "3 versions"; under it a tiny grid: "Quick Hotel - Whitefield · Bookings ₹1,86,400 · Payout ?", "Quick Hotel - GK2 · Bookings ₹2,12,800 · Payout ?" (the "?" cells in amber).
+Note inside the card: "Who gets what?" ("what" in gold), arrow pointing at the "?" cells.
+
+Card 06 — "Every new hotel, more chaos"
+Line: "Each new property meant another register and another login."
+Illustration: a small "Head office" pill at the top, connected by tangled dashed lines to 4 property pills: "Delhi", "Bengaluru", "Rishikesh", and a highlighted red-outlined pill "+1 new hotel".
+Note inside the card: "It only got worse" ("worse" in gold), arrow pointing at "+1 new hotel".
+
+QUALITY RULES
+- Every word and number exactly as written above, sharp and legible. No gibberish, no extra text, no invented names or numbers. Use ONLY the names given.
+- Card titles must stay readable when the whole image is shown at 1200 px wide.
+- Neat and balanced overall: the "mess" lives inside the small illustrations, not in the layout. Every note stays inside its own card.
+- No watermark, no device frames, no browser chrome, no background scenery.
+```
+</details>
+
+<details><summary>Quick Hotels PMS showcase hero (T3, dashboard): prepared 2026-09-30, USED 2026-09-30 on <code>/work/quick-hotels</code> (owner's choice) → <code>quick-hotels/hero.webp</code> (1672×941, from "Quick Hotel Sec 1.png"). The website-variant hero prompt above is still unused; it can go on this page instead, and this image could move to <code>/work/ecommerce-retail-platform</code></summary>
+
+Asked for in the Herbal Vantage hero style (dashboard in the centre). The real PMS dashboard is
+mostly zeros (₹0, 0%) apart from 12 active hotels / 12 verifications, so the figures are demo
+values in the style of the homepage card image (₹14,82,600, 86%, 38 check-ins); only 12 hotels
+and 12 verifications are real. The screenshot's Recent Bookings table has real guest names, so
+it was cropped off (`Downloadsquick-hotels-refs-pms-dashboard-no-guest-names.png`); the
+floating check-in card uses demo names.
+
+```
+Create a premium SaaS hero image for a software agency case study of "Quick Hotels PMS", the property management system that runs every Quick Hotels property across India. Show the software UI DIRECTLY: no laptop, no phone, no tablet, no monitor, no device of any kind, no browser chrome. Style: a clean product-launch explainer with floating UI cards and playful hand-drawn arrows and handwritten notes.
+
+FORMAT
+- 16:9 landscape (2400 × 1350 px). If 16:9 isn't possible, use the closest landscape size.
+- Background: flat pure white (#FFFFFF), seamless, edge to edge. No border, no frame, no gradient, no texture, no desk, no props, no hands, no people.
+- About 5% white margin on all sides. Nothing touches the edges.
+
+MAIN ELEMENT — THE DASHBOARD WINDOW (centre, about 66% of the image width)
+- A flat, front-facing app window with 18px rounded corners, a thin light-grey border and a large, very soft shadow, floating on the white background. It is just the UI panel itself: no device frame, no bezel, no stand.
+- Recreate the attached Quick Hotels PMS dashboard faithfully (very light grey page #F7F8FA, white cards with thin light borders, royal blue #1A5FAC buttons, rounded Nunito / Plus Jakarta Sans-style font), fully filled:
+  • Left sidebar, deep navy (#0E1A33) with white text: the white stacked "Quick / Hotels" logo at the top. Menu items in this order, each with a thin white line icon: Dashboard (ACTIVE, bright blue pill #3175F1), Hotels, Bookings, Check-in / out, Inventory, Services, Invoices, Finance, Reports, Leads, Users & roles, Settings, My payouts. At the bottom: a blue avatar "AP" with "Akhil Pratap" / "Administrator".
+  • Top bar (white): a hamburger icon and "Dashboard" on the left; a bell and "AP" / "Akhil Pratap" / "Administrator" on the right.
+  • Header: "Good afternoon, Akhil 👋" (small grey), "Welcome back! Here's what's happening today." (bold, navy), and on the right a date pill "30 Sept 2026" and a blue button "View all bookings →".
+  • Row 1, four stat cards with pastel icon tiles: "Gross bookings this month" / "₹14,82,600" / "↑ 18% vs last month" (mint ₹ icon); "Check-ins today" / "38" / "Across all properties" (lavender); "Active Hotels" / "12" / "Currently accepting bookings" (blue); "Occupancy Rate" / "86%" / "Live across rooms" (amber, with a small blue ring gauge "86%").
+  • A full-width strip: a red clock icon, "Departing today · pending dues", "Collect the balance before they leave the property.", and "All departures →"; below it one row: "Room 204 · Quick Hotel - GK2 · ₹3,450 due" with a small blue "Collect" button.
+  • Row 2: a wide card "Platform Revenue Analytics" / "Commission + GST earnings overview" with a "Last 7 Days" dropdown and an "Export" button, three figures "Total Revenue ₹4,26,800", "Average Daily Revenue ₹60,971", "Expected Payouts ₹3,12,400" ("Upcoming payouts to hotels"), and a smooth blue area chart 24 → 30 Sep; beside it "Live Operations" with four tiles: "Check-ins Today 38", "Check-outs Today 29", "Pending Approvals 4", "Verifications 12".
+  • Row 3 (may be slightly cut by the window's lower edge): "Quick Actions" with five outlined buttons: "+ Add Hotel", "View Bookings", "Release Payouts", "Manage Rooms", "Add Guest".
+  • Do NOT show a "Recent Bookings" table or any guest list inside the dashboard.
+
+FLOATING CARDS (white, 20px rounded corners, thin light-grey border, soft shadow, tilted 3–5°, overlapping the window's edges slightly, as if popping out of the UI)
+- Top-left: "Monthly Bookings", a smooth royal-blue (#1A5FAC) line chart Apr → Sep with a light blue fill, y-axis ₹0 / ₹4L / ₹8L / ₹12L / ₹16L, the peak labelled in a small blue tag "Sep · ₹14,82,600".
+- Bottom-left: "Occupancy by city", 4 horizontal royal-blue bars with values: "Delhi 91%", "Noida 88%", "Bengaluru 84%", "Rishikesh 78%".
+- Right: "Today's Check-ins", 4 rows, each with a round avatar with initials, a guest name, a room and property, and a status pill:
+  "Rahul Verma" · "Room 204 · Quick Hotel - GK2" · green "Checked in"
+  "Neha Kapoor" · "Room 112 · Quick Hotel - Karol Bagh" · green "Checked in"
+  "Ananya Gupta" · "Room 305 · Quick Hotel - Whitefield" · blue "Arriving 2 PM"
+  "Vikram Singh" · "Room 08 · Quick Boutique | Rishikesh Hills" · amber "30% paid"
+- Bottom-right: a small chip with a blue rupee icon and "Hotel payouts released ✓".
+
+HAND-DRAWN ARROWS + HANDWRITTEN NOTES
+Style: loose, slightly wobbly curved marker arrows with simple open arrowheads, about 3px thick, in royal blue (#1A5FAC). Notes are short phrases in a casual handwritten marker script, dark charcoal (#1F2937), with one key word in gold (#D4A853), slightly tilted. They sit in the white space and never cover any UI text, number or chart; no arrow crosses the sidebar.
+Add exactly these 5:
+a) From "Monthly Bookings" → curved arrow to the "Gross bookings this month ₹14,82,600" card. Note: "Bookings tracked live" ("live" in gold).
+b) From "Occupancy by city" → curved arrow to the "Occupancy Rate 86%" card. Note: "Every city, one view" ("one view" in gold).
+c) From "Today's Check-ins" → curved arrow to the "Live Operations" card. Note: "Front desk in one tap" ("one tap" in gold).
+d) Top centre, above the window: note "12 hotels. One dashboard." ("One" in gold) with a short arrow curving down into the dashboard.
+e) From the payouts chip → short arrow to the "Expected Payouts ₹3,12,400" figure. Note under the chip: "Payouts on autopilot" ("autopilot" in gold).
+
+LOGO (copy the attached logo exactly; do not redesign it)
+- Used only inside the dashboard's sidebar, in white: the stacked "Quick / Hotels" wordmark with speed lines before "Quick" and a small house with a tick forming the "o" in "Hotels".
+
+QUALITY RULES
+- Every word and number exactly as written above, sharp and legible. No gibberish, no invented names or numbers. Use ONLY the names given; never copy names from the reference screenshot.
+- No empty states, no zero values: every card, chart and list is filled.
+- Clean, balanced, generous spacing; the arrows guide the eye without clutter; nothing overlaps the dashboard's numbers.
+- No devices, no watermark, no captions, no borders.
+```
+</details>
+
+<details><summary>Quick Hotels showcase hero (T3, website variant): for <code>/work/quick-hotels</code>, prepared 2026-09-30</summary>
+
+The project is a booking website + PMS, so the main window is the real quickhotels.co
+homepage (`public/work/quick-hotels-desktop.webp`) instead of a dashboard, with PMS artefacts
+as the floating cards. Property names come from the Quick Hotels PMS; prices and the
+30% split (a real feature: pay 30% now, rest at check-in) use demo amounts. Attach
+`Downloadsquick-hotels-refs-website-desktop.png` and `3-logo-original.png`. When it comes
+back: flatten to `public/work/quick-hotels/hero.webp` and set `hero`.
+
+```
+Create a premium hero image for a software agency case study of "Quick Hotels", a hotel booking website and property management system built on one backend, for budget-friendly stays across India. Show the UI DIRECTLY: no laptop, no phone, no tablet, no monitor, no device of any kind, no browser chrome. Style: a clean product-launch explainer with floating UI cards and playful hand-drawn arrows and handwritten notes.
+
+FORMAT
+- 16:9 landscape (2400 × 1350 px). If 16:9 isn't possible, use the closest landscape size.
+- Background: flat pure white (#FFFFFF), seamless, edge to edge. No border, no frame, no gradient, no texture, no desk, no props, no hands, no people outside the website photo.
+- About 5% white margin on all sides. Nothing touches the edges.
+
+MAIN ELEMENT — THE WEBSITE WINDOW (centre, about 64% of the image width)
+- A flat, front-facing window with 18px rounded corners, a thin light-grey border and a large, very soft shadow, floating on the white background. It is just the page itself: no browser bar, no device frame.
+- Recreate the attached Quick Hotels homepage screenshot faithfully:
+  • Background: a softly lit hotel room photo (white bed, striped bench, big window with sheer curtains), darkened for contrast.
+  • Top: a frosted-glass navigation bar with the white stacked "Quick / Hotels" logo, then "Home" (active, white pill), "Our Hotels", "About Us", "Partner with Us", "Contact", "Track Booking", a search icon, "+91 7668798029" and a blue pill button "Track Booking".
+  • Centre: a small glass pill "TRUSTED BY 1000+ HAPPY GUESTS"; the headline "Find Your Perfect Stay" in a large white Playfair Display-style serif, with "Perfect" in gold italic (#D4A853); the line "Budget-friendly luxury across India — Delhi, Bengaluru, Noida, Rishikesh, Mathura & more" in white.
+  • Bottom: a dark frosted booking bar: "WHERE TO" / "Delhi, Bengaluru, Rishikesh…"; "CHECK-IN" / "25 Sep '26 Fri"; "CHECK-OUT" / "26 Sep '26 Sat"; "GUESTS & ROOMS" / "2 Adults · 1 Room"; and a blue gradient button (#1A5FAC → #0F2645) with a search icon and "Search".
+
+FLOATING CARDS (white, 20px rounded corners, thin light-grey border, soft shadow, tilted 3–5°, overlapping the window's edges slightly, as if popping out of the page). Font: Nunito-style rounded sans.
+- Top-left: "Booking confirmed" with a green check: "Quick Hotel - GK2, Delhi", "Deluxe Room · 25–26 Sep · 2 Adults", a total line "₹2,499 · GST included" and a small green pill "Confirmed".
+- Bottom-left: "Pay 30% now": a split bar with a filled blue part "₹750 paid · Razorpay ✓" and a light part "₹1,749 at check-in".
+- Right: "Live availability · PMS", 4 rows, each with a small building icon, a property, a city and a pill:
+  "Quick Hotel - GK2" · "Delhi" · green "3 rooms left"
+  "Quick Hotel - Karol Bagh" · "Delhi" · green "5 rooms left"
+  "Quick Hotel - Whitefield" · "Bengaluru" · amber "1 room left"
+  "Quick Boutique | Rishikesh Hills" · "Rishikesh" · red "Sold out"
+- Bottom-right: a small chip with a blue sync icon and "Booking synced to PMS ✓".
+
+HAND-DRAWN ARROWS + HANDWRITTEN NOTES
+Style: loose, slightly wobbly curved marker arrows with simple open arrowheads, about 3px thick, in royal blue (#1A5FAC). Notes are short phrases in a casual handwritten marker script, dark charcoal (#1F2937), with one key word in gold (#D4A853), slightly tilted. They sit in the white space and never cover any UI text; no arrow crosses the headline or the booking bar's labels.
+Add exactly these 5:
+a) From "Booking confirmed" → curved arrow to the "Search" button. Note: "Search to booked in minutes" ("minutes" in gold).
+b) From "Pay 30% now" → curved arrow to the booking bar. Note: "Pay 30% now, rest at check-in" ("30%" in gold).
+c) From "Live availability · PMS" → curved arrow to the website window's right edge. Note: "Rooms live from the PMS" ("live" in gold).
+d) Top centre, above the window: note "One website. One backend." ("One backend" in gold) with a short arrow curving down into the window.
+e) From the sync chip → short arrow to the "Live availability" card. Note under the chip: "No double entry" ("No" in gold).
+
+LOGO (copy the attached logo exactly; do not redesign it)
+- Used only in the website's navigation bar, in white: the stacked "Quick / Hotels" wordmark with speed lines before "Quick" and a small house with a tick forming the "o" in "Hotels".
+
+QUALITY RULES
+- Every word and number exactly as written above, sharp and legible. No gibberish, no invented names or numbers. Use ONLY the names given.
+- No empty states: every card and list is filled.
+- No official third-party logos: Razorpay appears only as plain text.
+- Clean, balanced, generous spacing; the arrows guide the eye without clutter.
+- No devices, no watermark, no captions, no borders.
+```
+</details>
 
 <details><summary>Herbal Vantage design system sheet (T6): for <code>/work/herbal-vantage</code>, prepared 2026-09-30, USED 2026-09-30 → <code>herbal-vantage/design-system.webp</code> (from "Herbal Sec 4.png", flattened at 250; swatches within 8/255 of their labels)</summary>
 

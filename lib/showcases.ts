@@ -421,10 +421,10 @@ export const SHOWCASES: Showcase[] = [
     focus: ['Booking Website', 'Property Management System'],
     headline: { lead: 'A booking site and PMS for', word: 'BUDGET STAYS.' },
     hero: {
-      src: '/work/quick-hotels-mockup.webp',
-      width: 1774,
-      height: 887,
-      alt: 'The Quick Hotels booking website on a laptop and a phone',
+      src: '/work/quick-hotels/hero.webp',
+      width: 1672,
+      height: 941,
+      alt: 'Quick Hotels PMS dashboard with monthly bookings, occupancy by city, today’s check-ins and hotel payouts around it',
     },
 
     brief:
@@ -439,6 +439,20 @@ export const SHOWCASES: Showcase[] = [
 
     problem:
       'Most vendors treat a booking site and a hotel back office as **separate projects**, which means **double entry** and availability that never quite matches. Quick Hotels also had one strict rule: **every room price already includes GST**, so the total a guest sees is the total they pay.',
+    // Cut from the T4 bento ("Quick hotels sec 2.png"). The finder caught inner
+    // panels instead of the cards, so all six boxes were measured by hand.
+    problemCards: [
+      [
+        { src: '/work/quick-hotels/problem-1.webp', width: 604, height: 456, alt: 'Bookings in two places' },
+        { src: '/work/quick-hotels/problem-2.webp', width: 604, height: 456, alt: 'Availability never matched' },
+        { src: '/work/quick-hotels/problem-3.webp', width: 604, height: 456, alt: 'Surprise tax at checkout' },
+      ],
+      [
+        { src: '/work/quick-hotels/problem-4.webp', width: 604, height: 424, alt: 'Dues chased at the door' },
+        { src: '/work/quick-hotels/problem-5.webp', width: 604, height: 424, alt: 'Payouts worked out by hand' },
+        { src: '/work/quick-hotels/problem-6.webp', width: 604, height: 424, alt: 'Every new hotel, more chaos' },
+      ],
+    ],
 
     process: [
       'Discovery & workflow mapping',
@@ -461,6 +475,30 @@ export const SHOWCASES: Showcase[] = [
           'Pay 30% now, the rest at check-in',
           'Secure Razorpay checkout',
         ],
+        // Top row of the T5 bento ("Quick hotels sec 3"); boxes measured by hand.
+        // The "Every city, one search" note sat in the gutter, so it was erased.
+        cards: [
+          [
+            {
+              src: '/work/quick-hotels/crm-card-search.webp',
+              width: 632,
+              height: 474,
+              alt: 'Search every city: guests find and book stays across India',
+            },
+            {
+              src: '/work/quick-hotels/crm-card-pricing.webp',
+              width: 632,
+              height: 474,
+              alt: 'GST-inclusive pricing: the price a guest sees is the price they pay',
+            },
+            {
+              src: '/work/quick-hotels/crm-card-payments.webp',
+              width: 632,
+              height: 474,
+              alt: 'Pay 30% now: confirm with a part payment, settle the rest at check-in',
+            },
+          ],
+        ],
         gallery: [],
       },
       {
@@ -474,10 +512,47 @@ export const SHOWCASES: Showcase[] = [
           'Inventory & pricing per property',
           'Role-based staff access',
         ],
+        // Bottom row of the same bento.
+        cards: [
+          [
+            {
+              src: '/work/quick-hotels/crm-card-availability.webp',
+              width: 470,
+              height: 392,
+              alt: 'Bookings & availability',
+            },
+            {
+              src: '/work/quick-hotels/crm-card-dues.webp',
+              width: 470,
+              height: 392,
+              alt: 'Payments & dues',
+            },
+            {
+              src: '/work/quick-hotels/crm-card-inventory.webp',
+              width: 470,
+              height: 392,
+              alt: 'Inventory & pricing',
+            },
+            {
+              src: '/work/quick-hotels/crm-card-roles.webp',
+              width: 470,
+              height: 392,
+              alt: 'Users & roles',
+            },
+          ],
+        ],
         gallery: [],
       },
     ],
 
+    // The T6 sheet ("Quick hotels sec 4", the owner's chat attachment),
+    // flattened at 250 so the Canvas and tile swatches don't turn white.
+    systemImage: {
+      src: '/work/quick-hotels/design-system.webp',
+      width: 1774,
+      height: 887,
+      alt: 'Quick Hotels design system: colours, typography and components for the website and PMS',
+    },
     // Read from quickhotels.co (computed styles): the gold "Perfect", the
     // Search button gradient, the footer navy and the body text.
     palette: [
@@ -503,7 +578,16 @@ export const SHOWCASES: Showcase[] = [
     ],
 
     ctaLead: 'Running bookings and rooms in two systems?',
-    impact: [],
+    // Real facts only: 12 active hotels (the PMS dashboard), "1000+ happy
+    // guests" (quickhotels.co's own claim), five cities on the site, and
+    // GST-inclusive pricing (the brief). The hero image's revenue and
+    // occupancy figures are demo values, so they are not repeated here.
+    impact: [
+      { label: 'Hotels', value: '12', caption: 'hotels run from one PMS' },
+      { label: 'Guests', value: '1000+', caption: 'happy guests booked online' },
+      { label: 'Cities', value: '5+', caption: 'cities on one booking site' },
+      { label: 'Pricing', value: '100%', caption: 'of prices shown GST-inclusive' },
+    ],
   },
 
   {
@@ -513,10 +597,11 @@ export const SHOWCASES: Showcase[] = [
     focus: ['Hotel Management Software'],
     headline: { lead: 'One dashboard to run', word: 'EVERY HOTEL.' },
     hero: {
-      src: '/work/quick-hotels-crm-showcase.webp',
-      width: 1774,
-      height: 887,
-      alt: 'The Quick Hotels hotel management dashboard with its modules',
+      // Same PMS-dashboard hero as /work/quick-hotels: it shows this product.
+      src: '/work/quick-hotels/hero.webp',
+      width: 1672,
+      height: 941,
+      alt: 'Quick Hotels PMS dashboard with monthly bookings, occupancy by city, today’s check-ins and hotel payouts around it',
     },
 
     brief:
@@ -529,6 +614,19 @@ export const SHOWCASES: Showcase[] = [
 
     problem:
       'Every property has its own rooms, bookings, check-ins and **dues to collect before guests leave**. On top of that, the platform has to track its own **commission and GST** and release the **right payout to each hotel**. All of it had to come out of one set of numbers.',
+    // The same six problem cards as /work/quick-hotels.
+    problemCards: [
+      [
+        { src: '/work/quick-hotels/problem-1.webp', width: 604, height: 456, alt: 'Bookings in two places' },
+        { src: '/work/quick-hotels/problem-2.webp', width: 604, height: 456, alt: 'Availability never matched' },
+        { src: '/work/quick-hotels/problem-3.webp', width: 604, height: 456, alt: 'Surprise tax at checkout' },
+      ],
+      [
+        { src: '/work/quick-hotels/problem-4.webp', width: 604, height: 424, alt: 'Dues chased at the door' },
+        { src: '/work/quick-hotels/problem-5.webp', width: 604, height: 424, alt: 'Payouts worked out by hand' },
+        { src: '/work/quick-hotels/problem-6.webp', width: 604, height: 424, alt: 'Every new hotel, more chaos' },
+      ],
+    ],
 
     process: [
       'Discovery & workflow mapping',
@@ -559,10 +657,35 @@ export const SHOWCASES: Showcase[] = [
           'Leads',
           'Users & roles',
         ],
+        // The PMS row of the Quick Hotels feature bento.
+        cards: [
+          [
+            {
+              src: '/work/quick-hotels/crm-card-availability.webp',
+              width: 470,
+              height: 392,
+              alt: 'Bookings & availability',
+            },
+            { src: '/work/quick-hotels/crm-card-dues.webp', width: 470, height: 392, alt: 'Payments & dues' },
+            {
+              src: '/work/quick-hotels/crm-card-inventory.webp',
+              width: 470,
+              height: 392,
+              alt: 'Inventory & pricing',
+            },
+            { src: '/work/quick-hotels/crm-card-roles.webp', width: 470, height: 392, alt: 'Users & roles' },
+          ],
+        ],
         gallery: [],
       },
     ],
 
+    systemImage: {
+      src: '/work/quick-hotels/design-system.webp',
+      width: 1774,
+      height: 887,
+      alt: 'Quick Hotels design system: colours, typography and components for the website and PMS',
+    },
     // Sampled from the product's dashboard (sidebar, active item, primary
     // button, page, headings); the button blue matches quickhotels.co.
     palette: [
@@ -575,7 +698,14 @@ export const SHOWCASES: Showcase[] = [
     type: [],
 
     ctaLead: 'Running more than one hotel?',
-    impact: [],
+    // Real facts only (see /work/quick-hotels): 12 hotels in the PMS, the
+    // site's own 1000+ guests, five cities, GST-inclusive pricing.
+    impact: [
+      { label: 'Hotels', value: '12', caption: 'hotels run from one PMS' },
+      { label: 'Guests', value: '1000+', caption: 'happy guests booked online' },
+      { label: 'Cities', value: '5+', caption: 'cities on one booking site' },
+      { label: 'Pricing', value: '100%', caption: 'of prices shown GST-inclusive' },
+    ],
   },
 
   {

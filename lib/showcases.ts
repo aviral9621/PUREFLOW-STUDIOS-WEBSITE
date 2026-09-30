@@ -759,10 +759,10 @@ export const SHOWCASES: Showcase[] = [
     focus: ['MLM Software', 'E-commerce Website'],
     headline: { lead: 'An MLM system and a store for', word: 'HERBAL WELLNESS.' },
     hero: {
-      src: '/work/herbal-vantage-showcase.webp',
-      width: 1774,
-      height: 887,
-      alt: 'The Herbal Vantage MLM admin panel beside its Ayurvedic online store',
+      src: '/work/herbal-vantage/hero.webp',
+      width: 1672,
+      height: 941,
+      alt: 'Herbal Vantage MLM dashboard with monthly sales, new members, recent payouts and KYC approvals around it',
     },
 
     brief:
@@ -777,6 +777,20 @@ export const SHOWCASES: Showcase[] = [
 
     problem:
       'A direct-selling business runs on trust and exact numbers: every member’s **PV, level and payout** has to be right, and **KYC and fund requests** need approving before money moves. Customers, meanwhile, judge the brand by how **premium and trustworthy** the store feels.',
+    // Cut from the T4 bento ("Herbal Sec 2.png"); cards 02, 04 and 05 were
+    // measured by hand. Same width both rows, each row its own height.
+    problemCards: [
+      [
+        { src: '/work/herbal-vantage/problem-1.webp', width: 600, height: 456, alt: 'A network on spreadsheets' },
+        { src: '/work/herbal-vantage/problem-2.webp', width: 600, height: 456, alt: 'Payouts worked out by hand' },
+        { src: '/work/herbal-vantage/problem-3.webp', width: 600, height: 456, alt: 'KYC on WhatsApp' },
+      ],
+      [
+        { src: '/work/herbal-vantage/problem-4.webp', width: 600, height: 424, alt: 'Fund requests in a register' },
+        { src: '/work/herbal-vantage/problem-5.webp', width: 600, height: 424, alt: 'Wallet balances disputed' },
+        { src: '/work/herbal-vantage/problem-6.webp', width: 600, height: 424, alt: 'Orders never reached PV' },
+      ],
+    ],
 
     process: [
       'Discovery & workflow mapping',
@@ -808,6 +822,57 @@ export const SHOWCASES: Showcase[] = [
           'Payment channels',
           'Sub-admin management',
         ],
+        // Cut from the T5 bento ("Herbal Sec 3.png"). Cards A, B and E had
+        // borders too faint for the finder, so they were measured by hand.
+        // Top row 620×464, bottom row 470×420.
+        cards: [
+          [
+            {
+              src: '/work/herbal-vantage/crm-card-network.webp',
+              width: 620,
+              height: 464,
+              alt: 'Member network: every member’s downline, level and sponsor in one tree',
+            },
+            {
+              src: '/work/herbal-vantage/crm-card-payouts.webp',
+              width: 620,
+              height: 464,
+              alt: 'PV & payouts: level-wise PV and commissions, calculated automatically',
+            },
+            {
+              src: '/work/herbal-vantage/crm-card-kyc.webp',
+              width: 620,
+              height: 464,
+              alt: 'KYC & fund requests: approve documents and top-ups before money moves',
+            },
+          ],
+          [
+            {
+              src: '/work/herbal-vantage/crm-card-packages.webp',
+              width: 470,
+              height: 420,
+              alt: 'Packages & E-Pins',
+            },
+            {
+              src: '/work/herbal-vantage/crm-card-wallets.webp',
+              width: 470,
+              height: 420,
+              alt: 'Wallets',
+            },
+            {
+              src: '/work/herbal-vantage/crm-card-reports.webp',
+              width: 470,
+              height: 420,
+              alt: 'PV & sales reports',
+            },
+            {
+              src: '/work/herbal-vantage/crm-card-orders.webp',
+              width: 470,
+              height: 420,
+              alt: 'Orders & products',
+            },
+          ],
+        ],
         gallery: [],
       },
       {
@@ -826,6 +891,14 @@ export const SHOWCASES: Showcase[] = [
       },
     ],
 
+    // The T6 sheet ("Herbal Sec 4.png"), flattened at 250 so the Cream, Mint
+    // Tint and Canvas swatches don't turn white. Its swatches match their labels.
+    systemImage: {
+      src: '/work/herbal-vantage/design-system.webp',
+      width: 1774,
+      height: 887,
+      alt: 'Herbal Vantage design system: colours, typography and components',
+    },
     // Read from the store (computed styles): body ink, heading green,
     // "Add to Cart" green, the gold accent and the cream section background.
     palette: [
@@ -851,7 +924,15 @@ export const SHOWCASES: Showcase[] = [
     ],
 
     ctaLead: 'Running a direct-selling business on spreadsheets?',
-    impact: [],
+    // The live dashboard's own figures (30 Sept 2026), the same ones in the
+    // hero image: 69 members, 60 active (87%), total PV 45,58,200, total
+    // sales ₹48,61,258. Scale, not before/after; never invent gains.
+    impact: [
+      { label: 'Members', value: '69', caption: 'members in one network' },
+      { label: 'Active', value: '87%', caption: 'of members active' },
+      { label: 'PV', value: '45.6L', caption: 'PV tracked level by level' },
+      { label: 'Sales', value: '₹48.6L', caption: 'sales tracked in one place' },
+    ],
   },
 ];
 

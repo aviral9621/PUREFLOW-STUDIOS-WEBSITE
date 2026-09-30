@@ -542,7 +542,7 @@ Website projects without a mockup use `card.image` (a still screenshot) instead 
 | **UnSkills: Institute Management System** | ✅ T2 feature showcase + black logo | ✅ live: hero, 6 problem cards, 7 feature cards, design system |
 | **Smart Agro: Agri Business Management System** | ✅ hub image (below) + black logo | ✅ live at `/work/smart-agro`: hero (T3 image, `smart-agro/hero.webp`), brief, problem (6 cut cards), process, features (7 cut cards), design system (T6 image), impact (live dashboard totals: 11,898 leads · 2,678 orders · ₹56.4L · 86% via WhatsApp; scale, not before/after). No testimonial yet |
 | **Quick Hotels** (website) | ✅ T1 mockup + black logo | ✅ showcase (text-only sections: homepage image as hero, real features as chips, coded palette + Playfair Display/Nunito from quickhotels.co). Needs problem, feature and design-system images |
-| **Herbal Vantage** (MLM software + online store) | ✅ showcase image + black logo · tabs: Software **and** Websites | ✅ showcase (text-only sections: homepage image as hero, real features as chips, coded palette + Playfair Display/DM Sans from the store). Two products: MLM Software, Online Store. Needs images |
+| **Herbal Vantage** (MLM software + online store) | ✅ showcase image + black logo · tabs: Software **and** Websites | ✅ live at `/work/herbal-vantage`: hero (T3), problem (6 cut cards), process, MLM Software features (7 cut cards), Online Store (chips only), design system (T6 image), impact (live dashboard figures: 69 members, 87% active (60/69), PV 45.6L, sales ₹48.6L; scale, not before/after). No testimonial yet |
 | **Quick Hotels CRM/PMS** (`ecommerce-retail-platform`) | ✅ T7 image + black logo · tab: Software | ✅ showcase (text-only sections: homepage image as hero, real features as chips, coded palette sampled from the dashboard; no type, the CRM font is unknown). The old page's retail/POS copy, metrics and testimonial were placeholders and are NOT used. Needs images |
 | **Spectrum: travel CRM** (`spectrum-tour-travels`) | ✅ T7 CRM image + black logo · tab: Software | ✅ live at `/work/spectrum-tour-travels`: hero (T3), problem (6 cut cards), process, features (7 cut cards), design system (T6 image), impact (live dashboard figures: +35% leads (34.8%, rounded to fit), ₹4.1L revenue, 29 upcoming tours, 47 payments tracked; not before/after). Covers the CRM, not the website. No testimonial yet |
 | UnSkills mobile app / UnSkills website | not started. Separate showcases later | not started |
@@ -980,6 +980,279 @@ CHECK-IN / CHECK-OUT / GUESTS & ROOMS plus a blue Search button. The logo is the
 Files: `public/work/quick-hotels-mockup.webp`, `public/work/quick-hotels-logo.webp`.
 
 ### Prepared, not yet used
+
+<details><summary>Herbal Vantage design system sheet (T6): for <code>/work/herbal-vantage</code>, prepared 2026-09-30, USED 2026-09-30 → <code>herbal-vantage/design-system.webp</code> (from "Herbal Sec 4.png", flattened at 250; swatches within 8/255 of their labels)</summary>
+
+Brand row and fonts read from the store (computed styles): Forest Ink #0F2D18, Herbal Green
+#1A6B2F, Leaf #1B8A4D (Add to Cart), Gold #C9A020, Cream #F7F5F0; Playfair Display + DM Sans.
+Admin row sampled from the 30 Sept dashboard: heading #0E3B2E, PV/icon green #1B5E3F, sales
+blue #155DFC, active amber #E8B94A, inactive red #CA5036, active pill #E6F4EC, canvas #FAF8F2.
+Attach the emblem only. When it comes back: flatten at 250 (three near-white neutrals) to
+`public/work/herbal-vantage/design-system.webp` and set `systemImage`.
+
+```
+Create a clean, premium DESIGN SYSTEM sheet for "Herbal Vantage", an Ayurvedic healthcare brand with an MLM admin system and an online store, in the style of a professional design-agency case study (like a Figma style-guide page). It shows the colour palette, typography and core UI components, neatly organised on white, with a few hand-drawn arrows and handwritten notes.
+
+FORMAT
+- Exactly 2:1 landscape (2400 × 1200 px). If 2:1 isn't possible, use 16:9.
+- Background: flat pure white (#FFFFFF), seamless. No border, no frame, no gradient, no devices, no people.
+- About 5% white margin on all sides. Nothing touches the edges.
+
+GENERAL STYLE
+- Organised into 3 zones with generous spacing and thin light-grey (#E5E7EB) divider lines.
+- Every zone has a small uppercase grey label (letter-spaced, DM Sans Medium): "COLOUR", "TYPOGRAPHY", "COMPONENTS".
+- Swatches and cards: 20px rounded corners, very soft shadow.
+- Hand-drawn elements: 3 loose curved marker arrows with short handwritten notes in a casual marker script, herbal green (#1B8A4D) and dark charcoal (#1F2937), one key word in Ayurveda gold (#B8860B). They sit in the white space and never cover text.
+
+ZONE 1 — COLOUR (left half of the image)
+
+Row 1: "Brand", 4 large tall swatches side by side. Each shows its colour as a solid block, then the name in bold and the hex code in a small monospace pill:
+- "Forest Ink" #0F2D18
+- "Herbal Green" #1A6B2F
+- "Leaf" #1B8A4D
+- "Ayurveda Gold" #C9A020
+
+Row 2: "Admin", 5 smaller square swatches, same labelling:
+- "Heading Green" #0E3B2E
+- "PV Green" #1B5E3F
+- "Sales Blue" #155DFC
+- "Active Amber" #E8B94A
+- "Inactive Red" #CA5036
+
+Row 3: "Neutrals", 3 small swatches:
+- "Cream" #F7F5F0 (with a thin grey outline so it shows on white)
+- "Mint Tint" #E6F4EC (with a thin grey outline)
+- "Canvas" #FAF8F2 (with a thin grey outline)
+
+Handwritten note with an arrow pointing at the Brand row: "Straight from the store" ("store" in gold).
+Handwritten note with an arrow pointing at the Admin row: "Same greens, admin side" ("admin" in gold).
+
+ZONE 2 — TYPOGRAPHY (top right)
+
+Two specimen cards side by side:
+- Card 1: a huge "Aa" set in Playfair Display Bold, then "Playfair Display", "Headings", and the weights "Bold". A small line of sample text in Playfair Display: "Reveal Your Natural Glow."
+- Card 2: a huge "Aa" set in DM Sans SemiBold, then "DM Sans", "Interface & body text", and the weights "SemiBold · Medium · Regular". A small line of sample text in DM Sans: "Members, PV and payouts in one place."
+
+Under the two cards, a type-scale list (a left column showing each style's name and size, a right column showing that style as rendered text):
+- "Store heading · Playfair Display Bold 32" → "Crafted From Nature"
+- "Page title · DM Sans SemiBold 28" → "Dashboard"
+- "Stat value · DM Sans SemiBold 24" → "45,58,200"
+- "Body · DM Sans Regular 14" → "Welcome back, Super Admin"
+- "Label · DM Sans Medium 11 · Uppercase" → "TOTAL PV"
+
+ZONE 3 — COMPONENTS (bottom right, one tidy row of real UI pieces)
+- A primary button: solid Leaf (#1B8A4D), white text "Add to Cart" with a small cart icon.
+- A secondary button: white with a thin grey border, "Release payout" with a small ₹ icon.
+- Three status pills: "Approved" (green on light green), "Pending" (amber on light amber), "Rejected" (red on light red).
+- A stat card: "Total Registered Users" / "69" / "4 new today", with a round PV Green (#1B5E3F) icon on the left and a small green step-line sparkline.
+- A search input: "Search members, orders or products…" with a magnifier icon.
+- A sidebar item in its active state: a Mint Tint (#E6F4EC) pill with a small grid icon and "Dashboard" in Heading Green.
+Handwritten note with an arrow at the components: "Same pieces across every screen" ("every" in gold).
+
+LOGO
+- Place the attached Herbal Vantage emblem small in the top-left corner above Zone 1, with "Design System" beside it in Playfair Display Bold. Copy the emblem exactly (the round green badge with "HERBAL VANTAGE", "PVT.LTD", gold stars and "Safe the Life"); do not redesign it.
+
+QUALITY RULES
+- Every hex code, name and word exactly as written above, sharp and legible. No gibberish, no extra colours or fonts, no invented values.
+- Swatch colours must match their hex codes exactly.
+- Balanced, airy, professional; aligned to a clear grid.
+- No watermark, no devices, no captions beyond what's specified.
+```
+</details>
+
+<details><summary>Herbal Vantage feature bento (T5): for <code>/work/herbal-vantage</code>, prepared 2026-09-30, USED 2026-09-30 → <code>herbal-vantage/crm-card-*.webp</code> (from "Herbal Sec 3.png"; cards A, B and E had borders too faint for the finder; boxes by hand: top <code>[28,48,609,469] [624,48,1173,470] [1187,48,1745,470]</code>, bottom <code>[28,482,445,862] [455,485,885,863] [895,484,1325,863] [1336,485,1745,863]</code>; rows 620×464 and 470×420, none scaled)</summary>
+
+For product 01 (MLM Software) only; the Online Store product keeps its chips until it gets
+its own images. Equal-width top row (as Spectrum). Cards map to the real sidebar modules; PV
+45,58,200, sales ₹48,61,258 and the PV split are the real dashboard figures, the rest is demo
+data with the hero's names. Attach `5-admin-dashboard-sep30.png` and the emblem. When it
+comes back: cut into `public/work/herbal-vantage/crm-card-*.webp` and add `cards` to the
+MLM product.
+
+```
+Create a clean, modern SaaS feature image for "Herbal Vantage MLM Software", the admin system of an Ayurvedic healthcare brand that sells through a network of members who earn PV (point value) and payouts on their own and their team's sales. Style: a bento grid of 7 rounded feature cards, each with a pastel icon tile, a bold title, one short description line and a compact, realistic UI illustration fully filled with data. A few playful hand-drawn arrows and handwritten notes. Show the software UI directly: no laptop, no phone, no device, no browser chrome.
+
+FORMAT
+- Exactly 2:1 landscape (2400 × 1200 px). If 2:1 isn't possible, use 16:9.
+- Background: flat pure white (#FFFFFF), seamless. No border, no frame, no headline text on the image, no people photos (small round avatars and initials inside the UI are fine).
+- About 4% white margin on all sides. Nothing touches the edges.
+
+VISUAL LANGUAGE
+- Match the attached Herbal Vantage dashboard: warm off-white (#F7F6F2) and white surfaces, thin light borders, deep green headings (#1A6B2F), simple line icons, Inter-style sans-serif.
+- Accent: herbal green (#1B8A4D) for charts, active tabs and main buttons; blue (#2563EB) for sales figures; green (#16A34A) for paid / approved / done; amber (#F59E0B) for pending; soft red (#EF4444) for rejected.
+- Cards: white, 24px rounded corners, thin light-grey border (#E5E7EB), very soft shadow, generous padding, equal gaps between cards.
+- Card header: a rounded-square pastel icon tile, then a bold near-black title (#0F172A) and one short grey line (#64748B).
+- Hand-drawn notes: 5 short notes in a casual marker script, charcoal (#1F2937) with one key word in Ayurveda gold (#B8860B), each with a short curved marker arrow in herbal green. EVERY NOTE STAYS INSIDE ITS OWN CARD'S BORDER, in white space inside that card; none in the gaps between cards; never covering UI text or numbers.
+
+LAYOUT
+- Top row: 3 cards of EXACTLY EQUAL width and height.
+- Bottom row: 4 cards of EXACTLY EQUAL width and height.
+- The two rows span the same total width.
+
+TOP ROW
+
+Card A — icon: people network. Title: "Member network". Line: "Every member's downline, level and sponsor in one tree."
+UI: a small genealogy tree: a top node "Ramesh Yadav · HV100214 · Level 3" (herbal-green ring), two child nodes "Sunita Verma · HV100187" and "Amit Kushwaha · HV100241", and under them three small grandchild nodes "PM", "RK", "+6"; a small side panel "Team size · 9 · Active 8"; a green chip "Placement auto-assigned ✓".
+Note inside the card, with an arrow at the tree: "Who's under whom, at a glance" ("at a glance" in gold).
+
+Card B — icon: ₹ coin. Title: "PV & payouts". Line: "Level-wise PV and commissions, calculated automatically."
+UI: a payout breakdown "September payout · Ramesh Yadav" with rows "Own PV · 1,250", "Level 1 PV · 8,400", "Level 2 PV · 3,160", a divider, "Payout · ₹4,850" in bold, and a green button "Release payout"; under it a status strip "Paid to wallet · 30 Sep" with a green pill.
+Note inside the card: "No calculator needed" ("No" in gold).
+
+Card C — icon: shield with a check. Title: "KYC & fund requests". Line: "Approve documents and top-ups before money moves."
+UI: a vertical flow of 3 small steps joined by short arrows: "KYC submitted · Pooja Mishra · HV100198" with 3 tiny blurred document chips "PAN", "Aadhaar", "Bank"; "Verified by admin ✓" (green pill); "Fund request · ₹5,000 · Approved ✓" (green pill). A small counter row "Pending KYC · 3" (amber) · "Pending funds · 2" (amber).
+Note inside the card: "KYC to payout, one flow" ("one flow" in gold).
+
+BOTTOM ROW
+
+Card D — icon: box with a tag. Title: "Packages & E-Pins". Line: "Joining packages and single-use E-Pins."
+UI: two package chips "Starter · ₹1,999 · 100 PV" and "Wellness · ₹4,999 · 250 PV"; an E-Pin row "HV-7Q2K-91 · Wellness" with a green pill "Unused"; another "HV-3M8P-44 · Starter" with a grey pill "Used by HV100241".
+
+Card E — icon: wallet. Title: "Wallets". Line: "Every member's balance, credits and withdrawals."
+UI: a wallet card "Wallet · Pooja Mishra · HV100198" with a big balance "₹3,480"; a mini ledger: "+ Level income · ₹1,940 · 30 Sep" (green), "+ Direct income · ₹1,540 · 22 Sep" (green), "– Withdrawal · ₹2,000 · 15 Sep" (grey); a green chip "Balance matches ✓".
+Note inside the card: "No more disputes" ("No more" in gold).
+
+Card F — icon: bar chart. Title: "PV & sales reports". Line: "Monthly and all-time PV and sales, live."
+UI: two figure tiles "Total PV · 45,58,200" (green) and "Total Sales · ₹48,61,258" (blue); a small donut "PV Distribution" with legend "Direct 42.4%", "Level 1 39.9%", "Level 2 17.7%" (green, blue, gold).
+Note inside the card, with an arrow at the donut: "Every level, counted" ("counted" in gold).
+
+Card G — icon: shopping cart. Title: "Orders & products". Line: "Every order credits PV to the right member."
+UI: an order row "Order #HV-2291 · Face Cream + Saffron · ₹1,280" with a green pill "Delivered"; an arrow to a chip "+64 PV credited to HV100214"; a small product row with a tiny product thumbnail "Herbal Vantage Face Scrub · 45 in stock".
+
+LOGO (copy the attached Herbal Vantage emblem exactly; do not redesign it)
+- Once, small, inside Card A's top-right corner: the round green badge with "HERBAL VANTAGE" around the top, "PVT.LTD" at the bottom, gold stars at the sides and "Safe the Life" in the white centre.
+
+QUALITY RULES
+- Every word and number exactly as written above, sharp and legible. No gibberish, no invented names or numbers. Use ONLY the names given; never copy names from the reference screenshot.
+- No empty states; every tile, list and chart is filled.
+- ID documents are blurred placeholders with no readable numbers.
+- Card titles must stay readable when the whole image is shown at 1200 px wide.
+- Balanced, uncluttered, equal gaps between cards; every note inside its own card.
+- No devices, no watermark, no captions, no borders.
+```
+</details>
+
+<details><summary>Herbal Vantage problem bento (T4): for <code>/work/herbal-vantage</code>, prepared 2026-09-30, USED 2026-09-30 → <code>herbal-vantage/problem-1…6.webp</code> (from "Herbal Sec 2.png"; the finder split cards 02, 04 and 05 (the calculator and notebook reach the faint borders), so boxes written by hand: top <code>[28,53,592,470] [605,53,1168,470] [1182,53,1745,469]</code>, bottom <code>[28,479,592,862] [605,479,1168,862] [1182,479,1745,866]</code>; rows 600×456 and 600×424)</summary>
+
+Modelled on the Spectrum problem bento. Each problem is the job one of the MLM system's real
+modules does (members, PV + payouts, KYC, fund requests + E-Pins, wallets + user queries, orders
++ products). Names and figures are demo data, the same members as the hero prompt. No headline
+on the image. When it comes back: cut into `public/work/herbal-vantage/problem-1…6.webp` and
+add `problemCards`.
+
+```
+Create a clean, modern SaaS explainer image: "Before Herbal Vantage MLM Software — how a direct-selling business used to run". The brand sells Ayurvedic healthcare products through a network of members who earn PV (point value) and payouts on their own and their team's sales. Style: a bento grid of 6 rounded cards on white, each showing one everyday problem as a small, realistic UI illustration, with a few playful hand-drawn notes. Honest and slightly chaotic INSIDE each card; the overall image stays neat, balanced and premium.
+
+FORMAT
+- Exactly 2:1 landscape (2400 × 1200 px). If 2:1 isn't possible, use 16:9.
+- Background: flat pure white (#FFFFFF), seamless. No border, no frame, no gradient, no headline text on the image, no devices, no people photos (small round avatars or initials inside the UI are fine).
+- About 4% white margin on all sides. Nothing touches the edges.
+
+VISUAL LANGUAGE
+- Cards: white, 24px rounded corners, thin light-grey border (#E5E7EB), very soft shadow, generous padding. ALL 6 CARDS EXACTLY THE SAME SIZE, with equal gaps between them.
+- Each card: a small illustration panel on top (very light grey #F7F7F9, rounded), then a number "01" … "06" in herbal green (#1B8A4D), a bold near-black title (#0F172A) and one short grey line (#64748B) under it.
+- UI inside the illustrations: Inter-style sans-serif, thin borders, simple line icons, muted greys. Whatever is broken is marked with small red/pink badges (#E11D48 text on #FFE4E6); "waiting" states use amber (#B45309 text on #FEF3C7).
+- Handwritten notes: short phrases in a casual marker script, charcoal (#1F2937) with one key word in Ayurveda gold (#B8860B), each with a short curved marker arrow. EVERY NOTE STAYS INSIDE ITS OWN CARD'S BORDER, in the top-right corner of that card's illustration panel. Never put a note or an arrow in the gap between cards.
+
+LAYOUT: 3 columns × 2 rows, all cards the same size.
+
+Card 01 — "A network on spreadsheets"
+Line: "Every member's downline and level lived in Excel sheets."
+Illustration: two overlapping spreadsheet file rows with a green Excel-style icon: "Members_downline_final.xlsx" and "Members_downline_final (3).xlsx" with a red badge "3 versions"; under them a tiny grid with 3 rows: "HV100214 · Ramesh Yadav · Level ?", "HV100187 · Sunita Verma · Level 2", "HV100241 · Amit Kushwaha · Sponsor ?" (the "?" cells in amber).
+Note inside the card: "Who is under whom?" ("under whom" in gold), arrow pointing at the "?" cells.
+
+Card 02 — "Payouts worked out by hand"
+Line: "PV, levels and commissions calculated on a calculator every month."
+Illustration: a small paper-style calculation card "September payout · Ramesh Yadav" with rows "Own PV · 1,250", "Level 1 PV · 8,400", "Level 2 PV · ?", "Payout · ₹ – – , – –" (greyed dashes), and a red badge "Recalculated 3×".
+Note inside the card: "Is this right?" ("right" in gold), arrow pointing at the dashes.
+
+Card 03 — "KYC on WhatsApp"
+Line: "PAN, Aadhaar and bank photos sent in chat, checked by eye."
+Illustration: a chat thread row "KYC documents" with a green "42 unread" badge; under it 3 small blurred document thumbnails labelled "PAN card", "Aadhaar", "Bank passbook", each with an amber badge "Not verified".
+Note inside the card: "Verified… or not?" ("not" in gold), arrow pointing at the badges.
+
+Card 04 — "Fund requests in a register"
+Line: "Top-ups and E-Pins approved from a notebook."
+Illustration: a lined-paper strip "Fund request · HV100198 · ₹5,000 · written in the register" with an amber badge "Pending?"; under it an E-Pin row "E-Pin · HV-7Q2K-91 · Used?" with a red badge "Issued twice".
+Note inside the card: "Which one was paid?" ("paid" in gold), arrow pointing at "Pending?".
+
+Card 05 — "Wallet balances disputed"
+Line: "Members kept asking why their wallet didn't match."
+Illustration: a small wallet card "Wallet · Pooja Mishra" with two rows "Member says · ₹3,480" and "Our sheet · ₹2,940", a red "≠" circle between them, and below it a queries row "Member queries · 17 open" with a red badge "Unanswered".
+Note inside the card: "Whose number is right?" ("right" in gold), arrow pointing at the "≠".
+
+Card 06 — "Orders never reached PV"
+Line: "Product orders and member PV were counted in separate places."
+Illustration: three small figure tiles in a row: "Orders · 142", "PV credited · 118", "Stock sold · ?" (greyed), with a red "≠" circle between the first two and a red badge under them: "24 orders missing PV".
+Note inside the card: "PV went missing" ("missing" in gold), arrow pointing at the red badge.
+
+QUALITY RULES
+- Every word and number exactly as written above, sharp and legible. No gibberish, no extra text, no invented names or numbers. Use ONLY the names given.
+- No official third-party logos: WhatsApp appears only as plain text with a simple chat-bubble line icon; the ID documents are blurred placeholders, never real ones.
+- Card titles must stay readable when the whole image is shown at 1200 px wide.
+- Neat and balanced overall: the "mess" lives inside the small illustrations, not in the layout. Every note stays inside its own card.
+- No watermark, no device frames, no browser chrome, no background scenery.
+```
+</details>
+
+<details><summary>Herbal Vantage showcase hero (T3): for <code>/work/herbal-vantage</code>, prepared 2026-09-30, USED 2026-09-30 → <code>herbal-vantage/hero.webp</code> (1672×941, from "Herbal Sec 1.png")</summary>
+
+Modelled on the UnSkills hero, from the 30 Sept 2026 dashboard (`Downloadsherbal-vantage-refs-admin-dashboard-sep30.png`;
+no customer names on it, only the admin ID). Real figures kept: 69 / 60 / 9 users, PV 45,58,200,
+sales 4,86,126 (₹48,61,258), the PV split incl. Level 2. The playbook bans empty states, so the
+real "0" KYC / fund-request tiles and "0 new today" became small demo values (3, 2, 4 new);
+floating cards and payout names are demo data. Confirm with the owner that showing Herbal
+Vantage's real PV and sales figures is fine. When it comes back: flatten to
+`public/work/herbal-vantage/hero.webp` and set `hero` in `lib/showcases.ts`.
+
+```
+Create a premium SaaS hero image for a software agency case study of "Herbal Vantage MLM Software", the admin system of an Ayurvedic healthcare brand that sells through a network of members. Show the software UI DIRECTLY: no laptop, no phone, no tablet, no monitor, no device of any kind, no browser chrome. Style: a clean product-launch explainer with floating UI cards and playful hand-drawn arrows and handwritten notes.
+
+FORMAT
+- 16:9 landscape (2400 × 1350 px). If 16:9 isn't possible, use the closest landscape size.
+- Background: flat pure white (#FFFFFF), seamless, edge to edge. No border, no frame, no gradient, no texture, no desk, no props, no hands, no people.
+- About 5% white margin on all sides. Nothing touches the edges.
+
+MAIN ELEMENT — THE DASHBOARD WINDOW (centre, about 66% of the image width)
+- A flat, front-facing app window with 18px rounded corners, a thin light-grey border and a large, very soft shadow, floating on the white background. It is just the UI panel itself: no device frame, no bezel, no stand.
+- Recreate the attached Herbal Vantage dashboard faithfully (warm off-white page #F7F6F2, white cards with thin light borders, deep green accents, Inter-style font), fully filled:
+  • Left sidebar (white): the round green Herbal Vantage emblem with "Herbal Vantage" / "Private Limited". Menu items in this order, each with a thin line icon (and a small chevron where it has one): Dashboard (ACTIVE, light green pill), Member Management, Package Management, E-Pin Management, Fund Requests, Reports, KYC Management, Wallet Management, Payout Management, User Queries, Order Management, Product Management, Payment Channels, Sub-Admin Management, Settings, System Status. At the bottom: a user circle with "HV100003" / "Super Admin".
+  • Top bar: a bell icon and "Sign out" on the right.
+  • Header: "Dashboard" (large, bold, dark green) / "Welcome back, Super Admin 👋", and a date pill "30 Sept 2026" on the right.
+  • Row 1, two wide cards with a green check icon and a right arrow: "KYC approvals pending" / "3" / "3 members waiting for review", and "Fund requests pending" / "2" / "2 payments waiting for approval".
+  • Row 2, three cards, each with a round icon, a small line chart and a caption: "Total Registered Users" / "69" / "4 new today" (dark green icon, light green tint, green step line); "Total Active Users" / "60" / "3 active today" (amber icon, cream tint, amber step line); "Total Inactive Users" / "9" / "2 inactive today" (pink icon, light pink tint, red line).
+  • Row 3, two cards: "Current Month PV / Sales Report" and "Total PV / Sales Report (All Time)", each with two boxes: "Total PV" / "45,58,200" (green) / "₹4,55,82,000" and "Total Sales" / "4,86,126" (blue) / "₹48,61,258".
+  • Row 4 (may be slightly cut by the window's lower edge): "PV / Sales Trend" (a "This Week" dropdown, legend "PV" and "Sales", a green and a blue line chart, 23 Sep → 29 Sep); "PV Distribution" / "This Month" (a green, blue and gold donut with "45,58,200" / "TOTAL PV" in the centre; legend "Direct 19,32,580 (42.4%)", "Level 1 18,20,920 (39.9%)", "Level 2 8,04,700 (17.7%)").
+
+FLOATING CARDS (white, 20px rounded corners, thin light-grey border, soft shadow, tilted 3–5°, overlapping the window's edges slightly, as if popping out of the UI)
+- Top-left: "Monthly Sales", a smooth herbal-green (#1B8A4D) line chart Apr → Sep with a light green fill, y-axis ₹0 / ₹3L / ₹6L / ₹9L / ₹12L, the peak labelled in a small green tag "Aug · ₹11,40,000".
+- Bottom-left: "New Members", 6 herbal-green bars Apr → Sep, with a small green chip "↑ 4 joined today".
+- Right: "Recent Payouts", 4 rows, each with a round avatar with initials, a name, a member ID, an amount and a green "Paid" pill:
+  "Ramesh Yadav" · "HV100214" · "₹4,850"
+  "Sunita Verma" · "HV100187" · "₹3,200"
+  "Amit Kushwaha" · "HV100241" · "₹2,760"
+  "Pooja Mishra" · "HV100198" · "₹1,940"
+- Bottom-right: a small chip with a green shield-check icon and "KYC approved · payout released ✓".
+
+HAND-DRAWN ARROWS + HANDWRITTEN NOTES
+Style: loose, slightly wobbly curved marker arrows with simple open arrowheads, about 3px thick, in herbal green (#1B8A4D). Notes are short phrases in a casual handwritten marker script, dark charcoal (#1F2937), with one key word in Ayurveda gold (#B8860B), slightly tilted. They sit in the white space and never cover any UI text, number or chart; no arrow crosses the sidebar.
+Add exactly these 5:
+a) From "Monthly Sales" → curved arrow to the "Total Sales 4,86,126" box. Note: "Sales tracked live" ("live" in gold).
+b) From "New Members" → curved arrow to the "Total Registered Users 69" card. Note: "Network growing daily" ("growing" in gold).
+c) From "Recent Payouts" → curved arrow to the "PV Distribution" donut. Note: "Every payout, level by level" ("level by level" in gold).
+d) Top centre, above the window: note "Every member. One dashboard." ("One" in gold) with a short arrow curving down into the dashboard.
+e) From the KYC chip → short arrow to the "KYC approvals pending" card. Note under the chip: "KYC to payout, in one flow" ("one flow" in gold).
+
+LOGO (copy the attached Herbal Vantage emblem exactly; do not redesign it)
+- Used only inside the dashboard's sidebar: a round green badge with "HERBAL VANTAGE" around the top, "PVT.LTD" at the bottom, gold stars at the sides and "Safe the Life" in the white centre.
+
+QUALITY RULES
+- Every word and number exactly as written above, sharp and legible. No gibberish, no invented names or numbers. Use ONLY the names given; never copy names from the reference screenshot.
+- No empty states, no zero values: every card, chart and list is filled.
+- Clean, balanced, generous spacing; the arrows guide the eye without clutter; nothing overlaps the dashboard's numbers.
+- No devices, no watermark, no captions, no borders.
+```
+</details>
 
 <details><summary>Spectrum CRM design system sheet (T6): for <code>/work/spectrum-tour-travels</code>, prepared 2026-09-30, USED 2026-09-30 → <code>spectrum/design-system.webp</code> (from "Spectrum sec 4.png", flattened at 250; swatches within 12/255 of their labels, Canvas and Cream kept)</summary>
 

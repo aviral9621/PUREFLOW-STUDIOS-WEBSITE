@@ -740,7 +740,16 @@ export const SHOWCASES: Showcase[] = [
     ],
 
     ctaLead: 'Running a travel business on spreadsheets?',
-    impact: [],
+    // The live dashboard's own figures (Sept 2026), the same ones in the hero
+    // image. Swap in before/after gains once the client confirms some; never
+    // invent them.
+    impact: [
+      // +34.8% on the dashboard, rounded so it fits the card.
+      { label: 'Leads', value: '+35%', caption: 'more leads this month' },
+      { label: 'Revenue', value: '₹4.1L', caption: 'revenue tracked this month' },
+      { label: 'Tours', value: '29', caption: 'trips in the next 30 days' },
+      { label: 'Payments', value: '47', caption: 'payments tracked to the rupee' },
+    ],
   },
 
   {

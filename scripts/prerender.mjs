@@ -82,14 +82,14 @@ const PAGES = [
 
   // ── Case studies ──
   { path: '/work/quick-hotels', priority: '0.9', h1: 'Quick Hotels',
-    title: `Quick Hotels — Hospitality Case Study | ${SITE}`,
-    description: 'A complete booking-and-management ecosystem for budget-friendly stays across India.' },
+    title: `Quick Hotels — Booking Website + PMS | Case Study | ${SITE}`,
+    description: 'A booking website and a property management system on one backend, for budget-friendly stays across India.' },
   { path: '/work/herbal-vantage', priority: '0.9', h1: 'Herbal Vantage',
-    title: `Herbal Vantage — Herbal & Wellness Case Study | ${SITE}`,
-    description: 'A premium herbal store experience — luxury wellness commerce, end to end.' },
+    title: `Herbal Vantage — MLM Software + Online Store | Case Study | ${SITE}`,
+    description: 'An MLM system for members, packages, KYC, wallets and payouts, plus a premium Ayurvedic online store.' },
   { path: '/work/spectrum-tour-travels', priority: '0.9', h1: 'Spectrum Tour & Travels',
-    title: `Spectrum Tour & Travels — Travel & Tourism Case Study | ${SITE}`,
-    description: 'A complete travel and tour booking experience — packages, enquiries and trips online.' },
+    title: `Spectrum Tour & Travels — Travel CRM | Case Study | ${SITE}`,
+    description: 'One CRM for a travel agency: leads, tour packages, quotations, bookings, invoices, IVR and the website.' },
   // UnSkills' institute management system is a showcase (lib/showcases.ts).
   { path: '/work/unskills-computer-education-crm', priority: '0.9', h1: 'UnSkills Computer Education',
     title: `UnSkills Computer Education — Institute Management System | Case Study | ${SITE}`,
@@ -97,9 +97,9 @@ const PAGES = [
   { path: '/work/smart-agro', priority: '0.9', h1: 'Smart Agro',
     title: `Smart Agro — Agri Business Management System | Case Study | ${SITE}`,
     description: 'One system for an entire agri business: leads, WhatsApp, e-commerce, inventory and GST accounting.' },
-  { path: '/work/ecommerce-retail-platform', priority: '0.8', h1: 'E-commerce & Retail Platform',
-    title: `E-commerce & Retail Platform — Case Study | ${SITE}`,
-    description: 'A fast online store with seamless checkout and in-store point-of-sale on one backend.' },
+  { path: '/work/ecommerce-retail-platform', priority: '0.8', h1: 'Quick Hotels',
+    title: `Quick Hotels — Hotel Management Software | Case Study | ${SITE}`,
+    description: 'One dashboard to run every hotel: bookings, check-ins, rooms, invoices, commission, GST and hotel payouts.' },
 
   // ── Blog posts ──
   { path: '/blog/ai-automation-for-small-businesses-2026', priority: '0.7',

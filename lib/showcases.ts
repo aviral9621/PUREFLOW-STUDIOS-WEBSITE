@@ -405,6 +405,445 @@ export const SHOWCASES: Showcase[] = [
       { label: 'WhatsApp', value: '86%', caption: 'of leads come in on WhatsApp' },
     ],
   },
+
+  // The four below were moved onto this page with the material we already
+  // had: the homepage card image as the hero, the real feature lists (the
+  // case-study copy for the websites, the product's own sidebar for the
+  // software), colours and fonts read from the live site or sampled from the
+  // product screenshots. No problem cards, feature cards or design-system
+  // sheet yet, so those sections show text, chips and swatches. Impact and
+  // testimonials stay empty until the clients confirm real ones.
+  {
+    slug: 'quick-hotels',
+    matchSlugs: ['end-to-end-hotel-management'],
+    client: 'Quick Hotels',
+    logo: { src: '/work/quick-hotels-logo.webp', width: 333, height: 160 },
+    focus: ['Booking Website', 'Property Management System'],
+    headline: { lead: 'A booking site and PMS for', word: 'BUDGET STAYS.' },
+    hero: {
+      src: '/work/quick-hotels-mockup.webp',
+      width: 1774,
+      height: 887,
+      alt: 'The Quick Hotels booking website on a laptop and a phone',
+    },
+
+    brief:
+      'Quick Hotels runs **budget-friendly stays** across Delhi, Bengaluru, Rishikesh, Noida, Mathura and more. The brief was two things on **one backend**: a fast, mobile-first **booking website** for guests and a **property management system** for the team, with every price **GST-inclusive**.',
+    facts: [
+      { label: 'Industry', value: 'Hospitality' },
+      { label: 'Delivered', value: 'Booking website + PMS' },
+      { label: 'Services', value: 'Product Design · Web Dev · Custom PMS' },
+      { label: 'Stack', value: 'Next.js · Supabase · Razorpay' },
+    ],
+    links: [{ label: 'quickhotels.co', href: 'https://quickhotels.co' }],
+
+    problem:
+      'Most vendors treat a booking site and a hotel back office as **separate projects**, which means **double entry** and availability that never quite matches. Quick Hotels also had one strict rule: **every room price already includes GST**, so the total a guest sees is the total they pay.',
+
+    process: [
+      'Discovery & workflow mapping',
+      'Information architecture',
+      'UX & interface design',
+      'Development & integrations',
+      'Testing & launch',
+      'Training & support',
+    ],
+
+    products: [
+      {
+        kind: 'website',
+        name: 'Guest Booking Website',
+        summary:
+          'Guests discover and book stays across every Quick Hotels city, on a fast, mobile-first site.',
+        features: [
+          'Search stays in every city',
+          'GST-inclusive pricing',
+          'Pay 30% now, the rest at check-in',
+          'Secure Razorpay checkout',
+        ],
+        gallery: [],
+      },
+      {
+        kind: 'crm',
+        name: 'Property Management System',
+        summary:
+          'The team runs rooms, bookings, payments and inventory on the same backend as the website.',
+        features: [
+          'Bookings & live availability',
+          'Payments & balances per booking',
+          'Inventory & pricing per property',
+          'Role-based staff access',
+        ],
+        gallery: [],
+      },
+    ],
+
+    // Read from quickhotels.co (computed styles): the gold "Perfect", the
+    // Search button gradient, the footer navy and the body text.
+    palette: [
+      { name: 'Gold', hex: '#D4A853' },
+      { name: 'Royal Blue', hex: '#1A5FAC' },
+      { name: 'Deep Navy', hex: '#0F2645' },
+      { name: 'Night Navy', hex: '#0A1B33' },
+      { name: 'Ink', hex: '#111827' },
+    ],
+    type: [
+      {
+        family: 'Playfair Display',
+        role: 'Headings',
+        weights: 'Bold · Bold Italic',
+        google: 'Playfair+Display:ital,wght@0,700;1,700',
+      },
+      {
+        family: 'Nunito',
+        role: 'Interface & body',
+        weights: 'Bold · SemiBold · Regular',
+        google: 'Nunito:wght@400;600;700',
+      },
+    ],
+
+    ctaLead: 'Running bookings and rooms in two systems?',
+    impact: [],
+  },
+
+  {
+    slug: 'ecommerce-retail-platform',
+    client: 'Quick Hotels',
+    logo: { src: '/work/quick-hotels-logo.webp', width: 333, height: 160 },
+    focus: ['Hotel Management Software'],
+    headline: { lead: 'One dashboard to run', word: 'EVERY HOTEL.' },
+    hero: {
+      src: '/work/quick-hotels-crm-showcase.webp',
+      width: 1774,
+      height: 887,
+      alt: 'The Quick Hotels hotel management dashboard with its modules',
+    },
+
+    brief:
+      'Quick Hotels lists **many hotels across India** and earns a commission on each booking. The brief was **one system to run every property**: hotels and rooms, bookings and check-ins, services, invoices and finance, leads, staff roles and **payouts to hotels**, with a live dashboard across all of them.',
+    facts: [
+      { label: 'Industry', value: 'Hospitality' },
+      { label: 'Delivered', value: 'Hotel Management Software' },
+      { label: 'Services', value: 'Product Design · Custom Software Development' },
+    ],
+
+    problem:
+      'Every property has its own rooms, bookings, check-ins and **dues to collect before guests leave**. On top of that, the platform has to track its own **commission and GST** and release the **right payout to each hotel**. All of it had to come out of one set of numbers.',
+
+    process: [
+      'Discovery & workflow mapping',
+      'Information architecture',
+      'UX & interface design',
+      'Development & integrations',
+      'Testing with the operations team',
+      'Launch, training & support',
+    ],
+
+    products: [
+      {
+        kind: 'crm',
+        name: 'Hotel Management System',
+        summary:
+          'One dashboard for every property: bookings, check-ins, rooms and dues, plus the platform’s commission, GST and hotel payouts.',
+        // The product's own sidebar and dashboard modules.
+        features: [
+          'Live dashboard across hotels',
+          'Hotels & rooms',
+          'Bookings',
+          'Check-in / check-out',
+          'Room inventory',
+          'Services',
+          'Invoices & finance',
+          'Commission & GST analytics',
+          'Hotel payouts',
+          'Leads',
+          'Users & roles',
+        ],
+        gallery: [],
+      },
+    ],
+
+    // Sampled from the product's dashboard (sidebar, active item, primary
+    // button, page, headings); the button blue matches quickhotels.co.
+    palette: [
+      { name: 'Sidebar Navy', hex: '#0E1A33' },
+      { name: 'Active Blue', hex: '#3175F1' },
+      { name: 'Brand Blue', hex: '#1A5FAC' },
+      { name: 'Canvas', hex: '#F7F8FA' },
+      { name: 'Ink', hex: '#1D2436' },
+    ],
+    type: [],
+
+    ctaLead: 'Running more than one hotel?',
+    impact: [],
+  },
+
+  {
+    slug: 'spectrum-tour-travels',
+    matchSlugs: ['ai-workflow-system'],
+    client: 'Spectrum Tour & Travels',
+    logo: { src: '/work/spectrum-tour-travels-logo.webp', width: 277, height: 160 },
+    focus: ['Travel CRM'],
+    headline: { lead: 'One CRM for a', word: 'TRAVEL AGENCY.' },
+    hero: {
+      src: '/work/spectrum/hero.webp',
+      width: 1672,
+      height: 941,
+      alt: 'Spectrum CRM dashboard with monthly revenue, leads by source, upcoming tours and a WhatsApp quotation around it',
+    },
+
+    brief:
+      'Spectrum Tour & Travels sells **domestic and international tour packages**. The brief was a **CRM built for a travel agency**: leads, **tour packages and quotations**, bookings and invoices, an **IVR system** for calls, and the tools to run their **website** (bookings, packages, promo codes, reviews, blog and landing pages) from the same place.',
+    facts: [
+      { label: 'Industry', value: 'Travel & Tourism' },
+      { label: 'Delivered', value: 'Travel CRM' },
+      { label: 'Services', value: 'Product Design · Custom Software Development' },
+    ],
+    links: [{ label: 'spectrumtourtravels.com', href: 'https://spectrumtourtravels.com/' }],
+
+    problem:
+      'A travel agency juggles **enquiries, itineraries and quotes**, then bookings, invoices and **customer payments that arrive over weeks**. Calls, the website and the office all had to land in **one system**, so nobody quotes a trip twice or misses a payment.',
+    // Cut from the T4 bento ("Spectrum Sec- 2.png"). Same width both rows so
+    // the columns line up; the top row's cards are taller, so its own height.
+    problemCards: [
+      [
+        { src: '/work/spectrum/problem-1.webp', width: 596, height: 494, alt: 'Enquiries everywhere' },
+        { src: '/work/spectrum/problem-2.webp', width: 596, height: 494, alt: 'Itineraries built by hand' },
+        { src: '/work/spectrum/problem-3.webp', width: 596, height: 494, alt: 'Quotes lost in follow-up' },
+      ],
+      [
+        { src: '/work/spectrum/problem-4.webp', width: 596, height: 420, alt: 'Payments chased by memory' },
+        { src: '/work/spectrum/problem-5.webp', width: 596, height: 420, alt: 'Vendors and cash on paper' },
+        { src: '/work/spectrum/problem-6.webp', width: 596, height: 420, alt: 'Staff tasks on WhatsApp' },
+      ],
+    ],
+
+    process: [
+      'Discovery & workflow mapping',
+      'Information architecture',
+      'UX & interface design',
+      'Development & integrations',
+      'Testing with the sales team',
+      'Launch, training & support',
+    ],
+
+    products: [
+      {
+        kind: 'crm',
+        name: 'Travel CRM',
+        summary:
+          'From enquiry to booked trip in one system, with the agency’s website run from the same dashboard.',
+        // The product's own sidebar.
+        features: [
+          'Lead management',
+          'Tour package builder',
+          'Quotation management',
+          'Booking management',
+          'Invoice generator',
+          'IVR system',
+          'Website bookings',
+          'Showcase packages',
+          'Promo codes',
+          'Reviews',
+          'Blog & landing pages',
+          'Website builder',
+          'Attendance & tasks',
+          'Vendors & petty cash',
+          'Accounts & salaries',
+        ],
+        // Cut from the T5 bento ("Spectrum sec 3.png"). Card B's and F's left
+        // borders were too faint for the finder, so the boxes were measured by
+        // hand. Top row 596×470, bottom row 466×425.
+        cards: [
+          [
+            {
+              src: '/work/spectrum/crm-card-packages.webp',
+              width: 596,
+              height: 470,
+              alt: 'Tour package builder: a day-wise itinerary priced as you build it',
+            },
+            {
+              src: '/work/spectrum/crm-card-leads.webp',
+              width: 596,
+              height: 470,
+              alt: 'Leads & IVR: every call and web enquiry lands as a lead',
+            },
+            {
+              src: '/work/spectrum/crm-card-quotations.webp',
+              width: 596,
+              height: 470,
+              alt: 'Quotations & bookings: from quote to confirmed trip',
+            },
+          ],
+          [
+            {
+              src: '/work/spectrum/crm-card-invoices.webp',
+              width: 466,
+              height: 425,
+              alt: 'Invoices & payments',
+            },
+            {
+              src: '/work/spectrum/crm-card-website.webp',
+              width: 466,
+              height: 425,
+              alt: 'Website manager',
+            },
+            {
+              src: '/work/spectrum/crm-card-vendors.webp',
+              width: 466,
+              height: 425,
+              alt: 'Vendors & accounts',
+            },
+            {
+              src: '/work/spectrum/crm-card-workforce.webp',
+              width: 466,
+              height: 425,
+              alt: 'Workforce',
+            },
+          ],
+        ],
+        gallery: [],
+      },
+    ],
+
+    // The T6 sheet ("Spectrum sec 4.png"), flattened at 250 so the Canvas and
+    // Cream swatches don't turn white. Its swatches match their hex labels.
+    systemImage: {
+      src: '/work/spectrum/design-system.webp',
+      width: 1774,
+      height: 887,
+      alt: 'Spectrum CRM design system: colours, typography and components',
+    },
+    // Read from spectrumtourtravels.com (computed styles, 2026-09-30): the
+    // yellow CTA, its darker gold, the navy hero/footer; plus two of the CRM's
+    // stat colours sampled from its dashboard. Fonts are the website's.
+    palette: [
+      { name: 'Sunshine Yellow', hex: '#FEBD09' },
+      { name: 'Deep Gold', hex: '#DFA300' },
+      { name: 'Night Navy', hex: '#0B1F33' },
+      { name: 'Leads Blue', hex: '#1E40AF' },
+      { name: 'Revenue Green', hex: '#066251' },
+    ],
+    type: [
+      {
+        family: 'Unbounded',
+        role: 'Headings',
+        weights: 'Bold · SemiBold',
+        google: 'Unbounded:wght@600;700',
+      },
+      {
+        family: 'Manrope',
+        role: 'Interface & body',
+        weights: 'SemiBold · Medium · Regular',
+        google: 'Manrope:wght@400;500;600',
+      },
+    ],
+
+    ctaLead: 'Running a travel business on spreadsheets?',
+    impact: [],
+  },
+
+  {
+    slug: 'herbal-vantage',
+    client: 'Herbal Vantage',
+    logo: { src: '/work/herbal-vantage-logo.webp', width: 671, height: 160 },
+    focus: ['MLM Software', 'E-commerce Website'],
+    headline: { lead: 'An MLM system and a store for', word: 'HERBAL WELLNESS.' },
+    hero: {
+      src: '/work/herbal-vantage-showcase.webp',
+      width: 1774,
+      height: 887,
+      alt: 'The Herbal Vantage MLM admin panel beside its Ayurvedic online store',
+    },
+
+    brief:
+      'Herbal Vantage sells **Ayurvedic healthcare products** through a **network of members** and an **online store**. The brief was both halves: an **MLM system** to run members, packages, E-Pins, KYC, wallets and **payouts**, and a premium storefront that feels as trustworthy as the products.',
+    facts: [
+      { label: 'Industry', value: 'Herbal & Wellness' },
+      { label: 'Delivered', value: 'MLM Software · E-commerce Website' },
+      { label: 'Services', value: 'Product Design · Web Dev · Custom Software' },
+      { label: 'Store stack', value: 'Next.js · Tailwind · Vercel' },
+    ],
+    links: [{ label: 'The online store', href: 'https://herbal-vantage-website.vercel.app/' }],
+
+    problem:
+      'A direct-selling business runs on trust and exact numbers: every member’s **PV, level and payout** has to be right, and **KYC and fund requests** need approving before money moves. Customers, meanwhile, judge the brand by how **premium and trustworthy** the store feels.',
+
+    process: [
+      'Discovery & workflow mapping',
+      'Information architecture',
+      'UX & interface design',
+      'Development & integrations',
+      'Testing & launch',
+      'Training & support',
+    ],
+
+    products: [
+      {
+        kind: 'crm',
+        name: 'MLM Software',
+        summary:
+          'The admin system for the member network: packages, E-Pins, KYC, wallets, PV reports and payouts in one place.',
+        // The admin panel's own sidebar.
+        features: [
+          'Member management',
+          'Package management',
+          'E-Pin management',
+          'KYC management',
+          'Fund requests',
+          'Wallet management',
+          'Payout management',
+          'PV & sales reports',
+          'Order management',
+          'Product management',
+          'Payment channels',
+          'Sub-admin management',
+        ],
+        gallery: [],
+      },
+      {
+        kind: 'website',
+        name: 'Online Store',
+        summary:
+          'An editorial Ayurvedic storefront with a fast, low-friction path from browsing to checkout.',
+        features: [
+          'Editorial product showcase',
+          'Shop by health goal',
+          'Mobile-first browsing',
+          'Trust-building product pages',
+          'Low-friction checkout',
+        ],
+        gallery: [],
+      },
+    ],
+
+    // Read from the store (computed styles): body ink, heading green,
+    // "Add to Cart" green, the gold accent and the cream section background.
+    palette: [
+      { name: 'Forest Ink', hex: '#0F2D18' },
+      { name: 'Herbal Green', hex: '#1A6B2F' },
+      { name: 'Leaf', hex: '#1B8A4D' },
+      { name: 'Ayurveda Gold', hex: '#C9A020' },
+      { name: 'Cream', hex: '#F7F5F0' },
+    ],
+    type: [
+      {
+        family: 'Playfair Display',
+        role: 'Headings',
+        weights: 'Bold',
+        google: 'Playfair+Display:wght@700',
+      },
+      {
+        family: 'DM Sans',
+        role: 'Interface & body',
+        weights: 'SemiBold · Medium · Regular',
+        google: 'DM+Sans:wght@400;500;600',
+      },
+    ],
+
+    ctaLead: 'Running a direct-selling business on spreadsheets?',
+    impact: [],
+  },
 ];
 
 const bySlug = new Map<string, Showcase>();

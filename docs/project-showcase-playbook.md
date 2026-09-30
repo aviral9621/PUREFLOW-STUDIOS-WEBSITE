@@ -541,10 +541,10 @@ Website projects without a mockup use `card.image` (a still screenshot) instead 
 |---|---|---|
 | **UnSkills: Institute Management System** | ✅ T2 feature showcase + black logo | ✅ live: hero, 6 problem cards, 7 feature cards, design system |
 | **Smart Agro: Agri Business Management System** | ✅ hub image (below) + black logo | ✅ live at `/work/smart-agro`: hero (T3 image, `smart-agro/hero.webp`), brief, problem (6 cut cards), process, features (7 cut cards), design system (T6 image), impact (live dashboard totals: 11,898 leads · 2,678 orders · ₹56.4L · 86% via WhatsApp; scale, not before/after). No testimonial yet |
-| **Quick Hotels** (website) | ✅ T1 mockup + black logo | ⏳ old `CaseStudyPage` |
-| **Herbal Vantage** (MLM software + online store) | ✅ showcase image + black logo · tabs: Software **and** Websites | ⏳ old page |
-| **Quick Hotels CRM/PMS** (`ecommerce-retail-platform`) | ✅ T7 image + black logo · tab: Software | ⏳ old page |
-| **Spectrum: travel CRM** (`spectrum-tour-travels`) | ✅ T7 CRM image + black logo · tab: Software | ⏳ old page (still about the website) |
+| **Quick Hotels** (website) | ✅ T1 mockup + black logo | ✅ showcase (text-only sections: homepage image as hero, real features as chips, coded palette + Playfair Display/Nunito from quickhotels.co). Needs problem, feature and design-system images |
+| **Herbal Vantage** (MLM software + online store) | ✅ showcase image + black logo · tabs: Software **and** Websites | ✅ showcase (text-only sections: homepage image as hero, real features as chips, coded palette + Playfair Display/DM Sans from the store). Two products: MLM Software, Online Store. Needs images |
+| **Quick Hotels CRM/PMS** (`ecommerce-retail-platform`) | ✅ T7 image + black logo · tab: Software | ✅ showcase (text-only sections: homepage image as hero, real features as chips, coded palette sampled from the dashboard; no type, the CRM font is unknown). The old page's retail/POS copy, metrics and testimonial were placeholders and are NOT used. Needs images |
+| **Spectrum: travel CRM** (`spectrum-tour-travels`) | ✅ T7 CRM image + black logo · tab: Software | ✅ live at `/work/spectrum-tour-travels`: hero (T3), problem (6 cut cards), process, features (7 cut cards), design system (T6 image). Covers the CRM, not the website. No impact or testimonial yet |
 | UnSkills mobile app / UnSkills website | not started. Separate showcases later | not started |
 
 Removed from the site on the owner's request: UnSkills Education (its old URLs open the
@@ -980,6 +980,295 @@ CHECK-IN / CHECK-OUT / GUESTS & ROOMS plus a blue Search button. The logo is the
 Files: `public/work/quick-hotels-mockup.webp`, `public/work/quick-hotels-logo.webp`.
 
 ### Prepared, not yet used
+
+<details><summary>Spectrum CRM design system sheet (T6): for <code>/work/spectrum-tour-travels</code>, prepared 2026-09-30, USED 2026-09-30 → <code>spectrum/design-system.webp</code> (from "Spectrum sec 4.png", flattened at 250; swatches within 12/255 of their labels, Canvas and Cream kept)</summary>
+
+**The Spectrum brand changed.** spectrumtourtravels.com was redesigned: the old yellow-to-orange
+WordPress hero (and our `spectrum-tour-travels-mobile.webp` still) is gone. Read on 2026-09-30:
+CTA yellow #FEBD09, deep gold #DFA300, navy #0B1F33 / #081726, heading navy #192A3D, cream
+#FFFBEB, canvas #F8FAFC, slate #475569; fonts Unbounded (headings) and Manrope (body). The CRM's
+module colours were sampled from its dashboard (Tailwind 800s: #1E40AF, #066251, #6B21A8, #3730A3,
+#9D3412; tiles in the matching 50s; "New" pill #FFCE0A; badge #EF4343). The CRM's own font was
+not confirmed, so the sheet uses the website's type. The hero, problem and feature prompts above
+were written with the old orange (#EA580C / #FF7D08) accent: swap it for deep gold #DFA300
+(arrows, note keywords) and #FEBD09 (charts, buttons) before generating them.
+Attach the logo only. When it comes back: flatten (check the Canvas and Cream swatches survive;
+use a 250 threshold) to `public/work/spectrum/design-system.webp` and set `systemImage`.
+
+```
+Create a clean, premium DESIGN SYSTEM sheet for "Spectrum CRM", the CRM of a tour & travel company, in the style of a professional design-agency case study (like a Figma style-guide page). It shows the product's colour palette, typography and core UI components, neatly organised on white, with a few hand-drawn arrows and handwritten notes.
+
+FORMAT
+- Exactly 2:1 landscape (2400 × 1200 px). If 2:1 isn't possible, use 16:9.
+- Background: flat pure white (#FFFFFF), seamless. No border, no frame, no gradient, no devices, no people.
+- About 5% white margin on all sides. Nothing touches the edges.
+
+GENERAL STYLE
+- Organised into 3 zones with generous spacing and thin light-grey (#E5E7EB) divider lines.
+- Every zone has a small uppercase grey label (letter-spaced, Manrope Medium): "COLOUR", "TYPOGRAPHY", "COMPONENTS".
+- Swatches and cards: 20px rounded corners, very soft shadow.
+- Hand-drawn elements: 3 loose curved marker arrows with short handwritten notes in a casual marker script, deep gold (#DFA300) and dark charcoal (#1F2937). They sit in the white space and never cover text.
+
+ZONE 1 — COLOUR (left half of the image)
+
+Row 1: "Brand", 4 large tall swatches side by side. Each shows its colour as a solid block, then the name in bold and the hex code in a small monospace pill:
+- "Sunshine Yellow" #FEBD09
+- "Deep Gold" #DFA300
+- "Night Navy" #0B1F33
+- "Ink" #0F172A
+
+Row 2: "Modules", 5 smaller square swatches, same labelling:
+- "Leads" #1E40AF
+- "Revenue" #066251
+- "Tours" #6B21A8
+- "Bookings" #3730A3
+- "Payments" #9D3412
+
+Row 3: "Neutrals", 3 small swatches:
+- "Canvas" #F8FAFC (with a thin grey outline so it shows on white)
+- "Cream" #FFFBEB (with a thin grey outline)
+- "Slate" #475569
+
+Handwritten note with an arrow pointing at the Sunshine Yellow and Night Navy swatches: "Straight from the website" ("website" in gold).
+Handwritten note with an arrow pointing at the Modules row: "One colour per module" ("module" in gold).
+
+ZONE 2 — TYPOGRAPHY (top right)
+
+Two specimen cards side by side:
+- Card 1: a huge "Aa" set in Unbounded Bold, then "Unbounded", "Headings & numbers", and the weights "Bold · SemiBold". A small line of sample text in Unbounded: "Journeys you'll remember".
+- Card 2: a huge "Aa" set in Manrope SemiBold, then "Manrope", "Interface & body text", and the weights "SemiBold · Medium · Regular". A small line of sample text in Manrope: "Leads, quotes and bookings in one place."
+
+Under the two cards, a type-scale list (a left column showing each style's name and size, a right column showing that style as rendered text):
+- "Page title · Unbounded SemiBold 28" → "Admin Dashboard"
+- "Stat value · Unbounded SemiBold 24" → "₹4,13,487"
+- "Card title · Manrope SemiBold 16" → "Dashboard Overview"
+- "Body · Manrope Regular 14" → "Welcome back, Aviral Singh"
+- "Label · Manrope Medium 11 · Uppercase" → "UPCOMING TOURS"
+
+ZONE 3 — COMPONENTS (bottom right, one tidy row of real UI pieces)
+- A primary button: solid Sunshine Yellow (#FEBD09), Ink text "Add Booking" with a small briefcase icon.
+- A secondary button: white with a thin grey border, "New Quotation" with a small document icon.
+- Three status pills: "New" (Ink text on #FFCE0A), "Confirmed" (green on light green), "Balance due" (red on light red).
+- A stat tile: a lavender tile (#FAF5FF) with a small calendar icon on top, "Upcoming Tours" in purple (#6B21A8), a big "29" and "5 this week" in grey.
+- A search input: "Search leads, trips or bookings…" with a magnifier icon.
+- A sidebar item in its active state: a Cream (#FFFBEB) pill with a small grid icon and "Dashboard" in Ink.
+Handwritten note with an arrow at the components: "Same pieces across every screen" ("every" in gold).
+
+LOGO
+- Place the attached Spectrum logo small in the top-left corner above Zone 1, with "Design System" beside it in Unbounded SemiBold. Copy the logo exactly (the black line-art hiker, sun and cloud, the script "Spectrum" and "Tour-Travels" underneath); do not redesign it.
+
+QUALITY RULES
+- Every hex code, name and word exactly as written above, sharp and legible. No gibberish, no extra colours or fonts, no invented values.
+- Swatch colours must match their hex codes exactly.
+- Balanced, airy, professional; aligned to a clear grid.
+- No watermark, no devices, no captions beyond what's specified.
+```
+</details>
+
+<details><summary>Spectrum CRM feature bento (T5): for <code>/work/spectrum-tour-travels</code>, prepared 2026-09-30, USED 2026-09-30 → <code>spectrum/crm-card-*.webp</code> (from "Spectrum sec 3.png"; the finder split the top-middle card into 4 panels and merged nothing else; boxes written by hand at a 250 threshold: top <code>[34,20,597,456] [614,20,1158,456] [1178,20,1739,456]</code>, bottom <code>[34,473,469,867] [484,473,881,867] [896,473,1296,867] [1311,473,1739,867]</code>; rows 596×470 and 466×425, none scaled — the equal-width top row worked)</summary>
+
+Modelled on the UnSkills / Smart Agro feature bentos, with one deliberate change: the
+top row asks for **3 equal cards** instead of ~40/30/30. The showcase grid gives every card
+in a row the same width, so a wide first card ends up scaled down (Smart Agro's leads card
+came out at 0.67). Cards map to the CRM's real modules; "Pending customer payments · 47"
+is the real dashboard figure, everything else is demo data with the hero's names. Attach
+the blurred dashboard (`1c-dashboard-clear-names-blurred.png`) and the logo. When it
+comes back: cut into `public/work/spectrum/crm-card-*.webp` and add `cards` to the product.
+
+```
+Create a clean, modern SaaS feature image for "Spectrum CRM", the complete CRM of a tour & travel company that sells domestic and international tour packages. Style: a bento grid of 7 rounded feature cards, each with a pastel icon tile, a bold title, one short description line and a compact, realistic UI illustration fully filled with data. A few playful hand-drawn arrows and handwritten notes. Show the software UI directly: no laptop, no phone, no device, no browser chrome.
+
+FORMAT
+- Exactly 2:1 landscape (2400 × 1200 px). If 2:1 isn't possible, use 16:9.
+- Background: flat pure white (#FFFFFF), seamless. No border, no frame, no headline text on the image, no people photos (small round avatars and initials inside the UI are fine).
+- About 4% white margin on all sides. Nothing touches the edges.
+
+VISUAL LANGUAGE
+- Match the attached Spectrum CRM dashboard: white surfaces, thin light-grey borders, soft pastel tiles (light blue, mint, lavender, indigo, peach), simple line icons, Inter-style sans-serif.
+- Accent: Spectrum orange (#FF7D08) for charts, active tabs and main buttons. Green (#16A34A) for paid / confirmed / done, amber (#F59E0B) for pending, soft red (#EF4444) for due.
+- Cards: white, 24px rounded corners, thin light-grey border (#E5E7EB), very soft shadow, generous padding, equal gaps between cards.
+- Card header: a rounded-square pastel icon tile, then a bold near-black title (#0F172A) and one short grey line (#64748B).
+- Hand-drawn notes: 5 short notes in a casual marker script, charcoal (#1F2937) with one key word in orange (#EA580C), each with a short curved marker arrow. EVERY NOTE STAYS INSIDE ITS OWN CARD'S BORDER, in white space inside that card; none in the gaps between cards; never covering UI text or numbers.
+
+LAYOUT
+- Top row: 3 cards of EXACTLY EQUAL width and height.
+- Bottom row: 4 cards of EXACTLY EQUAL width and height.
+- The two rows span the same total width.
+
+TOP ROW
+
+Card A — icon: map with a route. Title: "Tour package builder". Line: "A day-wise itinerary, priced as you build it."
+UI: a vertical chain of 3 small day cards joined by short arrows, each with a tiny destination photo thumbnail: "Day 1 · Srinagar" / "Arrival, houseboat stay, Shikara ride"; "Day 2 · Gulmarg" / "Gondola ride, hotel check-in"; "Day 3 · Pahalgam" / "Betaab Valley, transfers". Below the chain, a summary strip "Kashmir 5N/6D · ₹42,500 per person" with an orange button "Send quotation →".
+Note inside the card, with an arrow at the summary strip: "Itinerary to quote in minutes" ("minutes" in orange).
+
+Card B — icon: phone with signal. Title: "Leads & IVR". Line: "Every call and web enquiry lands as a lead."
+UI: an incoming-call row "+91 98xxx 45210 · Incoming" with an orange phone icon; an IVR menu box "1 · Domestic tours", "2 · International tours", "3 · Existing booking"; a short arrow to "Routed to Pooja · Sales"; and a green chip "Lead created: Rohan Mehta · Kashmir 5N/6D".
+Note inside the card: "No missed enquiry" ("No" in orange).
+
+Card C — icon: document with a check. Title: "Quotations & bookings". Line: "From quote to confirmed trip in one flow."
+UI: a mini quotation "Quotation #SPT-Q-1182" / "Goa 3N/4D · 4 pax · Neha Gupta" with rows "Hotel · 3 nights · ₹36,000", "Transfers & sightseeing · ₹14,400", "Taxes · ₹8,000", a total "₹58,400", a green chip "Sent on WhatsApp ✓", and under it a booking strip "Booking confirmed · Advance ₹17,520 paid" with a green pill.
+Note inside the card: "Quote to booking" ("booking" in orange).
+
+BOTTOM ROW
+
+Card D — icon: receipt. Title: "Invoices & payments". Line: "Invoices, advances and balances per booking."
+UI: an invoice row "Invoice #SPT-1042 · ₹84,000 · Paid" (green pill); a booking row "Kashmir 5N/6D · Advance ₹25,500 paid · Balance ₹59,500 due 5 Oct" (amber pill "Due"); a peach tile "Pending customer payments · 47 · Need attention".
+Note inside the card: "Every rupee tracked" ("tracked" in orange).
+
+Card E — icon: globe. Title: "Website manager". Line: "Bookings, packages, offers and reviews, run from the CRM."
+UI: a 2×2 grid of mini tiles: "Website bookings · 12 this week", "Showcase packages · 38 live", "Promo code · MONSOON10 · 10% off", "New review ★★★★★ · Arjun N."; a row "Blog & landing pages · 3 drafts".
+
+Card F — icon: wallet. Title: "Vendors & accounts". Line: "Hotel and cab payables, petty cash and books."
+UI: 2 vendor rows with a building and a car icon: "Hotel Pine View, Gulmarg · ₹38,000" (green "Paid") and "Valley Cabs, Srinagar · ₹12,400" (amber "Due"); a row "Petty cash in · ₹42,000"; a mini bar chart "Income vs Expenses" Apr → Sep (orange and grey bars).
+
+Card G — icon: people. Title: "Workforce". Line: "Attendance, tasks and salaries in one place."
+UI: "Today's attendance · 18/20 present" with a thin green progress bar and 4 small overlapping initials avatars; a task list with checkboxes: "✓ Call back Kerala leads · Riya", "✓ Send Bali quotation · Aman", "○ Confirm Goa hotel · Karan"; a green chip "Salaries processed ✓".
+Note inside the card: "Whole team, one screen" ("one screen" in orange).
+
+LOGO (copy the attached Spectrum logo exactly; do not redesign it)
+- Once, small, inside Card A's top-right corner: the black line-art hiker with a backpack and trekking pole, a small sun and a cloud, the script word "Spectrum" and "Tour-Travels" in a typewriter font underneath.
+
+QUALITY RULES
+- Every word and number exactly as written above, sharp and legible. No gibberish, no invented names or numbers. Use ONLY the names given; never copy names from the reference screenshot.
+- No empty states; every tile, list and chart is filled.
+- No official third-party logos: WhatsApp appears only as plain text or a simple chat-bubble line icon.
+- Card titles must stay readable when the whole image is shown at 1200 px wide.
+- Balanced, uncluttered, equal gaps between cards; every note inside its own card.
+- No devices, no watermark, no captions, no borders.
+```
+</details>
+
+<details><summary>Spectrum CRM problem bento (T4): for <code>/work/spectrum-tour-travels</code>, prepared 2026-09-30, USED 2026-09-30 → <code>spectrum/problem-1…6.webp</code> (from "Spectrum Sec- 2.png"; all 6 found automatically; rows 596×494 and 596×420, same width so the columns line up)</summary>
+
+Modelled on the Smart Agro / UnSkills problem bentos. Each problem is the job one of the
+CRM's real modules does (leads + IVR, tour package builder, quotations, bookings +
+invoices, vendors + petty cash + accounts, attendance + tasks). Names, trips and figures
+are demo data, the same names as the Spectrum hero prompt. The image asks for no headline
+text, so the cut cards need no cropping. When it comes back: cut into
+`public/work/spectrum/problem-1…6.webp` (one canvas for both rows) and add `problemCards`.
+
+```
+Create a clean, modern SaaS explainer image: "Before Spectrum CRM — how a travel agency used to run". The agency sells domestic and international tour packages; enquiries come in by phone, on the website, on WhatsApp and at the office. Style: a bento grid of 6 rounded cards on white, each showing one everyday problem as a small, realistic UI illustration, with a few playful hand-drawn notes. Honest and slightly chaotic INSIDE each card; the overall image stays neat, balanced and premium.
+
+FORMAT
+- Exactly 2:1 landscape (2400 × 1200 px). If 2:1 isn't possible, use 16:9.
+- Background: flat pure white (#FFFFFF), seamless. No border, no frame, no gradient, no headline text on the image, no devices, no people photos (small round avatars or initials inside the UI are fine).
+- About 4% white margin on all sides. Nothing touches the edges.
+
+VISUAL LANGUAGE
+- Cards: white, 24px rounded corners, thin light-grey border (#E5E7EB), very soft shadow, generous padding. ALL 6 CARDS EXACTLY THE SAME SIZE, with equal gaps between them.
+- Each card: a small illustration panel on top (very light grey #F7F7F9, rounded), then a number "01" … "06" in Spectrum orange (#EA580C), a bold near-black title (#0F172A) and one short grey line (#64748B) under it.
+- UI inside the illustrations: Inter-style sans-serif, thin borders, simple line icons, muted greys. Whatever is broken is marked with small red/pink badges (#E11D48 text on #FFE4E6); "waiting" states use amber (#B45309 text on #FEF3C7).
+- Handwritten notes: short phrases in a casual marker script, charcoal (#1F2937) with one key word in orange (#EA580C), each with a short curved marker arrow. EVERY NOTE STAYS INSIDE ITS OWN CARD'S BORDER, in the top-right corner of that card's illustration panel. Never put a note or an arrow in the gap between cards.
+
+LAYOUT: 3 columns × 2 rows, all cards the same size.
+
+Card 01 — "Enquiries everywhere"
+Line: "Calls, website forms, WhatsApp and walk-ins, never in one list."
+Illustration: 4 stacked source rows, each with a simple line icon (phone, globe, chat bubble, notebook) and a count badge: "Missed calls · 9", "Website enquiries · 14", "WhatsApp chats · 26 unread", "Walk-ins (notebook) · 3". A small red badge across the bottom row: "Not in one list".
+Note inside the card: "Who called back?" ("back" in orange), arrow pointing at "Missed calls · 9".
+
+Card 02 — "Itineraries built by hand"
+Line: "Every day-wise plan typed again, every price worked out again."
+Illustration: two overlapping document rows with a Word-style and an Excel-style icon: "Kashmir_5N6D_v4_final.docx" and "Kashmir quote (Rohan).xlsx" with a red badge "Price changed?"; under them a mini cost list "Houseboat · Srinagar · ₹6,500", "Hotel · Gulmarg · ?", "Transfers · ?" and a total line "Total · ₹ – – , – –" (greyed dashes).
+Note inside the card: "Which price is right?" ("right" in orange), arrow pointing at the dashes.
+
+Card 03 — "Quotes lost in follow-up"
+Line: "Some quotes went out twice, some never got a follow-up."
+Illustration: 3 quote rows, each with a destination, a traveller and a badge: "Goa 3N/4D · Neha Gupta" with a red badge "Sent 2×"; "Sikkim 6N/7D · Arjun Nair" with a red badge "5 days, no reply"; "Shimla–Manali 5N/6D · Kavya Reddy" with an amber badge "Not sent".
+
+Card 04 — "Payments chased by memory"
+Line: "Advances and balances arrive over weeks, tracked nowhere."
+Illustration: a small booking card "Kashmir 5N/6D · 2 pax · ₹85,000" with two rows: "Advance · ₹25,500" (green pill "Paid") and "Balance · ₹59,500 · due 5 Oct" (grey "?"), plus a red strip "Balance not chased".
+Note inside the card: "Who owes what?" ("owes" in orange), arrow pointing at the "?".
+
+Card 05 — "Vendors and cash on paper"
+Line: "Hotel, cab and petty-cash payments lived in a register."
+Illustration: 2 vendor rows with a building and a car icon: "Hotel Pine View, Gulmarg · ₹38,000" (amber "Paid?") and "Valley Cabs, Srinagar · ₹12,400" (amber "Paid?"); below them a small lined-paper strip "Petty cash in · ₹42,000 · written in the register" with a red badge "Not in accounts".
+
+Card 06 — "Staff tasks on WhatsApp"
+Line: "Attendance and follow-ups handed out in group chats."
+Illustration: a chat group row "Sales team" with a green "99+" badge; under it 2 task rows with an empty checkbox: "Call back Kerala leads · ?" and "Send Bali quotation · ?"; and a row "Present today · ?" with a grey question mark.
+Note inside the card: "Who's on it?" ("on it" in orange), arrow pointing at the task rows.
+
+QUALITY RULES
+- Every word and number exactly as written above, sharp and legible. No gibberish, no extra text, no invented names or numbers. Use ONLY the names given.
+- No official third-party logos: WhatsApp appears only as plain text with a simple chat-bubble line icon.
+- Card titles must stay readable when the whole image is shown at 1200 px wide.
+- Neat and balanced overall: the "mess" lives inside the small illustrations, not in the layout. Every note stays inside its own card.
+- No watermark, no device frames, no browser chrome, no background scenery.
+```
+</details>
+
+<details><summary>Spectrum CRM showcase hero (T3): for <code>/work/spectrum-tour-travels</code>, prepared 2026-09-30, USED 2026-09-30 → <code>spectrum/hero.webp</code> (1672×941, from "Spectrum sec - 1.png", generated with the gold accent)</summary>
+
+Modelled on the UnSkills hero. Dashboard figures are Spectrum's real ones (31 leads +34.8%,
+₹4,13,487 revenue, 29 upcoming tours, 6 bookings, 47 pending payments); the two negative
+month-on-month changes (−7.5%, −71.4%) are left off rather than altered. The real Leads and
+Recent Activities panels held a test lead and a real customer's name, so they were blurred
+(`Downloadsspectrum-travels-refsb-dashboard-names-blurred.png`) and filled with the demo
+names given. Confirm with the owner that showing Spectrum's real figures is fine. When it
+comes back: flatten to `public/work/spectrum/hero.webp` and set `hero` in `lib/showcases.ts`.
+
+```
+Create a premium SaaS hero image for a software agency case study of "Spectrum CRM", a complete CRM for a tour & travel company that sells domestic and international tour packages. Show the software UI DIRECTLY: no laptop, no phone, no tablet, no monitor, no device of any kind, no browser chrome. Style: a clean product-launch explainer with floating UI cards and playful hand-drawn arrows and handwritten notes.
+
+FORMAT
+- 16:9 landscape (2400 × 1350 px). If 16:9 isn't possible, use the closest landscape size.
+- Background: flat pure white (#FFFFFF), seamless, edge to edge. No border, no frame, no gradient, no texture, no desk, no props, no hands, no people.
+- About 5% white margin on all sides. Nothing touches the edges.
+
+MAIN ELEMENT — THE DASHBOARD WINDOW (centre, about 66% of the image width)
+- A flat, front-facing app window with 18px rounded corners, a thin light-grey border and a large, very soft shadow, floating on the white background. It is just the UI panel itself: no device frame, no bezel, no stand.
+- Recreate the attached Spectrum CRM dashboard faithfully (same layout, white surfaces, thin light-grey borders, pastel stat tiles, line icons, Inter-style font), fully filled:
+  • Left sidebar (white, thin right border): the black script "Spectrum Tour-Travels" logo at the top. Grey group headings with their items, each with a thin line icon:
+    "Main Modules": Dashboard (ACTIVE, soft orange pill #FFF1E6 with orange #EA580C text), Lead Management, Tour Package Builder, Quotation Management, Booking Management, Invoice Generator, IVR System.
+    "Website": Website Bookings, Showcase Packages, Promo Codes, Reviews, Blog, Landing Pages, Website Builder.
+    "Workforce Management": Attendance Management, Task Management.
+    "Financial & HR": Vendor / Supplier Management, Petty Cash, Accounts, Salary Management (may be cut off by the window's bottom edge).
+  • Top bar: "Spectrum CRM" (bold) on the left; "Aviral Singh" and a logout icon on the right.
+  • Header: "Admin Dashboard" (large, bold) / "Welcome back, Aviral Singh"; on the right a small icon with a red "1" badge, a bell with a red "10" badge, and an "Analytics" button with a trend-arrow icon.
+  • Card "Dashboard Overview" with five pastel stat tiles, each with a small round icon on top, a coloured label, a big value and a small grey caption:
+    "Total Leads" / "31" / "+34.8%" / "This month" (light blue tile, blue text)
+    "Revenue" / "₹4,13,487" / "This month" (mint tile, green text)
+    "Upcoming Tours" / "29" / "5 this week" / "Next 30 days" (lavender tile, purple text)
+    "Total Bookings" / "6" / "This month" (light indigo tile, indigo text)
+    "Pending Customer Payment" / "47" / "Need attention" / "Outstanding" (peach tile, orange text)
+  • Card "Quick Actions" with six white buttons, each with a pastel round icon above its label: "Add Booking", "Add Invoice", "Add Lead", "View Reports", "Tour Packages", "New Quotation".
+  • Bottom row (may be slightly cut by the window's lower edge):
+    Card "Leads (4)" with a "Today" dropdown and 4 lead rows, each with a destination, a source and a status pill: "Rohan Mehta · Kashmir 5N/6D · Website" (yellow "New"), "Neha Gupta · Goa 3N/4D · IVR call" (blue "Contacted"), "Arjun Nair · Sikkim 6N/7D · Website" (purple "Quoted"), "Kavya Reddy · Shimla–Manali 5N/6D · WhatsApp" (yellow "New").
+    Card "Recent Activities (Last 24h)" with "View All" and 4 entries, each with a small coloured dot and a grey time line: "New lead: Rohan Mehta · Kashmir 5N/6D from Website" / "Just now"; "Quotation sent: Goa 3N/4D · ₹58,400" / "12m ago"; "Payment received: ₹42,000 via UPI" / "31m ago"; "Booking confirmed: Sikkim 6N/7D · 2 pax" / "1h ago".
+
+FLOATING CARDS (white, 20px rounded corners, thin light-grey border, soft shadow, tilted 3–5°, overlapping the window's edges slightly, as if popping out of the UI)
+- Top-left: "Monthly Revenue", a smooth orange (#FF7D08) line chart Apr → Sep with a light orange fill, y-axis ₹0 / ₹2L / ₹4L / ₹6L / ₹8L, the peak labelled in a small orange tag "Aug · ₹6,80,000".
+- Bottom-left: "Leads by Source", 4 horizontal orange bars with counts: "Website 14", "IVR calls 8", "WhatsApp 6", "Walk-in 3", and a small green chip "↑ 34.8% this month".
+- Right: "Upcoming Tours", 4 rows, each with a small photo thumbnail of the destination, the traveller, the trip, a date, the group size and a status pill:
+  "Rohan Mehta" · "Kashmir 5N/6D" · "12 Oct · 2 pax" · green "Confirmed"
+  "Neha Gupta" · "Goa 3N/4D" · "18 Oct · 4 pax" · amber "Advance paid"
+  "Arjun Nair" · "Sikkim 6N/7D" · "22 Oct · 2 pax" · green "Confirmed"
+  "Kavya Reddy" · "Shimla–Manali 5N/6D" · "27 Oct · 3 pax" · red "Balance due"
+- Bottom-right: a small chip with a green chat-bubble icon (a plain line icon, not the official WhatsApp logo) and "Quotation sent on WhatsApp ✓".
+
+HAND-DRAWN ARROWS + HANDWRITTEN NOTES
+Style: loose, slightly wobbly curved marker arrows with simple open arrowheads, about 3px thick, in Spectrum orange (#EA580C). Notes are short phrases in a casual handwritten marker script, dark charcoal (#1F2937), with one key word in orange (#EA580C), slightly tilted. They sit in the white space and never cover any UI text, number or chart; no arrow crosses the sidebar or any stat tile's text.
+Add exactly these 5:
+a) From "Monthly Revenue" → curved arrow to the "Revenue ₹4,13,487" tile. Note: "Revenue tracked live" ("live" in orange).
+b) From "Leads by Source" → curved arrow to the "Total Leads 31" tile. Note: "Leads up 34.8%" ("34.8%" in orange).
+c) From "Upcoming Tours" → curved arrow to the "Upcoming Tours 29" tile. Note: "Every trip, on schedule" ("on schedule" in orange).
+d) Top centre, above the window: note "Every trip. One dashboard." ("One" in orange) with a short arrow curving down into the dashboard.
+e) From the WhatsApp chip → short arrow to the "New Quotation" quick action. Note under the chip: "Quotes in minutes" ("minutes" in orange).
+
+LOGO (copy the attached Spectrum logo exactly; do not redesign it)
+- Used only inside the dashboard's sidebar: a black line-art hiker with a backpack and trekking pole climbing a slope, a small sun and a cloud above, the flowing script word "Spectrum" across the middle, and "Tour-Travels" in a typewriter font underneath.
+
+QUALITY RULES
+- Every word and number exactly as written above, sharp and legible. No gibberish, no invented names or numbers. Use ONLY the names given; never copy names or text from the blurred parts of the reference screenshot.
+- No empty states, no zero values: every card, chart and list is filled.
+- Clean, balanced, generous spacing; the arrows guide the eye without clutter; nothing overlaps the dashboard's numbers.
+- No official third-party logos (WhatsApp appears only as a simple line icon).
+- No devices, no watermark, no captions, no borders.
+```
+</details>
 
 <details><summary>Smart Agro design system sheet (T6): for <code>/work/smart-agro</code>, prepared 2026-09-27, USED 2026-09-28 → <code>smart-agro/design-system.webp</code></summary>
 

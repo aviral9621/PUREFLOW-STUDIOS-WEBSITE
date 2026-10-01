@@ -28,6 +28,13 @@ export interface WorkCardVisual {
   /** The client's own logo, shown in place of the name. Size is the file's own,
    *  so the browser reserves its box before it loads. */
   logo?: { src: string; width: number; height: number };
+  /**
+   * Per-tab overrides on the homepage stack, for a project listed under more
+   * than one tab: e.g. a software-only image and one-line category under
+   * Software, while Websites keeps the combined one. Other places use the
+   * defaults above.
+   */
+  perKind?: Partial<Record<WorkKind, { mockup?: string; line?: string }>>;
 }
 
 export const FEATURED: WorkCardVisual[] = [
@@ -64,7 +71,9 @@ export const FEATURED: WorkCardVisual[] = [
     mockup: '/work/spectrum-tour-travels-showcase.webp',
     logo: { src: '/work/spectrum-tour-travels-logo.webp', width: 277, height: 160 },
   },
-  // MLM software + the brand's online store: under both tabs.
+  // MLM software + the brand's online store: under both tabs. Under Software
+  // the card shows only the MLM system (the showcase hero, padded to 2:1);
+  // under Websites it keeps the combined software + store image.
   {
     slug: 'herbal-vantage',
     kinds: ['software', 'website'],
@@ -75,6 +84,9 @@ export const FEATURED: WorkCardVisual[] = [
     },
     mockup: '/work/herbal-vantage-showcase.webp',
     logo: { src: '/work/herbal-vantage-logo.webp', width: 671, height: 160 },
+    perKind: {
+      software: { mockup: '/work/herbal-vantage-software.webp', line: 'MLM Software for Direct Selling' },
+    },
   },
   // ── Websites ──
   {

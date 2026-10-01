@@ -76,6 +76,7 @@ type StackItem = PortfolioItem & {
   phone?: string;
   mockup?: string;
   logo?: WorkCardVisual['logo'];
+  perKind?: WorkCardVisual['perKind'];
 };
 
 function useMinWidth(px: number) {
@@ -114,20 +115,30 @@ export function WorkStack({ onOpenProject, onStartProject, onViewAll }: Props) {
 
   const allItems = useMemo<StackItem[]>(() => {
     const bySlug = new Map(projects.map((p) => [p.slug, p]));
-    return FEATURED.flatMap(({ slug, kinds, glow, shots, mockup, logo }) => {
+    return FEATURED.flatMap(({ slug, kinds, glow, shots, mockup, logo, perKind }) => {
       const project = bySlug.get(slug);
       if (!project) return [];
       const [item] = toPortfolioItems([project]);
       const preview: PreviewSource = shots
         ? { type: 'image', src: shots.desktop, alt: `${item.name} website` }
         : item.preview;
-      return [{ ...item, preview, kinds, glow, phone: shots?.mobile, mockup, logo }];
+      return [{ ...item, preview, kinds, glow, phone: shots?.mobile, mockup, logo, perKind }];
     });
   }, [projects]);
 
   // ── Tabs ──
   const [tab, setTab] = useState<WorkKind>('software');
-  const items = useMemo(() => allItems.filter((it) => it.kinds.includes(tab)), [allItems, tab]);
+  // A project under several tabs can swap its image and one-liner per tab.
+  const items = useMemo(
+    () =>
+      allItems
+        .filter((it) => it.kinds.includes(tab))
+        .map((it) => {
+          const o = it.perKind?.[tab];
+          return o ? { ...it, mockup: o.mockup ?? it.mockup, showcaseLine: o.line ?? it.showcaseLine } : it;
+        }),
+    [allItems, tab]
+  );
   const counts = useMemo(
     () => Object.fromEntries(TABS.map((t) => [t.id, allItems.filter((it) => it.kinds.includes(t.id)).length])),
     [allItems]

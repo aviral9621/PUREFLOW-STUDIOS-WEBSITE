@@ -186,6 +186,79 @@ export const CASE_STUDIES: CaseStudy[] = [
     testimonial: null,
   },
 
+  // ── UnSkills: the institute website (live) ─────────────────────────────────
+  // Its project page is the website showcase (lib/showcases.ts, `site`).
+  {
+    slug: 'unskills-education-website',
+    name: 'UnSkills Computer Education',
+    tagline:
+      'An institute website with a searchable catalogue of 158 courses, online admission and instant certificate verification.',
+    category: 'Education',
+    liveUrl: 'https://www.unskillseducation.org',
+
+    card: {
+      name: 'UnSkills Education',
+      type: 'Website',
+      blurb: 'Courses, online admission and certificate verification for a 102-centre institute.',
+      showcaseLine: 'Institute Website + Student Zone',
+      device: 'browser',
+      year: '2026',
+      image: '/work/unskills-website/home-desktop.webp',
+    },
+
+    snapshot: {
+      client: 'UnSkills Computer Education',
+      industry: 'Education',
+      services: 'UI/UX Design · Web Development · SEO',
+      platforms: 'Website',
+      stack: 'React · Vite · Supabase · Vercel',
+    },
+
+    challenge:
+      'UnSkills Computer Education runs 102 authorised centres and lists 158 courses. Parents, students, employers and would-be franchisees all needed answers the front desk used to give by phone: which course, how to apply, and whether a certificate is genuine.',
+
+    whatWeBuilt: [
+      {
+        title: 'Institute Website',
+        icon: 'globe',
+        items: [
+          'Searchable catalogue of 158 courses in 9 categories',
+          'Government registrations, faculty, placed students and Google reviews',
+          'Franchise process, requirements and authorised centres',
+          'Call, WhatsApp and enquiry buttons on every page',
+        ],
+      },
+      {
+        title: 'Student Zone',
+        icon: 'dashboard',
+        items: [
+          'Apply Online, exam form and admit card download',
+          'Student, certificate, marksheet and employer verification',
+          'Student login into the UnSkills CRM portal',
+          'Downloadable forms',
+        ],
+      },
+    ],
+
+    techStack: [
+      { name: 'React', logo: 'react' },
+      { name: 'Supabase', logo: 'supabase' },
+      { name: 'Tailwind CSS', logo: 'tailwind' },
+      { name: 'Vercel', logo: 'vercel' },
+    ],
+
+    showcase: {
+      desktop: { type: 'image', src: '/work/unskills-website/home-desktop.webp' },
+      mobile: { type: 'image', src: '/work/unskills-website/home-mobile.webp' },
+    },
+
+    outcome: 'One website that answers what the front desk used to answer by phone.',
+    outcomeHighlight: 'front desk',
+
+    metrics: [],
+    testimonial: null,
+  },
+
   // ── Herbal Vantage — premium herbal e-commerce (live) ──────────────────────
   {
     slug: 'herbal-vantage',

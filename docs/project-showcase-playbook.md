@@ -16,6 +16,7 @@
 |---|---|
 | "Make the showcase for X" (new project) | §4 steps 1–2: collect facts + real material, then write the prompts for **every** image slot (§6), each in one copy-paste code block, with the list of files to attach. Stop and wait for the images. |
 | "Here are the images for X" | §4 steps 4–6: process them with the scripts (§7), wire them into the data (§8), verify at 4 widths, send screenshots. |
+| "Make the showcase for X" (a **website**) | The same, but with the website layout (§1 C) and the website image slots (§3): T1 card, W2 hero, one W3 spotlight per key page, T6 design system. |
 | "Give me the prompt for <one section> of X" | Only that prompt (§6 templates), filled in with X's real details. **Don't build code instead of a prompt.** |
 | "Push it" | Commit on `main` with a descriptive message, then push. Never commit or push without being asked. |
 
@@ -25,7 +26,7 @@ Files you will touch:
 |---|---|
 | Project cards (homepage, /work, services pages) | `lib/workCards.ts` (`FEATURED`: order, tabs, image, logo) |
 | Showcase page data | `lib/showcases.ts` (one `Showcase` entry per project) |
-| Showcase page layout | `components/showcase/ShowcasePage.tsx` (rarely; only for new section types) |
+| Showcase page layout | `components/showcase/ShowcasePage.tsx` (software), `WebsiteShowcase.tsx` (websites), `parts.tsx` (shared pieces) |
 | Card copy (name, one-liner) | `lib/caseStudies.ts` (`card.name`, `card.blurb`) |
 | Images | `public/work/<slug>-*.webp` (homepage) and `public/work/<client>/*.webp` (showcase) |
 | SEO for a showcase URL | `lib/seo.ts` (automatic) + the entry in `scripts/prerender.mjs` |
@@ -70,6 +71,30 @@ Sections, top to bottom:
 product line. If a client has a CRM + app + website, the showcase covers what the
 owner says to cover. For UnSkills that is only the institute management system;
 the app and the website get their own showcases later.
+
+### C. Website showcase page (`/work/<slug>` with `site`, `WebsiteShowcase.tsx`)
+A website is judged on what a visitor can find and do, so its page tells a different
+story from the software one (no problem bento, no module list). A showcase gets this
+layout by having a `site` block (§8). Same Pureflow look (§2), same shared pieces
+(`parts.tsx`: hero, brief, design system, numbers, CTA).
+
+| # | Section | Data (`site.*` unless noted) | Visual |
+|---|---|---|---|
+| 1 | **Hero**: "WEBSITE CASE STUDY", logo, headline, focus chips, a gradient **"Visit <site> ↗"** button | `headline`, `focus`, `site.url/label` | `hero` (W2 image; until then a raw still in a coded browser frame) |
+| 2 | **The BRIEF.** + facts + live link | `brief`, `facts`, `links` | none |
+| 3 | **What it had to DO.**: 3–4 numbered goal cards | `goals` | coded |
+| 4 | **The SITEMAP.**: the menu as built, a tree under the domain | `sitemap` | coded |
+| 5 | **How we BUILT IT.**: the website process as a line of steps | `build` | coded |
+| 6 | **Page by PAGE.**: each key page: number + name + path, summary + chips, then the page image full width (tap to zoom) | `pages` | W3 spotlight per page (until then the raw still in a browser frame) |
+| 7 | **Built for every SCREEN.**: phone stills in coded phone frames | `screens` | real mobile captures (no generation needed) |
+| 8 | **Under the HOOD.**: 8 feature cards with icons | `builtIn` | coded |
+| 9 | **The design SYSTEM.** | `systemImage` or `palette` + `type` | T6 sheet |
+| 10 | **The site TODAY.**: four real numbers from the live site | `impact` + `site.todayNote` | none |
+| 11 | In their WORDS (if any) + **LET'S BUILD YOURS.** | `testimonial?`, `ctaLead` | none |
+
+Raw screenshots use `frame: 'browser'` (+ `url` for the address bar); finished
+images on white use no frame. Swap them in by changing `src`/size and dropping
+`frame`.
 
 ---
 
@@ -131,6 +156,14 @@ Respect reduced motion. Nothing embeds a live website; **stills only**.
 | Showcase **product features** | 2:1 | pure white | bento of **7 feature cards**, 3 + 4 | §6 T5 |
 | Showcase **design system** | 2:1 | pure white | colour / typography / components sheet | §6 T6 |
 | (Optional) software explainer | 2:1 | pure white | bento with 2 big + 4 small cards and arrows (HeloFlow style) | §6 T7 |
+| **Website** showcase hero | 16:9 | pure white | flat browser window + flat phone screen (no device bodies) + 4 callout cards + arrows and notes | §6 W2 |
+| **Website** page spotlight (one per key page) | 2:1 | pure white | flat browser window of the page (left ~62%) + 3 zoom-in callout cards with connector lines (right) | §6 W3 |
+| **Website** design system | 2:1 | pure white | T6, with the site's own components (buttons, pills, a course/product card, search, floating buttons) | §6 T6 |
+
+Website stills for the prompts: capture them with Playwright (§4 step 2) into
+`~/Downloads/<client>-website-stills/` (`<page>-desktop.png` 1440×900 @1.5x,
+`<page>-mobile.png` 390×844 @2x). The same captures, resized to WebP, are the
+page's interim images and its "Every SCREEN" phones.
 
 The problem and features bentos get **cut into individual cards** (§7). The hero,
 design system and homepage images are used whole.
@@ -390,6 +423,23 @@ cards joined by curved arrows); cards C–F are the other key modules. A one-lin
 headline and a row of small grey module chips sit on top. Arrows + notes as in §5.
 The filled examples for Spectrum CRM and Quick Hotels PMS are in §11.
 
+### W2: Website showcase hero (flat screens + callouts)
+Like T3, but for a website: a flat **browser window** (minimal light-grey bar, three
+dots, an address pill with the real domain) showing the homepage, and a flat **phone
+screen** (36px corners, thin black outline, no body/notch) showing one mobile page,
+overlapping its lower-right corner. Four white callout cards lift real pieces out of
+the site (search, a form, reviews, a contact chip), and five hand-drawn arrows + notes
+in the client's accent say what each does. No device bodies. The filled example for
+UnSkills is in §11.
+
+### W3: Website page spotlight (one per key page)
+2:1 on white. Left ~62%: the page as a flat browser window (address pill = the page's
+URL), recreated from the desktop capture. Right ~30%: one column of **three callout
+cards**, each a small bold label + the real part of the page magnified ~1.6×, joined
+to the exact spot by a thin connector line ending in a dot. Two handwritten notes.
+Write every visible string of the page into the prompt. Filled examples (Home, Courses,
+Verification, Franchise) are in §11.
+
 ### Follow-up fixes (send as an edit to the same image, not a fresh generation)
 - Garbled text: *"Keep the layout. Fix the text so it matches exactly: …"*
 - Wrong names: *"Replace every person's name with the names given in the prompt."*
@@ -498,6 +548,31 @@ every page. Which projects a services page lists is its `work` array in `lib/ser
   **Also update** that URL's entry in `scripts/prerender.mjs` (h1/title/description).
 - Old URLs that should open this showcase go in `matchSlugs` (they canonicalise to `slug`).
 
+### Website showcase: add `site` to the entry
+```ts
+{
+  slug: 'unskills-education-website', client: '…', logo: { … }, focus: ['Institute Website', …],
+  headline: { lead: 'The online home of a', word: '102-CENTRE NETWORK.' },
+  hero: { src: `${UW}/home-desktop.webp`, width: 1600, height: 1000, alt: '…', frame: 'browser', url: 'unskillseducation.org' },
+  brief: '…', facts: [ … ], links: [{ label: 'unskillseducation.org', href: 'https://…' }],
+  problem: '', process: [], products: [],      // not used by the website layout
+  site: {
+    url: 'https://…', label: 'unskillseducation.org',
+    goals: [{ title, text }, …],                // 3–4
+    sitemap: [{ group: 'Courses', pages: ['Computer Software', …] }, …],
+    build: [{ title: 'Sitemap & content', text: '…' }, …],
+    pages: [{ name: 'Courses', path: '/courses', summary: '…', features: ['Search', …], image: { … } }, …],
+    screens: [{ src: `${UW}/home-mobile.webp`, width: 585, height: 1266, alt: '…' }, …],
+    builtIn: [{ icon: 'search', title: 'Course search', text: '…' }, …],   // icons: SiteFeatureIcon
+    todayNote: 'The numbers on <site> today.',
+  },
+  palette: [ … ], type: [ … ], impact: [ …real numbers from the live site… ], ctaLead: '…',
+}
+```
+The project also needs a `lib/caseStudies.ts` entry (card name, `showcaseLine`,
+`card.image` = the desktop still) and a `FEATURED` entry with `kinds: ['website']` and
+`shots` (the card shows the stills until its T1 `mockup` exists).
+
 ---
 
 ## 9. Do / Don't
@@ -547,7 +622,8 @@ every page. Which projects a services page lists is its `work` array in `lib/ser
 | **Herbal Vantage** (MLM software + online store) | ✅ black logo · tabs: Software **and** Websites. Software tab: software-only image `herbal-vantage-software.webp` (the showcase hero padded to 2:1) and line "MLM Software for Direct Selling", via `perKind` in `lib/workCards.ts`; Websites tab: the combined software + store image | ✅ live at `/work/herbal-vantage`: hero (T3), problem (6 cut cards), process, MLM Software features (7 cut cards), Online Store (chips only), design system (T6 image), impact (live dashboard figures: 69 members, 87% active (60/69), PV 45.6L, sales ₹48.6L; scale, not before/after). No testimonial yet |
 | **Quick Hotels CRM/PMS** (`ecommerce-retail-platform`) | ✅ T7 image + black logo · tab: Software | ✅ live at `/work/ecommerce-retail-platform` (the Software-tab card): reuses the `public/work/quick-hotels/` assets: PMS-dashboard hero, the 6 problem cards, the 4 PMS feature cards, the design-system sheet, and the same real-facts impact. The old page's retail/POS copy, metrics and testimonial were placeholders and are not used |
 | **Spectrum: travel CRM** (`spectrum-tour-travels`) | ✅ T7 CRM image + black logo · tab: Software | ✅ live at `/work/spectrum-tour-travels`: hero (T3), problem (6 cut cards), process, features (7 cut cards), design system (T6 image), impact (live dashboard figures: +35% leads (34.8%, rounded to fit), ₹4.1L revenue, 29 upcoming tours, 47 payments tracked; not before/after). Covers the CRM, not the website. No testimonial yet |
-| UnSkills mobile app / UnSkills website | not started. Separate showcases later | not started |
+| **UnSkills: institute website** (`unskills-education-website`) | ✅ T1 mockup `unskills-website-mockup.webp` + black logo · tab: Websites | ✅ live at `/work/unskills-education-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Courses, Verification, Franchise), T6 design system, real phone stills. Wide images open full screen on tap (`Zoomable`). Numbers are the site's own (158 courses, 102 centres, 4.8 from 124 Google reviews, 2,000+ students) |
+| UnSkills mobile app | not started | not started |
 
 Removed from the site on the owner's request: UnSkills Education (its old URLs open the
 UnSkills showcase), Clinic Management System, Real Estate Portal, Restaurant Ordering.
@@ -972,6 +1048,335 @@ QUALITY RULES
 - Feature titles readable at 1200 px wide. No devices, watermark, borders or logo outside the dashboard.
 ```
 </details>
+
+### UnSkills: institute website (`/work/unskills-education-website`)
+
+**Decisions**
+- First project in the website layout (§1 C). Headline: *"The online home of a"*
+  **102-CENTRE NETWORK.** Focus: Institute Website · Online Admissions · Certificate
+  Verification. The old URL (an alias of the CRM showcase until now) is this page again.
+- Everything is read off unskillseducation.org (2026-10-01): menus and footer links (the
+  sitemap), 9 categories / 158 courses (the /courses page's own counts), 102 active
+  centres, 4.8 from 124 Google reviews, 2,000+ students (the homepage counter). The site
+  is a Vite + React SPA on Vercel with Supabase storage; Student Login goes to
+  crm.unskillseducation.org.
+- "Connected to the UnSkills CRM" / "courses and students from the CRM's data" in the
+  brief and build steps: confirm with the owner.
+
+**Brand material (sampled)**
+- Red #B91C1C (buttons, pills, top strip), Maroon #7F1D1D → Ink #0A0A0A (page banners),
+  Gold #FACC15 (breadcrumbs, "Courses"), logo Crimson #AC2038, Call Blue #155DFC,
+  WhatsApp Green #25D366, TOP badge #92730A on #FDF6DC, Canvas #F8FAFC.
+- Fonts: **Outfit** Bold (headings: page title 48, section 36, card 15), **Inter** (body 16).
+
+**Assets**
+- Stills: `~/Downloads/unskills-website-stills/` (home, courses, verify, franchise,
+  about, contact, register × desktop/mobile, plus home full-page).
+- `public/work/unskills-website/{home,courses,verify,franchise}-desktop.webp` 1600×1000 and
+  `-mobile.webp` 585×1266 (interim page images + the "Every SCREEN" phones).
+
+**Prompts** (attach the logo `public/work/unskills-logo.webp`'s colour original
+`https://www.unskillseducation.org/logo.png`, plus the stills named in each prompt)
+
+<details><summary>Homepage card (T1), for <code>public/work/unskills-website-mockup.webp</code>. Attach home-desktop.png, courses-mobile.png, logo</summary>
+
+```
+Create a clean, premium, photorealistic product mockup for a web-design agency portfolio, showing ONE website ("UnSkills Computer Education", an institute website) on a laptop and a smartphone.
+
+FORMAT
+- Exactly 2:1 landscape (2400 × 1200 px). If 2:1 isn't possible, use 16:9.
+- Background: flat pure white (#FFFFFF), seamless, edge to edge. No gradient, no vignette, no texture, no table, no props, no hands, no text outside the screens.
+
+COMPOSITION
+- A modern space-grey laptop (MacBook Pro style, thin black bezel) seen straight on, very slightly from above (about 5°), centred slightly left, screen about 62% of the image width.
+- A modern smartphone (iPhone 15 Pro style, black frame, Dynamic Island) standing in front of the laptop's lower-right corner, overlapping its edge by about 10%, about 70% of the laptop screen's height.
+- Both devices rest on one invisible floor line near the bottom (about 6% margin). About 8% white margin on the left, right and top. Only a very soft, short, neutral contact shadow. No reflections, no colour glow.
+- Soft, even studio light. Crisp, Apple product-shot quality.
+
+LAPTOP SCREEN — replicate the attached desktop screenshot (home-desktop.png) exactly, flat and undistorted:
+- A thin red top strip (#B91C1C) with white text: "+91 83828 98686", "unskillseducation@gmail.com", small social icons, "Free Online Test", "Institute Login".
+- A white header: the UnSkills logo on the left; menu "Home" (active, red text with a red underline), "About Us", "Courses", "Student Zone", "Verification", "Gallery", "Franchise", "Contact", "More"; a red rounded button "Student Login" on the right.
+- The hero banner on a very light grey background with thin diagonal red lines and dotted patterns:
+  • top-left: "Unskill Computer Education" (bold, underlined in red) and "An ISO 9001:2015 Certified Organization";
+  • centre: the headline "Explore All Our Courses" (bold, near-black) with a short thick red underline;
+  • left: a smiling young woman in a grey blazer, arms crossed, in front of a pale pink circle;
+  • a 3 × 3 grid of white cards, each with a dark-red left edge, a pale-pink icon tile and a bold title + grey subline: "Computer Software Courses / MS Office & More", "Hardware & Networking / Repair & Maintenance", "Skills Development Course / Vocational Training", "NIELIT Govt. Courses / CCC, BCC, O Level", "University Courses / BCA, MCA, B.Sc IT", "Beautician Courses / Professional Beauty", "Summer Training / Short-term Projects", "Typing Course / Hindi & English Speed", "Diploma Courses / ADCA, DCA, PGDCA";
+  • right: a solid red box "9+ Courses Available" with "Something for everyone", and below it a white box with a red border, an alarm-clock icon and "Batch Starting Soon";
+  • along the bottom: a dark-red strip with white bold text "Admissions Open 2026-27 | Call Us Today | Govt. Scholarship Available for Eligible Students".
+- Three round floating buttons on the right edge, stacked: red (#B91C1C) with a pencil icon, blue (#155DFC) with a phone icon, green (#25D366) with a WhatsApp icon.
+
+PHONE SCREEN — replicate the attached mobile screenshot (courses-mobile.png) exactly:
+- A red top strip: "+91 83828 98686", small icons, "Free Test", "Institute".
+- A white header: a hamburger icon on the left, the UnSkills logo in the centre, a red rounded button with a search icon and "COURSES" on the right.
+- A banner with a diagonal gradient from dark red (#7F1D1D) to near-black (#0A0A0A): "HOME / COURSES" in small gold capitals (#FACC15); the title "Our Courses" in bold white with the word "Courses" in gold (#FACC15); under it in white: "158+ professional courses across 9 categories — from computer software to beautician arts."
+- On a very light grey canvas: a white search box "Search by course name, code, or keyword"; a red pill "All Courses 158" and a white outlined pill "Computer Software Courses"; the line "Showing 158 courses".
+- One white course card: "CTP902" in small grey monospace, a pale-gold "TOP" badge with 5 gold stars, the bold title "Certificate in Tally Prime", two grey lines "basic of Ms word excel and Basic of financial accounting, Manual Accounting Tally prime", and a grey chip "3 Months".
+- A round red "+" floating button at the bottom right.
+
+LOGO (copy the attached UnSkills logo exactly; do not redesign it)
+- A black circle with a gold ring and a white "Un", joined to a rounded white badge with a thin gold border and "Skills" in crimson, with "Unlock Skills" in tiny grey text below.
+
+QUALITY RULES
+- All on-screen text sharp and spelled exactly as written above; no gibberish, no invented words, no extra UI. Keep "Unskill Computer Education" exactly as written (it's the site's own wording).
+- Colour palette: UnSkills red #B91C1C, maroon #7F1D1D, gold #FACC15, near-black #0A0A0A, light canvas #F8FAFC, white; Outfit-style bold headings and Inter-style body text, as in the screenshots.
+- Minimal, clean, professional. No watermark, captions, badges or device logos.
+```
+</details>
+
+<details><summary>Showcase hero (W2), for <code>unskills-website/hero.webp</code>. Attach home-desktop.png, verify-mobile.png, logo</summary>
+
+```
+Create a premium hero image for a web-design agency case study of the "UnSkills Computer Education" website: an institute website where students find courses, apply online and verify certificates. Show the website DIRECTLY as flat screens: no laptop, no tablet, no monitor, no device bodies. Style: a clean website-launch explainer with floating UI callout cards and playful hand-drawn arrows and handwritten notes.
+
+FORMAT
+- 16:9 landscape (2400 × 1350 px).
+- Background: flat pure white (#FFFFFF), seamless, edge to edge. No border, no frame, no gradient, no texture, no desk, no people outside the screens.
+- About 5% white margin on all sides. Nothing touches the edges.
+
+MAIN ELEMENT 1 — THE DESKTOP PAGE (centre-left, about 62% of the image width)
+- A flat, front-facing browser window with 18px rounded corners, a thin light-grey border and a large, very soft shadow, floating on white. On top, a minimal light-grey bar with three small grey dots on the left and a rounded address pill reading "unskillseducation.org". No other browser chrome.
+- Inside, recreate the attached homepage screenshot (home-desktop.png) faithfully and fully filled:
+  • thin red top strip (#B91C1C) with "+91 83828 98686", "unskillseducation@gmail.com", "Free Online Test", "Institute Login";
+  • white header: the UnSkills logo; menu "Home" (active, red underline), "About Us", "Courses", "Student Zone", "Verification", "Gallery", "Franchise", "Contact", "More"; red button "Student Login";
+  • hero: "Unskill Computer Education" / "An ISO 9001:2015 Certified Organization", the headline "Explore All Our Courses" with a red underline, the smiling woman in a grey blazer on a pale pink circle, the 3 × 3 grid of course-category cards ("Computer Software Courses", "Hardware & Networking", "Skills Development Course", "NIELIT Govt. Courses", "University Courses", "Beautician Courses", "Summer Training", "Typing Course", "Diploma Courses", each with its grey subline from the screenshot), the red "9+ Courses Available" box and the "Batch Starting Soon" box;
+  • the dark-red strip "Admissions Open 2026-27 | Call Us Today | Govt. Scholarship Available for Eligible Students";
+  • the three round floating buttons on the right: red pencil, blue (#155DFC) phone, green (#25D366) WhatsApp.
+
+MAIN ELEMENT 2 — THE PHONE PAGE (right, overlapping the browser window's lower-right corner, about 22% of the image width)
+- A flat phone-shaped screen: 36px rounded corners, a thin black outline, a soft shadow. No phone body, no buttons, no notch.
+- Inside, recreate the attached mobile screenshot (verify-mobile.png): red top strip; white header with hamburger, UnSkills logo and red "COURSES" button; a dark-red-to-black banner with "Student Verification" in bold white and "Home / Student Verification" in gold (#FACC15); a white card "Look up a UnSkills Student" with a red ID-card icon, the field "Registration Number *" showing "UCE/246237", a "Security check *" row with a captcha box, a refresh button and "Type the code", and a red button "Verify Student".
+
+FLOATING CALLOUT CARDS (white, 20px rounded corners, thin light-grey border, soft shadow, tilted 3–4°, slightly overlapping the window's edges, as if lifted out of the site)
+- Top-left: "Search 158 courses": a search box "Search by course name, code, or keyword…" and four pills: red "All Courses 158", white "Computer Software 21", "Hardware & Networking 21", "NIELIT Govt. 3".
+- Bottom-left: "Verification": four small rows with icons and green ticks: "Student", "Certificate", "Marksheet", "Employer".
+- Top-right (above the phone): "Google reviews": a big "4.8", five gold stars, "124 reviews on Google", and three round initial avatars "AS", "AM", "HK" with short star rows (no full names).
+- Bottom-right chip: a green WhatsApp icon and a blue phone icon with "Call & WhatsApp on every page".
+
+HAND-DRAWN ARROWS + HANDWRITTEN NOTES
+Style: loose, slightly wobbly curved marker arrows with simple open arrowheads, about 3px thick, in UnSkills red (#B91C1C). Notes are short phrases in a casual handwritten marker script, dark charcoal (#1F2937), with one key word in red, slightly tilted. They sit in the white space and never cover any UI text.
+Add exactly these 5:
+a) From "Search 158 courses" → curved arrow to the 3 × 3 course-category grid. Note: "9 categories, 2 taps"
+b) From "Verification" → curved arrow to the phone's "Verify Student" button. Note: "Certificates checked in seconds"
+c) From "Google reviews" → curved arrow to the browser window. Note: "4.8 on Google"
+d) Top centre, above the browser window: note "One site for students, parents & employers" with a short arrow curving down into the page.
+e) From the "Call & WhatsApp" chip → short arrow to the floating buttons on the browser's right edge. Note: "Enquiries from every page"
+
+LOGO (copy the attached UnSkills logo exactly; do not redesign it)
+- A black circle with a gold ring and a white "Un", joined to a white badge with a thin gold border and "Skills" in crimson, with "Unlock Skills" in tiny grey text below.
+
+QUALITY RULES
+- Every word and number exactly as written above; no gibberish, no invented text. Use only the initials given; never copy names from the screenshots.
+- Palette: UnSkills red #B91C1C, maroon #7F1D1D, gold #FACC15, near-black #0A0A0A, canvas #F8FAFC, call blue #155DFC, WhatsApp green #25D366.
+- No devices, no watermark, no borders around the image.
+```
+</details>
+
+<details><summary>Page spotlight (W3): Home, for <code>unskills-website/page-home.webp</code>. Attach home-desktop.png, logo</summary>
+
+```
+Create a clean website case-study image that spotlights ONE page of the "UnSkills Computer Education" website: the Home page. Style: a flat browser window of the real page on the left and three zoom-in callout cards on the right, joined to the page by thin connector lines, with two playful handwritten notes. Show the website directly: no laptop, no phone, no device of any kind.
+
+FORMAT
+- Exactly 2:1 landscape (2400 × 1200 px). If 2:1 isn't possible, use 16:9.
+- Background: flat pure white (#FFFFFF), seamless. No border, no frame, no gradient, no people outside the page. About 5% white margin; nothing touches the edges.
+
+LEFT — THE PAGE (about 62% of the width, vertically centred)
+- A flat, front-facing browser window with 18px rounded corners, a thin light-grey border and a large, very soft shadow. On top, a minimal light-grey bar with three small grey dots and a rounded address pill reading "unskillseducation.org". No other browser chrome.
+- Inside, recreate the attached screenshot (home-desktop.png) faithfully, flat and undistorted:
+  • the thin red top strip (#B91C1C) with "+91 83828 98686", "unskillseducation@gmail.com", "Free Online Test", "Institute Login";
+  • the white header: UnSkills logo; menu "Home" (active, red underline), "About Us", "Courses", "Student Zone", "Verification", "Gallery", "Franchise", "Contact", "More"; red button "Student Login";
+  • the hero: "Unskill Computer Education" / "An ISO 9001:2015 Certified Organization", the headline "Explore All Our Courses" with a red underline, the smiling woman in a grey blazer on a pale pink circle, the 3 × 3 grid of course-category cards ("Computer Software Courses", "Hardware & Networking", "Skills Development Course", "NIELIT Govt. Courses", "University Courses", "Beautician Courses", "Summer Training", "Typing Course", "Diploma Courses", each with its grey subline), the red "9+ Courses Available" box and the "Batch Starting Soon" box;
+  • the dark-red strip "Admissions Open 2026-27 | Call Us Today | Govt. Scholarship Available for Eligible Students";
+  • under it, the start of the next section: "STAY UPDATED" in small red capitals and the heading "News & Announcements";
+  • the three round floating buttons on the right edge: red pencil, blue (#155DFC) phone, green (#25D366) WhatsApp.
+
+RIGHT — THREE CALLOUT CARDS (one column, about 30% of the width, evenly spaced)
+- White cards, 20px rounded corners, thin light-grey border (#E5E7EB), very soft shadow. Each has a small bold near-black label on top and, under it, the real part of the page magnified about 1.6×, crisp and fully legible.
+- A thin smooth connector line (1.5px, #B91C1C at 60%) runs from each card's left edge to a small red dot on the exact spot it magnifies in the page. Lines never cross each other or any text.
+- Card 1, label "Admissions, front and centre": the dark-red strip "Admissions Open 2026-27 | Call Us Today | Govt. Scholarship Available for Eligible Students". Connector to that strip.
+- Card 2, label "Government verified": a white panel titled "Government Registrations & Legal Status" with three rows, each with a small seal icon and a green tick: "Udyam Registration", "Tally Education Empanelment", "Marg ERP Authorized Training Partner". Connector to the area just below the hero.
+- Card 3, label "Google reviews": a big "4.8", five gold stars, "124 reviews on Google ↗", and three round initial avatars "AS", "AM", "HK" with short star rows (no full names). Connector to the area just below the hero.
+
+HANDWRITTEN NOTES
+- Two short notes in a casual handwritten marker script, dark charcoal (#1F2937) with one key word in red (#B91C1C), each with a short loose curved arrow. They sit in white space and never cover UI text:
+  a) beside card 2: "Trust before the first call"
+  b) top-left above the page: "Admissions open, right up top", arrow to the red strip
+
+QUALITY RULES
+- Every word and number exactly as written above; no gibberish, no invented text, no extra UI. Never copy people's names from the screenshot.
+- Palette: UnSkills red #B91C1C, maroon #7F1D1D, gold #FACC15, near-black #0A0A0A, canvas #F8FAFC; bold Outfit-style headings and Inter-style body text, as in the screenshot.
+- No devices, no watermark, no border around the image.
+```
+</details>
+
+<details><summary>Page spotlight (W3): Courses, for <code>unskills-website/page-courses.webp</code>. Attach courses-desktop.png, logo</summary>
+
+```
+Create a clean website case-study image that spotlights ONE page of the "UnSkills Computer Education" website: the Courses page. Style: a flat browser window of the real page on the left and three zoom-in callout cards on the right, joined to the page by thin connector lines, with two playful handwritten notes. Show the website directly: no laptop, no phone, no device of any kind.
+
+FORMAT
+- Exactly 2:1 landscape (2400 × 1200 px). If 2:1 isn't possible, use 16:9.
+- Background: flat pure white (#FFFFFF), seamless. No border, no frame, no gradient, no people outside the page. About 5% white margin; nothing touches the edges.
+
+LEFT — THE PAGE (about 62% of the width, vertically centred)
+- A flat, front-facing browser window with 18px rounded corners, a thin light-grey border and a large, very soft shadow. On top, a minimal light-grey bar with three small grey dots and a rounded address pill reading "unskillseducation.org/courses". No other browser chrome.
+- Inside, recreate the attached screenshot (courses-desktop.png) faithfully, flat and undistorted:
+  • the red top strip and the white header as on the site, with "Courses" active (red text, red underline) and the red "Student Login" button;
+  • a banner with a diagonal gradient from dark red (#7F1D1D) to near-black (#0A0A0A): "HOME / COURSES" in small gold capitals (#FACC15), the title "Our Courses" in bold white with "Courses" in gold, and "158+ professional courses across 9 categories — from computer software to beautician arts." in white;
+  • on a light canvas: a wide white search box "Search by course name, code, or keyword...";
+  • two rows of category pills with counts: red "All Courses 158"; white outlined "Computer Software Courses 21", "Hardware & Networking 21", "Skills Development Course 14", "NIELIT Govt. Courses 3", "University Courses 6", "Beautician Courses 14", "Internship & Summer Training 8", "Typing Course 11", "Professional Courses 60";
+  • "Showing 158 courses";
+  • a row of four white course cards: "CTP902 · TOP ★★★★★ · Certificate in Tally Prime", "DT501 · TOP ★★★★★ · Diploma in Tally Prime with GST", "CSC-106 ★★★★★ · MS Word · 1 Months", "CSC-105 ★★★★★ · Office Automation · 3 Months", each with two grey description lines;
+  • the three round floating buttons on the right edge: red pencil, blue phone, green WhatsApp.
+
+RIGHT — THREE CALLOUT CARDS (one column, about 30% of the width, evenly spaced)
+- White cards, 20px rounded corners, thin light-grey border (#E5E7EB), very soft shadow. Each has a small bold near-black label on top and, under it, the real part of the page magnified about 1.6×, crisp and fully legible.
+- A thin smooth connector line (1.5px, #B91C1C at 60%) runs from each card's left edge to a small red dot on the exact spot it magnifies in the page. Lines never cross each other or any text.
+- Card 1, label "Search by name, code or keyword": the white search box with "tally" typed in it and a blinking cursor. Connector to the search box.
+- Card 2, label "9 categories": the pills "All Courses 158" (red), "Computer Software Courses 21", "Hardware & Networking 21", "NIELIT Govt. Courses 3", "Beautician Courses 14". Connector to the pill rows.
+- Card 3, label "Every course, one card": a full course card: "USCE-101" in grey monospace, the title "ADCA – Advance Diploma in Computer Application", the grey line "A comprehensive 1-year programme covering Hindi & English typing, Basic Computer Course, Tally with GST…", a chip "12 Months", a red button "Enroll Now" and an outlined button "Details". Connector to the first course card.
+
+HANDWRITTEN NOTES
+- Two short notes in a casual handwritten marker script, dark charcoal (#1F2937) with one key word in red (#B91C1C), each with a short loose curved arrow. They sit in white space and never cover UI text:
+  a) beside card 2: "Any course in 2 taps"
+  b) beside card 3: "Enroll Now on every course"
+
+QUALITY RULES
+- Every word and number exactly as written above; no gibberish, no invented text, no extra UI. Never copy people's names from the screenshot.
+- Palette: UnSkills red #B91C1C, maroon #7F1D1D, gold #FACC15, near-black #0A0A0A, canvas #F8FAFC; bold Outfit-style headings and Inter-style body text, as in the screenshot.
+- No devices, no watermark, no border around the image.
+```
+</details>
+
+<details><summary>Page spotlight (W3): Verification, for <code>unskills-website/page-verify.webp</code>. Attach verify-desktop.png, logo</summary>
+
+```
+Create a clean website case-study image that spotlights ONE page of the "UnSkills Computer Education" website: the Student Verification page. Style: a flat browser window of the real page on the left and three zoom-in callout cards on the right, joined to the page by thin connector lines, with two playful handwritten notes. Show the website directly: no laptop, no phone, no device of any kind.
+
+FORMAT
+- Exactly 2:1 landscape (2400 × 1200 px). If 2:1 isn't possible, use 16:9.
+- Background: flat pure white (#FFFFFF), seamless. No border, no frame, no gradient, no people outside the page. About 5% white margin; nothing touches the edges.
+
+LEFT — THE PAGE (about 62% of the width, vertically centred)
+- A flat, front-facing browser window with 18px rounded corners, a thin light-grey border and a large, very soft shadow. On top, a minimal light-grey bar with three small grey dots and a rounded address pill reading "unskillseducation.org/student/verify". No other browser chrome.
+- Inside, recreate the attached screenshot (verify-desktop.png) faithfully, flat and undistorted:
+  • the red top strip and the white header as on the site, with "Verification" active (red text, red underline) and the red "Student Login" button;
+  • a banner with a diagonal gradient from dark red (#7F1D1D) to near-black: "Student Verification" in large bold white and "Home / Student Verification" in gold (#FACC15);
+  • overlapping the banner's bottom edge, a white card with 16px corners: a red ID-card icon and the bold title "Look up a UnSkills Student"; the grey text "Enter a student's Registration Number (e.g. UCE/246237) to confirm enrolment and view all enrolled courses. To verify a certificate or marksheet, use the dedicated Certificate Verification or Marksheet Verification pages." with "Certificate Verification" and "Marksheet Verification" in red; the field "Registration Number *" with the placeholder "e.g. UCE/246237" and the hint "Enter exactly as printed on the student ID card / registration slip."; "Security check *" with a captcha image, a round refresh button and an input "Type the code"; a wide red button "Verify Student" with a search icon;
+  • the three round floating buttons on the right edge: red pencil, blue phone, green WhatsApp.
+
+RIGHT — THREE CALLOUT CARDS (one column, about 30% of the width, evenly spaced)
+- White cards, 20px rounded corners, thin light-grey border (#E5E7EB), very soft shadow. Each has a small bold near-black label on top and, under it, the real part of the page magnified about 1.6×, crisp and fully legible.
+- A thin smooth connector line (1.5px, #B91C1C at 60%) runs from each card's left edge to a small red dot on the exact spot it magnifies in the page. Lines never cross each other or any text.
+- Card 1, label "Look up by registration number": the field "Registration Number *" filled with "UCE/246237". Connector to that field.
+- Card 2, label "Security check": the captcha box, the refresh button and the input with "Hu36s" typed in it. Connector to the security-check row.
+- Card 3, label "Four ways to verify": a 2 × 2 grid of small tiles, each with a red line icon and a green tick: "Student Verification", "Certificate Verification", "Marksheet Verification", "Employer Verification". Connector to the red links in the card's text.
+
+HANDWRITTEN NOTES
+- Two short notes in a casual handwritten marker script, dark charcoal (#1F2937) with one key word in red (#B91C1C), each with a short loose curved arrow. They sit in white space and never cover UI text:
+  a) beside card 3: "Employers check in seconds"
+  b) top-left above the page: "No more fake certificates", arrow to the "Verify Student" button
+
+QUALITY RULES
+- Every word and number exactly as written above; no gibberish, no invented text, no extra UI. Never copy people's names from the screenshot.
+- Palette: UnSkills red #B91C1C, maroon #7F1D1D, gold #FACC15, near-black #0A0A0A, canvas #F8FAFC; bold Outfit-style headings and Inter-style body text, as in the screenshot.
+- No devices, no watermark, no border around the image.
+```
+</details>
+
+<details><summary>Page spotlight (W3): Franchise, for <code>unskills-website/page-franchise.webp</code>. Attach franchise-desktop.png, logo</summary>
+
+```
+Create a clean website case-study image that spotlights ONE page of the "UnSkills Computer Education" website: the Franchise page. Style: a flat browser window of the real page on the left and three zoom-in callout cards on the right, joined to the page by thin connector lines, with two playful handwritten notes. Show the website directly: no laptop, no phone, no device of any kind.
+
+FORMAT
+- Exactly 2:1 landscape (2400 × 1200 px). If 2:1 isn't possible, use 16:9.
+- Background: flat pure white (#FFFFFF), seamless. No border, no frame, no gradient, no people outside the page. About 5% white margin; nothing touches the edges.
+
+LEFT — THE PAGE (about 62% of the width, vertically centred)
+- A flat, front-facing browser window with 18px rounded corners, a thin light-grey border and a large, very soft shadow. On top, a minimal light-grey bar with three small grey dots and a rounded address pill reading "unskillseducation.org/franchise". No other browser chrome.
+- Inside, recreate the attached screenshot (franchise-desktop.png) faithfully, flat and undistorted:
+  • the red top strip and the white header as on the site, with "Franchise" active (red text, red underline) and the red "Student Login" button;
+  • a banner with a diagonal gradient from dark red (#7F1D1D) to near-black: "— FRANCHISE WITH US —" in small gold capitals, the title "Franchisee Process" in large bold white, and "Become an authorised partner of UnSkills Computer Education and bring quality computer education to your region. Read the requirements carefully before applying." in white;
+  • overlapping the banner's bottom edge, four white step cards, each with a faint large number in the top-right: "Read the Requirements" / "Carefully review the eligibility criteria below." (01), "Download Agreement Form" / "Get the GIITSSS / GIEPL agreement form from our Downloads page." (02), "Fill & Submit Documents" / "Complete the form and submit it with required documents to the Corporate Office." (03), "Approval & Onboarding" / "Once approved, our team will begin your branch onboarding & training." (04);
+  • below: "ELIGIBILITY" in small red capitals, the heading "Franchise Requirements" with a short gold underline, and two white cards with red icon tiles: "Educational Qualifications" with "Candidate should be a graduate in any discipline." and "Financial Qualifications" with "Ability to mobilise resources through internal and external means." and "Capability to personally invest 100% of the total project cost.";
+  • the three round floating buttons on the right edge: red pencil, blue phone, green WhatsApp.
+
+RIGHT — THREE CALLOUT CARDS (one column, about 30% of the width, evenly spaced)
+- White cards, 20px rounded corners, thin light-grey border (#E5E7EB), very soft shadow. Each has a small bold near-black label on top and, under it, the real part of the page magnified about 1.6×, crisp and fully legible.
+- A thin smooth connector line (1.5px, #B91C1C at 60%) runs from each card's left edge to a small red dot on the exact spot it magnifies in the page. Lines never cross each other or any text.
+- Card 1, label "Four steps to a branch": the four step cards in a 2 × 2 grid with "01", "02", "03", "04" in red and their titles. Connector to the step cards.
+- Card 2, label "Clear requirements": the "Educational Qualifications" card with its red icon tile, a gold tick and "Candidate should be a graduate in any discipline." Connector to that card.
+- Card 3, label "102 active centres": three rows, each with a small round logo placeholder in red, a bold name, a grey city and a monospace code: "UnSkills Computer Education · Jaunpur, Uttar Pradesh · UCE-UP-003", "UnSkills College of IT · Jaunpur, Uttar Pradesh · UCE-UP-005", "Ideal Computer Centre · Dumka, Jharkhand · UCE-JH-002". Connector to the bottom of the page.
+
+HANDWRITTEN NOTES
+- Two short notes in a casual handwritten marker script, dark charcoal (#1F2937) with one key word in red (#B91C1C), each with a short loose curved arrow. They sit in white space and never cover UI text:
+  a) beside card 1: "Partners apply online"
+  b) beside card 3: "102 centres, one list"
+
+QUALITY RULES
+- Every word and number exactly as written above; no gibberish, no invented text, no extra UI. Never copy people's names from the screenshot.
+- Palette: UnSkills red #B91C1C, maroon #7F1D1D, gold #FACC15, near-black #0A0A0A, canvas #F8FAFC; bold Outfit-style headings and Inter-style body text, as in the screenshot.
+- No devices, no watermark, no border around the image.
+```
+</details>
+
+<details><summary>Design system (T6, website components), for <code>unskills-website/design-system.webp</code>. Attach the logo</summary>
+
+```
+Create a clean, premium DESIGN SYSTEM sheet for the "UnSkills Computer Education" website, in the style of a professional design-agency case study (like a Figma style-guide page). It shows the colour palette, typography and the website's core UI components, neatly organised on white, with a few hand-drawn arrows and handwritten notes.
+
+FORMAT
+- Exactly 2:1 landscape (2400 × 1200 px). If 2:1 isn't possible, use 16:9.
+- Background: flat pure white (#FFFFFF), seamless. No border, no frame, no gradient, no devices, no people.
+- About 5% white margin on all sides. Nothing touches the edges.
+
+GENERAL STYLE
+- Organised into 3 zones with generous spacing and thin light-grey (#E5E7EB) divider lines.
+- Every zone has a small uppercase grey label (letter-spaced, Inter SemiBold): "COLOUR", "TYPOGRAPHY", "COMPONENTS".
+- Swatches and cards: 20px rounded corners, very soft shadow.
+- Hand-drawn elements: 3 loose curved marker arrows in UnSkills red (#B91C1C) with short handwritten notes in a casual marker script, dark charcoal (#1F2937) with one key word in red. They sit in white space and never cover text.
+
+ZONE 1 — COLOUR (left half)
+- Row 1, "Brand": 4 large tall swatches side by side, each a solid block with the name in bold and the hex in a small monospace pill:
+  "UnSkills Red #B91C1C", "Maroon #7F1D1D", "Gold #FACC15", "Logo Crimson #AC2038".
+- Row 2, "Actions": 3 medium swatches: "Call Blue #155DFC", "WhatsApp Green #25D366", "Badge Gold #92730A" (shown on its pale background #FDF6DC).
+- Row 3, "Neutrals": 3 small swatches: "Ink #0A0A0A", "Canvas #F8FAFC" (thin grey outline), "White #FFFFFF" (thin grey outline).
+- A small horizontal gradient bar under the swatches from #7F1D1D to #0A0A0A, labelled "Page banner".
+- Note with an arrow at the brand swatches: "Red & gold, straight from the logo".
+
+ZONE 2 — TYPOGRAPHY (top right)
+- Two specimen cards side by side:
+  • a huge "Aa" in Outfit Bold, with "Outfit", "Headings & course titles", "SemiBold · Bold · ExtraBold" and the sample line "Our Courses" with "Courses" in gold (#FACC15) on a small dark-red chip;
+  • a huge "Aa" in Inter Regular, with "Inter", "Body, menus & forms", "Regular · Medium · SemiBold" and the sample line "158+ professional courses across 9 categories".
+- A type scale list (thin dividers; each line: role in grey, specs in small monospace, sample in that style):
+  "Page title · Outfit Bold 48" → "Our Courses"
+  "Section title · Outfit Bold 36" → "Popular Courses"
+  "Card title · Outfit Bold 15" → "Certificate in Tally Prime"
+  "Body · Inter Regular 16" → "Learn from industry-certified professionals"
+  "Eyebrow · Inter SemiBold, letter-spaced" → "HOME / COURSES"
+
+ZONE 3 — COMPONENTS (bottom right, one tidy row of real website pieces)
+- A red rounded button "Enroll Now"; an outlined button "Details"; a red button "Student Login".
+- A red pill "All Courses 158" and a white outlined pill "Typing Course 11".
+- A small course card: "USCE-113" in grey monospace, a pale-gold "TOP" badge with 5 gold stars, the bold title "CTP – Tally Prime with GST", a grey chip "4 Months".
+- A search input "Search by course name, code, or keyword…" with a search icon.
+- The three round floating buttons stacked: red pencil, blue phone, green WhatsApp.
+- Note: "Same pieces on every page".
+
+LOGO: the attached UnSkills logo, small, top-left, with "Design System" beside it in Outfit Bold. Copy the logo exactly; do not redesign it (a black circle with a gold ring and a white "Un", joined to a white badge with a thin gold border and "Skills" in crimson, "Unlock Skills" in tiny grey below).
+
+QUALITY RULES
+- Every hex code, name and word exactly as written; each swatch exactly its hex colour; no extra colours or fonts. Aligned to a clear grid. No watermark.
+```
+</details>
+
+**Used 2026-10-01** (from the owner's ChatGPT downloads, flattened with `flatten_white.py`):
+`unskills-website-mockup.webp` 1774×887 (card), `unskills-website/hero.webp` 1672×941,
+`page-{home,courses,verify,franchise}.webp` 1774×887 each, `design-system.webp` 1774×887.
+Known nit: in the hero's desktop top strip the email reads "askillseducation@gmail.com"
+(tiny, under the browser bar). Fix with: *"Keep the layout. Fix the text in the red top
+strip so it reads exactly: +91 83828 98686 · unskillseducation@gmail.com"*.
 
 ### Quick Hotels (website): homepage card
 

@@ -23,8 +23,12 @@ export interface ShowcaseImage {
   height: number;
   alt: string;
   /** 'tile' = a crop of light UI, shown centred on a light canvas with
-   *  breathing room. Default: the image fills its rounded box edge to edge. */
-  frame?: 'tile';
+   *  breathing room. 'browser' = a raw screenshot of a live site, shown in a
+   *  coded browser window (address bar from `url`). Default: the image fills
+   *  its rounded box edge to edge (finished images on white). */
+  frame?: 'tile' | 'browser';
+  /** The address shown in a 'browser' frame, e.g. 'unskillseducation.org/courses'. */
+  url?: string;
 }
 
 export type ProductKind = 'crm' | 'app' | 'website';
@@ -49,6 +53,59 @@ export interface ShowcaseProduct {
   gallery: ShowcaseImage[];
   /** A mobile still shown beside the first gallery image (websites/apps). */
   phone?: ShowcaseImage;
+}
+
+/** Icons for the "Under the HOOD." cards (mapped in WebsiteShowcase.tsx). */
+export type SiteFeatureIcon =
+  | 'search'
+  | 'form'
+  | 'shield'
+  | 'ticket'
+  | 'star'
+  | 'chat'
+  | 'map'
+  | 'seo'
+  | 'login'
+  | 'phone'
+  | 'gauge'
+  | 'cart';
+
+export interface SitePage {
+  name: string;
+  path: string;
+  /** What the page does for the visitor (and the business), 1–2 sentences. */
+  summary: string;
+  features: string[];
+  /** The page, 2:1 on white from the page prompt, or a raw still in a browser frame. */
+  image?: ShowcaseImage;
+}
+
+/**
+ * A website project. When a showcase has `site`, `/work/<slug>` renders the
+ * website layout (components/showcase/WebsiteShowcase.tsx) instead of the
+ * software one: what the site had to do, the sitemap, how we built it, page
+ * by page, every screen, what's under the hood, the design system and the
+ * site today. `problem`, `process` and `products` are not used there.
+ */
+export interface SiteDetails {
+  /** Full URL of the live site. */
+  url: string;
+  /** How the address reads on the page, e.g. 'unskillseducation.org'. */
+  label: string;
+  /** "What it had to DO.": the jobs the site was built for (3–4). */
+  goals: { title: string; text: string }[];
+  /** "The SITEMAP.": the menu as built, one group per top-level item. */
+  sitemap: { group: string; pages: string[] }[];
+  /** "How we BUILT IT.": the website process, step by step. */
+  build: { title: string; text: string }[];
+  /** "Page by PAGE.": the key pages, in the order a visitor meets them. */
+  pages: SitePage[];
+  /** "Every SCREEN.": phone stills (390×844-ish captures). */
+  screens: ShowcaseImage[];
+  /** "Under the HOOD.": what the site does beyond looking good. */
+  builtIn: { icon: SiteFeatureIcon; title: string; text: string }[];
+  /** Line under "The site TODAY." (the numbers are `impact`). */
+  todayNote?: string;
 }
 
 export interface Showcase {
@@ -90,15 +147,18 @@ export interface Showcase {
   testimonial?: { quote: string; name: string; role: string };
   /** Serif line above "LET'S BUILD YOURS." Default: "Running your business on spreadsheets?" */
   ctaLead?: string;
+  /** Present on website projects: switches the page to the website layout. */
+  site?: SiteDetails;
 }
 
 const U = '/work/unskills';
+const UW = '/work/unskills-website';
 
 export const SHOWCASES: Showcase[] = [
   {
     slug: 'unskills-computer-education-crm',
-    // The retired UnSkills Education case study's URLs.
-    matchSlugs: ['unskills-education-website', 'saas-analytics-dashboard'],
+    // The retired UnSkills Education case study's URL (the website has its own page now).
+    matchSlugs: ['saas-analytics-dashboard'],
     client: 'UnSkills Computer Education',
     logo: { src: '/work/unskills-logo.webp', width: 356, height: 160 },
     focus: ['Institute Management System'],
@@ -1063,6 +1123,175 @@ export const SHOWCASES: Showcase[] = [
       { label: 'PV', value: '45.6L', caption: 'PV tracked level by level' },
       { label: 'Sales', value: '₹48.6L', caption: 'sales tracked in one place' },
     ],
+  },
+
+  // ── UnSkills: the institute website (website layout) ──────────────────────
+  // Everything below is read off the live site (2026-10-01): the menus, the
+  // course counts, the centres, the Google rating. Images: playbook §11.
+  // Everything below is read off the live site (2026-10-01): the menus, the
+  // course counts, the centres, the Google rating. Page images are raw stills
+  // in a browser frame until the generated page images arrive (playbook §6 W*).
+  {
+    slug: 'unskills-education-website',
+    client: 'UnSkills Computer Education',
+    logo: { src: '/work/unskills-logo.webp', width: 356, height: 160 },
+    focus: ['Institute Website', 'Online Admissions', 'Certificate Verification'],
+    headline: { lead: 'The online home of a', word: '102-CENTRE NETWORK.' },
+    hero: {
+      src: `${UW}/hero.webp`,
+      width: 1672,
+      height: 941,
+      alt: 'The UnSkills website on desktop and mobile, with course search, verification and Google reviews',
+    },
+
+    brief:
+      'UnSkills Computer Education teaches computer, NIELIT, university, typing and beautician courses from Mariahu, Jaunpur, with **102 authorised centres** across Uttar Pradesh and beyond. The brief was a website that does the institute’s front-desk work in public: a **searchable catalogue of 158 courses**, **online admission**, and **instant verification** of any student, certificate or marksheet, connected to the UnSkills CRM.',
+    facts: [
+      { label: 'Industry', value: 'Education' },
+      { label: 'Delivered', value: 'Institute website + Student Zone' },
+      { label: 'Services', value: 'UI/UX Design · Web Development · SEO' },
+      { label: 'Stack', value: 'React · Vite · Supabase · Vercel' },
+    ],
+    links: [{ label: 'unskillseducation.org', href: 'https://www.unskillseducation.org/' }],
+
+    problem: '',
+    process: [],
+    products: [],
+
+    site: {
+      url: 'https://www.unskillseducation.org/',
+      label: 'unskillseducation.org',
+      goals: [
+        {
+          title: 'Make 158 courses easy to find',
+          text: 'Nine categories, one search by name, code or keyword, and a details page for every course.',
+        },
+        {
+          title: 'Turn a visit into an admission',
+          text: 'Enroll Now on every course, an online application, and call and WhatsApp buttons on every page.',
+        },
+        {
+          title: 'Prove every certificate is real',
+          text: 'Anyone can check a registration, certificate or marksheet by its number, in seconds.',
+        },
+        {
+          title: 'Grow the franchise network',
+          text: 'The franchise process, the requirements and every authorised centre, in one place.',
+        },
+      ],
+      sitemap: [
+        { group: 'Home', pages: ['Courses', 'Franchise partners', 'Faculty', 'Placed students', 'Google reviews', 'FAQ'] },
+        { group: 'Courses', pages: ['Computer Software', 'Hardware & Networking', 'Skills Development', 'NIELIT Govt.', 'University', 'Beautician', 'Typing', 'Internship & Summer Training', 'Professional'] },
+        { group: 'Student Zone', pages: ['Apply Online', 'Online Exam Form', 'Download Admit Card', 'Download Forms', 'Student Login'] },
+        { group: 'Verification', pages: ['Student', 'Certificate', 'Marksheet', 'Employer'] },
+        { group: 'Franchise', pages: ['Franchisee process', 'Requirements', 'Authorised centres'] },
+        { group: 'More', pages: ['About Us', 'Gallery', 'Online Courses', 'Internships', 'Careers', 'Blog', 'Contact'] },
+      ],
+      build: [
+        { title: 'Sitemap & content', text: 'Every course, form and verification mapped into one menu.' },
+        { title: 'Wireframes', text: 'One template per page type: listing, course, form, lookup.' },
+        { title: 'Visual design', text: 'The UnSkills red, gold and Outfit type, on a calm white canvas.' },
+        { title: 'Build & connect', text: 'React on Vercel, with courses and students from the CRM’s data.' },
+        { title: 'SEO & launch', text: 'A title, description and sitemap entry for every page.' },
+      ],
+      pages: [
+        {
+          name: 'Home',
+          path: '/',
+          summary:
+            'Admissions banners up top, then everything a parent checks before calling: government registrations, popular courses, faculty, placed students and Google reviews.',
+          features: ['Admission banners', 'Govt. registrations', 'Popular courses', 'Google reviews', 'FAQ'],
+          image: {
+            src: `${UW}/page-home.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'The UnSkills homepage: admissions banner, government registrations and Google reviews',
+          },
+        },
+        {
+          name: 'Courses',
+          path: '/courses',
+          summary:
+            '158 courses across 9 categories, searchable by name, code or keyword, each with its duration, eligibility and an Enroll Now button.',
+          features: ['Search', 'Category filters', 'Course codes', 'Duration & eligibility', 'Enroll Now'],
+          image: {
+            src: `${UW}/page-courses.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'The UnSkills course catalogue: search, 9 categories and course cards',
+          },
+        },
+        {
+          name: 'Verification',
+          path: '/student/verify',
+          summary:
+            'Students, parents and employers look up a registration number and confirm the enrolment, behind a security check. Certificates, marksheets and employer checks have their own pages.',
+          features: ['Student lookup', 'Certificate check', 'Marksheet check', 'Employer check', 'Security code'],
+          image: {
+            src: `${UW}/page-verify.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'UnSkills student verification: registration number, security check and four ways to verify',
+          },
+        },
+        {
+          name: 'Franchise',
+          path: '/franchise',
+          summary:
+            'How to become an authorised UnSkills centre: four steps, the eligibility requirements, and the agreement form to download.',
+          features: ['4-step process', 'Requirements', 'Agreement download', 'Authorised centres'],
+          image: {
+            src: `${UW}/page-franchise.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'The UnSkills franchise page: four steps, requirements and authorised centres',
+          },
+        },
+      ],
+      screens: [
+        { src: `${UW}/home-mobile.webp`, width: 585, height: 1266, alt: 'UnSkills homepage on a phone' },
+        { src: `${UW}/courses-mobile.webp`, width: 585, height: 1266, alt: 'Course catalogue on a phone' },
+        { src: `${UW}/verify-mobile.webp`, width: 585, height: 1266, alt: 'Student verification on a phone' },
+        { src: `${UW}/franchise-mobile.webp`, width: 585, height: 1266, alt: 'Franchise page on a phone' },
+      ],
+      builtIn: [
+        { icon: 'search', title: 'Course search', text: 'Search 158 courses by name, code or keyword, or filter by category.' },
+        { icon: 'form', title: 'Online admission', text: 'Apply Online, the exam form and admit cards, without visiting the centre.' },
+        { icon: 'shield', title: 'Four verifications', text: 'Student, certificate, marksheet and employer checks, behind a security code.' },
+        { icon: 'star', title: 'Google reviews', text: 'The 4.8 rating and real student reviews, straight from Google.' },
+        { icon: 'chat', title: 'Call & WhatsApp', text: 'Enquiry, call and WhatsApp buttons that follow you down every page.' },
+        { icon: 'map', title: 'Centre network', text: 'Every authorised centre with its city and centre code.' },
+        { icon: 'login', title: 'Student login', text: 'One click from the site into the student portal on the UnSkills CRM.' },
+        { icon: 'seo', title: 'Local SEO', text: 'Page titles and descriptions written for courses in Jaunpur and UP.' },
+      ],
+      todayNote: 'The numbers on unskillseducation.org today.',
+    },
+
+    palette: [
+      { name: 'UnSkills Red', hex: '#B91C1C' },
+      { name: 'Maroon', hex: '#7F1D1D' },
+      { name: 'Gold', hex: '#FACC15' },
+      { name: 'Ink', hex: '#0A0A0A' },
+      { name: 'Canvas', hex: '#F8FAFC' },
+    ],
+    systemImage: {
+      src: `${UW}/design-system.webp`,
+      width: 1774,
+      height: 887,
+      alt: 'UnSkills website design system: colours, Outfit and Inter type, and core components',
+    },
+    type: [
+      { family: 'Outfit', role: 'Headings', weights: 'SemiBold · Bold · ExtraBold', google: 'Outfit:wght@600;700;800' },
+      { family: 'Inter', role: 'Body & interface', weights: 'Regular · Medium · SemiBold' },
+    ],
+
+    impact: [
+      { label: 'Courses', value: '158', caption: 'listed across 9 categories' },
+      { label: 'Centres', value: '102', caption: 'authorised UnSkills centres' },
+      { label: 'Google rating', value: '4.8', caption: 'from 124 Google reviews' },
+      { label: 'Students', value: '2,000+', caption: 'enrolled, as the institute reports' },
+    ],
+    ctaLead: 'Need a website that brings in admissions?',
   },
 ];
 

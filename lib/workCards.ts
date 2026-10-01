@@ -100,6 +100,17 @@ export const FEATURED: WorkCardVisual[] = [
     mockup: '/work/quick-hotels-mockup.webp',
     logo: { src: '/work/quick-hotels-logo.webp', width: 333, height: 160 },
   },
+  {
+    slug: 'unskills-education-website',
+    kinds: ['website'],
+    glow: '185,28,28',
+    shots: {
+      desktop: '/work/unskills-website/home-desktop.webp',
+      mobile: '/work/unskills-website/home-mobile.webp',
+    },
+    mockup: '/work/unskills-website-mockup.webp',
+    logo: { src: '/work/unskills-logo.webp', width: 356, height: 160 },
+  },
 ];
 
 const bySlug = new Map(FEATURED.map((f) => [f.slug, f]));

@@ -1,130 +1,144 @@
 import React, { useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 
-// ─── Step data ────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// Process — "Chat to code in 4 WEEKS." as one pinned, scroll-driven story.
+//
+// Five weeks play inside the same frame: a custom circular mark on the left
+// with the week under it, a two-line headline on the right (white line, then
+// one accent line). No paragraphs, no bullet lists; the words carry it.
+//
+// Scroll choreography (all transform + opacity, written as CSS custom
+// properties on rAF, so scrolling never re-renders React):
+//   enter  — the ring draws itself, the mark fades in, the week label appears,
+//            the headline rises into place;
+//   build  — the mark's own geometry assembles (`--k`): nodes connect, shapes
+//            align, blocks join, the launch mark fills;
+//   exit   — the headline shrinks slightly and fades as the next week's mark
+//            and headline come in (skipped on the last week).
+// Scrolling back up plays it in reverse. Styles: the `.jr-*` block in index.css.
+//
+// NOTE: no ancestor of the stage may set `overflow: hidden` — it breaks sticky.
+// ─────────────────────────────────────────────────────────────────────────────
 
-interface StepData {
+interface Week {
   label: string;
-  title: string;
-  description: string;
-  deliverables: string[];
-  /** Icon paths, drawn on with stroke-dashoffset — each needs pathLength="1". */
-  icon: React.ReactNode;
+  lead: string;
+  accent: string;
+  mark: React.ReactNode;
+  /** Plain-language version for screen readers. */
+  aria: string;
 }
 
-const STEPS: StepData[] = [
-  {
-    label: 'Week 0',
-    title: 'We talk. You decide.',
-    description: 'A 45-min call. Scope locked. Fixed price. Zero sales theatre.',
-    deliverables: ['Scope document in 48 hours', 'Fixed-price proposal', 'Recommended stack'],
-    icon: (
-      <>
-        <path
-          pathLength="1"
-          d="M20.5 11.4a8.1 8.1 0 0 1-8.7 8.1 8.7 8.7 0 0 1-3.4-.8L3.5 20.5l1.8-4.9a8.1 8.1 0 0 1-.8-3.5 8.1 8.1 0 0 1 8.1-8.1 8.1 8.1 0 0 1 7.9 7.4z"
-        />
-        <path pathLength="1" d="M9 11.9l2.2 2.2 4.3-4.5" />
-      </>
-    ),
-  },
-  {
-    label: 'Week 1',
-    title: 'Architecture before code.',
-    description: 'Clickable Figma + full spec before a single line of code.',
-    deliverables: ['Figma prototype (mobile + desktop)', 'Database schema with RLS', '6-phase roadmap'],
-    icon: (
-      <>
-        <path pathLength="1" d="M12 2.6 2.4 7.3 12 12l9.6-4.7L12 2.6z" />
-        <path pathLength="1" d="M2.4 16.7 12 21.4l9.6-4.7" />
-        <path pathLength="1" d="M2.4 12 12 16.7 21.6 12" />
-      </>
-    ),
-  },
-  {
-    label: 'Weeks 2–4',
-    title: 'Daily progress, weekly demos.',
-    description: 'Live staging from day one. Friday demos. No black boxes.',
-    deliverables: ['Daily commits to GitHub', 'Recorded Friday demos', 'Staging URL from day 1'],
-    icon: <path pathLength="1" d="M2.5 12h3.8l2.4 7 5.2-14.5 2.4 7.5h5.2" />,
-  },
-  {
-    label: 'Week 4+',
-    title: "We don't ghost. We hand over.",
-    description: 'Production deploy, repo handover, 30-day fix-it-free support.',
-    deliverables: ['Deploy on your Vercel/Supabase', '30-day post-launch support', 'Loom training for your team'],
-    icon: (
-      <>
-        <path
-          pathLength="1"
-          d="M20.8 15.9V8.1a1.9 1.9 0 0 0-1-1.7l-6.9-3.9a1.9 1.9 0 0 0-1.8 0L4.2 6.4a1.9 1.9 0 0 0-1 1.7v7.8a1.9 1.9 0 0 0 1 1.7l6.9 3.9a1.9 1.9 0 0 0 1.8 0l6.9-3.9a1.9 1.9 0 0 0 1-1.7z"
-        />
-        <path pathLength="1" d="M3.5 7.1 12 12l8.5-4.9" />
-        <path pathLength="1" d="M12 21.8V12" />
-      </>
-    ),
-  },
+// ── The marks: one family. Every mark shares the same outer ring, inner disc
+//    and glow (see <Mark>); only the centre geometry (100×100 box) changes.
+//    Lines use pathLength="1" so they can draw on with --k.
+
+const ConversationMark = (
+  <g className="jr-geo">
+    {/* An open, rounded speech form with a soft tail. */}
+    <path className="jr-line" pathLength={1} d="M34 41c0-6.6 5.4-12 12-12h14c6.6 0 12 5.4 12 12v6c0 6.6-5.4 12-12 12H49l-8 7v-7.5c-4-2-7-6-7-11z" />
+    <circle className="jr-dot jr-d1" cx="46" cy="44" r="2.2" />
+    <circle className="jr-dot jr-d2" cx="53" cy="44" r="2.2" />
+    <circle className="jr-dot jr-d3" cx="60" cy="44" r="2.2" />
+    {/* A small spark: the idea taking shape. */}
+    <path className="jr-spark" d="M73 25l1.6 4.2L79 31l-4.4 1.6L73 37l-1.6-4.4L67 31l4.4-1.8z" />
+  </g>
+);
+
+const ArchitectureMark = (
+  <g className="jr-geo">
+    <path className="jr-line" pathLength={1} d="M50 30 L32 52 L50 72 L68 52 Z" />
+    <path className="jr-line jr-late" pathLength={1} d="M32 52 L68 52 M50 30 L50 72" />
+    <circle className="jr-node" cx="50" cy="30" r="3.4" />
+    <circle className="jr-node" cx="32" cy="52" r="3.4" />
+    <circle className="jr-node" cx="68" cy="52" r="3.4" />
+    <circle className="jr-node" cx="50" cy="72" r="3.4" />
+    <circle className="jr-node jr-core" cx="50" cy="52" r="4.6" />
+  </g>
+);
+
+const DesignMark = (
+  <g className="jr-geo">
+    {/* Alignment guides fade in as the shapes settle onto them. */}
+    <path className="jr-guide" d="M24 38 H76 M24 64 H76 M38 24 V76" />
+    {/* Two layered frames, starting apart, sliding into alignment. */}
+    <rect className="jr-shape jr-f1" x="38" y="38" width="30" height="26" rx="4" />
+    <rect className="jr-shape jr-f2" x="38" y="38" width="20" height="14" rx="3" />
+    {/* The cursor point. */}
+    <circle className="jr-node jr-cursor" cx="68" cy="64" r="3" />
+  </g>
+);
+
+const BuildMark = (
+  <g className="jr-geo">
+    {/* Three component blocks that close in and connect into one system. */}
+    <rect className="jr-block jr-b1" x="28" y="30" width="18" height="14" rx="3" />
+    <rect className="jr-block jr-b2" x="54" y="30" width="18" height="14" rx="3" />
+    <rect className="jr-block jr-b3" x="41" y="56" width="18" height="14" rx="3" />
+    <path className="jr-line jr-late" pathLength={1} d="M46 37 H54 M37 44 L44 56 M63 44 L56 56" />
+  </g>
+);
+
+const LaunchMark = (
+  <g className="jr-geo">
+    {/* Every earlier node, now on one orbit, all connected. */}
+    <circle className="jr-line" pathLength={1} cx="50" cy="50" r="22" />
+    <circle className="jr-node" cx="50" cy="28" r="2.8" />
+    <circle className="jr-node" cx="71" cy="43" r="2.8" />
+    <circle className="jr-node" cx="63" cy="68" r="2.8" />
+    <circle className="jr-node" cx="37" cy="68" r="2.8" />
+    <circle className="jr-node" cx="29" cy="43" r="2.8" />
+    {/* The centre becomes solid. */}
+    <circle className="jr-solid" cx="50" cy="50" r="9" />
+  </g>
+);
+
+const WEEKS: Week[] = [
+  { label: 'Week 0', lead: '45-minute', accent: 'call', mark: ConversationMark, aria: 'Week 0: a 45-minute call' },
+  { label: 'Week 1', lead: 'Architecture', accent: 'before code', mark: ArchitectureMark, aria: 'Week 1: architecture before code' },
+  { label: 'Week 2', lead: 'Design', accent: 'with intent', mark: DesignMark, aria: 'Week 2: design with intent' },
+  { label: 'Week 3', lead: 'Build', accent: 'the system', mark: BuildMark, aria: 'Week 3: build the system' },
+  { label: 'Week 4', lead: 'Ready', accent: 'to launch', mark: LaunchMark, aria: 'Week 4: ready to launch' },
 ];
 
-// ─── Scroll choreography ──────────────────────────────────────────────────────
-//
-// A step's local time `u` runs 0 → 1 across its own slot of the pinned scroll.
-// u < 0 means it hasn't started; u > 1 means the next step owns the stage.
-// Each phase is [startAt, duration] in u units.
+/** The shared circular construction around every week's geometry. */
+const Mark: React.FC<{ children: React.ReactNode; last?: boolean }> = ({ children, last }) => (
+  <div className={`jr-mark ${last ? 'jr-mark--last' : ''}`}>
+    <span className="jr-glow" aria-hidden="true" />
+    <svg viewBox="0 0 100 100" aria-hidden="true">
+      <circle className="jr-track" cx="50" cy="50" r="48.5" />
+      <circle className="jr-ring" cx="50" cy="50" r="48.5" pathLength={1} />
+      <circle className="jr-disc" cx="50" cy="50" r="33" />
+      {children}
+    </svg>
+  </div>
+);
 
+// ── Choreography ─────────────────────────────────────────────────────────────
+// A week's local time `u` runs 0 → 1 across its slot; [start, duration] in u.
 const PHASE = {
-  appear: [-0.15, 0.33] as const, // marker materialises, centred and large
-  ring: [-0.12, 0.34] as const, // progress ring draws around it
-  draw: [0.02, 0.36] as const, // icon strokes draw themselves on
-  label: [0.1, 0.26] as const, // week label
-  settle: [0.16, 0.3] as const, // marker shrinks and slides into its slot
-  title: [0.34, 0.26] as const,
-  sub: [0.42, 0.26] as const,
-  chip0: [0.48, 0.24] as const, // each later chip is offset by CHIP_GAP
-  exit: [0.84, 0.22] as const, // panel fades out (skipped on the last step)
+  mark: [-0.22, 0.3] as const,
+  ring: [-0.2, 0.42] as const,
+  label: [-0.08, 0.24] as const,
+  head: [-0.14, 0.34] as const,
+  build: [0.0, 0.5] as const,
+  exit: [0.76, 0.24] as const,
 };
-const CHIP_GAP = 0.07;
-
-/** Scale of the marker while centred; 1 is its settled size. */
-const BIG_SCALE = 2.05;
-/** Fraction of a viewport of scroll each step consumes while pinned. */
-const stepFactor = () => (window.innerWidth <= 860 ? 0.9 : 1.1);
+/** Viewport-heights of scroll per week while pinned (5 weeks ≈ 450–500vh). */
+const perWeek = () => (window.innerWidth < 768 ? 0.85 : 0.95);
 
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
-const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
-const seg = (u: number, ph: readonly [number, number]) => easeOut(clamp01((u - ph[0]) / ph[1]));
+// cubic-bezier(0.22, 1, 0.36, 1)–like: a long, soft settle.
+const ease = (t: number) => 1 - Math.pow(1 - t, 4);
+const seg = (u: number, ph: readonly [number, number]) => ease(clamp01((u - ph[0]) / ph[1]));
 
-// ─── Static fallback (reduced motion) ─────────────────────────────────────────
-
-function StaticSteps() {
-  return (
-    <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-10">
-      {STEPS.map((step) => (
-        <div key={step.label} className="border-t border-white/[0.07] py-9 md:py-11">
-          <p className="gradient-flow-text text-[11px] font-extrabold uppercase tracking-[0.28em]">
-            {step.label}
-          </p>
-          <h3 className="mt-3 font-sans text-[1.5rem] font-bold leading-[1.15] tracking-[-0.02em] text-white sm:text-[1.75rem]">
-            {step.title}
-          </h3>
-          <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-white/60 sm:text-base">
-            {step.description}
-          </p>
-          <ul className="mt-5 flex flex-wrap gap-x-6 gap-y-2">
-            {step.deliverables.map((d) => (
-              <li key={d} className="flex items-center gap-2 text-[13px] text-white/60">
-                <span className="h-[5px] w-[5px] flex-none rotate-45 bg-gradient-to-br from-[#ff2f86] to-[#a855f7]" />
-                {d}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-// ─── Main section ─────────────────────────────────────────────────────────────
+const Headline: React.FC<{ w: Week }> = ({ w }) => (
+  <h3 className="jr-head" aria-label={w.aria}>
+    <span className="jr-lead">{w.lead}</span>
+    <span className="jr-accent">{w.accent}</span>
+  </h3>
+);
 
 export function Process() {
   const reduced = useReducedMotion();
@@ -137,72 +151,36 @@ export function Process() {
     const stage = stageRef.current;
     if (!pin || !stage) return;
 
-    // Explicitly typed: under this tsconfig `Array.from` on a NodeList widens
-    // to unknown[].
-    const panels: HTMLElement[] = [].slice.call(pin.querySelectorAll('.pf-panel'));
-    const ticks: HTMLElement[] = [].slice.call(pin.querySelectorAll('.pf-stepper i'));
+    const panels: HTMLElement[] = [].slice.call(pin.querySelectorAll('.jr-panel'));
+    const ticks: HTMLElement[] = [].slice.call(pin.querySelectorAll('.jr-progress i'));
     const N = panels.length;
-    if (!N) return;
-
     let scrollable = 1;
     let raf = 0;
 
-    /** Measure how far each marker must travel to reach the centre of the stage.
-     *  Both rects are read at the same instant, so the delta is independent of
-     *  where the stage currently sits in the viewport. */
     const layout = () => {
-      // Sized in px off the stage's own height rather than in vh: the stage is
-      // 100svh, and mixing svh with vh drifts on mobile when the URL bar moves.
+      // px off the stage's own height (100svh), not vh, so the mobile URL bar
+      // can't change the pin length mid-scroll.
       const stageH = stage.offsetHeight;
-      pin.style.height = `${Math.round(N * stepFactor() * stageH)}px`;
-      // A sticky element travels for (container height − its own height).
+      pin.style.height = `${Math.round(N * perWeek() * stageH + stageH * 0.35)}px`;
       scrollable = Math.max(1, pin.offsetHeight - stageH);
-
-      const s = stage.getBoundingClientRect();
-      const cx = s.left + s.width / 2;
-      const cy = s.top + s.height / 2;
-
-      panels.forEach((p) => {
-        const marker = p.querySelector('.pf-marker');
-        if (!marker) return;
-        const m = marker.getBoundingClientRect();
-        p.style.setProperty('--tx', `${(cx - (m.left + m.width / 2)).toFixed(1)}px`);
-        p.style.setProperty('--ty', `${(cy - (m.top + m.height / 2)).toFixed(1)}px`);
-      });
     };
 
-    /** One global progress value drives everything, so scrolling back up simply
-     *  plays the sequence in reverse. */
     const update = () => {
       raf = 0;
       const top = pin.getBoundingClientRect().top;
-      const g = Math.min(N, (-top / scrollable) * N);
-
+      // A little lead-in, so Week 0 builds as the stage arrives, not after.
+      const g = Math.min(N - 0.001, (-top / scrollable) * N + 0.18);
       for (let k = 0; k < N; k++) {
-        const p = panels[k];
-        const st = p.style;
         const u = g - k;
-
         const out = k === N - 1 ? 0 : seg(u, PHASE.exit);
-        const fade = 1 - out;
-        const settle = seg(u, PHASE.settle);
-
-        st.setProperty('--io', (seg(u, PHASE.appear) * fade).toFixed(3));
-        st.setProperty('--sc', (1 + (1 - settle) * (BIG_SCALE - 1)).toFixed(3));
-        st.setProperty('--st', settle.toFixed(3));
-        st.setProperty('--ring', seg(u, PHASE.ring).toFixed(3));
-        st.setProperty('--draw', seg(u, PHASE.draw).toFixed(3));
-        st.setProperty('--lb', (seg(u, PHASE.label) * fade).toFixed(3));
-        st.setProperty('--ti', (seg(u, PHASE.title) * fade).toFixed(3));
-        st.setProperty('--su', (seg(u, PHASE.sub) * fade).toFixed(3));
-        st.setProperty('--ex', out.toFixed(3));
-
-        const chips = p.querySelectorAll<HTMLElement>('.pf-chip');
-        for (let c = 0; c < chips.length; c++) {
-          const ph: readonly [number, number] = [PHASE.chip0[0] + c * CHIP_GAP, PHASE.chip0[1]];
-          chips[c].style.setProperty('--c', (seg(u, ph) * fade).toFixed(3));
-        }
-
+        const s = panels[k].style;
+        s.setProperty('--mk', (seg(u, PHASE.mark) * (1 - out)).toFixed(3));
+        s.setProperty('--ring', seg(u, PHASE.ring).toFixed(3));
+        s.setProperty('--lb', (seg(u, PHASE.label) * (1 - out)).toFixed(3));
+        s.setProperty('--hd', seg(u, PHASE.head).toFixed(3));
+        s.setProperty('--k', seg(u, PHASE.build).toFixed(3));
+        s.setProperty('--ex', out.toFixed(3));
+        panels[k].toggleAttribute('data-live', u > -0.25 && u < 1);
         ticks[k]?.style.setProperty('--f', clamp01(u).toFixed(3));
       }
     };
@@ -217,14 +195,10 @@ export function Process() {
 
     layout();
     update();
-
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onResize);
-    // Late webfont / image loads change the measured geometry.
-    if (document.fonts?.ready) document.fonts.ready.then(onResize).catch(() => {});
     const ro = new ResizeObserver(onResize);
     ro.observe(stage);
-
     return () => {
       if (raf) cancelAnimationFrame(raf);
       window.removeEventListener('scroll', onScroll);
@@ -236,30 +210,22 @@ export function Process() {
 
   return (
     // No `overflow-hidden` here: it would silently break the sticky stage.
-    <section id="process" className="relative bg-black">
-      {/* Ambient wash — a gradient rather than a large blurred box, which would
-          cost a full-screen multi-pass blur on every frame of the pin. */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        aria-hidden="true"
-        style={{
-          background:
-            'radial-gradient(ellipse 55% 40% at 50% 30%, rgba(168,85,247,0.07), transparent 70%)',
-        }}
-      />
-
-      {/* Shared gradient for every ring and icon stroke on this page. */}
+    <section id="process" className="relative bg-[#050505]">
+      {/* Shared stroke gradient for every ring and accent line. */}
       <svg width="0" height="0" aria-hidden="true" className="absolute">
         <defs>
-          <linearGradient id="pfProcessGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="#ff2f86" />
-            <stop offset="0.55" stopColor="#d946ef" />
-            <stop offset="1" stopColor="#a855f7" />
+          <linearGradient id="jrGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="#e11ae6" />
+            <stop offset="1" stopColor="#9b5cf6" />
           </linearGradient>
+          <radialGradient id="jrDisc" cx="50%" cy="38%" r="70%">
+            <stop offset="0" stopColor="#9b5cf6" stopOpacity="0.28" />
+            <stop offset="1" stopColor="#9b5cf6" stopOpacity="0.04" />
+          </radialGradient>
         </defs>
       </svg>
 
-      {/* ── Section header (unchanged) ── */}
+      {/* ── Section header ── */}
       <motion.div
         className="relative z-10 flex flex-col items-center px-4 pt-12 text-center sm:px-6 md:pt-14 lg:px-10"
         initial={reduced ? false : { opacity: 0, y: 28 }}
@@ -276,57 +242,38 @@ export function Process() {
         >
           4 WEEKS.
         </span>
-        <p className="mt-5 max-w-md text-[14px] leading-relaxed text-white/55 sm:text-base">
-          Small team. Direct line to the founder. No agency theatre.
-        </p>
       </motion.div>
 
       {reduced ? (
-        <div className="relative z-10 pb-14 pt-10">
-          <StaticSteps />
+        // Reduced motion: the same five frames, simply stacked.
+        <div className="relative z-10 mx-auto flex max-w-[1080px] flex-col gap-20 px-5 pb-20 pt-16 sm:px-8">
+          {WEEKS.map((w, i) => (
+            <div key={w.label} className="jr-frame jr-static" style={{ ['--k' as string]: 1, ['--ring' as string]: 1 }}>
+              <div className="jr-side">
+                <Mark last={i === WEEKS.length - 1}>{w.mark}</Mark>
+                <p className="jr-label">{w.label}</p>
+              </div>
+              <Headline w={w} />
+            </div>
+          ))}
         </div>
       ) : (
-        <div ref={pinRef} className="pf-pin relative z-10">
-          <div ref={stageRef} className="pf-stage">
-            <div className="pf-eyebrow">How the four weeks run</div>
-
-            {STEPS.map((step) => (
-              <div className="pf-panel" key={step.label}>
-                <div className="pf-inner">
-                  <div className="pf-marker">
-                    <div className="pf-move">
-                      <div className="pf-disc">
-                        <span className="pf-halo" />
-                        <svg className="pf-ring" viewBox="0 0 100 100" aria-hidden="true">
-                          <circle className="pf-ring-track" cx="50" cy="50" r="49" />
-                          <circle className="pf-ring-prog" cx="50" cy="50" r="49" pathLength={1} />
-                        </svg>
-                        <svg className="pf-ico" viewBox="0 0 24 24" aria-hidden="true">
-                          {step.icon}
-                        </svg>
-                      </div>
-                      <div className="pf-label">{step.label}</div>
-                    </div>
+        <div ref={pinRef} className="relative z-10">
+          <div ref={stageRef} className="jr-stage">
+            {WEEKS.map((w, i) => (
+              <div className="jr-panel" key={w.label}>
+                <div className="jr-frame">
+                  <div className="jr-side">
+                    <Mark last={i === WEEKS.length - 1}>{w.mark}</Mark>
+                    <p className="jr-label">{w.label}</p>
                   </div>
-
-                  <div>
-                    <h3 className="pf-title font-sans">{step.title}</h3>
-                    <p className="pf-sub">{step.description}</p>
-                    <ul className="pf-chips">
-                      {step.deliverables.map((d) => (
-                        <li className="pf-chip" key={d}>
-                          {d}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  <Headline w={w} />
                 </div>
               </div>
             ))}
-
-            <div className="pf-stepper" aria-hidden="true">
-              {STEPS.map((s) => (
-                <i key={s.label} />
+            <div className="jr-progress" aria-hidden="true">
+              {WEEKS.map((w) => (
+                <i key={w.label} />
               ))}
             </div>
           </div>

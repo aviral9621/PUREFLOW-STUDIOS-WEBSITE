@@ -3,8 +3,6 @@ import { motion } from 'framer-motion';
 import {
   Instagram,
   Linkedin,
-  Github,
-  Twitter,
   MessageCircle,
   Mail,
   Phone,
@@ -50,8 +48,6 @@ export const Footer: React.FC<FooterProps> = ({ onViewChange }) => {
   const socials = [
     { icon: Instagram, href: 'https://instagram.com/pureflowstudios', label: 'Instagram' },
     { icon: Linkedin, href: 'https://www.linkedin.com/company/pureflow-studios', label: 'LinkedIn' },
-    { icon: Github, href: 'https://github.com/pureflow-studios', label: 'GitHub' },
-    { icon: Twitter, href: 'https://x.com/pureflowstudios', label: 'X / Twitter' },
   ];
 
   const legal: { label: string; view: ViewState }[] = [

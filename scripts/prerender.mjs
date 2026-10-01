@@ -49,6 +49,8 @@ const DROP = ['svg', 'script', 'style', 'noscript', 'iframe', 'video', 'audio', 
 function reduce(html) {
   let out = html;
   for (const t of DROP) out = out.replace(new RegExp(`<${t}\\b[\\s\\S]*?<\\/${t}>`, 'gi'), ' ');
+  // An image with alt text (a client logo standing in for its name) keeps that text.
+  out = out.replace(/<img\b[^>]*?\salt="([^"]+)"[^>]*>/gi, ' $1 ');
   out = out.replace(/<(img|input|source|track|hr|meta|link)\b[^>]*>/gi, ' ');
   out = out.replace(/<!--[\s\S]*?-->/g, '');
   // Rebuild every tag: keep a whitelist (href only on <a>), unwrap the rest.
@@ -64,7 +66,7 @@ function reduce(html) {
   });
   // Unlinked anchors become plain text; collapse whitespace; drop empty elements.
   out = out.replace(/<a>([\s\S]*?)<\/a>/g, '$1').replace(/\s+/g, ' ');
-  for (let i = 0; i < 6; i++) out = out.replace(/<(\w+)>\s*<\/\1>/g, ' ');
+  for (let i = 0; i < 6; i++) out = out.replace(/<(\w+)>\s*<\/\1>/g, ' ').replace(/<a href="[^"]*">\s*<\/a>/g, ' ');
   return out.trim();
 }
 
@@ -123,8 +125,17 @@ function buildHtml(template, { meta, robots, content, links, jsonLd }) {
   return html.replace('<div id="root"></div>', `<div id="root">${block}</div>`);
 }
 
+/** Comments out, JSON-LD minified, whitespace between tags collapsed: less markup
+ *  per page, so the content is a larger share of it. */
+function tidy(html) {
+  return html
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/(<script type="application\/ld\+json"[^>]*>)([\s\S]*?)(<\/script>)/g, (_, a, json, b) => a + JSON.stringify(JSON.parse(json)) + b)
+    .replace(/>\s+</g, '><');
+}
+
 async function run() {
-  const template = await readFile(join(DIST, 'index.html'), 'utf8');
+  const template = tidy(await readFile(join(DIST, 'index.html'), 'utf8'));
   const vite = await createServer({
     root: ROOT,
     logLevel: 'error',
@@ -146,11 +157,16 @@ async function run() {
       const meta = ssg.meta(r.view, r.slug);
       let content = '';
       if (r.index) {
-        const { html, error } = await ssg.render(r.view, r.slug);
+        const { main, footer, error } = await ssg.render(r.view, r.slug);
         if (error) console.warn(`[prerender] ${r.path}: rendered without page content (${error})`);
+        // One <main> holding the page (crawlers measure the page by it), the footer after it.
+        const SPLIT = '\u0000';
         noJumps.open = [];
-        content = noJumps(oneH1(reduce(html), meta.title.split(' | ')[0]));
-        const words = content.replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length;
+        const [body, foot] = noJumps(
+          oneH1(reduce(main).replace(/<\/?main>/g, ' ') + SPLIT + reduce(footer), meta.title.split(' | ')[0])
+        ).split(SPLIT);
+        content = `<main>${body}</main>${foot}`;
+        const words = body.replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length;
         if (words < 250) {
           thin++;
           console.warn(`[prerender] ${r.path}: only ${words} words of content`);

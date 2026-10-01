@@ -199,8 +199,42 @@ const deliverables = (k: ServiceKey, heading: string) => {
   );
 };
 
-function supplement(view: ViewState): string {
+const otherWork = (slug: string | null, heading = 'More of our work') =>
+  `<section><h2>${esc(heading)}</h2>` +
+  CASE_STUDIES.filter((c) => c.slug !== slug)
+    .map(
+      (c) =>
+        `<h3><a href="${viewToPath('work-post', c.slug)}">${esc(c.card?.name ?? c.name)}</a></h3>` +
+        `<p>${esc([c.card?.showcaseLine, c.tagline].filter(Boolean).join(': '))}</p>`
+    )
+    .join('') +
+  `</section>`;
+
+const why = () =>
+  `<section><h2>Why teams work with Pureflow</h2>` +
+  WHY.map((w) => `<h3>${esc(w.title)}</h3><p>${esc(w.description)}</p>`).join('') +
+  `</section>`;
+
+function supplement(view: ViewState, slug: string | null): string {
+  if (view.startsWith('service-') && view in SERVICES) {
+    return (
+      `<section><h2>Other services</h2>` +
+      SERVICE_ORDER.filter((k) => k !== view)
+        .map((k) => {
+          const sv = SERVICES[k];
+          return `<h3><a href="${viewToPath(k)}">${esc(`${sv.headline} ${sv.headlineAccent}`)}</a></h3><p>${esc(sv.intro)}</p>`;
+        })
+        .join('') +
+      `</section>`
+    );
+  }
   switch (view) {
+    case 'work-post':
+      return otherWork(slug);
+    case 'cookies':
+    case 'refund-policy':
+    case 'about':
+      return serviceSummaries('What we build');
     case 'work':
       return (
         `<section><h2>Case studies</h2>` +
@@ -210,51 +244,52 @@ function supplement(view: ViewState): string {
             `<p>${esc([c.card?.showcaseLine, c.tagline].filter(Boolean).join(': '))}</p>` +
             `<p>${esc(`Industry: ${c.snapshot.industry}. Services: ${c.snapshot.services}. Platforms: ${c.snapshot.platforms}.`)}</p>`
         ).join('') +
-        `</section>`
+        `</section>` +
+        why()
       );
     case 'services':
-      return serviceSummaries('What we build');
+      return serviceSummaries('What we build') + why() + otherWork(null, 'Recent projects');
     case 'contact':
-      return serviceSummaries('What we can help with');
+      return serviceSummaries('What we can help with') + why() + otherWork(null, 'Recent projects');
     case 'blog':
       return (
         `<section><h2>Latest articles</h2>` +
         POSTS.map(
           (p) =>
             `<h3><a href="${viewToPath('blog-post', p.slug)}">${esc(p.title)}</a></h3>` +
-            `<p>${esc(p.excerpt)}</p><p>${esc(`${p.category} · ${p.readTime} · by ${p.author}`)}</p>`
+            `<p>${esc(p.excerpt)}</p>` +
+            `<p>${esc(p.content.find((b) => b.type === 'paragraph')?.text ?? '')}</p>` +
+            `<p>${esc(`${p.category} · ${p.readTime} · by ${p.author}`)}</p>`
         ).join('') +
         `</section>`
       );
     case 'crm-demo':
-      return (
-        deliverables('service-crm', 'What goes into a custom CRM') +
-        `<section><h2>Why teams work with Pureflow</h2>` +
-        WHY.map((w) => `<h3>${esc(w.title)}</h3><p>${esc(w.description)}</p>`).join('') +
-        `</section>`
-      );
+      return (deliverables('service-crm', 'What goes into a custom CRM') + why() + otherWork(null, 'CRMs and systems we have shipped'));
     case 'automation-video':
-      return deliverables('service-software', 'Custom software and automation we build');
+      return deliverables('service-software', 'Custom software and automation we build') + why();
     default:
       return '';
   }
 }
 
-/** Static markup of a route's content plus the site footer; '' if it can't render. */
-export async function render(view: ViewState, slug: string | null): Promise<{ html: string; error?: string }> {
-  try {
-    const { Footer } = await import('../components/Footer');
-    const el = await page(view, slug);
-    const html = renderToStaticMarkup(
+/** Static markup of a route's content (with its supplement) and of the site
+ *  footer, kept apart so the prerender can put only the content in <main>;
+ *  '' if the page can't render. */
+export async function render(
+  view: ViewState,
+  slug: string | null
+): Promise<{ main: string; footer: string; error?: string }> {
+  const wrap = (el: React.ReactElement) =>
+    renderToStaticMarkup(
       <ThemeProvider>
-        <LazyMotion features={domAnimation}>
-          {el}
-          <Footer onViewChange={noop} />
-        </LazyMotion>
+        <LazyMotion features={domAnimation}>{el}</LazyMotion>
       </ThemeProvider>
     );
-    return { html: html + supplement(view) };
+  const { Footer } = await import('../components/Footer');
+  const footer = wrap(<Footer onViewChange={noop} />);
+  try {
+    return { main: wrap(await page(view, slug)) + supplement(view, slug), footer };
   } catch (e) {
-    return { html: '', error: (e as Error).message };
+    return { main: '', footer, error: (e as Error).message };
   }
 }

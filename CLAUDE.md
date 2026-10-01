@@ -24,3 +24,16 @@ Non-negotiables (details in the playbook):
 - When asked for a *prompt*, give the prompt; don't build it in code instead.
 - Check at 1440 / 1024 / 820 / 390 wide and send screenshots.
 - Commit or push only when asked. `git pull` before starting.
+
+## SEO (keep it intact)
+- Canonical origin is **`https://www.pureflowstudios.in`** (`BASE_URL` in `lib/seo.ts`).
+  pureflowdesigns.com redirects there (`vercel.json`). Never hard-code another domain.
+- `npm run build` prerenders every route (`scripts/prerender.mjs` + `scripts/ssg-entry.tsx`):
+  the page's real React content goes into `#root` for crawlers, and titles,
+  descriptions, canonicals, the sitemap and noindex flags all come from `lib/seo.ts`,
+  `lib/router.ts` and the data files. A new page/route needs a case in
+  `ssg-entry.tsx` (`page()`), or it ships without crawlable content.
+- Titles 30–60 chars (`fitTitle`), descriptions ≤155 (`fitDescription`); one `<h1>`
+  per page and no skipped heading levels.
+- The Content-Security-Policy lives in `vercel.json`. A new third-party script,
+  iframe or API host must be added there. Test with a production build first.

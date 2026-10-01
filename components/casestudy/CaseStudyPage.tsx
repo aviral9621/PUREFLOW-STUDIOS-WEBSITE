@@ -26,11 +26,9 @@ interface Props {
 export const CaseStudyPage: React.FC<Props> = ({ caseStudy, onViewChange }) => {
   const reduced = useReducedMotion();
 
+  // Title, description and canonical come from lib/seo.ts (useDocumentMeta in App).
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = `${caseStudy.name} — Pureflow Studios`;
-    const meta = document.head.querySelector<HTMLMetaElement>('meta[name="description"]');
-    if (meta) meta.content = `${caseStudy.name} — ${caseStudy.tagline}`;
   }, [caseStudy]);
 
   return (

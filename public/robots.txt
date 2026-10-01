@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://pureflowdesigns.com/sitemap.xml
+Sitemap: https://www.pureflowstudios.in/sitemap.xml

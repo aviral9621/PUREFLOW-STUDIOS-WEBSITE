@@ -31,6 +31,8 @@ export interface BlogPost {
   slug: string;
   category: BlogCategory;
   title: string;
+  /** Shorter title for search results (≤ ~41 chars fits " | Pureflow Studios"). */
+  seoTitle?: string;
   excerpt: string;
   readTime: string;
   date: string;
@@ -45,6 +47,7 @@ export const POSTS: BlogPost[] = [
     slug: 'ai-automation-for-small-businesses-2026',
     category: 'AI & Automation',
     title: 'How AI Automation Can Help Small Businesses Grow in 2026',
+    seoTitle: 'AI Automation for Small Businesses in 2026',
     excerpt:
       'Not the "fire your team" version. The version where four hours of copy-paste a day quietly disappears and nobody notices except your margins.',
     readTime: '6 min read',
@@ -125,6 +128,7 @@ export const POSTS: BlogPost[] = [
     slug: 'high-performance-website-for-growing-business-2026',
     category: 'Web Development',
     title: 'Why Every Growing Business Needs a High-Performance Website in 2026',
+    seoTitle: 'Why Growing Businesses Need a Fast Website',
     excerpt:
       'Your site is not a brochure any more. It is the first employee every customer meets — and a slow one costs you real money.',
     readTime: '5 min read',
@@ -203,6 +207,7 @@ export const POSTS: BlogPost[] = [
     slug: 'custom-software-vs-ready-made-software',
     category: 'Software',
     title: 'Custom Software vs Ready-Made Software: Which Is Better for Your Business?',
+    seoTitle: 'Custom vs Ready-Made Software',
     excerpt:
       'The honest answer is that off-the-shelf wins more often than agencies admit — until one specific thing changes.',
     readTime: '5 min read',
@@ -275,6 +280,7 @@ export const POSTS: BlogPost[] = [
     slug: 'google-gemini-omni-for-small-business',
     category: 'Tech Trends',
     title: "Google's Gemini Omni: what it actually means for small businesses",
+    seoTitle: 'Gemini Omni for Small Businesses',
     excerpt:
       'Gemini Omni isn’t another chatbot. It’s a multimodal model that can read your CRM, watch your dashboard, and act — here’s how to use it without setting your data on fire.',
     readTime: '6 min read',

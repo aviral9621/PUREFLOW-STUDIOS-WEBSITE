@@ -1,141 +1,27 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Post-build SSG: for every route, write a static dist/<path>/index.html with a
-// unique <title> + meta description + canonical + OG/Twitter, plus a hidden,
-// crawlable SEO block (h1 + description + internal links). The React app still
-// hydrates client-side as usual (it only controls #root). Also emits sitemap.xml.
+// Post-build SSG. For every route, write dist/<path>/index.html with:
+//   • a unique <title>, meta description, canonical, OG/Twitter tags and
+//     route JSON-LD (CreativeWork / BlogPosting + BreadcrumbList);
+//   • the page's real content, server-rendered from its React component by
+//     scripts/ssg-entry.tsx and reduced to clean semantic HTML, inside #root
+//     (React replaces it on mount, so visitors never see it twice);
+//   • a crawlable link list to every indexable page.
+// Also writes 404.html and sitemap.xml.
 //
-// Keep the PAGES list in sync with lib/seo.ts (META) + lib/caseStudies.ts + lib/blog.ts.
+// Routes, titles and canonicals come from the app itself (lib/router.ts,
+// lib/seo.ts, lib/caseStudies.ts, lib/showcases.ts, lib/blog.ts) through
+// Vite's SSR loader, so this file never needs a hand-kept page list.
 // Run after `vite build` (see package.json).
 // ─────────────────────────────────────────────────────────────────────────────
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createServer } from 'vite';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const DIST = join(__dirname, '..', 'dist');
-const BASE_URL = 'https://pureflowdesigns.com';
+const ROOT = join(__dirname, '..');
+const DIST = join(ROOT, 'dist');
 const SITE = 'Pureflow Studios';
-const DEFAULT_OG = `${BASE_URL}/logo/pureflow-favicon-512.png`;
-
-const PAGES = [
-  { path: '/', priority: '1.0', h1: 'PureFlow Studios — software, CRMs, AI agents & web apps',
-    title: `${SITE} — Custom Software, CRMs, AI Agents & Web Apps`,
-    description: 'Custom software, CRMs, AI agents, and websites that turn manual chaos into measurable systems. A Lucknow-based design and engineering studio.' },
-
-  { path: '/work', priority: '0.9', h1: 'Our Work — Case Studies',
-    title: `Our Work — Case Studies | ${SITE}`,
-    description: 'Every case study Pureflow Studios has shipped — custom CRMs, hotel tech, edtech, travel, herbal commerce, and more.' },
-
-  { path: '/services', priority: '0.9', h1: 'Services',
-    title: `Services — Custom Software, CRMs, AI Agents | ${SITE}`,
-    description: 'Our service offering: custom software, CRMs and dashboards, AI agents, mobile and web apps, brand & content, Meta ads management.' },
-  { path: '/services/software', priority: '0.8', title: `Custom Software Development — ${SITE}`,
-    description: 'We build bespoke software, internal tools, and dashboards on Next.js + Supabase. No templates, no WordPress — actual software.' },
-  { path: '/services/crm', priority: '0.8', title: `CRM & Dashboard Development — ${SITE}`,
-    description: 'Commission engines, KYC portals, lead pipelines, custom CRMs — built to replace WhatsApp chaos with a real system.' },
-  { path: '/services/mobile', priority: '0.8', title: `Mobile App Development — ${SITE}`,
-    description: 'iOS + Android apps under one budget. PWA-first or React Native, depending on what your users actually need.' },
-  { path: '/services/website', priority: '0.8', title: `Website Development — ${SITE}`,
-    description: 'Marketing sites, booking portals, agency websites. Built on Next.js + Tailwind. Fast, SEO-optimised, designed to convert.' },
-  { path: '/services/social', priority: '0.7', title: `Social Media & Brand — ${SITE}`,
-    description: 'Content strategy, reel scripts, AI-generated product visuals, brand voice — for travel, healthcare, and edtech founders.' },
-  { path: '/services/ads', priority: '0.7', title: `Meta Ads Management — ${SITE}`,
-    description: 'Facebook + Instagram ad campaigns that chase ROAS, not vanity metrics. Creative, copy, targeting, and weekly reporting.' },
-
-  { path: '/about', priority: '0.7', title: `About — A small studio, built to ship | ${SITE}`,
-    description: 'Pureflow Studios is a Gen-Z software studio founded by Aviral Singh — 10 people, 100+ products shipped, built on referrals.' },
-  { path: '/blog', priority: '0.8', h1: 'Good Stuff — Blog & Field Notes',
-    title: `Good Stuff — Blog & Field Notes | ${SITE}`,
-    description: 'Field notes on AI, automation, CRMs, and the boring software that quietly runs growing businesses. From the Pureflow Studios team.' },
-  { path: '/contact', priority: '0.7', title: `Contact — ${SITE}`,
-    description: 'Talk to Pureflow Studios about your project. Email support@pureflowdesigns.com or message us on WhatsApp.' },
-  { path: '/crm-demo', priority: '0.5', title: `CRM Demo — ${SITE}`,
-    description: 'See a live demo of the CRMs and dashboards we build for our clients.' },
-  { path: '/automation', priority: '0.5', title: `AI & Automation — ${SITE}`,
-    description: 'See how AI agents and automations are transforming small businesses in real time.' },
-
-  { path: '/get-started/website', priority: '0.5', title: `Get a Website Built — ${SITE}`,
-    description: 'Tell us what you need. Fixed-price proposal in 48 hours, live in weeks. No retainer required to start.' },
-  { path: '/get-started/software', priority: '0.5', title: `Get Custom Software Built — ${SITE}`,
-    description: 'CRMs, dashboards, internal tools — get a fixed-price proposal in 48 hours. No middlemen, direct line to the founder.' },
-  { path: '/get-started/mobile', priority: '0.5', title: `Get an App Built — ${SITE}`,
-    description: 'Mobile app development for iOS and Android. PWA or native — fixed-price proposal in 48 hours.' },
-  { path: '/get-started/social', priority: '0.5', title: `Get Social Media Done — ${SITE}`,
-    description: 'Monthly content strategy, reels, and brand-aligned creatives. Pricing in 24 hours.' },
-  { path: '/get-started/ads', priority: '0.5', title: `Get Ads Run — ${SITE}`,
-    description: 'Meta ads management. Performance-focused, transparently reported, no vanity metrics.' },
-
-  { path: '/start-project', priority: '0.4', title: `Start a Project — ${SITE}`,
-    description: 'Tell us what you’re building. Six quick questions and we’ll come back with a fixed-price proposal in 48 hours.' },
-  { path: '/start', priority: '0.4', title: `Get a Free Consultation — ${SITE}`,
-    description: 'Tell us about your business in a minute. Our team calls you back within 24 hours with the right software, website or app plan.' },
-  { path: '/book-call', priority: '0.4', title: `Book a Call — ${SITE}`,
-    description: 'Pick a date and time for a free 15- or 30-minute call with the Pureflow Studios team.' },
-  { path: '/privacy', priority: '0.2', title: `Privacy Policy — ${SITE}`,
-    description: 'How Pureflow Studios collects, uses, and protects the personal data you share with us.' },
-  { path: '/terms', priority: '0.2', title: `Terms of Service — ${SITE}`,
-    description: 'The terms governing your use of pureflowdesigns.com and the services delivered by Pureflow Studios.' },
-  { path: '/cookies', priority: '0.2', title: `Cookie Policy — ${SITE}`,
-    description: 'The cookies and similar technologies in use on Pureflow Studios and how to control them.' },
-  { path: '/refund-policy', priority: '0.2', title: `Refund Policy — ${SITE}`,
-    description: 'Pureflow Studios refund policy for guaranteed-growth social media engagements.' },
-
-  // ── Case studies ──
-  { path: '/work/quick-hotels', priority: '0.9', h1: 'Quick Hotels',
-    title: `Quick Hotels — Booking Website + PMS | Case Study | ${SITE}`,
-    description: 'A booking website and a property management system on one backend, for budget-friendly stays across India.' },
-  { path: '/work/herbal-vantage', priority: '0.9', h1: 'Herbal Vantage',
-    title: `Herbal Vantage — MLM Software + Online Store | Case Study | ${SITE}`,
-    description: 'An MLM system for members, packages, KYC, wallets and payouts, plus a premium Ayurvedic online store.' },
-  { path: '/work/spectrum-tour-travels', priority: '0.9', h1: 'Spectrum Tour & Travels',
-    title: `Spectrum Tour & Travels — Travel CRM | Case Study | ${SITE}`,
-    description: 'One CRM for a travel agency: leads, tour packages, quotations, bookings, invoices, IVR and the website.' },
-  // UnSkills' institute management system is a showcase (lib/showcases.ts).
-  { path: '/work/unskills-computer-education-crm', priority: '0.9', h1: 'UnSkills Computer Education',
-    title: `UnSkills Computer Education — Institute Management System | Case Study | ${SITE}`,
-    description: 'One management system for a multi-branch institute.' },
-  { path: '/work/smart-agro', priority: '0.9', h1: 'Smart Agro',
-    title: `Smart Agro — Agri Business Management System | Case Study | ${SITE}`,
-    description: 'One system for an entire agri business: leads, WhatsApp, e-commerce, inventory and GST accounting.' },
-  { path: '/work/ecommerce-retail-platform', priority: '0.8', h1: 'Quick Hotels',
-    title: `Quick Hotels — Hotel Management Software | Case Study | ${SITE}`,
-    description: 'One dashboard to run every hotel: bookings, check-ins, rooms, invoices, commission, GST and hotel payouts.' },
-
-  // ── Blog posts ──
-  { path: '/blog/ai-automation-for-small-businesses-2026', priority: '0.7',
-    h1: 'How AI Automation Can Help Small Businesses Grow in 2026',
-    title: `How AI Automation Can Help Small Businesses Grow in 2026 | ${SITE}`,
-    description: 'Not the "fire your team" version. The version where four hours of copy-paste a day quietly disappears and nobody notices except your margins.',
-    image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=1600&q=80' },
-  { path: '/blog/high-performance-website-for-growing-business-2026', priority: '0.7',
-    h1: 'Why Every Growing Business Needs a High-Performance Website in 2026',
-    title: `Why Every Growing Business Needs a High-Performance Website in 2026 | ${SITE}`,
-    description: 'Your site is not a brochure any more. It is the first employee every customer meets — and a slow one costs you real money.',
-    image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=1600&q=80' },
-  { path: '/blog/custom-software-vs-ready-made-software', priority: '0.7',
-    h1: 'Custom Software vs Ready-Made Software: Which Is Better for Your Business?',
-    title: `Custom Software vs Ready-Made Software: Which Is Better for Your Business? | ${SITE}`,
-    description: 'The honest answer is that off-the-shelf wins more often than agencies admit — until one specific thing changes.',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=80' },
-  { path: '/blog/google-gemini-omni-for-small-business', priority: '0.7',
-    h1: "Google's Gemini Omni: what it actually means for small businesses",
-    title: `Google's Gemini Omni: what it actually means for small businesses | ${SITE}`,
-    description: 'Gemini Omni isn’t another chatbot. It’s a multimodal model that can read your CRM, watch your dashboard, and act — here’s how to use it without setting your data on fire.',
-    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=80' },
-];
-
-// Internal links injected into every page's hidden SEO block (crawl paths).
-const SEO_LINKS = [
-  ['/', 'Home'], ['/work', 'Work'], ['/services', 'Services'], ['/about', 'About'],
-  ['/blog', 'Good Stuff'], ['/contact', 'Contact'],
-  ['/work/quick-hotels', 'Quick Hotels case study'],
-  ['/work/herbal-vantage', 'Herbal Vantage case study'],
-  ['/work/spectrum-tour-travels', 'Spectrum Tour & Travels case study'],
-  ['/blog/ai-automation-for-small-businesses-2026', 'AI automation for small businesses'],
-  ['/blog/high-performance-website-for-growing-business-2026', 'High-performance websites'],
-  ['/blog/custom-software-vs-ready-made-software', 'Custom vs ready-made software'],
-  ['/blog/google-gemini-omni-for-small-business', 'Gemini Omni for small business'],
-];
 
 const escText = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const escAttr = (s) => escText(s).replace(/"/g, '&quot;');
@@ -147,77 +33,181 @@ function setMeta(html, attr, name, value) {
   return html.replace('</head>', `    ${tag}\n  </head>`);
 }
 
-function buildHtml(template, page) {
-  const url = BASE_URL + page.path;
-  const img = page.image || DEFAULT_OG;
+// ── Markup reduction ─────────────────────────────────────────────────────────
+// React's static output is always well-formed, so a tag-level pass is enough:
+// drop media and decorative layers, keep headings / text / lists / links, and
+// strip every attribute except a link's href.
+
+const KEEP = new Set([
+  'main', 'header', 'footer', 'nav', 'section', 'article', 'aside',
+  'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'ul', 'ol', 'li', 'dl', 'dt', 'dd',
+  'blockquote', 'figure', 'figcaption', 'a', 'strong', 'em', 'b', 'i', 'code', 'pre', 'br',
+]);
+// Removed together with everything inside them.
+const DROP = ['svg', 'script', 'style', 'noscript', 'iframe', 'video', 'audio', 'picture', 'canvas', 'form', 'select', 'textarea', 'template'];
+
+function reduce(html) {
+  let out = html;
+  for (const t of DROP) out = out.replace(new RegExp(`<${t}\\b[\\s\\S]*?<\\/${t}>`, 'gi'), ' ');
+  out = out.replace(/<(img|input|source|track|hr|meta|link)\b[^>]*>/gi, ' ');
+  out = out.replace(/<!--[\s\S]*?-->/g, '');
+  // Rebuild every tag: keep a whitelist (href only on <a>), unwrap the rest.
+  out = out.replace(/<(\/?)([a-zA-Z][a-zA-Z0-9-]*)\b([^>]*)>/g, (_, close, tag, attrs) => {
+    const t = tag.toLowerCase();
+    if (!KEEP.has(t)) return t === 'div' || t === 'span' || t === 'button' || t === 'label' ? ' ' : ' ';
+    if (close) return `</${t}>`;
+    if (t === 'a') {
+      const href = /\shref="([^"]*)"/.exec(attrs)?.[1];
+      return href && !href.startsWith('javascript:') ? `<a href="${href}">` : '<a>';
+    }
+    return `<${t}>`;
+  });
+  // Unlinked anchors become plain text; collapse whitespace; drop empty elements.
+  out = out.replace(/<a>([\s\S]*?)<\/a>/g, '$1').replace(/\s+/g, ' ');
+  for (let i = 0; i < 6; i++) out = out.replace(/<(\w+)>\s*<\/\1>/g, ' ');
+  return out.trim();
+}
+
+/** No skipped levels: a heading may sit at most one level below the previous one
+ *  (an <h3> card title straight under the page's <h1> becomes an <h2>). */
+function noJumps(html) {
+  let prev = 0;
+  return html.replace(/<(\/?)h([1-6])>/g, (m, close, n) => {
+    if (close) return `</h${noJumps.open.pop() ?? n}>`;
+    const lvl = Math.min(Number(n), prev + 1);
+    prev = lvl;
+    noJumps.open.push(lvl);
+    return `<h${lvl}>`;
+  });
+}
+noJumps.open = [];
+
+/** Exactly one <h1>: the page's own, else the route title; any extras become <h2>. */
+function oneH1(html, fallback) {
+  let seen = false;
+  const out = html.replace(/<h1>([\s\S]*?)<\/h1>/g, (m, inner) => {
+    if (!seen) {
+      seen = true;
+      return m;
+    }
+    return `<h2>${inner}</h2>`;
+  });
+  return seen ? out : `<h1>${escText(fallback)}</h1>${out}`;
+}
+
+// ── Page assembly ────────────────────────────────────────────────────────────
+
+function buildHtml(template, { meta, robots, content, links, jsonLd }) {
   let html = template;
-
-  html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${escText(page.title)}</title>`);
-  html = setMeta(html, 'name', 'description', page.description);
-  html = setMeta(html, 'property', 'og:title', page.title);
-  html = setMeta(html, 'property', 'og:description', page.description);
-  html = setMeta(html, 'property', 'og:url', url);
-  html = setMeta(html, 'property', 'og:image', img);
-  html = setMeta(html, 'name', 'twitter:title', page.title);
-  html = setMeta(html, 'name', 'twitter:description', page.description);
-  html = setMeta(html, 'name', 'twitter:image', img);
-
-  const canonical = `<link rel="canonical" href="${url}" />`;
-  if (/<link\s+rel="canonical"[^>]*>/i.test(html)) {
-    html = html.replace(/<link\s+rel="canonical"[^>]*>/i, canonical);
-  } else {
-    html = html.replace('</head>', `    ${canonical}\n  </head>`);
+  html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${escText(meta.title)}</title>`);
+  html = setMeta(html, 'name', 'description', meta.description);
+  html = setMeta(html, 'name', 'robots', robots);
+  html = setMeta(html, 'property', 'og:title', meta.title);
+  html = setMeta(html, 'property', 'og:description', meta.description);
+  html = setMeta(html, 'property', 'og:url', meta.url);
+  html = setMeta(html, 'property', 'og:image', meta.ogImage);
+  html = setMeta(html, 'name', 'twitter:title', meta.title);
+  html = setMeta(html, 'name', 'twitter:description', meta.description);
+  html = setMeta(html, 'name', 'twitter:image', meta.ogImage);
+  html = html.replace(/<link\s+rel="canonical"[^>]*>/i, `<link rel="canonical" href="${meta.url}" />`);
+  if (jsonLd) {
+    html = html.replace(
+      '</head>',
+      `    <script type="application/ld+json" id="ld-route">${JSON.stringify(jsonLd).replace(/</g, '\\u003c')}</script>\n  </head>`
+    );
   }
-
-  const links = SEO_LINKS.map(([href, label]) => `<a href="${href}">${escText(label)}</a>`).join(' ');
-  const seoBlock =
-    `<div id="seo-content" aria-hidden="true" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0;">` +
-    `<h1>${escText(page.h1 || page.title)}</h1><p>${escText(page.description)}</p><nav>${links}</nav></div>`;
-  html = html.replace('</body>', `${seoBlock}</body>`);
-
-  return html;
+  // Inside #root: visually hidden (no flash before JS), replaced when React mounts.
+  const block =
+    `<div id="seo-content" style="position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);border:0">` +
+    `${content}<nav aria-label="Site">${links}</nav></div>`;
+  return html.replace('<div id="root"></div>', `<div id="root">${block}</div>`);
 }
 
 async function run() {
   const template = await readFile(join(DIST, 'index.html'), 'utf8');
+  const vite = await createServer({
+    root: ROOT,
+    logLevel: 'error',
+    server: { middlewareMode: true, hmr: false },
+    appType: 'custom',
+    optimizeDeps: { noDiscovery: true, include: [] },
+  });
 
-  for (const page of PAGES) {
-    const html = buildHtml(template, page);
-    const outDir = page.path === '/' ? DIST : join(DIST, page.path);
-    await mkdir(outDir, { recursive: true });
-    await writeFile(join(outDir, 'index.html'), html, 'utf8');
+  try {
+    const ssg = await vite.ssrLoadModule('/scripts/ssg-entry.tsx');
+    const routes = ssg.routes();
+    const indexable = routes.filter((r) => r.index);
+    const links = indexable
+      .map((r) => `<a href="${r.path}">${escText(ssg.meta(r.view, r.slug).title.split(' | ')[0])}</a>`)
+      .join(' ');
+
+    let thin = 0;
+    for (const r of routes) {
+      const meta = ssg.meta(r.view, r.slug);
+      let content = '';
+      if (r.index) {
+        const { html, error } = await ssg.render(r.view, r.slug);
+        if (error) console.warn(`[prerender] ${r.path}: rendered without page content (${error})`);
+        noJumps.open = [];
+        content = noJumps(oneH1(reduce(html), meta.title.split(' | ')[0]));
+        const words = content.replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length;
+        if (words < 250) {
+          thin++;
+          console.warn(`[prerender] ${r.path}: only ${words} words of content`);
+        }
+      } else {
+        content = `<h1>${escText(meta.title.split(' — ')[0].split(' | ')[0])}</h1><p>${escText(meta.description)}</p>`;
+      }
+
+      const crumbs = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: ssg.meta('home', null).url },
+          ...(r.path === '/' ? [] : [{ '@type': 'ListItem', position: 2, name: meta.title.split(' | ')[0], item: meta.url }]),
+        ],
+      };
+      const html = buildHtml(template, {
+        meta,
+        robots: r.index ? 'index, follow, max-image-preview:large, max-snippet:-1' : 'noindex, follow',
+        content,
+        links,
+        jsonLd: meta.extraJsonLd ? [crumbs, meta.extraJsonLd] : crumbs,
+      });
+      const outDir = r.path === '/' ? DIST : join(DIST, r.path);
+      await mkdir(outDir, { recursive: true });
+      await writeFile(join(outDir, 'index.html'), html, 'utf8');
+    }
+
+    // Vercel serves dist/404.html, with a real 404 status, for any request that
+    // matches no other file. React boots and shows the branded 404 view.
+    const nf = ssg.meta('not-found', null);
+    const notFound = buildHtml(template, {
+      meta: nf,
+      robots: 'noindex, follow',
+      content: `<h1>Page not found</h1><p>${escText(nf.description)}</p>`,
+      links,
+      jsonLd: null,
+    });
+    await writeFile(join(DIST, '404.html'), notFound, 'utf8');
+
+    const lastmod = new Date().toISOString().slice(0, 10);
+    const priority = (p) => (p === '/' ? '1.0' : /^\/(work|services|blog)$/.test(p) ? '0.9' : p.split('/').length > 2 ? '0.8' : '0.6');
+    const urls = indexable
+      .map((r) => `  <url><loc>${ssg.meta(r.view, r.slug).url}</loc><lastmod>${lastmod}</lastmod><priority>${priority(r.path)}</priority></url>`)
+      .join('\n');
+    await writeFile(
+      join(DIST, 'sitemap.xml'),
+      `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`,
+      'utf8'
+    );
+
+    console.log(
+      `[prerender] wrote ${routes.length} routes (${indexable.length} indexable${thin ? `, ${thin} thin` : ''}) + 404.html + sitemap.xml`
+    );
+  } finally {
+    await vite.close();
   }
-
-  // Vercel serves dist/404.html for any request that matches no other static
-  // file, and serves it with a real 404 status. Writing the SPA shell here means
-  // an unknown URL gets the correct status code *and* the branded 404 view:
-  // React boots as usual and `pathToState` maps the unknown path to `not-found`.
-  //
-  // Deliberately not added to PAGES — it must stay out of the sitemap, and it is
-  // the one page that should never be indexed.
-  const notFoundHtml = setMeta(
-    buildHtml(template, {
-      path: '/404',
-      title: `Page not found — ${SITE}`,
-      description: "The page you're looking for doesn't exist or may have been moved.",
-      h1: 'Page not found',
-    }),
-    'name',
-    'robots',
-    'noindex, follow'
-  );
-  await writeFile(join(DIST, '404.html'), notFoundHtml, 'utf8');
-
-  const lastmod = new Date().toISOString().slice(0, 10);
-  const urls = PAGES.map(
-    (p) =>
-      `  <url><loc>${BASE_URL}${p.path}</loc><lastmod>${lastmod}</lastmod>` +
-      `<priority>${p.priority || '0.5'}</priority></url>`
-  ).join('\n');
-  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
-  await writeFile(join(DIST, 'sitemap.xml'), sitemap, 'utf8');
-
-  console.log(`[prerender] wrote ${PAGES.length} routes + 404.html + sitemap.xml`);
 }
 
 run().catch((err) => {

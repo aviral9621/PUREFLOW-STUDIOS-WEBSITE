@@ -13,7 +13,7 @@
     <meta name="keywords" content="custom software development India, CRM development, AI agents, automation, Next.js development, Supabase, software studio Lucknow, web app development, mobile app development, business automation, dashboard development, founder-led agency" />
     <meta name="author" content="Pureflow Studios" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
-    <link rel="canonical" href="https://pureflow-studios-site.vercel.app/" />
+    <link rel="canonical" href="https://www.pureflowstudios.in/" />
 
     <!-- Icons -->
     <link rel="icon" type="image/png" sizes="32x32" href="/logo/pureflow-favicon-32.png" />
@@ -25,15 +25,15 @@
     <meta property="og:site_name" content="Pureflow Studios" />
     <meta property="og:title" content="Pureflow Studios — Custom Software, CRMs, AI Agents & Web Apps" />
     <meta property="og:description" content="Custom software, CRMs, AI agents, and websites that turn manual chaos into measurable systems. Built in Lucknow for founders ready to scale." />
-    <meta property="og:url" content="https://pureflow-studios-site.vercel.app/" />
-    <meta property="og:image" content="https://pureflow-studios-site.vercel.app/logo/pureflow-favicon-512.png" />
+    <meta property="og:url" content="https://www.pureflowstudios.in/" />
+    <meta property="og:image" content="https://www.pureflowstudios.in/logo/pureflow-favicon-512.png" />
     <meta property="og:locale" content="en_IN" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Pureflow Studios — Custom Software, CRMs, AI Agents & Web Apps" />
     <meta name="twitter:description" content="Custom software, CRMs, AI agents, and websites that turn manual chaos into measurable systems." />
-    <meta name="twitter:image" content="https://pureflow-studios-site.vercel.app/logo/pureflow-favicon-512.png" />
+    <meta name="twitter:image" content="https://www.pureflowstudios.in/logo/pureflow-favicon-512.png" />
 
     <!-- JSON-LD: Organization -->
     <script type="application/ld+json">
@@ -41,8 +41,8 @@
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "Pureflow Studios",
-      "url": "https://pureflow-studios-site.vercel.app/",
-      "logo": "https://pureflow-studios-site.vercel.app/logo/pureflow-favicon-512.png",
+      "url": "https://www.pureflowstudios.in/",
+      "logo": "https://www.pureflowstudios.in/logo/pureflow-favicon-512.png",
       "description": "Pureflow Studios builds custom software, CRMs, AI agents, and websites for founders ready to scale.",
       "email": "support@pureflowdesigns.com",
       "telephone": "+91-63936-40650",
@@ -66,6 +66,8 @@
          `display=swap` means text paints immediately in the fallback face and swaps.
          The two faces used by the hero (Anton + Instrument Serif italic) are
          preloaded directly so they are in flight during the CSS round trip.
+         The preload is promoted to a stylesheet by index.tsx (an inline onload
+         handler would need 'unsafe-inline' in the Content-Security-Policy).
 
          NOTE: an importmap pointing react/react-dom/gsap/lucide/lottie at
          aistudiocdn + esm.sh used to live here. Vite rewrites every bare specifier
@@ -76,7 +78,7 @@
       rel="preload"
       as="style"
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Anton&display=swap"
-      onload="this.onload=null;this.rel='stylesheet'"
+      id="font-css"
     >
     <noscript>
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Anton&display=swap">

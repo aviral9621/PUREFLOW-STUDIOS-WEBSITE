@@ -11,23 +11,42 @@ interface Meta {
 }
 
 const SITE = 'Pureflow Studios';
-/** Canonical production domain (the custom domain to be connected on Vercel). */
-export const BASE_URL = 'https://pureflowdesigns.com';
+/** Canonical production origin. The apex (pureflowstudios.in) 308s to www, and
+ *  the old pureflowdesigns.com domain redirects here (vercel.json), so every
+ *  canonical, og:url and sitemap entry must use exactly this origin. */
+export const BASE_URL = 'https://www.pureflowstudios.in';
+
+/** Google shows ~60 characters of a title and ~155 of a description. */
+const TITLE_MAX = 60;
+const DESC_MAX = 155;
+
+/** `main | Pureflow Studios`, or a shorter brand suffix when that won't fit. */
+export function fitTitle(main: string): string {
+  for (const t of [`${main} | ${SITE}`, `${main} | Pureflow`]) if (t.length <= TITLE_MAX) return t;
+  return main.length <= TITLE_MAX ? main : `${main.slice(0, TITLE_MAX - 1).replace(/\s+\S*$/, '')}…`;
+}
+
+/** Plain text (drops `**emphasis**` markers) trimmed to a word boundary. */
+export function fitDescription(text: string): string {
+  const plain = text.replace(/\*\*/g, '').replace(/\s+/g, ' ').trim();
+  if (plain.length <= DESC_MAX) return plain;
+  return `${plain.slice(0, DESC_MAX - 1).replace(/[\s,;:—–-]+\S*$/, '')}…`;
+}
 const DEFAULT_OG = `${BASE_URL}/logo/pureflow-favicon-512.png`;
 
 export const META: Record<ViewState, Meta> = {
   home: {
-    title: `${SITE} — Custom Software, CRMs, AI Agents & Web Apps`,
+    title: `${SITE} — Custom Software, CRMs & AI Agents`,
     description:
       'Custom software, CRMs, AI agents, and websites that turn manual chaos into measurable systems. A Lucknow-based design and engineering studio.',
   },
   contact: {
-    title: `Contact — ${SITE}`,
+    title: `Contact Us — Start Your Project | ${SITE}`,
     description:
       'Talk to Pureflow Studios about your project. Email support@pureflowdesigns.com or message us on WhatsApp.',
   },
   services: {
-    title: `Services — Custom Software, CRMs, AI Agents | ${SITE}`,
+    title: `Services: Software, CRMs & AI Agents | ${SITE}`,
     description:
       'Our service offering: custom software, CRMs and dashboards, AI agents, mobile and web apps, brand & content, Meta ads management.',
   },
@@ -82,12 +101,13 @@ export const META: Record<ViewState, Meta> = {
       'Monthly content strategy, reels, and brand-aligned creatives. Pricing in 24 hours.',
   },
   'get-ads': {
-    title: `Get Ads Run — ${SITE}`,
+    title: `Meta Ads Management Enquiry — ${SITE}`,
     description: 'Meta ads management. Performance-focused, transparently reported, no vanity metrics.',
   },
   'crm-demo': {
-    title: `CRM Demo — ${SITE}`,
-    description: 'See a live demo of the CRMs and dashboards we build for our clients.',
+    title: `Live CRM Demo: Leads, Tasks & Invoices — ${SITE}`,
+    description:
+      'See a live demo of the custom CRMs we build: leads, tasks, GST invoices, expenses and reports in one dashboard.',
   },
   'automation-video': {
     title: `AI & Automation — ${SITE}`,
@@ -105,7 +125,7 @@ export const META: Record<ViewState, Meta> = {
   terms: {
     title: `Terms of Service — ${SITE}`,
     description:
-      'The terms governing your use of pureflowstudios.com and the services delivered by Pureflow Studios.',
+      'The terms governing your use of pureflowstudios.in and the services delivered by Pureflow Studios.',
   },
   cookies: {
     title: `Cookie Policy — ${SITE}`,
@@ -132,7 +152,7 @@ export const META: Record<ViewState, Meta> = {
       'Tell us about your business in a minute. Our team calls you back within 24 hours with the right software, website or app plan.',
   },
   'book-call': {
-    title: `Book a Call — ${SITE}`,
+    title: `Book a Free Call — ${SITE}`,
     description:
       'Pick a date and time for a free 15- or 30-minute call with the Pureflow Studios team. Calendar invite sent instantly.',
   },
@@ -205,7 +225,10 @@ export function resolveMeta(view: ViewState, slug?: string | null) {
     if (sc) {
       canonicalSlug = sc.slug;
       const headline = `${sc.headline.lead} ${sc.headline.word.toLowerCase()}`;
-      m = { title: `${sc.client} — ${sc.focus.join(', ')} | Case Study | ${SITE}`, description: headline };
+      m = {
+        title: fitTitle(`${sc.client}: ${sc.focus[0]}`),
+        description: fitDescription(`${headline.replace(/\.$/, '')}. ${sc.brief}`),
+      };
       extraJsonLd = {
         '@context': 'https://schema.org',
         '@type': 'CreativeWork',
@@ -215,7 +238,7 @@ export function resolveMeta(view: ViewState, slug?: string | null) {
         creator: { '@type': 'Organization', name: SITE },
       };
     } else if (cs) {
-      m = { title: `${cs.name} — ${cs.category} Case Study | ${SITE}`, description: cs.tagline };
+      m = { title: fitTitle(`${cs.name} Case Study`), description: fitDescription(cs.tagline) };
       extraJsonLd = {
         '@context': 'https://schema.org',
         '@type': 'CreativeWork',
@@ -229,7 +252,7 @@ export function resolveMeta(view: ViewState, slug?: string | null) {
   } else if (view === 'blog-post' && slug) {
     const p = findPost(slug);
     if (p) {
-      m = { title: `${p.title} | ${SITE}`, description: p.excerpt };
+      m = { title: fitTitle(p.seoTitle ?? p.title), description: fitDescription(p.excerpt) };
       ogImage = p.image || DEFAULT_OG;
       extraJsonLd = {
         '@context': 'https://schema.org',
@@ -247,7 +270,7 @@ export function resolveMeta(view: ViewState, slug?: string | null) {
   }
 
   const url = `${BASE_URL}${viewToPath(view, canonicalSlug)}`;
-  return { title: m.title, description: m.description, url, ogImage, extraJsonLd };
+  return { title: m.title, description: fitDescription(m.description), url, ogImage, extraJsonLd };
 }
 
 /** Updates <title>, description, canonical, OG/Twitter + JSON-LD when the route changes. */

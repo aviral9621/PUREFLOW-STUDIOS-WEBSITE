@@ -14,14 +14,10 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onViewChange, 
   const reduced = useReducedMotion();
   const post = findPost(slug);
 
+  // Title, description and canonical come from lib/seo.ts (useDocumentMeta in App).
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (post) {
-      document.title = `${post.title} — Pureflow Studios`;
-      const meta = document.head.querySelector<HTMLMetaElement>('meta[name="description"]');
-      if (meta) meta.content = post.excerpt;
-    }
-  }, [slug, post]);
+  }, [slug]);
 
   if (!post) {
     return (

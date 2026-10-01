@@ -139,7 +139,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onViewChange, onStartProje
           transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
           className="mt-16 sm:mt-20"
         >
-          <div className="flex flex-col items-center text-center">
+          <h2 className="flex flex-col items-center text-center">
             <span className="font-serif italic text-white/95 text-[2rem] sm:text-[clamp(1.5rem,3vw,2.5rem)] leading-[1.1]">
               The people
             </span>
@@ -149,7 +149,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onViewChange, onStartProje
             >
               RUNNING IT.
             </span>
-          </div>
+          </h2>
           <TeamDeck reduced={!!reduced} />
         </motion.div>
 
@@ -161,7 +161,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onViewChange, onStartProje
           transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
           className="mt-20"
         >
-          <div className="flex flex-col items-center text-center">
+          <h2 className="flex flex-col items-center text-center">
             <span className="font-serif italic text-white/95 text-[clamp(1.5rem,3vw,2.5rem)] leading-[1.1]">
               What we
             </span>
@@ -171,7 +171,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onViewChange, onStartProje
             >
               ACTUALLY SHIP.
             </span>
-          </div>
+          </h2>
           <div className="mt-9 grid grid-cols-1 gap-3.5 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4 lg:gap-5">
             {SERVICES.map((s, i) => {
               const Icon = s.icon;
@@ -239,9 +239,9 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onViewChange, onStartProje
                 'radial-gradient(ellipse at 50% 0%, rgba(255,32,160,0.16) 0%, transparent 55%), radial-gradient(ellipse at 50% 100%, rgba(164,82,255,0.14) 0%, transparent 55%)',
             }}
           />
-          <h3 className="relative font-sans text-[1.5rem] font-semibold leading-tight tracking-[-0.015em] text-white sm:text-[1.85rem]">
+          <h2 className="relative font-sans text-[1.5rem] font-semibold leading-tight tracking-[-0.015em] text-white sm:text-[1.85rem]">
             Stuck on the tech? We’ve got you.
-          </h3>
+          </h2>
           <p className="relative mt-3 text-[14px] text-white/60 sm:text-[15.5px]">
             Drop a brief or message us — we reply within 24 hours, every time.
           </p>

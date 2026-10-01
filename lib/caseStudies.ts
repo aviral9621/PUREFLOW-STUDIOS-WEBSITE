@@ -64,9 +64,6 @@ export interface CaseStudy {
     mockup?: 'ai-dashboard' | 'unskills-crm';
     /** Static image used as the card thumbnail. */
     image?: string;
-    /** A finished 2:1 image on white (the homepage card mockup). Shown whole on
-     *  the /work card, with no browser frame; wins over `image`. */
-    cover?: string;
   };
 
   snapshot: {
@@ -198,7 +195,6 @@ export const CASE_STUDIES: CaseStudy[] = [
     liveUrl: 'https://herbal-vantage-website.vercel.app/',
 
     card: {
-      cover: '/work/herbal-vantage-showcase.webp',
       title: 'Premium Herbal Store Experience',
       description:
         'Modern herbal e-commerce with a luxury product showcase, smooth shopping flow, clean UI and a conversion-focused design system.',
@@ -366,7 +362,6 @@ export const CASE_STUDIES: CaseStudy[] = [
     },
 
     card: {
-      cover: '/work/unskills-crm-showcase.webp',
       title: 'A complete CRM for educational institutes',
       description:
         'Leads, admissions, fees, branches and student relationships — streamlined into one real-time platform with full reports and automation.',
@@ -525,7 +520,6 @@ export const CASE_STUDIES: CaseStudy[] = [
     category: 'Agriculture',
     liveUrl: '',
     card: {
-      cover: '/work/smart-agro-mockup.webp',
       title: 'Agri business management system',
       description:
         'Leads, WhatsApp automation, e-commerce, inventory across godowns and GST-ready accounting in one system.',

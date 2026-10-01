@@ -3,7 +3,8 @@ import { ArrowLeft, Loader2 } from 'lucide-react';
 import { ViewState } from '../types';
 import { useAllProjects } from '../hooks/useProjects';
 import { toPortfolioItems } from '../lib/portfolio';
-import { SelectedWorkCard, toSelectedWorkItem } from './sections/SelectedWorkCard';
+import { WorkCard } from './sections/WorkCard';
+import { workOrder } from '../lib/workCards';
 
 interface Props {
   onViewChange: (view: ViewState) => void;
@@ -13,9 +14,10 @@ interface Props {
 export const WorkIndexPage: React.FC<Props> = ({ onViewChange, onOpenProject }) => {
   const { projects, loading } = useAllProjects();
   // Same card as the homepage "Selected work" grid and the service pages —
-  // see `sections/SelectedWorkCard.tsx`.
+  // see `sections/WorkCard.tsx`.
   const items = useMemo(
-    () => toPortfolioItems(projects).map(toSelectedWorkItem),
+    // Same order as the homepage stack: software first, then websites.
+    () => toPortfolioItems(projects).sort((a, b) => workOrder(a.slug) - workOrder(b.slug)),
     [projects]
   );
 
@@ -61,14 +63,9 @@ export const WorkIndexPage: React.FC<Props> = ({ onViewChange, onOpenProject }) 
         ) : projects.length === 0 ? (
           <p className="py-20 text-center text-sm text-white/50">No case studies yet.</p>
         ) : (
-            <div className="mx-auto grid max-w-[1240px] grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 sm:justify-items-stretch sm:gap-5 lg:grid-cols-3 lg:gap-6">
-              {items.map((item, i) => (
-                <SelectedWorkCard
-                  key={item.slug}
-                  item={item}
-                  index={i + 1}
-                  onOpen={onOpenProject}
-                />
+            <div className="mx-auto grid max-w-[1240px] grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
+              {items.map((item) => (
+                <WorkCard key={item.slug} item={item} onOpen={onOpenProject} />
               ))}
             </div>
         )}

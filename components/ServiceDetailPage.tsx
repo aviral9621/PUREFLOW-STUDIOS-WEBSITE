@@ -5,7 +5,7 @@ import { ViewState } from '../types';
 import { PROCESS, PROCESS_DEFAULT_ACTIVE, SERVICES, WHY, type ServiceKey } from '../lib/services';
 import { useAllProjects } from '../hooks/useProjects';
 import { toPortfolioItems } from '../lib/portfolio';
-import { SelectedWorkCard, toSelectedWorkItem } from './sections/SelectedWorkCard';
+import { WorkCard } from './sections/WorkCard';
 import { HeroVisual } from './service/HeroVisual';
 import { CodeEditorVisual } from './service/CodeEditorVisual';
 import { TechMark } from './service/TechMark';
@@ -62,7 +62,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
     const bySlug = new Map(projects.map((p) => [p.slug, p]));
     return toPortfolioItems(
       detail.work.map((slug) => bySlug.get(slug)).filter((p): p is NonNullable<typeof p> => !!p)
-    ).map(toSelectedWorkItem);
+    );
   }, [projects, detail.work]);
 
   return (
@@ -244,17 +244,10 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             </button>
           </div>
 
-          {/* Same card as the homepage "Selected work" grid — see
-              sections/SelectedWorkCard.tsx. The middle card of a full row
-              carries the purple emphasis, exactly as it does there. */}
-          <div className="mt-10 grid grid-cols-1 justify-items-center gap-4 sm:mt-14 sm:grid-cols-2 sm:justify-items-stretch sm:gap-5 lg:grid-cols-3 lg:gap-6">
-            {work.map((item, i) => (
-              <SelectedWorkCard
-                key={item.slug}
-                item={{ ...item, featured: work.length === 3 && i === 1 }}
-                index={i + 1}
-                onOpen={(slug) => onOpenProject?.(slug)}
-              />
+          {/* The homepage work card in miniature — see sections/WorkCard.tsx. */}
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
+            {work.map((item) => (
+              <WorkCard key={item.slug} item={item} onOpen={(slug) => onOpenProject?.(slug)} />
             ))}
           </div>
         </section>

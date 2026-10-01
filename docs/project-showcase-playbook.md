@@ -23,7 +23,7 @@ Files you will touch:
 
 | What | Where |
 |---|---|
-| Homepage work cards | `components/sections/WorkStack.tsx` (`FEATURED` array only) |
+| Project cards (homepage, /work, services pages) | `lib/workCards.ts` (`FEATURED`: order, tabs, image, logo) |
 | Showcase page data | `lib/showcases.ts` (one `Showcase` entry per project) |
 | Showcase page layout | `components/showcase/ShowcasePage.tsx` (rarely; only for new section types) |
 | Card copy (name, one-liner) | `lib/caseStudies.ts` (`card.name`, `card.blurb`) |
@@ -445,7 +445,7 @@ Keep each image ≲ 150 KB (cards are 15–35 KB each).
 
 ## 8. Wiring it up
 
-### Homepage card: `components/sections/WorkStack.tsx`, `FEATURED` array
+### Project card: `lib/workCards.ts`, `FEATURED` array
 ```ts
 {
   slug: 'quick-hotels',                       // must exist in lib/caseStudies.ts
@@ -459,9 +459,11 @@ The array order is the card order within each tab (Software / Websites / Apps; a
 no projects shows a "coming soon" card). The card's one-liner is `card.blurb` in
 `lib/caseStudies.ts`.
 
-**/work index card:** set `card.cover` in `lib/caseStudies.ts` to the same 2:1 image, and it
-is shown whole on white, with no browser frame (it beats `card.image` and the live embed).
-Website projects without a mockup use `card.image` (a still screenshot) instead of a live embed.
+**Everywhere else:** the /work index and the services pages show the same project with
+`components/sections/WorkCard.tsx`, the homepage card in miniature (black logo, one-line
+category from `card.showcaseLine`, the same 2:1 image). So one `FEATURED` entry updates
+every page. Which projects a services page lists is its `work` array in `lib/services.ts`.
+/work follows the `FEATURED` order.
 
 ### Showcase page: `lib/showcases.ts`, one `Showcase` entry
 ```ts

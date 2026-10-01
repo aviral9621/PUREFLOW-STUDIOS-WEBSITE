@@ -88,8 +88,9 @@ export interface SitePage {
  * site today. `problem`, `process` and `products` are not used there.
  */
 export interface SiteDetails {
-  /** Full URL of the live site. */
-  url: string;
+  /** Full URL of the live site. Leave it out to show no "Visit" button
+   *  (and leave `links` empty) when the client's site shouldn't be linked. */
+  url?: string;
   /** How the address reads on the page, e.g. 'unskillseducation.org'. */
   label: string;
   /** "What it had to DO.": the jobs the site was built for (3–4). */
@@ -1152,14 +1153,13 @@ export const SHOWCASES: Showcase[] = [
       { label: 'Services', value: 'UI/UX Design · Web Development · SEO' },
       { label: 'Stack', value: 'React · Vite · Supabase · Vercel' },
     ],
-    links: [{ label: 'unskillseducation.org', href: 'https://www.unskillseducation.org/' }],
 
     problem: '',
     process: [],
     products: [],
 
     site: {
-      url: 'https://www.unskillseducation.org/',
+      // No `url`: the owner doesn't want the live site linked from the page.
       label: 'unskillseducation.org',
       goals: [
         {

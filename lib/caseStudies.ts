@@ -194,7 +194,8 @@ export const CASE_STUDIES: CaseStudy[] = [
     tagline:
       'An institute website with a searchable catalogue of 158 courses, online admission and instant certificate verification.',
     category: 'Education',
-    liveUrl: 'https://www.unskillseducation.org',
+    // Not linked: the owner doesn't want visitors sent to the live site.
+    liveUrl: '',
 
     card: {
       name: 'UnSkills Education',

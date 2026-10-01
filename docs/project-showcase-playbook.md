@@ -80,7 +80,7 @@ layout by having a `site` block (§8). Same Pureflow look (§2), same shared pie
 
 | # | Section | Data (`site.*` unless noted) | Visual |
 |---|---|---|---|
-| 1 | **Hero**: "WEBSITE CASE STUDY", logo, headline, focus chips, a gradient **"Visit <site> ↗"** button | `headline`, `focus`, `site.url/label` | `hero` (W2 image; until then a raw still in a coded browser frame) |
+| 1 | **Hero**: "WEBSITE CASE STUDY", logo, headline, focus chips, a gradient **"Visit <site> ↗"** button (only when `site.url` is set; UnSkills has none, on the owner's request) | `headline`, `focus`, `site.url/label` | `hero` (W2 image; until then a raw still in a coded browser frame) |
 | 2 | **The BRIEF.** + facts + live link | `brief`, `facts`, `links` | none |
 | 3 | **What it had to DO.**: 3–4 numbered goal cards | `goals` | coded |
 | 4 | **The SITEMAP.**: the menu as built, a tree under the domain | `sitemap` | coded |

@@ -81,7 +81,7 @@ export const WebsiteShowcase: React.FC<Props> = ({ showcase: s, onViewChange }) 
         onBack={() => onViewChange('work')}
         eyebrow="Website case study"
         visual={s.hero ?? site.pages[0]?.image}
-        live={{ href: site.url, label: site.label }}
+        live={site.url ? { href: site.url, label: site.label } : undefined}
         zoom
       />
       <Brief s={s} reduced={reduced} />

@@ -152,8 +152,8 @@ const Sitemap: React.FC<SectionProps> = ({ site, reduced }) => {
         <Reveal reduced={reduced} className="grid gap-8 lg:grid-cols-2 lg:items-end lg:gap-16">
           <Heading lead="The" word="SITEMAP." />
           <p className="max-w-[520px] text-[16px] leading-[1.7] text-white/65 sm:text-[17px]">
-            The menu as built: {site.sitemap.length} menus, so every course, form and check is two clicks from
-            the homepage.
+            {site.sitemapNote ??
+              `The menu as built: ${site.sitemap.length} menus, so every page is two clicks from the homepage.`}
           </p>
         </Reveal>
 

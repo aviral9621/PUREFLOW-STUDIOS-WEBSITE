@@ -260,6 +260,81 @@ export const CASE_STUDIES: CaseStudy[] = [
     testimonial: null,
   },
 
+  // ── Herbal Vantage: the online store (live) ────────────────────────────────
+  // Its project page is the website showcase (lib/showcases.ts, `site`). The
+  // MLM software has its own page (slug 'herbal-vantage').
+  {
+    slug: 'herbal-vantage-website',
+    name: 'Herbal Vantage',
+    tagline:
+      'An Ayurvedic online store with distributor prices, PV points on every order and every legal document in one place.',
+    category: 'Ayurveda & Wellness',
+    // Not linked by default (website case-study guide, rule 2).
+    liveUrl: '',
+
+    card: {
+      name: 'Herbal Vantage Store',
+      type: 'E-commerce',
+      blurb: '26 Ayurvedic products, distributor pricing and PV points, connected to the MLM software.',
+      showcaseLine: 'Ayurvedic Store + PV Rewards',
+      device: 'browser',
+      year: '2026',
+      image: '/work/herbal-vantage-website/home-desktop.webp',
+    },
+
+    snapshot: {
+      client: 'Herbal Vantage Private Limited',
+      industry: 'Ayurveda & Wellness',
+      services: 'UI/UX Design · Web Development · SEO',
+      platforms: 'E-commerce Website',
+      stack: 'React · Vite · Tailwind CSS · Vercel',
+    },
+
+    challenge:
+      'Herbal Vantage sells 100% Ayurvedic products to families and through a network of distributors. The store had to sell to both: show the distributor price and the PV each product earns, credit that PV to the right portal, and prove to a first-time buyer that the company is registered and certified.',
+
+    whatWeBuilt: [
+      {
+        title: 'Online Store',
+        icon: 'globe',
+        items: [
+          'Catalogue of 26 products in 8 categories',
+          'Product pages with benefits, how to use, ingredients and details',
+          'Cart and checkout with online payment or cash on delivery',
+          'WhatsApp on every page',
+        ],
+      },
+      {
+        title: 'Distributors & Trust',
+        icon: 'dashboard',
+        items: [
+          'Distributor price and PV points on every product',
+          'Login shared with the Herbal Vantage CRM, so PV reaches the portal',
+          'Six legal and quality documents, viewable full size',
+          'Nodal and grievance officers, as e-commerce rules require',
+        ],
+      },
+    ],
+
+    techStack: [
+      { name: 'React', logo: 'react' },
+      { name: 'Tailwind CSS', logo: 'tailwind' },
+      { name: 'Razorpay', logo: 'razorpay' },
+      { name: 'Vercel', logo: 'vercel' },
+    ],
+
+    showcase: {
+      desktop: { type: 'image', src: '/work/herbal-vantage-website/home-desktop.webp' },
+      mobile: { type: 'image', src: '/work/herbal-vantage-website/home-mobile.webp' },
+    },
+
+    outcome: 'One store that sells to families and pays distributors their PV.',
+    outcomeHighlight: 'PV',
+
+    metrics: [],
+    testimonial: null,
+  },
+
   // ── Herbal Vantage — premium herbal e-commerce (live) ──────────────────────
   {
     slug: 'herbal-vantage',
@@ -275,7 +350,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       type: 'E-commerce',
       blurb:
         'An editorial herbal storefront with a frictionless checkout.',
-      showcaseLine: 'MLM Software + Online Store',
+      showcaseLine: 'MLM Software for Direct Selling',
       year: '2026',
       from: 'from-emerald-950/70',
       to: 'to-purple-950/50',

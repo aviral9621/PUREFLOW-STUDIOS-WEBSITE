@@ -71,22 +71,15 @@ export const FEATURED: WorkCardVisual[] = [
     mockup: '/work/spectrum-tour-travels-showcase.webp',
     logo: { src: '/work/spectrum-tour-travels-logo.webp', width: 277, height: 160 },
   },
-  // MLM software + the brand's online store: under both tabs. Under Software
-  // the card shows only the MLM system (the showcase hero, padded to 2:1);
-  // under Websites it keeps the combined software + store image.
+  // The MLM software. Its online store has its own card and page under
+  // Websites ('herbal-vantage-website'), so this one shows only the software
+  // (the showcase hero, padded to 2:1).
   {
     slug: 'herbal-vantage',
-    kinds: ['software', 'website'],
+    kinds: ['software'],
     glow: '34,197,94',
-    shots: {
-      desktop: '/work/herbal-vantage-desktop.webp',
-      mobile: '/work/herbal-vantage-mobile.webp',
-    },
-    mockup: '/work/herbal-vantage-showcase.webp',
+    mockup: '/work/herbal-vantage-software.webp',
     logo: { src: '/work/herbal-vantage-logo.webp', width: 671, height: 160 },
-    perKind: {
-      software: { mockup: '/work/herbal-vantage-software.webp', line: 'MLM Software for Direct Selling' },
-    },
   },
   // ── Websites ──
   {
@@ -110,6 +103,17 @@ export const FEATURED: WorkCardVisual[] = [
     },
     mockup: '/work/unskills-website-mockup.webp',
     logo: { src: '/work/unskills-logo.webp', width: 356, height: 160 },
+  },
+  {
+    slug: 'herbal-vantage-website',
+    kinds: ['website'],
+    glow: '26,107,47',
+    shots: {
+      desktop: '/work/herbal-vantage-website/home-desktop.webp',
+      mobile: '/work/herbal-vantage-website/home-mobile.webp',
+    },
+    mockup: '/work/herbal-vantage-website-mockup.webp',
+    logo: { src: '/work/herbal-vantage-logo.webp', width: 671, height: 160 },
   },
 ];
 

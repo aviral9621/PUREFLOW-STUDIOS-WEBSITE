@@ -93,6 +93,8 @@ export interface SiteDetails {
   url?: string;
   /** How the address reads on the page, e.g. 'unskillseducation.org'. */
   label: string;
+  /** Line beside "The SITEMAP." (a generic one is used when left out). */
+  sitemapNote?: string;
   /** "What it had to DO.": the jobs the site was built for (3–4). */
   goals: { title: string; text: string }[];
   /** "The SITEMAP.": the menu as built, one group per top-level item. */
@@ -154,6 +156,7 @@ export interface Showcase {
 
 const U = '/work/unskills';
 const UW = '/work/unskills-website';
+const HW = '/work/herbal-vantage-website';
 
 export const SHOWCASES: Showcase[] = [
   {
@@ -1161,6 +1164,7 @@ export const SHOWCASES: Showcase[] = [
     site: {
       // No `url`: the owner doesn't want the live site linked from the page.
       label: 'unskillseducation.org',
+      sitemapNote: 'The menu as built: 6 menus, so every course, form and check is two clicks from the homepage.',
       goals: [
         {
           title: 'Make 158 courses easy to find',
@@ -1292,6 +1296,174 @@ export const SHOWCASES: Showcase[] = [
       { label: 'Students', value: '2,000+', caption: 'enrolled, as the institute reports' },
     ],
     ctaLead: 'Need a website that brings in admissions?',
+  },
+
+  // ── Herbal Vantage: the online store (website layout) ─────────────────────
+  // Read off the live store (2026-10-01): menu, 26 products in 8 categories,
+  // prices and PV, the six documents on /legal. Products, logins and orders
+  // come from the Herbal Vantage CRM's API (the MLM software, slug
+  // 'herbal-vantage'). Images: playbook §11.
+  {
+    slug: 'herbal-vantage-website',
+    client: 'Herbal Vantage Private Limited',
+    logo: { src: '/work/herbal-vantage-logo.webp', width: 671, height: 160 },
+    focus: ['Ayurvedic Online Store', 'Distributor Price & PV', 'Legal & Trust Pages'],
+    headline: { lead: 'A storefront where every order earns', word: 'PV POINTS.' },
+    hero: {
+      src: `${HW}/hero.webp`,
+      width: 1672,
+      height: 941,
+      alt: 'The Herbal Vantage store on desktop and mobile, with category filters, distributor price and PV points',
+    },
+
+    brief:
+      'Herbal Vantage Private Limited makes 100% Ayurvedic healthcare products and sells them to families and through a **direct-selling network** of distributors. The brief was one store for both: a **catalogue of 26 products** with online payment or cash on delivery, the **distributor price and PV on every product**, credited to the distributor’s portal in the Herbal Vantage CRM, and the company’s **registrations and certificates** on show for first-time buyers.',
+    facts: [
+      { label: 'Industry', value: 'Ayurveda & Wellness' },
+      { label: 'Delivered', value: 'Online store + Legal & trust pages' },
+      { label: 'Services', value: 'UI/UX Design · Web Development · SEO' },
+      { label: 'Stack', value: 'React · Vite · Tailwind CSS · Vercel' },
+    ],
+
+    problem: '',
+    process: [],
+    products: [],
+
+    site: {
+      // No `url`: not linked unless the client agrees (guide, rule 2).
+      label: 'herbal-vantage-website.vercel.app',
+      sitemapNote: 'The menu as built: 5 menus and the policies, so every product, policy and certificate is two clicks from the homepage.',
+      goals: [
+        {
+          title: 'Sell 26 products online',
+          text: 'Eight categories, a page for every product, and a cart that takes online payment or cash on delivery.',
+        },
+        {
+          title: 'Reward distributors on every order',
+          text: 'The distributor price and the PV each product earns, credited to the distributor’s portal after login.',
+        },
+        {
+          title: 'Prove the company is genuine',
+          text: 'Incorporation, ISO, Startup India, GST, TAN and PAN documents, and the nodal and grievance officers.',
+        },
+        {
+          title: 'Make ordering easy',
+          text: 'Free delivery over ₹4,999, shop by health goal, and WhatsApp on every page.',
+        },
+      ],
+      sitemap: [
+        { group: 'Home', pages: ['Best-sellers', 'Shop by health goal', 'Our promise', 'Customer reviews', 'Cart & checkout'] },
+        { group: 'Products', pages: ['Oral Care', 'Immunity', 'Wellness', 'Women’s Health', 'Kids Health', 'Hair Care', 'Body Care', 'Skin Care'] },
+        { group: 'About Us', pages: ['Our story', 'Director’s Message', 'Legal Certifications'] },
+        { group: 'Gallery', pages: ['Founder’s Gallery'] },
+        { group: 'Contact', pages: ['Customer care', 'Nodal & grievance officers', 'Send us a message'] },
+        { group: 'Policies', pages: ['Shipping', 'Return, Refund & Exchange', 'Cancellation', 'Privacy', 'Terms of Use', 'Direct Seller Contract', 'Direct Selling Rules'] },
+      ],
+      build: [
+        { title: 'Sitemap & content', text: 'Every product, policy and legal document mapped into one menu.' },
+        { title: 'Wireframes', text: 'One template per page type: catalogue, product, cart, checkout, document.' },
+        { title: 'Visual design', text: 'The Herbal Vantage greens and gold, with Playfair Display headings, on a warm cream canvas.' },
+        { title: 'Build & connect', text: 'React on Vercel, with products, logins and orders from the Herbal Vantage CRM.' },
+        { title: 'SEO & launch', text: 'A title and description for every page and every product.' },
+      ],
+      pages: [
+        {
+          name: 'Home',
+          path: '/',
+          summary:
+            'Ayurvedic Wellness banners, a trust strip (10K+ families, ISO, GMP, free delivery over ₹4,999), best-sellers with their price and PV, shop by health goal, and Google reviews.',
+          features: ['Hero banners', 'Trust strip', 'Best-sellers', 'Shop by health goal', 'Reviews'],
+          image: {
+            src: `${HW}/page-home.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'The Herbal Vantage homepage: trust strip, shop by health goal and the promise in numbers',
+          },
+        },
+        {
+          name: 'Products',
+          path: '/products',
+          summary:
+            'All 26 products in one catalogue, filtered by 8 categories. Every card shows the offer, the PV it earns, the price against MRP and Add to Cart.',
+          features: ['Category filters', 'Offer badges', 'PV points', 'Price vs MRP', 'Add to Cart'],
+          image: {
+            src: `${HW}/page-products.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'The Herbal Vantage catalogue: 8 categories, product cards with PV and free delivery over ₹4,999',
+          },
+        },
+        {
+          name: 'Product page',
+          path: '/product/vantage-superdento-cream',
+          summary:
+            'The distributor price, the saving against MRP and the PV the order earns, then the certifications and tabs for benefits, how to use, ingredients and details.',
+          features: ['Distributor price', 'PV earned', 'Quantity & cart', 'Certifications', 'Benefits & ingredients'],
+          image: {
+            src: `${HW}/page-product.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'A Herbal Vantage product page: distributor price, PV credited to the portal and certifications',
+          },
+        },
+        {
+          name: 'Legal & Certifications',
+          path: '/legal',
+          summary:
+            'Six government and quality documents, each viewable full size, then the company’s CIN and its nodal and grievance officers, as the e-commerce rules require.',
+          features: ['Incorporation', 'ISO 9001:2015', 'Startup India', 'GST · TAN · PAN', 'Grievance officer'],
+          image: {
+            src: `${HW}/page-legal.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'Herbal Vantage legal page: six documents, full-size view and the grievance officer',
+          },
+        },
+      ],
+      screens: [
+        { src: `${HW}/home-mobile.webp`, width: 585, height: 1266, alt: 'Herbal Vantage homepage on a phone' },
+        { src: `${HW}/products-mobile.webp`, width: 585, height: 1266, alt: 'Product catalogue on a phone' },
+        { src: `${HW}/product-mobile.webp`, width: 585, height: 1266, alt: 'A product page on a phone' },
+        { src: `${HW}/legal-mobile.webp`, width: 585, height: 1266, alt: 'Legal & Certifications on a phone' },
+      ],
+      builtIn: [
+        { icon: 'cart', title: 'Cart & checkout', text: 'Pay online or cash on delivery, with free delivery over ₹4,999.' },
+        { icon: 'ticket', title: 'Distributor price', text: 'The DP, the MRP and the saving, on every product.' },
+        { icon: 'star', title: 'PV on every order', text: 'Each product shows the PV it earns; logged-in distributors get it in their portal.' },
+        { icon: 'login', title: 'One login', text: 'The same login as the Herbal Vantage CRM, so orders reach the right distributor.' },
+        { icon: 'shield', title: 'Legal documents', text: 'Six registrations and certificates, each viewable full size.' },
+        { icon: 'search', title: 'Find any product', text: 'A search in the header and 8 category filters on the catalogue.' },
+        { icon: 'chat', title: 'WhatsApp', text: 'A WhatsApp button on every page, and a contact form.' },
+        { icon: 'seo', title: 'Product SEO', text: 'Every product page has its own title and description.' },
+      ],
+      todayNote: 'The numbers on the Herbal Vantage store today.',
+    },
+
+    palette: [
+      { name: 'Deep Green', hex: '#1A6B2F' },
+      { name: 'Forest', hex: '#0F2D18' },
+      { name: 'Lime', hex: '#7DC832' },
+      { name: 'Gold', hex: '#C9A020' },
+      { name: 'Cream', hex: '#FAF3DC' },
+    ],
+    systemImage: {
+      src: `${HW}/design-system.webp`,
+      width: 1774,
+      height: 887,
+      alt: 'Herbal Vantage store design system: greens and gold, Playfair Display and DM Sans, and core components',
+    },
+    type: [
+      { family: 'Playfair Display', role: 'Headings', weights: 'Bold', google: 'Playfair+Display:wght@700' },
+      { family: 'DM Sans', role: 'Body & interface', weights: 'Regular · Medium · Bold' },
+    ],
+
+    impact: [
+      { label: 'Products', value: '26', caption: 'on sale, in 8 categories' },
+      { label: 'Documents', value: '6', caption: 'registrations and certificates online' },
+      { label: 'Google rating', value: '4.8', caption: 'from 500+ reviews, as the company reports' },
+      { label: 'Families', value: '10K+', caption: 'served, as the company reports' },
+    ],
+    ctaLead: 'Need a store that pays your distributors too?',
   },
 ];
 

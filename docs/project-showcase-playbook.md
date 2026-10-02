@@ -619,10 +619,11 @@ The project also needs a `lib/caseStudies.ts` entry (card name, `showcaseLine`,
 | **UnSkills: Institute Management System** | ✅ T2 feature showcase + black logo | ✅ live: hero, 6 problem cards, 7 feature cards, design system |
 | **Smart Agro: Agri Business Management System** | ✅ hub image (below) + black logo | ✅ live at `/work/smart-agro`: hero (T3 image, `smart-agro/hero.webp`), brief, problem (6 cut cards), process, features (7 cut cards), design system (T6 image), impact (live dashboard totals: 11,898 leads · 2,678 orders · ₹56.4L · 86% via WhatsApp; scale, not before/after). No testimonial yet |
 | **Quick Hotels** (website) | ✅ T1 mockup + black logo | ✅ live at `/work/quick-hotels`: hero (T3, PMS dashboard), problem (6 cut cards), process, features (website: 3 cut cards, PMS: 4 cut cards), design system (T6 image), impact (real facts only: 12 hotels from the PMS, 1000+ guests (quickhotels.co's own claim), 5+ cities, 100% GST-inclusive prices; the hero image's revenue/occupancy are demo and not repeated). No testimonial yet |
-| **Herbal Vantage** (MLM software + online store) | ✅ black logo · tabs: Software **and** Websites. Software tab: software-only image `herbal-vantage-software.webp` (the showcase hero padded to 2:1) and line "MLM Software for Direct Selling", via `perKind` in `lib/workCards.ts`; Websites tab: the combined software + store image | ✅ live at `/work/herbal-vantage`: hero (T3), problem (6 cut cards), process, MLM Software features (7 cut cards), Online Store (chips only), design system (T6 image), impact (live dashboard figures: 69 members, 87% active (60/69), PV 45.6L, sales ₹48.6L; scale, not before/after). No testimonial yet |
+| **Herbal Vantage** (MLM software + online store) | ✅ black logo · tab: Software only (the store has its own card, row below): software-only image `herbal-vantage-software.webp` (the showcase hero padded to 2:1), line "MLM Software for Direct Selling" | ✅ live at `/work/herbal-vantage`: hero (T3), problem (6 cut cards), process, MLM Software features (7 cut cards), Online Store (chips only), design system (T6 image), impact (live dashboard figures: 69 members, 87% active (60/69), PV 45.6L, sales ₹48.6L; scale, not before/after). No testimonial yet |
 | **Quick Hotels CRM/PMS** (`ecommerce-retail-platform`) | ✅ T7 image + black logo · tab: Software | ✅ live at `/work/ecommerce-retail-platform` (the Software-tab card): reuses the `public/work/quick-hotels/` assets: PMS-dashboard hero, the 6 problem cards, the 4 PMS feature cards, the design-system sheet, and the same real-facts impact. The old page's retail/POS copy, metrics and testimonial were placeholders and are not used |
 | **Spectrum: travel CRM** (`spectrum-tour-travels`) | ✅ T7 CRM image + black logo · tab: Software | ✅ live at `/work/spectrum-tour-travels`: hero (T3), problem (6 cut cards), process, features (7 cut cards), design system (T6 image), impact (live dashboard figures: +35% leads (34.8%, rounded to fit), ₹4.1L revenue, 29 upcoming tours, 47 payments tracked; not before/after). Covers the CRM, not the website. No testimonial yet |
 | **UnSkills: institute website** (`unskills-education-website`) | ✅ T1 mockup `unskills-website-mockup.webp` + black logo · tab: Websites | ✅ live at `/work/unskills-education-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Courses, Verification, Franchise), T6 design system, real phone stills. Wide images open full screen on tap (`Zoomable`). Numbers are the site's own (158 courses, 102 centres, 4.8 from 124 Google reviews, 2,000+ students) |
+| **Herbal Vantage: online store** (`herbal-vantage-website`) | ✅ T1 mockup `herbal-vantage-website-mockup.webp` + black logo · tab: Websites · line "Ayurvedic Store + PV Rewards" | ✅ live at `/work/herbal-vantage-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Products, Product page, Legal & Certifications), T6 design system, real phone stills. Numbers from the store: 26 products / 8 categories, 6 legal documents; 4.8 from 500+ reviews and 10K+ families labelled as the company's own claims. Not linked to the live site |
 | UnSkills mobile app | not started | not started |
 
 Removed from the site on the owner's request: UnSkills Education (its old URLs open the
@@ -1385,6 +1386,45 @@ Your *Perfect* Stay" with "Perfect" in gold italic, and the booking bar with WHE
 CHECK-IN / CHECK-OUT / GUESTS & ROOMS plus a blue Search button. The logo is the stacked
 "Quick / Hotels" wordmark (from `https://www.quickhotels.co/logo.webp`, turned black).
 Files: `public/work/quick-hotels-mockup.webp`, `public/work/quick-hotels-logo.webp`.
+
+### Herbal Vantage: online store (`/work/herbal-vantage-website`)
+
+Done with the website case-study guide (2026-10-01/02). Separate from the MLM software
+page (`herbal-vantage`), which now sits under the Software tab only.
+
+**Decisions**
+- Headline *"A storefront where every order earns"* **PV POINTS.** Focus: Ayurvedic Online
+  Store · Distributor Price & PV · Legal & Trust Pages. Key pages: Home, Products,
+  Product page (`/product/vantage-superdento-cream`), Legal & Certifications.
+- Read off herbal-vantage-website.vercel.app (herbalvantage.com is a different server):
+  menu + footer (sitemap), 26 products in 8 categories (the catalogue; the homepage says
+  "23+"), DP price / MRP / PV per product, six documents on /legal. The site's code:
+  React + Vite + Tailwind on Vercel, Razorpay + cash on delivery, products/logins/orders
+  from the Herbal Vantage CRM API (`herbal-vantage-crm.vercel.app`).
+- Not linked (no `url`, no `links`, `liveUrl: ''`). The site's reviews carry full names:
+  not used. The site's "Important Notice" pop-up was hidden for the stills, never agreed to.
+- `site.sitemapNote` added (the sitemap caption was UnSkills-only text).
+
+**Brand material** (from the site's CSS): Deep Green #1A6B2F, Forest #0F2D18, Lime
+#7DC832, Gold #C9A020, Cream #FAF3DC, Off-white #F7F5F0, Cart Green #1B8A4D, Offer badge
+#E6C17A, WhatsApp #25D366. Fonts: **Playfair Display** Bold (60/48/36/16), **DM Sans**
+body, **DM Mono** eyebrows.
+
+**Images → files** (generated from `~/Downloads/herbal-vantage-website-stills/`, logo =
+`logo-full.png`, emblem + wordmark)
+| Generated image | File |
+|---|---|
+| Herbal Vantage Ayurvedic Website Mockup | `public/work/herbal-vantage-website-mockup.webp` (card) |
+| Ayurvedic E-Commerce Showcase Infographic | `public/work/herbal-vantage-website/hero.webp` 1672×941 |
+| Ayurvedic Wellness Website Showcase | `…/page-home.webp` 1774×887 |
+| Herbal Vantage Ayurvedic Product Showcase | `…/page-products.webp` 1774×887 |
+| Herbal Vantage Product Showcase Infographic | `…/page-product.webp` 1774×887 |
+| Ayurvedic Legal Certifications Showcase | `…/page-legal.webp` 1774×887 |
+| Herbal Vantage Design System Board | `…/design-system.webp` 1774×887 |
+
+**Known glitches** (small; fix by editing the same image if wanted): page-products note
+reads "Distriductors see PV instantly"; page-legal's sixth tile is clipped to "Income Tax
+Departm"; page-home's product cards show "BEST SELLER" badges the real cards don't have.
 
 ### Prepared, not yet used
 

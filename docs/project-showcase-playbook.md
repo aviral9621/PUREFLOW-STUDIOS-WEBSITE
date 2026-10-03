@@ -625,7 +625,8 @@ The project also needs a `lib/caseStudies.ts` entry (card name, `showcaseLine`,
 | **UnSkills: institute website** (`unskills-education-website`) | ✅ T1 mockup `unskills-website-mockup.webp` + black logo · tab: Websites | ✅ live at `/work/unskills-education-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Courses, Verification, Franchise), T6 design system, real phone stills. Wide images open full screen on tap (`Zoomable`). Numbers are the site's own (158 courses, 102 centres, 4.8 from 124 Google reviews, 2,000+ students) |
 | **Herbal Vantage: online store** (`herbal-vantage-website`) | ✅ T1 mockup `herbal-vantage-website-mockup.webp` + black logo · tab: Websites · line "Ayurvedic Store + PV Rewards" | ✅ live at `/work/herbal-vantage-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Products, Product page, Legal & Certifications), T6 design system, real phone stills. Numbers from the store: 26 products / 8 categories, 6 legal documents; 4.8 from 500+ reviews and 10K+ families labelled as the company's own claims. Not linked to the live site |
 | **Spectrum: tour booking website** (`spectrum-tour-travels-website`) | ✅ T1 mockup `spectrum-website-mockup.webp` + black logo · tab: Websites · line "Group Tour Booking Website" | ✅ live at `/work/spectrum-tour-travels-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Upcoming Departures, Trip page, Customised Trips), T6 design system, real phone stills. Counts from the site: 10 departures, 8 packages; 200+ Google reviews and 100K+ Facebook labelled as the company's own. Not linked to the live site |
-| Smart Agro, Quick Agriculture, Ram Tiles, Strataloom Research, Baba Biswanath Travels (websites) | Websites tab, real home screenshot in the card (no mockup yet) | website layout with real stills in browser frames; prompts not written yet |
+| **Smart Agro: agri shop website** (`smart-agro-website`) | ✅ T1 mockup `smart-agro-website-mockup.webp` + black logo · tab: Websites · line "Agri E-commerce Website" | ✅ live at `/work/smart-agro-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Shop by Crop, Shop by Problem, Product page), T6 design system, real phone stills. 30 products / 3 languages from the site; 2,200+ farmers and 2,800+ orders labelled as the company's own. Not linked. Note: smartagrocare.in returned DEPLOYMENT_DISABLED (402) on 2026-10-03 |
+| Quick Agriculture, Ram Tiles, Strataloom Research, Baba Biswanath Travels (websites) | Websites tab, real home screenshot in the card (no mockup yet) | website layout with real stills in browser frames; prompts not written yet |
 | UnSkills mobile app | not started | not started |
 
 Removed from the site on the owner's request: UnSkills Education (its old URLs open the
@@ -1459,6 +1460,43 @@ close-ups made for them: `home-destinations-desktop.png`, `departure-calendar-de
 
 **Known glitches** (tiny): page-home card 1 reads "Community on mFacebook" and
 "Google — Reviews"; page-trip shows the "Everything in writing" note twice.
+
+### Smart Agro: agri shop website (`/work/smart-agro-website`)
+
+Done with the website case-study guide (2026-10-02/03). Separate from the Agri Business
+Management System page (`smart-agro`, Software tab).
+
+**Decisions**
+- Headline *"A farm shop that speaks the"* **FARMER’S LANGUAGE.** Focus: Agri E-commerce
+  Website · Shop by Crop & Problem · Marathi · Hindi · English. Key pages: Home, Shop by
+  Crop (`/crop/cotton`), Shop by Problem (`/problem/yellowing`), Product page
+  (`/product/daivik-capsule`).
+- The site opens in Marathi; the stills were captured in English at `/en/` (Marathi
+  homepage kept in `~/Downloads/smart-agro-website-stills/marathi/`). Next.js on Vercel,
+  Supabase, i18n en/hi/mr, voice search, COD, India Post tracking. Not linked.
+- Reviews on the site carry real names: only the numbers are used.
+- On 2026-10-03 smartagrocare.in returned **402 DEPLOYMENT_DISABLED**; the full-size logo
+  came from `~/Downloads/smart-agro-refs/2-logo-original.png` instead.
+
+**Brand** (site CSS + stills): Agro Green #1E8A46, button #15803D, Forest #104129, Leaf
+#4CAE4F, Logo Red #D01A1B, WhatsApp #25D466, Buy Now #F57A00, Best Seller #F97316, Combo
+#7C3AED, Mint #F4FEF9. Fonts: **Poppins** (headings), **Inter** (body).
+
+**Images → files** (prompts: `~/Downloads/smart-agro-website-stills/PROMPTS.md`; extra
+close-ups: `home-crop-problems-desktop.png`, `home-trust-stats-desktop.png`,
+`home-how-to-order-desktop.png`, `home-combos-desktop.png`)
+| Generated image | File |
+|---|---|
+| Smart Agro E-Commerce Mockup | `public/work/smart-agro-website-mockup.webp` (card) |
+| Smart Agro Farmer E‑Commerce Mockup | `public/work/smart-agro-website/hero.webp` 1672×940 |
+| Smart Agro Website Feature Showcase | `…/page-home.webp` 1774×887 |
+| Smart Agro Cotton Marketplace Mockup | `…/page-crop.webp` 1774×887 |
+| Smart Agro Yellowing Leaves Guide | `…/page-problem.webp` 1774×887 |
+| Smart Agro Product Page Infographic | `…/page-product.webp` 1774×887 |
+| Smart Agro Design System Poster | `…/design-system.webp` 1774×887 |
+
+**Known glitches** (tiny, at page size unreadable): page-product top strip "Your tusted
+partner"; page-crop "300 CR" for "300 GR"; page-home "Panchgayya Combo".
 
 ### Prepared, not yet used
 

@@ -1645,8 +1645,7 @@ export const SHOWCASES: Showcase[] = [
   // English at /en): 30 products (sitemap), 6 crops, 8 crop problems, 3
   // languages, voice search, COD, order tracking. Next.js on Vercel with
   // Supabase. The Agri Business Management System has its own page (slug
-  // 'smart-agro'). Page images are raw stills in a browser frame until
-  // generated ones arrive (website case-study guide, Phase B).
+  // 'smart-agro'). Images: playbook §11.
   {
     slug: 'smart-agro-website',
     client: 'Smart Agro Care',
@@ -1654,12 +1653,10 @@ export const SHOWCASES: Showcase[] = [
     focus: ['Agri E-commerce Website', 'Shop by Crop & Problem', 'Marathi · Hindi · English'],
     headline: { lead: 'A farm shop that speaks the', word: 'FARMER’S LANGUAGE.' },
     hero: {
-      src: `${AW}/home-desktop.webp`,
-      width: 1600,
-      height: 1000,
-      alt: 'The Smart Agro homepage: genuine organic farm inputs, delivered to your door',
-      frame: 'browser',
-      url: 'smartagrocare.in',
+      src: `${AW}/hero.webp`,
+      width: 1672,
+      height: 940,
+      alt: 'The Smart Agro shop on desktop and mobile, with crop problems, shop by crop and three languages',
     },
 
     brief:
@@ -1720,12 +1717,10 @@ export const SHOWCASES: Showcase[] = [
             'Genuine farm inputs delivered to your door: cash on delivery and free expert advice up top, then best sellers, kits & combos, what’s wrong with your crop, shop by crop and Google reviews.',
           features: ['Trust chips', 'Best sellers', 'Kits & combos', 'Crop problems', 'Google reviews'],
           image: {
-            src: `${AW}/home-desktop.webp`,
-            width: 1600,
-            height: 1000,
-            alt: 'The Smart Agro homepage: hero, trust chips and best sellers',
-            frame: 'browser',
-            url: 'smartagrocare.in',
+            src: `${AW}/page-home.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'The Smart Agro homepage: trust chips, farmer numbers and how to order',
           },
         },
         {
@@ -1735,12 +1730,10 @@ export const SHOWCASES: Showcase[] = [
             'Six crops, each with its own page of recommended products and combos, every card showing the price, pack size, stock and Add to Cart.',
           features: ['6 crops', 'Recommended products', 'Combos', 'In-stock status', 'Add to Cart'],
           image: {
-            src: `${AW}/crop-desktop.webp`,
-            width: 1600,
-            height: 1000,
-            alt: 'Smart Agro shop by crop: products for cotton',
-            frame: 'browser',
-            url: 'smartagrocare.in/crop/cotton',
+            src: `${AW}/page-crop.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'Smart Agro shop by crop: six crops, products for cotton and voice search',
           },
         },
         {
@@ -1750,12 +1743,10 @@ export const SHOWCASES: Showcase[] = [
             'Pick what’s wrong with the crop, such as yellowing leaves, and see the products that treat it. Not sure? Send a photo of the crop on WhatsApp and an expert replies.',
           features: ['8 crop problems', 'Matching products', 'Photo on WhatsApp', 'Expert reply'],
           image: {
-            src: `${AW}/problem-desktop.webp`,
-            width: 1600,
-            height: 1000,
-            alt: 'Smart Agro shop by problem: products for yellowing leaves',
-            frame: 'browser',
-            url: 'smartagrocare.in/problem/yellowing',
+            src: `${AW}/page-problem.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'Smart Agro shop by problem: eight crop problems, what treats yellowing leaves and WhatsApp advice',
           },
         },
         {
@@ -1765,12 +1756,10 @@ export const SHOWCASES: Showcase[] = [
             'Price with stock, Add to Cart, Buy Now and Order on WhatsApp, then the promises a farmer checks: genuine product, easy returns, cash on delivery and delivery in about 7 days.',
           features: ['Buy Now', 'Order on WhatsApp', 'Cash on delivery', 'Delivery time', 'Expert support'],
           image: {
-            src: `${AW}/product-desktop.webp`,
-            width: 1600,
-            height: 1000,
-            alt: 'A Smart Agro product page: price, Add to Cart, Buy Now and Order on WhatsApp',
-            frame: 'browser',
-            url: 'smartagrocare.in/product/daivik-capsule',
+            src: `${AW}/page-product.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'A Smart Agro product page: three ways to buy, cash on delivery and order tracking',
           },
         },
       ],
@@ -1800,6 +1789,12 @@ export const SHOWCASES: Showcase[] = [
       { name: 'Harvest Orange', hex: '#F57A00' },
       { name: 'Smart Red', hex: '#CF4217' },
     ],
+    systemImage: {
+      src: `${AW}/design-system.webp`,
+      width: 1774,
+      height: 887,
+      alt: 'Smart Agro website design system: greens and logo red, Poppins and Inter, and core components',
+    },
     type: [
       { family: 'Poppins', role: 'Headings', weights: 'SemiBold · Bold', google: 'Poppins:wght@600;700' },
       { family: 'Inter', role: 'Body & interface', weights: 'Regular · Medium · SemiBold' },

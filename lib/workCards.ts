@@ -134,6 +134,7 @@ export const FEATURED: WorkCardVisual[] = [
       desktop: '/work/smart-agro-website/home-desktop.webp',
       mobile: '/work/smart-agro-website/home-mobile.webp',
     },
+    mockup: '/work/smart-agro-website-mockup.webp',
     logo: { src: '/work/smart-agro-logo.webp', width: 504, height: 160 },
   },
   {

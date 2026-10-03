@@ -145,6 +145,7 @@ export const FEATURED: WorkCardVisual[] = [
       desktop: '/work/quick-agriculture-website/home-desktop.webp',
       mobile: '/work/quick-agriculture-website/home-mobile.webp',
     },
+    mockup: '/work/quick-agriculture-website-mockup.webp',
     logo: { src: '/work/quick-agriculture-logo.webp', width: 512, height: 160 },
   },
   {

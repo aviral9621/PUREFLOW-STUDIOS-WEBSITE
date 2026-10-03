@@ -1814,8 +1814,7 @@ export const SHOWCASES: Showcase[] = [
   // parked domain): 5 pages + 3 research articles (sitemap), 6 services.
   // Static Next.js on Vercel. The site's own figures don't all agree (10,000+
   // farmers trained vs 50K+ connected), so only labelled claims are used, and
-  // its named testimonials are not repeated. Page images are raw stills in a
-  // browser frame until generated ones arrive (website case-study guide).
+  // its named testimonials are not repeated. Images: playbook §11.
   {
     slug: 'quick-agriculture-website',
     client: 'Quick Agriculture',
@@ -1823,12 +1822,10 @@ export const SHOWCASES: Showcase[] = [
     focus: ['Network Website', 'Services & Research', 'Membership Enquiries'],
     headline: { lead: 'One site for farmers, students and', word: 'INSTITUTIONS.' },
     hero: {
-      src: `${QA}/home-desktop.webp`,
-      width: 1600,
-      height: 1000,
-      alt: 'The Quick Agriculture homepage: Growing India’s farming future',
-      frame: 'browser',
-      url: 'quickagriculture.in',
+      src: `${QA}/hero.webp`,
+      width: 1672,
+      height: 941,
+      alt: 'The Quick Agriculture website on desktop and mobile, with six services, three audiences and Become a Member',
     },
 
     brief:
@@ -1888,12 +1885,10 @@ export const SHOWCASES: Showcase[] = [
             'Growing India’s farming future: who the network is for, its four promises, the six services, impact figures, the latest research and Join India’s Digital Agriculture Network.',
           features: ['Hero & two CTAs', 'Four promises', 'Six services', 'Impact', 'Latest research'],
           image: {
-            src: `${QA}/home-desktop.webp`,
-            width: 1600,
-            height: 1000,
-            alt: 'The Quick Agriculture homepage: Growing India’s farming future',
-            frame: 'browser',
-            url: 'quickagriculture.in',
+            src: `${QA}/page-home.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'The Quick Agriculture homepage: four promises, built on credibility and join the network',
           },
         },
         {
@@ -1903,12 +1898,10 @@ export const SHOWCASES: Showcase[] = [
             'Six ways we help you grow: agriculture training, research consultancy, farmer training & FPO development, organic farming & soil testing, precision & drone farming, and AI in agriculture.',
           features: ['6 services', 'Illustrated cards', 'For farmers & students', 'Our promise'],
           image: {
-            src: `${QA}/services-desktop.webp`,
-            width: 1600,
-            height: 1000,
-            alt: 'Quick Agriculture services: six ways we help you grow',
-            frame: 'browser',
-            url: 'quickagriculture.in/services',
+            src: `${QA}/page-services.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'Quick Agriculture services: six services, one line each, for farmers and students',
           },
         },
         {
@@ -1918,12 +1911,10 @@ export const SHOWCASES: Showcase[] = [
             'Knowledge that moves the field forward: articles on soil health, smart farming and crop protection, each with its topic, date and read time.',
           features: ['Topic tags', 'Article cards', 'Date & read time', 'Article pages'],
           image: {
-            src: `${QA}/research-desktop.webp`,
-            width: 1600,
-            height: 1000,
-            alt: 'Quick Agriculture research: article cards on soil, drones and crop protection',
-            frame: 'browser',
-            url: 'quickagriculture.in/research',
+            src: `${QA}/page-research.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'Quick Agriculture research: topic tags, dated articles and plain-word findings',
           },
         },
         {
@@ -1933,12 +1924,10 @@ export const SHOWCASES: Showcase[] = [
             'Let’s grow together: WhatsApp, email and the Agra office with a Maps link, plus Facebook, Instagram, YouTube and Telegram.',
           features: ['WhatsApp chat', 'Email', 'Office & Maps', 'Social channels'],
           image: {
-            src: `${QA}/contact-desktop.webp`,
-            width: 1600,
-            height: 1000,
-            alt: 'Quick Agriculture contact: WhatsApp, email and office',
-            frame: 'browser',
-            url: 'quickagriculture.in/contact',
+            src: `${QA}/page-contact.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'Quick Agriculture contact: WhatsApp first, the office on Maps and every channel',
           },
         },
       ],
@@ -1968,6 +1957,12 @@ export const SHOWCASES: Showcase[] = [
       { name: 'Harvest Gold', hex: '#C68800' },
       { name: 'Cream', hex: '#FBF9F3' },
     ],
+    systemImage: {
+      src: `${QA}/design-system.webp`,
+      width: 1774,
+      height: 887,
+      alt: 'Quick Agriculture website design system: field green and wheat gold, DM Sans and Inter, and core components',
+    },
     type: [
       { family: 'DM Sans', role: 'Headings', weights: 'SemiBold · Bold', google: 'DM+Sans:wght@600;700' },
       { family: 'Inter', role: 'Body & interface', weights: 'Regular · Medium · SemiBold' },

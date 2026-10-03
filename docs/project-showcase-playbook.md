@@ -626,7 +626,8 @@ The project also needs a `lib/caseStudies.ts` entry (card name, `showcaseLine`,
 | **Herbal Vantage: online store** (`herbal-vantage-website`) | ✅ T1 mockup `herbal-vantage-website-mockup.webp` + black logo · tab: Websites · line "Ayurvedic Store + PV Rewards" | ✅ live at `/work/herbal-vantage-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Products, Product page, Legal & Certifications), T6 design system, real phone stills. Numbers from the store: 26 products / 8 categories, 6 legal documents; 4.8 from 500+ reviews and 10K+ families labelled as the company's own claims. Not linked to the live site |
 | **Spectrum: tour booking website** (`spectrum-tour-travels-website`) | ✅ T1 mockup `spectrum-website-mockup.webp` + black logo · tab: Websites · line "Group Tour Booking Website" | ✅ live at `/work/spectrum-tour-travels-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Upcoming Departures, Trip page, Customised Trips), T6 design system, real phone stills. Counts from the site: 10 departures, 8 packages; 200+ Google reviews and 100K+ Facebook labelled as the company's own. Not linked to the live site |
 | **Smart Agro: agri shop website** (`smart-agro-website`) | ✅ T1 mockup `smart-agro-website-mockup.webp` + black logo · tab: Websites · line "Agri E-commerce Website" | ✅ live at `/work/smart-agro-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Shop by Crop, Shop by Problem, Product page), T6 design system, real phone stills. 30 products / 3 languages from the site; 2,200+ farmers and 2,800+ orders labelled as the company's own. Not linked. Note: smartagrocare.in returned DEPLOYMENT_DISABLED (402) on 2026-10-03 |
-| Quick Agriculture, Ram Tiles, Strataloom Research, Baba Biswanath Travels (websites) | Websites tab, real home screenshot in the card (no mockup yet) | website layout with real stills in browser frames; prompts not written yet |
+| **Quick Agriculture: network website** (`quick-agriculture-website`) | ✅ T1 mockup `quick-agriculture-website-mockup.webp` + black logo · tab: Websites · line "Agriculture Network Website" | ✅ live at `/work/quick-agriculture-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Services, Research & Training, Contact), T6 design system, real phone stills. Counts from the site: 6 services, 3 articles; 12 states and 10,000+ farmers labelled as the network's own (its figures disagree elsewhere; named testimonials not used). Not linked |
+| Ram Tiles, Strataloom Research, Baba Biswanath Travels (websites) | Websites tab, real home screenshot in the card (no mockup yet) | website layout with real stills in browser frames; prompts not written yet |
 | UnSkills mobile app | not started | not started |
 
 Removed from the site on the owner's request: UnSkills Education (its old URLs open the
@@ -1497,6 +1498,39 @@ close-ups: `home-crop-problems-desktop.png`, `home-trust-stats-desktop.png`,
 
 **Known glitches** (tiny, at page size unreadable): page-product top strip "Your tusted
 partner"; page-crop "300 CR" for "300 GR"; page-home "Panchgayya Combo".
+
+### Quick Agriculture: network website (`/work/quick-agriculture-website`)
+
+Done with the website case-study guide (2026-10-03). quickagriculture.in (the .com is a
+parked domain); static Next.js on Vercel. Not linked.
+
+**Decisions**
+- Headline *"One site for farmers, students and"* **INSTITUTIONS.** Focus: Network
+  Website · Services & Research · Membership Enquiries. Key pages: Home, Services,
+  Research & Training, Contact.
+- The homepage animates sections in on scroll, so a plain full-page capture comes out
+  blank below the fold. Capture each section after scrolling it into view
+  (`home-{services,impact,research,credibility,join}-desktop.png` in the stills folder).
+- The site's own numbers disagree (10,000+ trained vs 50K+ connected vs 1M+ lives), and
+  its testimonials name people at ICAR/MANAGE/GBPUAT: kept out of prompts and impact.
+- Card logo: mark + wordmark, solid black (`quick-agriculture-logo.webp`); the colour
+  original for prompts is `logo.png` in the stills folder (white + gold, transparent).
+
+**Brand**: Field Green #0F4D31, Action Green #1F7A4D, Banner #135B39, Mint #5FCF90,
+Harvest Gold #C68800 (logo), Cream #FBF9F3. Fonts: **DM Sans** (headings), **Inter** (body).
+
+**Images → files** (prompts: `~/Downloads/quick-agriculture-website-stills/PROMPTS.md`)
+| Generated image | File |
+|---|---|
+| Quick Agriculture Website Mockup | `public/work/quick-agriculture-website-mockup.webp` (card) |
+| Growing India’s Farming Future | `public/work/quick-agriculture-website/hero.webp` 1672×941 |
+| Quick Agriculture Network Showcase | `…/page-home.webp` 1774×887 |
+| Quick Agriculture Services Overview | `…/page-services.webp` 1774×887 |
+| Quick Agriculture Feature Showcase | `…/page-research.webp` 1774×887 |
+| Quick Agriculture Contact Page Mockup | `…/page-contact.webp` 1774×887 |
+| Quick Agriculture Design System | `…/design-system.webp` 1774×887 |
+
+No text glitches found.
 
 ### Prepared, not yet used
 

@@ -156,6 +156,7 @@ export const FEATURED: WorkCardVisual[] = [
       desktop: '/work/ram-tiles-website/home-desktop.webp',
       mobile: '/work/ram-tiles-website/home-mobile.webp',
     },
+    mockup: '/work/ram-tiles-website-mockup.webp',
     logo: { src: '/work/ram-tiles-logo.webp', width: 397, height: 160 },
   },
   {

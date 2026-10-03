@@ -627,7 +627,8 @@ The project also needs a `lib/caseStudies.ts` entry (card name, `showcaseLine`,
 | **Spectrum: tour booking website** (`spectrum-tour-travels-website`) | ✅ T1 mockup `spectrum-website-mockup.webp` + black logo · tab: Websites · line "Group Tour Booking Website" | ✅ live at `/work/spectrum-tour-travels-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Upcoming Departures, Trip page, Customised Trips), T6 design system, real phone stills. Counts from the site: 10 departures, 8 packages; 200+ Google reviews and 100K+ Facebook labelled as the company's own. Not linked to the live site |
 | **Smart Agro: agri shop website** (`smart-agro-website`) | ✅ T1 mockup `smart-agro-website-mockup.webp` + black logo · tab: Websites · line "Agri E-commerce Website" | ✅ live at `/work/smart-agro-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Shop by Crop, Shop by Problem, Product page), T6 design system, real phone stills. 30 products / 3 languages from the site; 2,200+ farmers and 2,800+ orders labelled as the company's own. Not linked. Note: smartagrocare.in returned DEPLOYMENT_DISABLED (402) on 2026-10-03 |
 | **Quick Agriculture: network website** (`quick-agriculture-website`) | ✅ T1 mockup `quick-agriculture-website-mockup.webp` + black logo · tab: Websites · line "Agriculture Network Website" | ✅ live at `/work/quick-agriculture-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Services, Research & Training, Contact), T6 design system, real phone stills. Counts from the site: 6 services, 3 articles; 12 states and 10,000+ farmers labelled as the network's own (its figures disagree elsewhere; named testimonials not used). Not linked |
-| Ram Tiles, Strataloom Research, Baba Biswanath Travels (websites) | Websites tab, real home screenshot in the card (no mockup yet) | website layout with real stills in browser frames; prompts not written yet |
+| **Ram Tiles: tile catalogue website** (`ram-tiles-website`) | ✅ T1 mockup `ram-tiles-website-mockup.webp` + black logo · tab: Websites · line "Tile Catalogue + Online Orders" | ✅ live at `/work/ram-tiles-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Category, Product page, Visit Store), T6 design system, real phone stills. Counts from the site: 1,149 products, 40+ categories, 2 showrooms, open 7 days. Its About Us and How to Place an Order pages are empty (not shown). Not linked |
+| Strataloom Research, Baba Biswanath Travels (websites) | Websites tab, real home screenshot in the card (no mockup yet) | website layout with real stills in browser frames; prompts not written yet |
 | UnSkills mobile app | not started | not started |
 
 Removed from the site on the owner's request: UnSkills Education (its old URLs open the
@@ -1531,6 +1532,38 @@ Harvest Gold #C68800 (logo), Cream #FBF9F3. Fonts: **DM Sans** (headings), **Int
 | Quick Agriculture Design System | `…/design-system.webp` 1774×887 |
 
 No text glitches found.
+
+### Ram Tiles: tile catalogue website (`/work/ram-tiles-website`)
+
+Done with the website case-study guide (2026-10-03). ramtiles.com: WordPress +
+WooCommerce + Elementor (the site's author is Pureflow's account). Not linked.
+
+**Decisions**
+- Headline *"A whole tile showroom,"* **ONLINE.** Focus: Tile Catalogue Website · Online
+  Orders · Showroom Finder. Key pages: Home, Category (`/glazed-vitrified-tiles`, 192
+  results), Product page (`/product/6001200-glazed-vitrified-tiles`), Visit Store.
+- Lower homepage images lazy-load, so the full-page capture showed grey boxes; the
+  category sections were captured again one by one (`home-{wall,flooring,parking,
+  sanitary,sinks}-desktop.png`). The site's own spellings ("Gloossy", "Mordern",
+  "Porcerlain", "Steenless", "CALACTTA") were kept in the prompts on purpose.
+
+**Brand**: Ram Orange #F97306, Peach #F8DDC5, Logo Red #CF2E2E, Price Red #FF0000,
+Footer heading #D72D07, Ink #070707, panels #EFEFEF / #F4F4F4. Fonts: **Montserrat**
+(headings), **DM Sans** (body).
+
+**Images → files** (prompts: `~/Downloads/ram-tiles-website-stills/PROMPTS.md`)
+| Generated image | File |
+|---|---|
+| Ram Tiles Website Mockup | `public/work/ram-tiles-website-mockup.webp` (card) |
+| Ram Tiles Website Showcase | `public/work/ram-tiles-website/hero.webp` 1672×941 |
+| Ram Tiles Homepage Mockup and Tile Callouts | `…/page-home.webp` 1774×887 |
+| Ram Tiles Category Page Showcase | `…/page-category.webp` 1774×887 |
+| RAM Tiles Product Showcase Callouts | `…/page-product.webp` 1774×887 |
+| RAM TILES Showroom Visit Mockup | `…/page-store.webp` 1774×887 |
+| Ram Tiles Design System Poster | `…/design-system.webp` 1774×887 |
+
+**Known glitches** (tiny): hero header button reads "Pind a Store"; page-store map label
+"Ahamamau" (the site's map says "Ahmamau").
 
 ### Prepared, not yet used
 

@@ -1982,8 +1982,7 @@ export const SHOWCASES: Showcase[] = [
   // categories (its sitemaps), the homepage sections, the two showrooms.
   // WordPress + WooCommerce + Elementor (the posts' author is Pureflow's
   // account). Its About Us and How to Place an Order pages are empty, so they
-  // aren't shown. Page images are raw stills in a browser frame until
-  // generated ones arrive (website case-study guide).
+  // aren't shown. Images: playbook §11.
   {
     slug: 'ram-tiles-website',
     client: 'Ram Tiles',
@@ -1991,12 +1990,10 @@ export const SHOWCASES: Showcase[] = [
     focus: ['Tile Catalogue Website', 'Online Orders', 'Showroom Finder'],
     headline: { lead: 'A whole tile showroom,', word: 'ONLINE.' },
     hero: {
-      src: `${RT}/home-desktop.webp`,
-      width: 1600,
-      height: 1000,
-      alt: 'The Ram Tiles homepage: Find Your Perfect Tile',
-      frame: 'browser',
-      url: 'ramtiles.com',
+      src: `${RT}/hero.webp`,
+      width: 1672,
+      height: 941,
+      alt: 'The Ram Tiles website on desktop and mobile, with flooring tiles, price per box and the two showrooms',
     },
 
     brief:
@@ -2057,12 +2054,10 @@ export const SHOWCASES: Showcase[] = [
             'Find Your Perfect Tile up top, then every family as a row of picture cards with its size: roofing, wall, flooring, parking, step & riser, chemicals, sinks, sanitary ware and more.',
           features: ['Hero & CTA', 'Tile families', 'Sizes on every card', 'Floating cart'],
           image: {
-            src: `${RT}/home-desktop.webp`,
-            width: 1600,
-            height: 1000,
-            alt: 'The Ram Tiles homepage: Find Your Perfect Tile and the tile families',
-            frame: 'browser',
-            url: 'ramtiles.com',
+            src: `${RT}/page-home.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'The Ram Tiles homepage: every tile with its size, sanitary ware and parking tiles',
           },
         },
         {
@@ -2072,12 +2067,10 @@ export const SHOWCASES: Showcase[] = [
             'A full category in one grid: 192 glazed vitrified tiles, each with its design sheet, and sorting by popularity, rating, latest or price.',
           features: ['192 results', 'Design sheets', 'Sorting', 'Product grid'],
           image: {
-            src: `${RT}/category-desktop.webp`,
-            width: 1600,
-            height: 1000,
-            alt: 'Ram Tiles glazed vitrified tiles: 192 results in a grid',
-            frame: 'browser',
-            url: 'ramtiles.com/glazed-vitrified-tiles',
+            src: `${RT}/page-category.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'Ram Tiles glazed vitrified tiles: 192 results, the real design sheet and 40+ categories',
           },
         },
         {
@@ -2087,12 +2080,10 @@ export const SHOWCASES: Showcase[] = [
             'The tile’s design sheet, price per box, quality, design, care, delivery and carton weight, then Place Order Now, Add to cart, Enquire Now and Where to Buy.',
           features: ['Price per box', 'Carton weight', 'Place Order Now', 'Enquire Now', 'Share'],
           image: {
-            src: `${RT}/product-desktop.webp`,
-            width: 1600,
-            height: 1000,
-            alt: 'A Ram Tiles product page: price per box and Place Order Now',
-            frame: 'browser',
-            url: 'ramtiles.com/product/6001200-glazed-vitrified-tiles',
+            src: `${RT}/page-product.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'A Ram Tiles product page: price per box, Place Order Now and call or WhatsApp',
           },
         },
         {
@@ -2102,12 +2093,10 @@ export const SHOWCASES: Showcase[] = [
             'Visit Shop For Better Experience: both showrooms marked on a map of Lucknow, each with a Direction button, and the shop hours and phone numbers in the footer.',
           features: ['Showroom map', 'Two showrooms', 'Directions', 'Shop hours'],
           image: {
-            src: `${RT}/store-desktop.webp`,
-            width: 1600,
-            height: 1000,
-            alt: 'Ram Tiles Visit Store: two Lucknow showrooms on a map with directions',
-            frame: 'browser',
-            url: 'ramtiles.com/visit-store',
+            src: `${RT}/page-store.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'Ram Tiles Visit Store: two Lucknow showrooms with directions, open every day',
           },
         },
       ],
@@ -2137,6 +2126,12 @@ export const SHOWCASES: Showcase[] = [
       { name: 'Peach', hex: '#F8DDC5' },
       { name: 'White', hex: '#FFFFFF' },
     ],
+    systemImage: {
+      src: `${RT}/design-system.webp`,
+      width: 1774,
+      height: 887,
+      alt: 'Ram Tiles website design system: orange and black, Montserrat and DM Sans, and core components',
+    },
     type: [
       { family: 'Montserrat', role: 'Headings', weights: 'SemiBold · Bold · Black', google: 'Montserrat:wght@600;700;900' },
       { family: 'DM Sans', role: 'Body & interface', weights: 'Light · Regular · Medium' },

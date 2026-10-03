@@ -411,6 +411,444 @@ export const CASE_STUDIES: CaseStudy[] = [
     testimonial: null,
   },
 
+  // ── Baba Biswanath Travels: group tours & pilgrimages website (live) ──────
+  // Its project page is the website showcase (lib/showcases.ts, `site`).
+  {
+    slug: 'baba-biswanath-travels-website',
+    name: 'Baba Biswanath Travels',
+    tagline:
+      'A group tour and pilgrimage website from Kolkata: fixed departures with dates and prices, customized tours to 39 destinations and enquiries on WhatsApp.',
+    category: 'Travel & Tourism',
+    // Not linked by default (website case-study guide, rule 2).
+    liveUrl: '',
+
+    card: {
+      name: 'Baba Biswanath Travels',
+      type: 'Website',
+      blurb: 'Fixed group departures, pilgrimages and private tours, with WhatsApp enquiries.',
+      showcaseLine: 'Group Tours & Pilgrimage Website',
+      device: 'browser',
+      year: '2026',
+      image: '/work/baba-biswanath-website/home-desktop.webp',
+    },
+
+    snapshot: {
+      client: 'Baba Biswanath Bhraman Sangi',
+      industry: 'Travel & Tourism',
+      services: 'UI/UX Design · Web Development · SEO',
+      platforms: 'Website',
+      stack: 'Next.js · Vercel',
+    },
+
+    challenge:
+      'Baba Biswanath Bhraman Sangi runs group tours and pilgrimage yatras from Kolkata. Families wanted to see which departures are open, their dates and prices, before calling, and groups wanted the same trips arranged privately on their own dates.',
+
+    whatWeBuilt: [
+      {
+        title: 'Tour Website',
+        icon: 'globe',
+        items: [
+          'Upcoming group departures with dates, prices and savings',
+          'A page for every tour with its route and nights',
+          'Customized tours to 39 destinations in India and abroad',
+          'Domestic and international trips in one menu',
+        ],
+      },
+      {
+        title: 'Enquiries & Payments',
+        icon: 'dashboard',
+        items: [
+          'Pick a date and travellers, then send the enquiry on WhatsApp',
+          'Make a Payment: bank transfer and UPI QR',
+          'Call and WhatsApp on every page',
+          'Terms, privacy and cancellation policies',
+        ],
+      },
+    ],
+
+    techStack: [
+      { name: 'Next.js', logo: 'nextjs' },
+      { name: 'Vercel', logo: 'vercel' },
+    ],
+
+    showcase: {
+      desktop: { type: 'image', src: '/work/baba-biswanath-website/home-desktop.webp' },
+      mobile: { type: 'image', src: '/work/baba-biswanath-website/home-mobile.webp' },
+    },
+
+    outcome: 'Every departure, date and price online, one WhatsApp away from a booking.',
+    outcomeHighlight: 'one WhatsApp away',
+
+    metrics: [],
+    testimonial: null,
+  },
+
+  // ── Strataloom Research: market research website + panel sign-up (live) ───
+  // Its project page is the website showcase (lib/showcases.ts, `site`).
+  {
+    slug: 'strataloom-research-website',
+    name: 'Strataloom Research',
+    tagline:
+      'A market research firm’s website in four languages, with six services, a global panel book and a panelist sign-up with rewards.',
+    category: 'Market Research',
+    // Not linked by default (website case-study guide, rule 2).
+    liveUrl: '',
+
+    card: {
+      name: 'Strataloom Research',
+      type: 'Website',
+      blurb: 'Six research services, a global panel book and panelist sign-up, in four languages.',
+      showcaseLine: 'Market Research Website + Panel',
+      device: 'browser',
+      year: '2026',
+      image: '/work/strataloom-website/home-desktop.webp',
+    },
+
+    snapshot: {
+      client: 'Strataloom Research',
+      industry: 'Market Research',
+      services: 'UI/UX Design · Web Development · SEO',
+      platforms: 'Website',
+      stack: 'React · Vite · Supabase · Vercel',
+    },
+
+    challenge:
+      'Strataloom Research runs surveys and market studies for brands across many markets, and needs two very different people on its site: companies looking for a research partner, and members of the public joining its panel to take paid surveys.',
+
+    whatWeBuilt: [
+      {
+        title: 'Research Firm Website',
+        icon: 'globe',
+        items: [
+          'Six services, each with its own page',
+          'Global panel book by region',
+          'Certifications: ISO 27001, ISO 9001, ISO 20252, ESOMAR 37',
+          'Blog, careers and a quote request form',
+        ],
+      },
+      {
+        title: 'Panel Sign-up',
+        icon: 'dashboard',
+        items: [
+          'Sign up and log in to the panel',
+          '50 welcome points the moment you join',
+          'hCaptcha on every sign-up',
+          'English, Spanish, French and Arabic (right to left)',
+        ],
+      },
+    ],
+
+    techStack: [
+      { name: 'React', logo: 'react' },
+      { name: 'Supabase', logo: 'supabase' },
+      { name: 'Vercel', logo: 'vercel' },
+    ],
+
+    showcase: {
+      desktop: { type: 'image', src: '/work/strataloom-website/home-desktop.webp' },
+      mobile: { type: 'image', src: '/work/strataloom-website/home-mobile.webp' },
+    },
+
+    outcome: 'One site that wins research clients and signs up the panel that serves them.',
+    outcomeHighlight: 'signs up the panel',
+
+    metrics: [],
+    testimonial: null,
+  },
+
+  // ── Ram Tiles: the tile showroom's catalogue website (live) ───────────────
+  // Its project page is the website showcase (lib/showcases.ts, `site`).
+  {
+    slug: 'ram-tiles-website',
+    name: 'Ram Tiles',
+    tagline:
+      'A tile catalogue website with 1,149 products in 40+ categories, online orders and directions to two Lucknow showrooms.',
+    category: 'Building Materials',
+    // Not linked by default (website case-study guide, rule 2).
+    liveUrl: '',
+
+    card: {
+      name: 'Ram Tiles',
+      type: 'E-commerce',
+      blurb: 'Tiles, sanitary ware and fittings by category, with online orders and showroom directions.',
+      showcaseLine: 'Tile Catalogue + Online Orders',
+      device: 'browser',
+      year: '2025',
+      image: '/work/ram-tiles-website/home-desktop.webp',
+    },
+
+    snapshot: {
+      client: 'Ram Tiles',
+      industry: 'Building Materials',
+      services: 'UI/UX Design · Web Development · SEO',
+      platforms: 'E-commerce Website',
+      stack: 'WordPress · WooCommerce · Elementor',
+    },
+
+    challenge:
+      'Ram Tiles sells floor, wall and parking tiles, sanitary ware, sinks and fittings from two showrooms in Lucknow. Buyers wanted to see the range, sizes and price per box before visiting, and the shop wanted every visit to end in an order, an enquiry or a trip to a showroom.',
+
+    whatWeBuilt: [
+      {
+        title: 'Tile Catalogue',
+        icon: 'globe',
+        items: [
+          '1,149 products in 40+ categories',
+          'Every category with its size, from 12x18 to 32x64',
+          'Product pages with price per box and carton weight',
+          'Sorting by popularity, rating, latest and price',
+        ],
+      },
+      {
+        title: 'Orders & Showrooms',
+        icon: 'dashboard',
+        items: [
+          'Place Order Now and Add to cart on every product',
+          'Contact Us, Enquire Now and Where to Buy',
+          'Two showrooms on a map, with directions',
+          'Share a product on WhatsApp, Facebook or email',
+        ],
+      },
+    ],
+
+    techStack: [
+      { name: 'WordPress', logo: '' },
+      { name: 'WooCommerce', logo: '' },
+      { name: 'Elementor', logo: '' },
+    ],
+
+    showcase: {
+      desktop: { type: 'image', src: '/work/ram-tiles-website/home-desktop.webp' },
+      mobile: { type: 'image', src: '/work/ram-tiles-website/home-mobile.webp' },
+    },
+
+    outcome: 'A showroom’s whole range online, a tap away from an order or a visit.',
+    outcomeHighlight: 'whole range',
+
+    metrics: [],
+    testimonial: null,
+  },
+
+  // ── Quick Agriculture: the network's website (live) ───────────────────────
+  // Its project page is the website showcase (lib/showcases.ts, `site`).
+  {
+    slug: 'quick-agriculture-website',
+    name: 'Quick Agriculture',
+    tagline:
+      'The website of India’s digital agriculture network: six services, research articles and a way in for farmers, students and institutions.',
+    category: 'Agriculture',
+    // Not linked by default (website case-study guide, rule 2).
+    liveUrl: '',
+
+    card: {
+      name: 'Quick Agriculture',
+      type: 'Website',
+      blurb: 'Training, research consultancy and certification for farmers, students and institutions.',
+      showcaseLine: 'Agriculture Network Website',
+      device: 'browser',
+      year: '2026',
+      image: '/work/quick-agriculture-website/home-desktop.webp',
+    },
+
+    snapshot: {
+      client: 'Quick Agriculture',
+      industry: 'Agriculture & Education',
+      services: 'UI/UX Design · Web Development · SEO',
+      platforms: 'Website',
+      stack: 'Next.js · Vercel',
+    },
+
+    challenge:
+      'Quick Agriculture trains farmers, guides students’ research and supports farmer collectives across India. It needed one site that explains six very different services to three audiences, shows its research, and gets each visitor to the right contact.',
+
+    whatWeBuilt: [
+      {
+        title: 'Network Website',
+        icon: 'globe',
+        items: [
+          'Six services, each with its own card and illustration',
+          'Research & Training articles with date and read time',
+          'Impact figures and an about page',
+          'Illustrated scenes in one consistent style',
+        ],
+      },
+      {
+        title: 'Getting in touch',
+        icon: 'dashboard',
+        items: [
+          'Become a Member on every page',
+          'WhatsApp, email and office with Maps',
+          'Newsletter sign-up',
+          'Facebook, Instagram, YouTube and Telegram',
+        ],
+      },
+    ],
+
+    techStack: [
+      { name: 'Next.js', logo: 'nextjs' },
+      { name: 'Vercel', logo: 'vercel' },
+    ],
+
+    showcase: {
+      desktop: { type: 'image', src: '/work/quick-agriculture-website/home-desktop.webp' },
+      mobile: { type: 'image', src: '/work/quick-agriculture-website/home-mobile.webp' },
+    },
+
+    outcome: 'One site that points farmers, students and institutions to the right place.',
+    outcomeHighlight: 'right place',
+
+    metrics: [],
+    testimonial: null,
+  },
+
+  // ── Smart Agro: the online agri-shop (live) ───────────────────────────────
+  // Its project page is the website showcase (lib/showcases.ts, `site`). The
+  // Agri Business Management System has its own page (slug 'smart-agro').
+  {
+    slug: 'smart-agro-website',
+    name: 'Smart Agro',
+    tagline:
+      'An online agri-shop in Marathi, Hindi and English: shop by crop or by problem, cash on delivery and free expert advice.',
+    category: 'Agriculture',
+    // Not linked by default (website case-study guide, rule 2).
+    liveUrl: '',
+
+    card: {
+      name: 'Smart Agro',
+      type: 'E-commerce',
+      blurb: 'Farm inputs by crop or by problem, in three languages, with cash on delivery.',
+      showcaseLine: 'Agri E-commerce Website',
+      device: 'browser',
+      year: '2026',
+      image: '/work/smart-agro-website/home-desktop.webp',
+    },
+
+    snapshot: {
+      client: 'Smart Agro Care',
+      industry: 'Agriculture',
+      services: 'UI/UX Design · Web Development · SEO',
+      platforms: 'E-commerce Website',
+      stack: 'Next.js · Supabase · Vercel',
+    },
+
+    challenge:
+      'Smart Agro Care sells organic fertilizers, pesticides and crop nutrition from Jalgaon to farmers who mostly read Marathi or Hindi and want to pay on delivery. Farmers know their crop and what is wrong with it, not product names, so the shop had to start from there.',
+
+    whatWeBuilt: [
+      {
+        title: 'Agri E-commerce Website',
+        icon: 'globe',
+        items: [
+          '30 products, shop by crop and by problem',
+          'Marathi, Hindi and English',
+          'Search with voice input',
+          'Kits & combos that save money',
+        ],
+      },
+      {
+        title: 'Ordering & Support',
+        icon: 'dashboard',
+        items: [
+          'Cash on delivery, or order on WhatsApp',
+          'Order tracking by order ID, India Post number or phone',
+          'Free crop advice from an expert',
+          'Affiliate referral links',
+        ],
+      },
+    ],
+
+    techStack: [
+      { name: 'Next.js', logo: 'nextjs' },
+      { name: 'Supabase', logo: 'supabase' },
+      { name: 'Vercel', logo: 'vercel' },
+    ],
+
+    showcase: {
+      desktop: { type: 'image', src: '/work/smart-agro-website/home-desktop.webp' },
+      mobile: { type: 'image', src: '/work/smart-agro-website/home-mobile.webp' },
+    },
+
+    outcome: 'A farm shop that starts from the crop, in the farmer’s own language.',
+    outcomeHighlight: 'own language',
+
+    metrics: [],
+    testimonial: null,
+  },
+
+  // ── Spectrum Tour & Travels: the tour booking website (live) ──────────────
+  // Its project page is the website showcase (lib/showcases.ts, `site`). The
+  // travel CRM has its own page (slug 'spectrum-tour-travels').
+  {
+    slug: 'spectrum-tour-travels-website',
+    name: 'Spectrum Tour & Travels',
+    tagline:
+      'A tour booking website with real departure dates and seats, a page for every trip and a five-step custom trip planner.',
+    category: 'Travel & Tourism',
+    // Not linked by default (website case-study guide, rule 2).
+    liveUrl: '',
+
+    card: {
+      name: 'Spectrum Tour & Travels',
+      type: 'Website',
+      blurb: 'Group departures with real dates and seats, trip pages and a custom trip planner.',
+      showcaseLine: 'Group Tour Booking Website',
+      device: 'browser',
+      year: '2026',
+      image: '/work/spectrum-website/home-desktop.webp',
+    },
+
+    snapshot: {
+      client: 'Spectrum Tour-Travels',
+      industry: 'Travel & Tourism',
+      services: 'UI/UX Design · Web Development · SEO',
+      platforms: 'Website',
+      stack: 'Next.js · Supabase · Razorpay · Vercel',
+    },
+
+    challenge:
+      'Spectrum Tour-Travels runs fixed-departure group tours and private trips from Arambagh, West Bengal. Travellers wanted to see real dates and seats, the full day-by-day plan and the price before calling, and families planning their own trip needed a simple way to tell the team what they want.',
+
+    whatWeBuilt: [
+      {
+        title: 'Tour Booking Website',
+        icon: 'globe',
+        items: [
+          'Upcoming departures with dates, prices and seats',
+          'A page for every trip: itinerary, inclusions, hotels, dates & pricing',
+          'Tour packages with WhatsApp Now on every card',
+          'A departure calendar',
+        ],
+      },
+      {
+        title: 'Enquiries',
+        icon: 'dashboard',
+        items: [
+          'Five-step custom trip planner',
+          'Book online: pay in full or 30% by Razorpay',
+          'Call and WhatsApp on every page',
+          'My Trips sign-in for travellers',
+        ],
+      },
+    ],
+
+    techStack: [
+      { name: 'Next.js', logo: 'nextjs' },
+      { name: 'Supabase', logo: 'supabase' },
+      { name: 'Vercel', logo: 'vercel' },
+    ],
+
+    showcase: {
+      desktop: { type: 'image', src: '/work/spectrum-website/home-desktop.webp' },
+      mobile: { type: 'image', src: '/work/spectrum-website/home-mobile.webp' },
+    },
+
+    outcome: 'A website that sells every departure with real dates and real seats.',
+    outcomeHighlight: 'real seats',
+
+    metrics: [],
+    testimonial: null,
+  },
+
   // ── Spectrum Tour & Travels — travel booking website (live) ────────────────
   {
     slug: 'spectrum-tour-travels',

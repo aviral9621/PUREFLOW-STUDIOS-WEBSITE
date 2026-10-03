@@ -157,6 +157,12 @@ export interface Showcase {
 const U = '/work/unskills';
 const UW = '/work/unskills-website';
 const HW = '/work/herbal-vantage-website';
+const SW = '/work/spectrum-website';
+const AW = '/work/smart-agro-website';
+const QA = '/work/quick-agriculture-website';
+const RT = '/work/ram-tiles-website';
+const SL = '/work/strataloom-website';
+const BB = '/work/baba-biswanath-website';
 
 export const SHOWCASES: Showcase[] = [
   {
@@ -1464,6 +1470,1042 @@ export const SHOWCASES: Showcase[] = [
       { label: 'Families', value: '10K+', caption: 'served, as the company reports' },
     ],
     ctaLead: 'Need a store that pays your distributors too?',
+  },
+
+  // ── Spectrum Tour & Travels: the tour booking website (website layout) ───
+  // Read off spectrumtourtravels.com (2026-10-02): menu and footer, the 10
+  // upcoming departures, the trip page, the 5-step planner. Next.js on
+  // Vercel with Supabase. The travel CRM has its own page (slug
+  // 'spectrum-tour-travels'). Images: playbook §11.
+  {
+    slug: 'spectrum-tour-travels-website',
+    client: 'Spectrum Tour-Travels',
+    logo: { src: '/work/spectrum-tour-travels-logo.webp', width: 277, height: 160 },
+    focus: ['Tour Booking Website', 'Live Departures & Seats', 'Custom Trip Planner'],
+    headline: { lead: 'Group tours that show', word: 'REAL SEATS.' },
+    hero: {
+      src: `${SW}/hero.webp`,
+      width: 1672,
+      height: 941,
+      alt: 'The Spectrum Tour-Travels website on desktop and mobile, with departures, the departure calendar and online booking',
+    },
+
+    brief:
+      'Spectrum Tour-Travels runs fixed-departure group tours and tailor-made holidays across India and abroad from Arambagh, Hooghly, West Bengal. The brief was a site that sells trips the way the team does: **upcoming departures with real dates and seats**, a **page for every trip** with the day-wise plan and hotels, **online booking with Razorpay** (pay in full or 30% to hold the seats), and a **five-step planner for custom trips**, with call and WhatsApp on every page.',
+    facts: [
+      { label: 'Industry', value: 'Travel & Tourism' },
+      { label: 'Delivered', value: 'Tour booking website' },
+      { label: 'Services', value: 'UI/UX Design · Web Development · SEO' },
+      { label: 'Stack', value: 'Next.js · Supabase · Razorpay · Vercel' },
+    ],
+
+    problem: '',
+    process: [],
+    products: [],
+
+    site: {
+      // No `url`: not linked unless the client agrees (guide, rule 2).
+      label: 'spectrumtourtravels.com',
+      sitemapNote: 'The menu as built: 5 menus and a footer, so every trip, date and form is two clicks from the homepage.',
+      goals: [
+        {
+          title: 'Show every departure',
+          text: 'Ten upcoming group tours with dates, prices and seats, straight from the booking system.',
+        },
+        {
+          title: 'Sell the trip on one page',
+          text: 'Day-wise itinerary, inclusions, exclusions, hotels and dates & pricing, beside Book this trip with Razorpay.',
+        },
+        {
+          title: 'Plan custom trips',
+          text: 'A five-step form: personal details, trip details, accommodation, meal plan and purpose of tour.',
+        },
+        {
+          title: 'Turn a visit into a call',
+          text: 'Call and WhatsApp on every page, and WhatsApp Now on every tour package.',
+        },
+      ],
+      sitemap: [
+        { group: 'Group Tours', pages: ['Domestic Tours', 'International Tours'] },
+        { group: 'Upcoming Departures', pages: ['Himalayan Trails', 'Beach & Islands', 'Family Holidays', 'Departure calendar'] },
+        { group: 'Tour Packages', pages: ['Domestic', 'International', 'Himalayan Trails', 'Trip pages'] },
+        { group: 'Customised Trips', pages: ['Personal details', 'Trip details', 'Accommodation', 'Meal plan', 'Purpose of tour'] },
+        { group: 'More', pages: ['Contact Us', 'About Us', 'Reviews', 'Blog', 'My Trips'] },
+        { group: 'Legal', pages: ['Terms & Conditions', 'Privacy Policy', 'Refund & Cancellation', 'Travel Agreement', 'Rules & Regulations'] },
+      ],
+      build: [
+        { title: 'Sitemap & content', text: 'Every trip, departure and policy mapped into one menu.' },
+        { title: 'Wireframes', text: 'One template per page type: listing, trip, calendar, form.' },
+        { title: 'Visual design', text: 'The Spectrum yellow and navy, with Unbounded headings, over full-bleed travel photos.' },
+        { title: 'Build & connect', text: 'Next.js on Vercel, with trips, dates and seats from Supabase and payments by Razorpay.' },
+        { title: 'SEO & launch', text: 'A title and description for every main page, and a sitemap entry for every trip.' },
+      ],
+      pages: [
+        {
+          name: 'Home',
+          path: '/',
+          summary:
+            'A full-bleed hero with Explore Upcoming Trips and Plan a Custom Journey, the community numbers, destinations, domestic and international group tours, Ladakh packages, why Spectrum and FAQs.',
+          features: ['Hero & two CTAs', 'Social proof', 'Destinations', 'Group tours', 'FAQ'],
+          image: {
+            src: `${SW}/page-home.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'The Spectrum homepage: community numbers, destinations and why Spectrum',
+          },
+        },
+        {
+          name: 'Upcoming Departures',
+          path: '/upcoming-departures',
+          summary:
+            'Ten fixed-date group tours, soonest first, each with its dates, price against the old price and Popular or Sold out tags, plus theme filters and a departure calendar.',
+          features: ['Theme filters', 'Sort', 'Dates & prices', 'Sold-out tags', 'Departure calendar'],
+          image: {
+            src: `${SW}/page-departures.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'Spectrum upcoming departures: theme filters, tour cards and the departure calendar',
+          },
+        },
+        {
+          name: 'Trip page',
+          path: '/trips/jannat-e-kashmir',
+          summary:
+            'Duration, starting price and the next departure up top, a photo gallery, then the overview, day-wise itinerary, inclusions, exclusions, hotels and dates & pricing, beside Book this trip.',
+          features: ['Trip facts', 'Photo gallery', 'Day-wise itinerary', 'Hotels by category', 'Book this trip'],
+          image: {
+            src: `${SW}/page-trip.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'A Spectrum trip page: the trip at a glance, the day-wise itinerary and online booking',
+          },
+        },
+        {
+          name: 'Customised Trips',
+          path: '/customised-trips',
+          summary:
+            'A five-step planner for a trip on your own dates: personal details, trip details, accommodation preferences, meal plan and the purpose of the tour.',
+          features: ['5 steps', 'Trip details', 'Accommodation', 'Meal plan', 'Purpose of tour'],
+          image: {
+            src: `${SW}/page-custom.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'The Spectrum custom trip planner: five steps, the fields it asks for and the privacy line',
+          },
+        },
+      ],
+      screens: [
+        { src: `${SW}/home-mobile.webp`, width: 585, height: 1266, alt: 'Spectrum homepage on a phone' },
+        { src: `${SW}/departures-mobile.webp`, width: 585, height: 1266, alt: 'Upcoming departures on a phone' },
+        { src: `${SW}/trip-mobile.webp`, width: 585, height: 1266, alt: 'A trip page with Book Now on a phone' },
+        { src: `${SW}/custom-mobile.webp`, width: 585, height: 1266, alt: 'The custom trip planner on a phone' },
+      ],
+      builtIn: [
+        { icon: 'ticket', title: 'Real dates & seats', text: 'Departures, dates and seats come straight from the booking system.' },
+        { icon: 'map', title: 'Departure calendar', text: 'Every fixed departure on one calendar, by date.' },
+        { icon: 'form', title: 'Custom trip planner', text: 'Five steps that capture dates, stays, meals and the purpose of the trip.' },
+        { icon: 'cart', title: 'Book & pay online', text: 'Pick a date and travellers, see the total with GST, and pay in full or 30% by Razorpay.' },
+        { icon: 'chat', title: 'Call & WhatsApp', text: 'On every page, and WhatsApp Now on every tour package.' },
+        { icon: 'search', title: 'Filters & sort', text: 'Filter tours by theme or region, sort by price or popularity.' },
+        { icon: 'login', title: 'My Trips', text: 'A sign-in for travellers to see their trips.' },
+        { icon: 'seo', title: 'Travel SEO', text: 'Titles and descriptions written for group tours from West Bengal.' },
+      ],
+      todayNote: 'The numbers on spectrumtourtravels.com today.',
+    },
+
+    palette: [
+      { name: 'Spectrum Yellow', hex: '#FEBD09' },
+      { name: 'Deep Gold', hex: '#E0A800' },
+      { name: 'Heading Navy', hex: '#192A3D' },
+      { name: 'Ink', hex: '#0F172A' },
+      { name: 'Ivory', hex: '#FDFAF3' },
+    ],
+    systemImage: {
+      src: `${SW}/design-system.webp`,
+      width: 1774,
+      height: 887,
+      alt: 'Spectrum Tour-Travels website design system: yellow and navy, Unbounded and Manrope, and core components',
+    },
+    type: [
+      { family: 'Unbounded', role: 'Headings', weights: 'Bold', google: 'Unbounded:wght@700' },
+      { family: 'Manrope', role: 'Body & interface', weights: 'Regular · SemiBold · Bold', google: 'Manrope:wght@400;600;700' },
+    ],
+
+    impact: [
+      { label: 'Departures', value: '10', caption: 'fixed-date group tours open now' },
+      { label: 'Packages', value: '8', caption: 'tour packages, quoted to your dates' },
+      { label: 'Google reviews', value: '200+', caption: 'on Google, as the company reports' },
+      { label: 'Facebook', value: '100K+', caption: 'community, as the company reports' },
+    ],
+    ctaLead: 'Need a website that fills your departures?',
+  },
+
+  // ── Smart Agro: the online agri-shop (website layout) ─────────────────────
+  // Read off smartagrocare.in (2026-10-02; Marathi by default, captured in
+  // English at /en): 30 products (sitemap), 6 crops, 8 crop problems, 3
+  // languages, voice search, COD, order tracking. Next.js on Vercel with
+  // Supabase. The Agri Business Management System has its own page (slug
+  // 'smart-agro'). Page images are raw stills in a browser frame until
+  // generated ones arrive (website case-study guide, Phase B).
+  {
+    slug: 'smart-agro-website',
+    client: 'Smart Agro Care',
+    logo: { src: '/work/smart-agro-logo.webp', width: 504, height: 160 },
+    focus: ['Agri E-commerce Website', 'Shop by Crop & Problem', 'Marathi · Hindi · English'],
+    headline: { lead: 'A farm shop that speaks the', word: 'FARMER’S LANGUAGE.' },
+    hero: {
+      src: `${AW}/home-desktop.webp`,
+      width: 1600,
+      height: 1000,
+      alt: 'The Smart Agro homepage: genuine organic farm inputs, delivered to your door',
+      frame: 'browser',
+      url: 'smartagrocare.in',
+    },
+
+    brief:
+      'Smart Agro Care sells organic fertilizers, pesticides and crop nutrition from Jalgaon, Maharashtra, to farmers across the country. The brief was a shop that works the way farmers think: **by crop and by problem**, not by product name, **in Marathi, Hindi and English**, with **cash on delivery**, ordering on WhatsApp and free advice from an expert.',
+    facts: [
+      { label: 'Industry', value: 'Agriculture' },
+      { label: 'Delivered', value: 'Online agri-shop' },
+      { label: 'Services', value: 'UI/UX Design · Web Development · SEO' },
+      { label: 'Stack', value: 'Next.js · Supabase · Vercel' },
+    ],
+
+    problem: '',
+    process: [],
+    products: [],
+
+    site: {
+      // No `url`: not linked unless the client agrees (guide, rule 2).
+      label: 'smartagrocare.in',
+      sitemapNote: 'The shop as built: by crop, by problem and by category, so the right product is two clicks from the homepage.',
+      goals: [
+        {
+          title: 'Start from the crop',
+          text: 'Six crops and eight crop problems, each with the products that treat it.',
+        },
+        {
+          title: 'Speak the farmer’s language',
+          text: 'The whole shop in Marathi, Hindi and English, with voice search.',
+        },
+        {
+          title: 'Make paying easy',
+          text: 'Cash on delivery, free delivery on prepaid orders, or order on WhatsApp in one message.',
+        },
+        {
+          title: 'Advise before selling',
+          text: 'Free crop advice and an expert on WhatsApp who tells you which product to use.',
+        },
+      ],
+      sitemap: [
+        { group: 'Shop', pages: ['Combos', 'Fertilizers', 'Pesticides', 'Product pages'] },
+        { group: 'Shop by Crop', pages: ['Cotton', 'Sugarcane', 'Banana', 'Soybean', 'Wheat', 'Vegetables'] },
+        { group: 'By Problem', pages: ['Weak growth', 'Flower drop', 'Borers', 'Fungus', 'Sucking pests', 'Yellowing', 'Weak roots', 'Soil health'] },
+        { group: 'Orders', pages: ['Cart', 'Wishlist', 'Track Order', 'Login'] },
+        { group: 'Help', pages: ['Customer Support', 'FAQ', 'Blog', 'About', 'Affiliate'] },
+        { group: 'Policies', pages: ['Shipping', 'Return & Refund', 'Cancellation', 'Payment', 'Warranty', 'Privacy', 'Terms'] },
+      ],
+      build: [
+        { title: 'Sitemap & content', text: 'Every product mapped to the crops and problems it is for.' },
+        { title: 'Wireframes', text: 'One template per page type: listing, crop, problem, product, tracking.' },
+        { title: 'Visual design', text: 'The Smart Agro greens with Poppins headings, readable in Devanagari and English.' },
+        { title: 'Build & connect', text: 'Next.js on Vercel, with products and orders from Supabase, in three languages.' },
+        { title: 'SEO & launch', text: 'A title, description and sitemap entry for every product, crop and page.' },
+      ],
+      pages: [
+        {
+          name: 'Home',
+          path: '/',
+          summary:
+            'Genuine farm inputs delivered to your door: cash on delivery and free expert advice up top, then best sellers, kits & combos, what’s wrong with your crop, shop by crop and Google reviews.',
+          features: ['Trust chips', 'Best sellers', 'Kits & combos', 'Crop problems', 'Google reviews'],
+          image: {
+            src: `${AW}/home-desktop.webp`,
+            width: 1600,
+            height: 1000,
+            alt: 'The Smart Agro homepage: hero, trust chips and best sellers',
+            frame: 'browser',
+            url: 'smartagrocare.in',
+          },
+        },
+        {
+          name: 'Shop by Crop',
+          path: '/crop/cotton',
+          summary:
+            'Six crops, each with its own page of recommended products and combos, every card showing the price, pack size, stock and Add to Cart.',
+          features: ['6 crops', 'Recommended products', 'Combos', 'In-stock status', 'Add to Cart'],
+          image: {
+            src: `${AW}/crop-desktop.webp`,
+            width: 1600,
+            height: 1000,
+            alt: 'Smart Agro shop by crop: products for cotton',
+            frame: 'browser',
+            url: 'smartagrocare.in/crop/cotton',
+          },
+        },
+        {
+          name: 'Shop by Problem',
+          path: '/problem/yellowing',
+          summary:
+            'Pick what’s wrong with the crop, such as yellowing leaves, and see the products that treat it. Not sure? Send a photo of the crop on WhatsApp and an expert replies.',
+          features: ['8 crop problems', 'Matching products', 'Photo on WhatsApp', 'Expert reply'],
+          image: {
+            src: `${AW}/problem-desktop.webp`,
+            width: 1600,
+            height: 1000,
+            alt: 'Smart Agro shop by problem: products for yellowing leaves',
+            frame: 'browser',
+            url: 'smartagrocare.in/problem/yellowing',
+          },
+        },
+        {
+          name: 'Product page',
+          path: '/product/daivik-capsule',
+          summary:
+            'Price with stock, Add to Cart, Buy Now and Order on WhatsApp, then the promises a farmer checks: genuine product, easy returns, cash on delivery and delivery in about 7 days.',
+          features: ['Buy Now', 'Order on WhatsApp', 'Cash on delivery', 'Delivery time', 'Expert support'],
+          image: {
+            src: `${AW}/product-desktop.webp`,
+            width: 1600,
+            height: 1000,
+            alt: 'A Smart Agro product page: price, Add to Cart, Buy Now and Order on WhatsApp',
+            frame: 'browser',
+            url: 'smartagrocare.in/product/daivik-capsule',
+          },
+        },
+      ],
+      screens: [
+        { src: `${AW}/home-mobile.webp`, width: 585, height: 1266, alt: 'Smart Agro homepage on a phone' },
+        { src: `${AW}/crop-mobile.webp`, width: 585, height: 1266, alt: 'Shop by crop on a phone' },
+        { src: `${AW}/problem-mobile.webp`, width: 585, height: 1266, alt: 'Shop by problem on a phone' },
+        { src: `${AW}/product-mobile.webp`, width: 585, height: 1266, alt: 'A product page on a phone' },
+      ],
+      builtIn: [
+        { icon: 'chat', title: 'Three languages', text: 'The whole shop in Marathi, Hindi and English, switched from the header.' },
+        { icon: 'search', title: 'Voice search', text: 'Search fertilizers, pesticides and seeds by typing or speaking.' },
+        { icon: 'map', title: 'By crop & problem', text: 'Six crops and eight crop problems, each with matching products.' },
+        { icon: 'cart', title: 'Cash on delivery', text: 'Pay when it arrives, or prepay for free delivery.' },
+        { icon: 'phone', title: 'Order on WhatsApp', text: 'Send a name and address, or a photo of the crop for advice.' },
+        { icon: 'ticket', title: 'Track Order', text: 'By order ID, India Post tracking number or mobile number.' },
+        { icon: 'star', title: 'Kits & combos', text: 'Products used together, in one pack, for less.' },
+        { icon: 'seo', title: 'Product SEO', text: 'A title, description and sitemap entry for every product and crop.' },
+      ],
+      todayNote: 'The numbers on smartagrocare.in today.',
+    },
+
+    palette: [
+      { name: 'Agro Green', hex: '#1E8A46' },
+      { name: 'Forest', hex: '#104129' },
+      { name: 'Leaf', hex: '#4CAE4F' },
+      { name: 'Harvest Orange', hex: '#F57A00' },
+      { name: 'Smart Red', hex: '#CF4217' },
+    ],
+    type: [
+      { family: 'Poppins', role: 'Headings', weights: 'SemiBold · Bold', google: 'Poppins:wght@600;700' },
+      { family: 'Inter', role: 'Body & interface', weights: 'Regular · Medium · SemiBold' },
+    ],
+
+    impact: [
+      { label: 'Products', value: '30', caption: 'on sale, by crop and by problem' },
+      { label: 'Languages', value: '3', caption: 'Marathi, Hindi and English' },
+      { label: 'Farmers', value: '2,200+', caption: 'served, as the company reports' },
+      { label: 'Orders', value: '2,800+', caption: 'delivered, as the company reports' },
+    ],
+    ctaLead: 'Need a shop your customers can use in their own language?',
+  },
+
+  // ── Quick Agriculture: the network's website (website layout) ─────────────
+  // Read off quickagriculture.in (2026-10-03; quickagriculture.com is a
+  // parked domain): 5 pages + 3 research articles (sitemap), 6 services.
+  // Static Next.js on Vercel. The site's own figures don't all agree (10,000+
+  // farmers trained vs 50K+ connected), so only labelled claims are used, and
+  // its named testimonials are not repeated. Page images are raw stills in a
+  // browser frame until generated ones arrive (website case-study guide).
+  {
+    slug: 'quick-agriculture-website',
+    client: 'Quick Agriculture',
+    logo: { src: '/work/quick-agriculture-logo.webp', width: 512, height: 160 },
+    focus: ['Network Website', 'Services & Research', 'Membership Enquiries'],
+    headline: { lead: 'One site for farmers, students and', word: 'INSTITUTIONS.' },
+    hero: {
+      src: `${QA}/home-desktop.webp`,
+      width: 1600,
+      height: 1000,
+      alt: 'The Quick Agriculture homepage: Growing India’s farming future',
+      frame: 'browser',
+      url: 'quickagriculture.in',
+    },
+
+    brief:
+      'Quick Agriculture is a digital agriculture network based in Agra that trains farmers, guides students’ research and supports farmer collectives across India. The brief was one site for **three audiences**: farmers, students and institutions, that explains **six services**, publishes the network’s **research**, and turns each visit into a **membership enquiry** on WhatsApp or email.',
+    facts: [
+      { label: 'Industry', value: 'Agriculture & Education' },
+      { label: 'Delivered', value: 'Network website' },
+      { label: 'Services', value: 'UI/UX Design · Web Development · SEO' },
+      { label: 'Stack', value: 'Next.js · Vercel' },
+    ],
+
+    problem: '',
+    process: [],
+    products: [],
+
+    site: {
+      // No `url`: not linked unless the client agrees (guide, rule 2).
+      label: 'quickagriculture.in',
+      sitemapNote: 'The menu as built: five pages and the research articles, with Become a Member on every one.',
+      goals: [
+        {
+          title: 'Explain six services simply',
+          text: 'Training, research consultancy, FPO development, soil testing, drone farming and AI, one card each.',
+        },
+        {
+          title: 'Speak to three audiences',
+          text: 'Farmers, students and institutions each see where they fit, from the first screen.',
+        },
+        {
+          title: 'Show the research',
+          text: 'Articles on soil health, smart farming and crop protection, with date and read time.',
+        },
+        {
+          title: 'Turn visits into members',
+          text: 'Become a Member on every page, and WhatsApp, email and the office one tap away.',
+        },
+      ],
+      sitemap: [
+        { group: 'Home', pages: ['Who we are', 'What we do', 'Our impact', 'Latest research', 'Join the network'] },
+        { group: 'About', pages: ['Who we are', 'Our promise', 'Our impact'] },
+        { group: 'Services', pages: ['Agriculture Training', 'Research Consultancy', 'Farmer Training & FPO', 'Organic Farming & Soil Testing', 'Precision & Drone Farming', 'AI in Agriculture'] },
+        { group: 'Research & Training', pages: ['Biochar + Compost', 'Drone-Based Monitoring', 'Botanical Pest Repellents'] },
+        { group: 'Contact', pages: ['WhatsApp', 'Email', 'Office & Maps', 'Social channels', 'Newsletter'] },
+      ],
+      build: [
+        { title: 'Sitemap & content', text: 'Six services, three audiences and the research mapped into five pages.' },
+        { title: 'Wireframes', text: 'One template per page type: landing, services, article list, article, contact.' },
+        { title: 'Visual design', text: 'Deep field greens and harvest gold, DM Sans headings and one illustration style.' },
+        { title: 'Build & launch', text: 'A static Next.js site on Vercel, fast on a phone in the field.' },
+        { title: 'SEO', text: 'A title, description and sitemap entry for every page and article.' },
+      ],
+      pages: [
+        {
+          name: 'Home',
+          path: '/',
+          summary:
+            'Growing India’s farming future: who the network is for, its four promises, the six services, impact figures, the latest research and Join India’s Digital Agriculture Network.',
+          features: ['Hero & two CTAs', 'Four promises', 'Six services', 'Impact', 'Latest research'],
+          image: {
+            src: `${QA}/home-desktop.webp`,
+            width: 1600,
+            height: 1000,
+            alt: 'The Quick Agriculture homepage: Growing India’s farming future',
+            frame: 'browser',
+            url: 'quickagriculture.in',
+          },
+        },
+        {
+          name: 'Services',
+          path: '/services',
+          summary:
+            'Six ways we help you grow: agriculture training, research consultancy, farmer training & FPO development, organic farming & soil testing, precision & drone farming, and AI in agriculture.',
+          features: ['6 services', 'Illustrated cards', 'For farmers & students', 'Our promise'],
+          image: {
+            src: `${QA}/services-desktop.webp`,
+            width: 1600,
+            height: 1000,
+            alt: 'Quick Agriculture services: six ways we help you grow',
+            frame: 'browser',
+            url: 'quickagriculture.in/services',
+          },
+        },
+        {
+          name: 'Research & Training',
+          path: '/research',
+          summary:
+            'Knowledge that moves the field forward: articles on soil health, smart farming and crop protection, each with its topic, date and read time.',
+          features: ['Topic tags', 'Article cards', 'Date & read time', 'Article pages'],
+          image: {
+            src: `${QA}/research-desktop.webp`,
+            width: 1600,
+            height: 1000,
+            alt: 'Quick Agriculture research: article cards on soil, drones and crop protection',
+            frame: 'browser',
+            url: 'quickagriculture.in/research',
+          },
+        },
+        {
+          name: 'Contact',
+          path: '/contact',
+          summary:
+            'Let’s grow together: WhatsApp, email and the Agra office with a Maps link, plus Facebook, Instagram, YouTube and Telegram.',
+          features: ['WhatsApp chat', 'Email', 'Office & Maps', 'Social channels'],
+          image: {
+            src: `${QA}/contact-desktop.webp`,
+            width: 1600,
+            height: 1000,
+            alt: 'Quick Agriculture contact: WhatsApp, email and office',
+            frame: 'browser',
+            url: 'quickagriculture.in/contact',
+          },
+        },
+      ],
+      screens: [
+        { src: `${QA}/home-mobile.webp`, width: 585, height: 1266, alt: 'Quick Agriculture homepage on a phone' },
+        { src: `${QA}/services-mobile.webp`, width: 585, height: 1266, alt: 'Services on a phone' },
+        { src: `${QA}/research-mobile.webp`, width: 585, height: 1266, alt: 'Research & Training on a phone' },
+        { src: `${QA}/contact-mobile.webp`, width: 585, height: 1266, alt: 'Contact on a phone' },
+      ],
+      builtIn: [
+        { icon: 'form', title: 'Become a Member', text: 'A membership call to action in the header of every page.' },
+        { icon: 'chat', title: 'WhatsApp first', text: 'Start a chat from the contact page and the footer.' },
+        { icon: 'map', title: 'Office on Maps', text: 'The Agra office address opens straight in Google Maps.' },
+        { icon: 'search', title: 'Research articles', text: 'Topic tags, dates and read times, with a page for each article.' },
+        { icon: 'star', title: 'One illustration style', text: 'Every scene and service card drawn in the same friendly 3D style.' },
+        { icon: 'phone', title: 'Built for phones', text: 'A mobile hero with the key number up top and big tap targets.' },
+        { icon: 'ticket', title: 'Newsletter', text: 'Agriculture updates by email, sign-up in the footer.' },
+        { icon: 'seo', title: 'SEO', text: 'A title, description and sitemap entry for every page and article.' },
+      ],
+      todayNote: 'What’s on quickagriculture.in today.',
+    },
+
+    palette: [
+      { name: 'Field Green', hex: '#0F4D31' },
+      { name: 'Action Green', hex: '#1F7A4D' },
+      { name: 'Mint', hex: '#5FCF90' },
+      { name: 'Harvest Gold', hex: '#C68800' },
+      { name: 'Cream', hex: '#FBF9F3' },
+    ],
+    type: [
+      { family: 'DM Sans', role: 'Headings', weights: 'SemiBold · Bold', google: 'DM+Sans:wght@600;700' },
+      { family: 'Inter', role: 'Body & interface', weights: 'Regular · Medium · SemiBold' },
+    ],
+
+    impact: [
+      { label: 'Services', value: '6', caption: 'for farmers, students and institutions' },
+      { label: 'Research', value: '3', caption: 'articles published on the site' },
+      { label: 'States', value: '12', caption: 'covered by field training, as the network reports' },
+      { label: 'Farmers', value: '10,000+', caption: 'trained, as the network reports' },
+    ],
+    ctaLead: 'Need a website that turns visitors into members?',
+  },
+
+  // ── Ram Tiles: the showroom's catalogue website (website layout) ──────────
+  // Read off ramtiles.com (2026-10-03): 1,149 products and 45 product
+  // categories (its sitemaps), the homepage sections, the two showrooms.
+  // WordPress + WooCommerce + Elementor (the posts' author is Pureflow's
+  // account). Its About Us and How to Place an Order pages are empty, so they
+  // aren't shown. Page images are raw stills in a browser frame until
+  // generated ones arrive (website case-study guide).
+  {
+    slug: 'ram-tiles-website',
+    client: 'Ram Tiles',
+    logo: { src: '/work/ram-tiles-logo.webp', width: 397, height: 160 },
+    focus: ['Tile Catalogue Website', 'Online Orders', 'Showroom Finder'],
+    headline: { lead: 'A whole tile showroom,', word: 'ONLINE.' },
+    hero: {
+      src: `${RT}/home-desktop.webp`,
+      width: 1600,
+      height: 1000,
+      alt: 'The Ram Tiles homepage: Find Your Perfect Tile',
+      frame: 'browser',
+      url: 'ramtiles.com',
+    },
+
+    brief:
+      'Ram Tiles sells floor, wall, roofing and parking tiles, sanitary ware, kitchen sinks and fittings from two showrooms in Lucknow. The brief was the whole showroom online: a **catalogue of 1,149 products in 40+ categories**, each tile with its **size and price per box**, **Place Order Now** on every product, and **directions to both showrooms** for buyers who want to see the tiles first.',
+    facts: [
+      { label: 'Industry', value: 'Building Materials' },
+      { label: 'Delivered', value: 'Catalogue website + online orders' },
+      { label: 'Services', value: 'UI/UX Design · Web Development · SEO' },
+      { label: 'Stack', value: 'WordPress · WooCommerce · Elementor' },
+    ],
+
+    problem: '',
+    process: [],
+    products: [],
+
+    site: {
+      // No `url`: not linked unless the client agrees (guide, rule 2).
+      label: 'ramtiles.com',
+      sitemapNote: 'The catalogue as built: 11 families and 40+ categories, each tile two taps from the homepage.',
+      goals: [
+        {
+          title: 'Put the whole range online',
+          text: '1,149 products, from 12x18 wall tiles to 32x64 marble slabs, sorted into 40+ categories.',
+        },
+        {
+          title: 'Show the price up front',
+          text: 'Price per box, size, finish and carton weight on every product page.',
+        },
+        {
+          title: 'Turn a look into an order',
+          text: 'Place Order Now, Add to cart and Enquire Now on every product.',
+        },
+        {
+          title: 'Bring buyers to the showroom',
+          text: 'Both Lucknow showrooms on a map with directions, open 10am to 10pm, all 7 days.',
+        },
+      ],
+      sitemap: [
+        { group: 'Tiles', pages: ['Roofing', 'Wall', 'Flooring', 'Parking', 'Step & Riser'] },
+        { group: 'Fitting', pages: ['Tile Adhesives', 'Tile Grout', 'Tile Spacers', 'Epoxy Tile System'] },
+        { group: 'Bath & Kitchen', pages: ['Kitchen Sinks', 'Sanitary Ware', 'Wash Basins'] },
+        { group: 'Decor', pages: ['Rangoli & Border', 'Posters', 'Breeze Jali', 'Cement Tiles'] },
+        { group: 'Visit Store', pages: ['Arjunganj, Lucknow', 'Budheswar, Dubagga'] },
+        { group: 'Help', pages: ['Contact Us', 'Blogs', 'Refund & Return Policy', 'Terms & Conditions'] },
+      ],
+      build: [
+        { title: 'Sitemap & content', text: '1,149 products sorted into tile families, sizes and categories.' },
+        { title: 'Wireframes', text: 'One template per page type: category grid, listing, product, store finder.' },
+        { title: 'Visual design', text: 'The Ram Tiles orange and black, with Montserrat headings, letting the tiles lead.' },
+        { title: 'Build & connect', text: 'WordPress with WooCommerce for the catalogue and cart, built in Elementor.' },
+        { title: 'SEO & launch', text: 'A title, description and sitemap entry for every product and category.' },
+      ],
+      pages: [
+        {
+          name: 'Home',
+          path: '/',
+          summary:
+            'Find Your Perfect Tile up top, then every family as a row of picture cards with its size: roofing, wall, flooring, parking, step & riser, chemicals, sinks, sanitary ware and more.',
+          features: ['Hero & CTA', 'Tile families', 'Sizes on every card', 'Floating cart'],
+          image: {
+            src: `${RT}/home-desktop.webp`,
+            width: 1600,
+            height: 1000,
+            alt: 'The Ram Tiles homepage: Find Your Perfect Tile and the tile families',
+            frame: 'browser',
+            url: 'ramtiles.com',
+          },
+        },
+        {
+          name: 'Category',
+          path: '/glazed-vitrified-tiles',
+          summary:
+            'A full category in one grid: 192 glazed vitrified tiles, each with its design sheet, and sorting by popularity, rating, latest or price.',
+          features: ['192 results', 'Design sheets', 'Sorting', 'Product grid'],
+          image: {
+            src: `${RT}/category-desktop.webp`,
+            width: 1600,
+            height: 1000,
+            alt: 'Ram Tiles glazed vitrified tiles: 192 results in a grid',
+            frame: 'browser',
+            url: 'ramtiles.com/glazed-vitrified-tiles',
+          },
+        },
+        {
+          name: 'Product page',
+          path: '/product/6001200-glazed-vitrified-tiles',
+          summary:
+            'The tile’s design sheet, price per box, quality, design, care, delivery and carton weight, then Place Order Now, Add to cart, Enquire Now and Where to Buy.',
+          features: ['Price per box', 'Carton weight', 'Place Order Now', 'Enquire Now', 'Share'],
+          image: {
+            src: `${RT}/product-desktop.webp`,
+            width: 1600,
+            height: 1000,
+            alt: 'A Ram Tiles product page: price per box and Place Order Now',
+            frame: 'browser',
+            url: 'ramtiles.com/product/6001200-glazed-vitrified-tiles',
+          },
+        },
+        {
+          name: 'Visit Store',
+          path: '/visit-store',
+          summary:
+            'Visit Shop For Better Experience: both showrooms marked on a map of Lucknow, each with a Direction button, and the shop hours and phone numbers in the footer.',
+          features: ['Showroom map', 'Two showrooms', 'Directions', 'Shop hours'],
+          image: {
+            src: `${RT}/store-desktop.webp`,
+            width: 1600,
+            height: 1000,
+            alt: 'Ram Tiles Visit Store: two Lucknow showrooms on a map with directions',
+            frame: 'browser',
+            url: 'ramtiles.com/visit-store',
+          },
+        },
+      ],
+      screens: [
+        { src: `${RT}/home-mobile.webp`, width: 585, height: 1266, alt: 'Ram Tiles homepage on a phone' },
+        { src: `${RT}/category-mobile.webp`, width: 585, height: 1266, alt: 'A tile category on a phone' },
+        { src: `${RT}/product-mobile.webp`, width: 585, height: 1266, alt: 'A product page on a phone' },
+        { src: `${RT}/store-mobile.webp`, width: 585, height: 1266, alt: 'Visit Store on a phone' },
+      ],
+      builtIn: [
+        { icon: 'cart', title: 'Cart & orders', text: 'WooCommerce cart with Place Order Now on every product.' },
+        { icon: 'search', title: 'Search & sort', text: 'Search the range, and sort any category by popularity, rating or price.' },
+        { icon: 'ticket', title: 'Price per box', text: 'Every tile with its price per box, size and carton weight.' },
+        { icon: 'map', title: 'Showroom finder', text: 'Both Lucknow showrooms on a map, with directions.' },
+        { icon: 'form', title: 'Enquire Now', text: 'An enquiry and Where to Buy on every product.' },
+        { icon: 'chat', title: 'Share on WhatsApp', text: 'Send any tile to family or a contractor in one tap.' },
+        { icon: 'phone', title: 'App-style mobile bar', text: 'Category, Visit Shop, Contact and Search, always at the bottom.' },
+        { icon: 'seo', title: 'Product SEO', text: 'A sitemap entry for every product and category.' },
+      ],
+      todayNote: 'The numbers on ramtiles.com today.',
+    },
+
+    palette: [
+      { name: 'Ram Orange', hex: '#F97306' },
+      { name: 'Dial Red', hex: '#CD201F' },
+      { name: 'Ink', hex: '#070707' },
+      { name: 'Peach', hex: '#F8DDC5' },
+      { name: 'White', hex: '#FFFFFF' },
+    ],
+    type: [
+      { family: 'Montserrat', role: 'Headings', weights: 'SemiBold · Bold · Black', google: 'Montserrat:wght@600;700;900' },
+      { family: 'DM Sans', role: 'Body & interface', weights: 'Light · Regular · Medium' },
+    ],
+
+    impact: [
+      { label: 'Products', value: '1,149', caption: 'tiles, fittings and sanitary ware online' },
+      { label: 'Categories', value: '40+', caption: 'from roofing tiles to sinks' },
+      { label: 'Showrooms', value: '2', caption: 'in Lucknow, with directions' },
+      { label: 'Open', value: '7 days', caption: '10am to 10pm, every day of the week' },
+    ],
+    ctaLead: 'Need your whole showroom online?',
+  },
+
+  // ── Strataloom Research: research firm website + panel (website layout) ───
+  // Read off strataloomresearch.com (2026-10-03; strataloom.com is only a
+  // parked domain): 6 services, the panel book's regions and quality steps,
+  // the sign-up, 4 languages (i18next: en, es, fr, ar with RTL). React + Vite
+  // on Vercel, Supabase sign-in, hCaptcha, Resend. Panel size, markets and
+  // study counts are the company's own figures. Page images are raw stills in
+  // a browser frame until generated ones arrive (website case-study guide).
+  {
+    slug: 'strataloom-research-website',
+    client: 'Strataloom Research',
+    logo: { src: '/work/strataloom-logo.webp', width: 683, height: 160 },
+    focus: ['Research Firm Website', 'Panelist Sign-up', 'Four Languages'],
+    headline: { lead: 'Winning research clients and the', word: 'PANEL BEHIND THEM.' },
+    hero: {
+      src: `${SL}/home-desktop.webp`,
+      width: 1600,
+      height: 1000,
+      alt: 'The Strataloom Research homepage: Insights That Power Global Innovation',
+      frame: 'browser',
+      url: 'strataloomresearch.com',
+    },
+
+    brief:
+      'Strataloom Research is a market research firm based in Lucknow that runs surveys and studies for brands across many markets. The brief was a site for **two audiences**: companies looking for a research partner, who need the **six services, the panel book and the certifications**, and the public, who **join the panel to earn rewards** for surveys. All of it in **English, Spanish, French and Arabic**.',
+    facts: [
+      { label: 'Industry', value: 'Market Research' },
+      { label: 'Delivered', value: 'Research firm website + panel sign-up' },
+      { label: 'Services', value: 'UI/UX Design · Web Development · SEO' },
+      { label: 'Stack', value: 'React · Vite · Supabase · Vercel' },
+    ],
+
+    problem: '',
+    process: [],
+    products: [],
+
+    site: {
+      // No `url`: not linked unless the client agrees (guide, rule 2).
+      label: 'strataloomresearch.com',
+      sitemapNote: 'The menu as built: services and resources in two drop-downs, and Join Panel on every page.',
+      goals: [
+        {
+          title: 'Win research clients',
+          text: 'Six services with their own pages, a quote request, and a reply promised within 24 hours.',
+        },
+        {
+          title: 'Prove the quality',
+          text: 'ISO 27001, ISO 9001, ISO 20252 and ESOMAR 37, plus double opt-in and AI fraud checks on the panel.',
+        },
+        {
+          title: 'Grow the panel',
+          text: 'A sign-up that credits 50 points instantly, protected by hCaptcha, with gift cards to redeem.',
+        },
+        {
+          title: 'Speak every market',
+          text: 'The whole site in English, Spanish, French and Arabic, with Arabic laid out right to left.',
+        },
+      ],
+      sitemap: [
+        { group: 'About', pages: ['Who we are', 'Research scope', 'Quality & integrity'] },
+        { group: 'Services', pages: ['Qualitative', 'Quantitative', 'Online', 'Global CATI', 'Business', 'Other services'] },
+        { group: 'Resources', pages: ['Blogs', 'Panel Book'] },
+        { group: 'Careers', pages: ['Our principles', 'Open roles'] },
+        { group: 'Contact', pages: ['Send a message', 'Request a quote', 'FAQ'] },
+        { group: 'Join Panel', pages: ['Sign up', 'Log in', 'Rewards'] },
+      ],
+      build: [
+        { title: 'Sitemap & content', text: 'Two journeys mapped: clients to services and quotes, the public to the panel.' },
+        { title: 'Wireframes', text: 'One template per page type: service, panel book, article, sign-up, contact.' },
+        { title: 'Visual design', text: 'Strataloom teal, navy and amber with Satoshi type, built to read right to left too.' },
+        { title: 'Build & connect', text: 'React on Vercel, with Supabase sign-in, hCaptcha and Resend email.' },
+        { title: 'SEO & launch', text: 'A title, description and sitemap entry for every page, in four languages.' },
+      ],
+      pages: [
+        {
+          name: 'Home',
+          path: '/',
+          summary:
+            'Insights That Power Global Innovation: the firm’s numbers up top, what it does, the six services, its certifications and the latest articles.',
+          features: ['Hero & two CTAs', 'Key numbers', 'Six services', 'Certifications', 'Blog'],
+          image: {
+            src: `${SL}/home-desktop.webp`,
+            width: 1600,
+            height: 1000,
+            alt: 'The Strataloom Research homepage: Insights That Power Global Innovation',
+            frame: 'browser',
+            url: 'strataloomresearch.com',
+          },
+        },
+        {
+          name: 'Services',
+          path: '/services',
+          summary:
+            'Six services, each with a picture, a short line and its own page: qualitative, quantitative, online, global CATI, business research and other services.',
+          features: ['6 services', 'Service pages', 'Capabilities', 'Quote request'],
+          image: {
+            src: `${SL}/services-desktop.webp`,
+            width: 1600,
+            height: 1000,
+            alt: 'Strataloom Research services: six research services',
+            frame: 'browser',
+            url: 'strataloomresearch.com/services',
+          },
+        },
+        {
+          name: 'Panel Book',
+          path: '/panel-book',
+          summary:
+            '10 million voices, one reliable source: the panel by region, how its data is kept clean, and the panel book to download.',
+          features: ['Panel numbers', 'Regions & countries', 'Double opt-in', 'AI fraud detection', 'Download'],
+          image: {
+            src: `${SL}/panel-desktop.webp`,
+            width: 1600,
+            height: 1000,
+            alt: 'Strataloom Research panel book: 10 million voices, one reliable source',
+            frame: 'browser',
+            url: 'strataloomresearch.com/panel-book',
+          },
+        },
+        {
+          name: 'Join Panel',
+          path: '/join-panel',
+          summary:
+            'Share your opinion, earn real rewards: 50 points on sign-up, the gift cards to redeem, and a sign-up and log-in form protected by hCaptcha.',
+          features: ['Sign up & log in', '50 welcome points', 'Reward partners', 'hCaptcha', 'Language switch'],
+          image: {
+            src: `${SL}/join-desktop.webp`,
+            width: 1600,
+            height: 1000,
+            alt: 'Strataloom Research Join Panel: create your account and get 50 points',
+            frame: 'browser',
+            url: 'strataloomresearch.com/join-panel',
+          },
+        },
+      ],
+      screens: [
+        { src: `${SL}/home-mobile.webp`, width: 585, height: 1266, alt: 'Strataloom Research homepage on a phone' },
+        { src: `${SL}/services-mobile.webp`, width: 585, height: 1266, alt: 'Services on a phone' },
+        { src: `${SL}/panel-mobile.webp`, width: 585, height: 1266, alt: 'Panel book on a phone' },
+        { src: `${SL}/join-mobile.webp`, width: 585, height: 1266, alt: 'Join Panel on a phone' },
+      ],
+      builtIn: [
+        { icon: 'chat', title: 'Four languages', text: 'English, Spanish, French and Arabic, with Arabic right to left.' },
+        { icon: 'login', title: 'Panel accounts', text: 'Sign up and log in to the panel, with Supabase behind it.' },
+        { icon: 'star', title: 'Welcome rewards', text: '50 points credited the moment a panelist signs up.' },
+        { icon: 'shield', title: 'Bot protection', text: 'hCaptcha on every sign-up keeps the panel clean.' },
+        { icon: 'form', title: 'Quote requests', text: 'A contact form for quotes, panel support and partnerships.' },
+        { icon: 'ticket', title: 'Panel book', text: 'The full panel book, ready to download.' },
+        { icon: 'search', title: 'Service pages', text: 'Each of the six services with its own page and capabilities.' },
+        { icon: 'seo', title: 'SEO', text: 'A title, description and sitemap entry for every page.' },
+      ],
+      todayNote: 'What’s on strataloomresearch.com today.',
+    },
+
+    palette: [
+      { name: 'Strataloom Teal', hex: '#0FA3B1' },
+      { name: 'Deep Navy', hex: '#0B1F3B' },
+      { name: 'Insight Amber', hex: '#F4A300' },
+      { name: 'Mist', hex: '#F4F6F8' },
+      { name: 'White', hex: '#FFFFFF' },
+    ],
+    type: [
+      { family: 'Satoshi', role: 'Headings & body', weights: 'Regular · Bold · Black' },
+    ],
+
+    impact: [
+      { label: 'Services', value: '6', caption: 'research services, each with its own page' },
+      { label: 'Languages', value: '4', caption: 'English, Spanish, French and Arabic' },
+      { label: 'Panel', value: '10M+', caption: 'panel members, as the company reports' },
+      { label: 'Markets', value: '42+', caption: 'markets covered, as the company reports' },
+    ],
+    ctaLead: 'Need a site that wins clients and signs up users?',
+  },
+
+  // ── Baba Biswanath Travels: group tours & pilgrimages (website layout) ────
+  // Read off bababiswanathtravels.com (2026-10-03; babavishwanathtravels.com
+  // is a different company): 12 open departures, 14 tour pages (sitemap), 39
+  // destinations for customized tours, the enquiry and payment pages. Next.js
+  // on Vercel. The payment page's bank details are not shown here. "10+ years"
+  // is the company's own claim. Page images are raw stills in a browser frame
+  // until generated ones arrive (website case-study guide).
+  {
+    slug: 'baba-biswanath-travels-website',
+    client: 'Baba Biswanath Bhraman Sangi',
+    logo: { src: '/work/baba-biswanath-logo.webp', width: 602, height: 160 },
+    focus: ['Group Tours Website', 'Pilgrimage Yatras', 'WhatsApp Enquiries'],
+    headline: { lead: 'Yatras and group tours,', word: 'BOOKED TOGETHER.' },
+    hero: {
+      src: `${BB}/home-desktop.webp`,
+      width: 1600,
+      height: 1000,
+      alt: 'The Baba Biswanath homepage: Yatra, Sea & Sky — Travelled Together',
+      frame: 'browser',
+      url: 'bababiswanathtravels.com',
+    },
+
+    brief:
+      'Baba Biswanath Bhraman Sangi is a Kolkata travel planner that runs group tours and pilgrimage yatras across India and abroad. The brief was a site that shows **every open departure with its dates and price**, gives **every tour its own page** with the route, offers the same destinations as **private customized tours**, and turns interest into an **enquiry on WhatsApp**, with no payment needed to ask.',
+    facts: [
+      { label: 'Industry', value: 'Travel & Pilgrimage' },
+      { label: 'Delivered', value: 'Group tours website' },
+      { label: 'Services', value: 'UI/UX Design · Web Development · SEO' },
+      { label: 'Stack', value: 'Next.js · Vercel' },
+    ],
+
+    problem: '',
+    process: [],
+    products: [],
+
+    site: {
+      // No `url`: not linked unless the client agrees (guide, rule 2).
+      label: 'bababiswanathtravels.com',
+      sitemapNote: 'The menu as built: group tours, upcoming trips and customized tours, with Make a Payment always one click away.',
+      goals: [
+        {
+          title: 'Show every open departure',
+          text: 'Twelve group departures, soonest first, each with its dates, price and saving.',
+        },
+        {
+          title: 'Sell the tour on one page',
+          text: 'The route night by night, the story of the place, and the price beside the dates.',
+        },
+        {
+          title: 'Turn interest into an enquiry',
+          text: 'Pick a date and travellers, then send it on WhatsApp. No advance needed to enquire.',
+        },
+        {
+          title: 'Offer private trips too',
+          text: '39 destinations in India and abroad, arranged on your own dates for your own group.',
+        },
+      ],
+      sitemap: [
+        { group: 'Group Tours', pages: ['Domestic trips', 'International trips', 'Tour pages'] },
+        { group: 'Upcoming Trips', pages: ['By destination', 'Dates & prices', 'About departures'] },
+        { group: 'Customized Tours', pages: ['Domestic', 'International', 'Who travels this way', 'Enquiry'] },
+        { group: 'About', pages: ['How this started', 'Travel with us'] },
+        { group: 'Contact', pages: ['Call', 'WhatsApp', 'Email'] },
+        { group: 'Make a Payment', pages: ['Bank transfer', 'UPI QR', 'Policies'] },
+      ],
+      build: [
+        { title: 'Sitemap & content', text: 'Group departures, private tours and payments mapped into one menu.' },
+        { title: 'Wireframes', text: 'One template per page type: listing, tour, destinations, payment.' },
+        { title: 'Visual design', text: 'Olive and lime from the logo, Playfair Display headlines over full-bleed travel photos.' },
+        { title: 'Build & launch', text: 'Next.js on Vercel, fast on a phone, with WhatsApp enquiries built in.' },
+        { title: 'SEO', text: 'A title, description and sitemap entry for every tour and page.' },
+      ],
+      pages: [
+        {
+          name: 'Home',
+          path: '/',
+          summary:
+            'Yatra, Sea & Sky — Travelled Together: Plan My Trip and View Upcoming Trips up top, then every destination, the upcoming group departures and the two ways to travel.',
+          features: ['Hero & two CTAs', 'Destinations', 'Group departures', 'Two ways to travel', 'WhatsApp'],
+          image: {
+            src: `${BB}/home-desktop.webp`,
+            width: 1600,
+            height: 1000,
+            alt: 'The Baba Biswanath homepage: Yatra, Sea & Sky — Travelled Together',
+            frame: 'browser',
+            url: 'bababiswanathtravels.com',
+          },
+        },
+        {
+          name: 'Upcoming Trips',
+          path: '/upcoming-trips',
+          summary:
+            'Fixed dates, fixed price: twelve group departures by destination, each card with its days, route, price, saving and dates.',
+          features: ['Destination filter', '12 departures', 'Dates & prices', 'Savings', 'FAQ'],
+          image: {
+            src: `${BB}/upcoming-desktop.webp`,
+            width: 1600,
+            height: 1000,
+            alt: 'Baba Biswanath upcoming trips: departures by destination',
+            frame: 'browser',
+            url: 'bababiswanathtravels.com/upcoming-trips',
+          },
+        },
+        {
+          name: 'Tour page',
+          path: '/tour/vizag-araku',
+          summary:
+            'The tour’s photo, days and region, the story of the place and the route night by night, beside the price, a departure date, the travellers and Send Enquiry on WhatsApp.',
+          features: ['Price & saving', 'Departure date', 'Travellers', 'WhatsApp enquiry', 'Route'],
+          image: {
+            src: `${BB}/tour-desktop.webp`,
+            width: 1600,
+            height: 1000,
+            alt: 'A Baba Biswanath tour page: Vizag – Araku with price, date and WhatsApp enquiry',
+            frame: 'browser',
+            url: 'bababiswanathtravels.com/tour/vizag-araku',
+          },
+        },
+        {
+          name: 'Customized Tours',
+          path: '/customized-tours',
+          summary:
+            'Your own group, your own dates: 39 destinations in India and abroad, who travels this way, the four steps from idea to departure, and an enquiry form.',
+          features: ['39 destinations', 'Domestic & international', 'Four steps', 'Enquiry form'],
+          image: {
+            src: `${BB}/custom-desktop.webp`,
+            width: 1600,
+            height: 1000,
+            alt: 'Baba Biswanath customized tours: your own group, your own dates',
+            frame: 'browser',
+            url: 'bababiswanathtravels.com/customized-tours',
+          },
+        },
+      ],
+      screens: [
+        { src: `${BB}/home-mobile.webp`, width: 585, height: 1266, alt: 'Baba Biswanath homepage on a phone' },
+        { src: `${BB}/upcoming-mobile.webp`, width: 585, height: 1266, alt: 'Upcoming trips on a phone' },
+        { src: `${BB}/tour-mobile.webp`, width: 585, height: 1266, alt: 'A tour page on a phone' },
+        { src: `${BB}/custom-mobile.webp`, width: 585, height: 1266, alt: 'Customized tours on a phone' },
+      ],
+      builtIn: [
+        { icon: 'chat', title: 'WhatsApp enquiries', text: 'Every tour sends its date and travellers straight to WhatsApp.' },
+        { icon: 'ticket', title: 'Dates & prices', text: 'Each departure with its dates, price and saving, soonest first.' },
+        { icon: 'map', title: 'Route by night', text: 'Every tour’s route, stop by stop, with the nights in each.' },
+        { icon: 'search', title: 'Destination filter', text: 'Upcoming trips filtered by destination, with trip counts.' },
+        { icon: 'form', title: 'Custom tour enquiry', text: 'A form for private trips on your own dates.' },
+        { icon: 'cart', title: 'Make a Payment', text: 'Bank transfer and a UPI QR, with a reminder to confirm first.' },
+        { icon: 'phone', title: 'Call from any page', text: 'The phone number in the header and a WhatsApp button on every page.' },
+        { icon: 'seo', title: 'Tour SEO', text: 'A title, description and sitemap entry for every tour.' },
+      ],
+      todayNote: 'The numbers on bababiswanathtravels.com today.',
+    },
+
+    palette: [
+      { name: 'Olive', hex: '#6B7B1A' },
+      { name: 'Lime', hex: '#B6D047' },
+      { name: 'River Teal', hex: '#0E86AE' },
+      { name: 'Ink', hex: '#14262E' },
+      { name: 'Canvas', hex: '#FBFCF8' },
+    ],
+    type: [
+      { family: 'Playfair Display', role: 'Headlines', weights: 'Medium · Bold', google: 'Playfair+Display:wght@500;700' },
+      { family: 'DM Sans', role: 'Headings & interface', weights: 'Regular · SemiBold · Bold', google: 'DM+Sans:wght@400;600;700' },
+    ],
+
+    impact: [
+      { label: 'Departures', value: '12', caption: 'group departures open now' },
+      { label: 'Tours', value: '14', caption: 'tour pages, each with its route' },
+      { label: 'Destinations', value: '39', caption: 'for customized tours, in India and abroad' },
+      { label: 'Experience', value: '10+', caption: 'years arranging journeys, as the company reports' },
+    ],
+    ctaLead: 'Need a website that fills your group departures?',
   },
 ];
 

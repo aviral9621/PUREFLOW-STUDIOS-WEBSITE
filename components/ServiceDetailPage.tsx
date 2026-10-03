@@ -38,6 +38,25 @@ const ASSURANCES = [
   'GST invoices included',
 ];
 
+/**
+ * Grid cell for the "Selected work" cards: every card the same width, and a
+ * short last row centred instead of left-aligned. 2 per row from `sm` (on a
+ * 4-column grid), 3 per row from `lg` (on a 6-column grid), and 2 × 2 when
+ * there are exactly four.
+ */
+function workCellClass(i: number, n: number): string {
+  const c = ['sm:col-span-2'];
+  if (n % 2 === 1 && i === n - 1) c.push('sm:col-start-2');
+  if (n !== 4) {
+    c.push('lg:col-span-2');
+    const rem = n % 3;
+    if (rem === 2 && i === n - 2) c.push('lg:col-start-2');
+    else if (rem === 1 && i === n - 1) c.push('lg:col-start-3');
+    else c.push('lg:col-start-auto');
+  }
+  return c.join(' ');
+}
+
 /** Small uppercase section label. The only place the accent colour repeats. */
 const Eyebrow: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <p className="svc-eyebrow">{children}</p>
@@ -244,10 +263,17 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             </button>
           </div>
 
-          {/* The homepage work card in miniature — see sections/WorkCard.tsx. */}
-          <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
-            {work.map((item) => (
-              <WorkCard key={item.slug} item={item} onOpen={(slug) => onOpenProject?.(slug)} />
+          {/* The homepage work card in miniature — see sections/WorkCard.tsx.
+              Every card is the same size; a short last row is centred. */}
+          <div
+            className={`mt-10 grid grid-cols-1 gap-4 sm:mt-14 sm:grid-cols-4 sm:gap-5 lg:gap-6 ${
+              work.length === 4 ? '' : 'lg:grid-cols-6'
+            }`}
+          >
+            {work.map((item, i) => (
+              <div key={item.slug} className={workCellClass(i, work.length)}>
+                <WorkCard item={item} onOpen={(slug) => onOpenProject?.(slug)} />
+              </div>
             ))}
           </div>
         </section>

@@ -97,8 +97,12 @@ export const WorkCard: React.FC<Props> = ({ item, onOpen }) => {
             />
           </div>
         ) : (
-          <div className="sw-stage relative m-4 aspect-[16/10] overflow-hidden rounded-[10px] border border-[#0d0b12]/10 sm:m-5">
-            <PortfolioPreview preview={preview} name={name} device={device} />
+          // Same 2:1 box as a mockup, so cards in a row line up; the still is
+          // framed inside it and cropped from the top.
+          <div className="relative aspect-[2/1] w-full bg-white p-4 sm:p-5">
+            <div className="sw-stage relative h-full w-full overflow-hidden rounded-[10px] border border-[#0d0b12]/10">
+              <PortfolioPreview preview={preview} name={name} device={device} />
+            </div>
           </div>
         )}
       </div>

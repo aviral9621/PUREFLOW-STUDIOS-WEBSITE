@@ -624,6 +624,8 @@ The project also needs a `lib/caseStudies.ts` entry (card name, `showcaseLine`,
 | **Spectrum: travel CRM** (`spectrum-tour-travels`) | ✅ T7 CRM image + black logo · tab: Software | ✅ live at `/work/spectrum-tour-travels`: hero (T3), problem (6 cut cards), process, features (7 cut cards), design system (T6 image), impact (live dashboard figures: +35% leads (34.8%, rounded to fit), ₹4.1L revenue, 29 upcoming tours, 47 payments tracked; not before/after). Covers the CRM, not the website. No testimonial yet |
 | **UnSkills: institute website** (`unskills-education-website`) | ✅ T1 mockup `unskills-website-mockup.webp` + black logo · tab: Websites | ✅ live at `/work/unskills-education-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Courses, Verification, Franchise), T6 design system, real phone stills. Wide images open full screen on tap (`Zoomable`). Numbers are the site's own (158 courses, 102 centres, 4.8 from 124 Google reviews, 2,000+ students) |
 | **Herbal Vantage: online store** (`herbal-vantage-website`) | ✅ T1 mockup `herbal-vantage-website-mockup.webp` + black logo · tab: Websites · line "Ayurvedic Store + PV Rewards" | ✅ live at `/work/herbal-vantage-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Products, Product page, Legal & Certifications), T6 design system, real phone stills. Numbers from the store: 26 products / 8 categories, 6 legal documents; 4.8 from 500+ reviews and 10K+ families labelled as the company's own claims. Not linked to the live site |
+| **Spectrum: tour booking website** (`spectrum-tour-travels-website`) | ✅ T1 mockup `spectrum-website-mockup.webp` + black logo · tab: Websites · line "Group Tour Booking Website" | ✅ live at `/work/spectrum-tour-travels-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Upcoming Departures, Trip page, Customised Trips), T6 design system, real phone stills. Counts from the site: 10 departures, 8 packages; 200+ Google reviews and 100K+ Facebook labelled as the company's own. Not linked to the live site |
+| Smart Agro, Quick Agriculture, Ram Tiles, Strataloom Research, Baba Biswanath Travels (websites) | Websites tab, real home screenshot in the card (no mockup yet) | website layout with real stills in browser frames; prompts not written yet |
 | UnSkills mobile app | not started | not started |
 
 Removed from the site on the owner's request: UnSkills Education (its old URLs open the
@@ -1425,6 +1427,38 @@ body, **DM Mono** eyebrows.
 **Known glitches** (small; fix by editing the same image if wanted): page-products note
 reads "Distriductors see PV instantly"; page-legal's sixth tile is clipped to "Income Tax
 Departm"; page-home's product cards show "BEST SELLER" badges the real cards don't have.
+
+### Spectrum Tour & Travels: tour booking website (`/work/spectrum-tour-travels-website`)
+
+Done with the website case-study guide (2026-10-02/03). Separate from the travel CRM
+page (`spectrum-tour-travels`, Software tab).
+
+**Decisions**
+- Headline *"Group tours that show"* **REAL SEATS.** Focus: Tour Booking Website · Live
+  Departures & Seats · Custom Trip Planner. Key pages: Home, Upcoming Departures, Trip
+  page (`/trips/jannat-e-kashmir`), Customised Trips.
+- Read off spectrumtourtravels.com: Next.js on Vercel, trips/dates/seats from Supabase,
+  booking with Razorpay ("Pay in full or 30% now to confirm your seats"). Not linked.
+
+**Brand** (site CSS): Yellow #FEBD09, Deep Gold #E0A800, Heading Navy #192A3D, Ink
+#0F172A, Ivory #FDFAF3; calendar Seats #16A34A / Full #DC2626. Fonts: **Unbounded**
+(headings), **Manrope** (body).
+
+**Images → files** (prompts: `~/Downloads/spectrum-website-stills/PROMPTS.md`; extra
+close-ups made for them: `home-destinations-desktop.png`, `departure-calendar-desktop.png`,
+`trip-booking-desktop.png`)
+| Generated image | File |
+|---|---|
+| Spectrum Tour-Travels Website Mockup | `public/work/spectrum-website-mockup.webp` (card) |
+| Spectrum Tour-Travels Booking Showcase | `public/work/spectrum-website/hero.webp` 1672×941 |
+| Spectrum Tour Travels Homepage Mockup | `…/page-home.webp` 1774×887 |
+| Upcoming Departures Travel UI Showcase | `…/page-departures.webp` 1774×887 |
+| Annotated Kashmir Trip Planning UI Mockup | `…/page-trip.webp` 1774×887 |
+| Custom Travel Planning UI Showcase | `…/page-custom.webp` 1774×887 |
+| Spectrum Tour-Travels Design System | `…/design-system.webp` 1774×887 |
+
+**Known glitches** (tiny): page-home card 1 reads "Community on mFacebook" and
+"Google — Reviews"; page-trip shows the "Everything in writing" note twice.
 
 ### Prepared, not yet used
 

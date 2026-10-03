@@ -115,6 +115,67 @@ export const FEATURED: WorkCardVisual[] = [
     mockup: '/work/herbal-vantage-website-mockup.webp',
     logo: { src: '/work/herbal-vantage-logo.webp', width: 671, height: 160 },
   },
+  {
+    slug: 'spectrum-tour-travels-website',
+    kinds: ['website'],
+    glow: '254,189,9',
+    shots: {
+      desktop: '/work/spectrum-website/home-desktop.webp',
+      mobile: '/work/spectrum-website/home-mobile.webp',
+    },
+    mockup: '/work/spectrum-website-mockup.webp',
+    logo: { src: '/work/spectrum-tour-travels-logo.webp', width: 277, height: 160 },
+  },
+  {
+    slug: 'smart-agro-website',
+    kinds: ['website'],
+    glow: '30,138,70',
+    shots: {
+      desktop: '/work/smart-agro-website/home-desktop.webp',
+      mobile: '/work/smart-agro-website/home-mobile.webp',
+    },
+    logo: { src: '/work/smart-agro-logo.webp', width: 504, height: 160 },
+  },
+  {
+    slug: 'quick-agriculture-website',
+    kinds: ['website'],
+    glow: '31,122,77',
+    shots: {
+      desktop: '/work/quick-agriculture-website/home-desktop.webp',
+      mobile: '/work/quick-agriculture-website/home-mobile.webp',
+    },
+    logo: { src: '/work/quick-agriculture-logo.webp', width: 512, height: 160 },
+  },
+  {
+    slug: 'ram-tiles-website',
+    kinds: ['website'],
+    glow: '249,115,6',
+    shots: {
+      desktop: '/work/ram-tiles-website/home-desktop.webp',
+      mobile: '/work/ram-tiles-website/home-mobile.webp',
+    },
+    logo: { src: '/work/ram-tiles-logo.webp', width: 397, height: 160 },
+  },
+  {
+    slug: 'strataloom-research-website',
+    kinds: ['website'],
+    glow: '15,163,177',
+    shots: {
+      desktop: '/work/strataloom-website/home-desktop.webp',
+      mobile: '/work/strataloom-website/home-mobile.webp',
+    },
+    logo: { src: '/work/strataloom-logo.webp', width: 683, height: 160 },
+  },
+  {
+    slug: 'baba-biswanath-travels-website',
+    kinds: ['website'],
+    glow: '107,123,26',
+    shots: {
+      desktop: '/work/baba-biswanath-website/home-desktop.webp',
+      mobile: '/work/baba-biswanath-website/home-mobile.webp',
+    },
+    logo: { src: '/work/baba-biswanath-logo.webp', width: 602, height: 160 },
+  },
 ];
 
 const bySlug = new Map(FEATURED.map((f) => [f.slug, f]));

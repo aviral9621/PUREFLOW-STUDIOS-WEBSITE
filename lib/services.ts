@@ -239,7 +239,7 @@ export const SERVICES: Record<ServiceKey, ServiceDetail> = {
     visual: 'code',
     visualChips: ['Marketing Sites', 'Booking Flows', 'SEO Foundation', 'Analytics'],
     tech: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
-    work: ['quick-hotels', 'unskills-education-website', 'herbal-vantage-website'],
+    work: ['quick-hotels', 'unskills-education-website', 'herbal-vantage-website', 'spectrum-tour-travels-website', 'smart-agro-website', 'quick-agriculture-website', 'ram-tiles-website', 'strataloom-research-website', 'baba-biswanath-travels-website'],
     leadView: 'get-website-built',
     prefill: 'website',
   },

@@ -178,6 +178,7 @@ export const FEATURED: WorkCardVisual[] = [
       desktop: '/work/baba-biswanath-website/home-desktop.webp',
       mobile: '/work/baba-biswanath-website/home-mobile.webp',
     },
+    mockup: '/work/baba-biswanath-website-mockup.webp',
     logo: { src: '/work/baba-biswanath-logo.webp', width: 602, height: 160 },
   },
 ];

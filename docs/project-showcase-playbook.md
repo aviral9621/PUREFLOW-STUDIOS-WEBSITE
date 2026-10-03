@@ -629,7 +629,7 @@ The project also needs a `lib/caseStudies.ts` entry (card name, `showcaseLine`,
 | **Quick Agriculture: network website** (`quick-agriculture-website`) | ✅ T1 mockup `quick-agriculture-website-mockup.webp` + black logo · tab: Websites · line "Agriculture Network Website" | ✅ live at `/work/quick-agriculture-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Services, Research & Training, Contact), T6 design system, real phone stills. Counts from the site: 6 services, 3 articles; 12 states and 10,000+ farmers labelled as the network's own (its figures disagree elsewhere; named testimonials not used). Not linked |
 | **Ram Tiles: tile catalogue website** (`ram-tiles-website`) | ✅ T1 mockup `ram-tiles-website-mockup.webp` + black logo · tab: Websites · line "Tile Catalogue + Online Orders" | ✅ live at `/work/ram-tiles-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Category, Product page, Visit Store), T6 design system, real phone stills. Counts from the site: 1,149 products, 40+ categories, 2 showrooms, open 7 days. Its About Us and How to Place an Order pages are empty (not shown). Not linked |
 | **Strataloom Research: research firm website + panel** (`strataloom-research-website`) | ✅ T1 mockup `strataloom-website-mockup.webp` + black logo · tab: Websites · line "Market Research Website + Panel" | ✅ live at `/work/strataloom-research-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Services, Panel Book, Join Panel), T6 design system, real phone stills. 6 services and 4 languages from the site; 10M+ panel and 42+ markets labelled as the company's own. Not linked |
-| Baba Biswanath Travels (website) | Websites tab, real home screenshot in the card (no mockup yet) | website layout with real stills in browser frames; prompts not written yet |
+| **Baba Biswanath Travels: group tours website** (`baba-biswanath-travels-website`) | ✅ T1 mockup `baba-biswanath-website-mockup.webp` + one-colour logo · tab: Websites · line "Group Tours & Pilgrimage Website" | ✅ live at `/work/baba-biswanath-travels-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Upcoming Trips, Tour page, Customized Tours), T6 design system, real phone stills. Counts from the site: 12 departures, 14 tours, 39 destinations; "10+ years" labelled as the company's own. Payment page (bank details) not shown. Not linked |
 | UnSkills mobile app | not started | not started |
 
 Removed from the site on the owner's request: UnSkills Education (its old URLs open the
@@ -1596,6 +1596,42 @@ Mist #F4F6F8. Font: **Satoshi** throughout.
 | Strataloom Research Design System | `…/design-system.webp` 1774×887 |
 
 No text glitches found (the Arabic "العربية" in the hero came out right).
+
+### Baba Biswanath Travels: group tours website (`/work/baba-biswanath-travels-website`)
+
+Done with the website case-study guide (2026-10-03/04). bababiswanathtravels.com ("Baba
+Biswanath Bhraman Sangi"; babavishwanathtravels.com is a different company). Next.js on
+Vercel. Not linked.
+
+**Decisions**
+- Headline *"Yatras and group tours,"* **BOOKED TOGETHER.** Focus: Group Tours Website ·
+  Pilgrimage Yatras · WhatsApp Enquiries. Key pages: Home, Upcoming Trips, Tour page
+  (`/tour/vizag-araku`), Customized Tours.
+- The payment page shows the bank account and UPI: listed as a feature, never imaged.
+- Card logo is a one-colour version of the round emblem plus the name set in type (the
+  real logo is a full-colour badge); swap in an official one-colour logo if the client
+  has one. The colour badge (`logo.png` in the stills folder) is what the prompts use.
+- Section stills were captured one by one, plus full-length captures of the tour and
+  custom-tour pages (`tour-route`, `custom-{destinations,who-steps,form}-desktop.png`).
+
+**Brand**: Olive #6B7B1A, Lime #B6D047, Deep Teal-Green #094B3C, River Teal #0E86AE, Price
+Red-Orange #C2410C, Save Pink #FCEDE8, WhatsApp #25D366, Ink #14262E, Canvas #FBFCF8.
+Fonts: **Playfair Display** (hero), **DM Sans** (headings), **Inter** (body), a script
+accent ("Journey Awaits").
+
+**Images → files** (prompts: `~/Downloads/baba-biswanath-website-stills/PROMPTS.md`)
+| Generated image | File |
+|---|---|
+| Tropical Travel Website Device Mockup | `public/work/baba-biswanath-website-mockup.webp` (card) |
+| Travel Together_ Yatra, Sea & Sky | `public/work/baba-biswanath-website/hero.webp` 1672×941 |
+| Travel Together, Explore More | `…/page-home.webp` 1774×887 |
+| Twelve Trips, Open Now | `…/page-upcoming.webp` 1774×887 |
+| Tour Page Callouts and Booking UI | `…/page-tour.webp` 1774×887 |
+| Customized Tours Website Showcase | `…/page-custom.webp` 1774×887 |
+| Baba Biswanath Travel Design System | `…/design-system.webp` 1774×887 |
+
+**Known glitches** (tiny): the small Bengali line "ভ্রমণ সঙ্গী" under the name is slightly
+off in places; unreadable at page size.
 
 ### Prepared, not yet used
 

@@ -2319,8 +2319,7 @@ export const SHOWCASES: Showcase[] = [
   // is a different company): 12 open departures, 14 tour pages (sitemap), 39
   // destinations for customized tours, the enquiry and payment pages. Next.js
   // on Vercel. The payment page's bank details are not shown here. "10+ years"
-  // is the company's own claim. Page images are raw stills in a browser frame
-  // until generated ones arrive (website case-study guide).
+  // is the company's own claim. Images: playbook §11.
   {
     slug: 'baba-biswanath-travels-website',
     client: 'Baba Biswanath Bhraman Sangi',
@@ -2328,12 +2327,10 @@ export const SHOWCASES: Showcase[] = [
     focus: ['Group Tours Website', 'Pilgrimage Yatras', 'WhatsApp Enquiries'],
     headline: { lead: 'Yatras and group tours,', word: 'BOOKED TOGETHER.' },
     hero: {
-      src: `${BB}/home-desktop.webp`,
-      width: 1600,
-      height: 1000,
-      alt: 'The Baba Biswanath homepage: Yatra, Sea & Sky — Travelled Together',
-      frame: 'browser',
-      url: 'bababiswanathtravels.com',
+      src: `${BB}/hero.webp`,
+      width: 1672,
+      height: 941,
+      alt: 'The Baba Biswanath website on desktop and mobile, with upcoming departures, destination filters and WhatsApp enquiries',
     },
 
     brief:
@@ -2394,12 +2391,10 @@ export const SHOWCASES: Showcase[] = [
             'Yatra, Sea & Sky — Travelled Together: Plan My Trip and View Upcoming Trips up top, then every destination, the upcoming group departures and the two ways to travel.',
           features: ['Hero & two CTAs', 'Destinations', 'Group departures', 'Two ways to travel', 'WhatsApp'],
           image: {
-            src: `${BB}/home-desktop.webp`,
-            width: 1600,
-            height: 1000,
-            alt: 'The Baba Biswanath homepage: Yatra, Sea & Sky — Travelled Together',
-            frame: 'browser',
-            url: 'bababiswanathtravels.com',
+            src: `${BB}/page-home.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'The Baba Biswanath homepage: where would you like to go, two ways to travel and why families trust it',
           },
         },
         {
@@ -2409,12 +2404,10 @@ export const SHOWCASES: Showcase[] = [
             'Fixed dates, fixed price: twelve group departures by destination, each card with its days, route, price, saving and dates.',
           features: ['Destination filter', '12 departures', 'Dates & prices', 'Savings', 'FAQ'],
           image: {
-            src: `${BB}/upcoming-desktop.webp`,
-            width: 1600,
-            height: 1000,
-            alt: 'Baba Biswanath upcoming trips: departures by destination',
-            frame: 'browser',
-            url: 'bababiswanathtravels.com/upcoming-trips',
+            src: `${BB}/page-upcoming.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'Baba Biswanath upcoming trips: trips by destination, every departure priced and enquiry without payment',
           },
         },
         {
@@ -2424,12 +2417,10 @@ export const SHOWCASES: Showcase[] = [
             'The tour’s photo, days and region, the story of the place and the route night by night, beside the price, a departure date, the travellers and Send Enquiry on WhatsApp.',
           features: ['Price & saving', 'Departure date', 'Travellers', 'WhatsApp enquiry', 'Route'],
           image: {
-            src: `${BB}/tour-desktop.webp`,
-            width: 1600,
-            height: 1000,
-            alt: 'A Baba Biswanath tour page: Vizag – Araku with price, date and WhatsApp enquiry',
-            frame: 'browser',
-            url: 'bababiswanathtravels.com/tour/vizag-araku',
+            src: `${BB}/page-tour.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'A Baba Biswanath tour page: price per person, WhatsApp enquiry and the route night by night',
           },
         },
         {
@@ -2439,12 +2430,10 @@ export const SHOWCASES: Showcase[] = [
             'Your own group, your own dates: 39 destinations in India and abroad, who travels this way, the four steps from idea to departure, and an enquiry form.',
           features: ['39 destinations', 'Domestic & international', 'Four steps', 'Enquiry form'],
           image: {
-            src: `${BB}/custom-desktop.webp`,
-            width: 1600,
-            height: 1000,
-            alt: 'Baba Biswanath customized tours: your own group, your own dates',
-            frame: 'browser',
-            url: 'bababiswanathtravels.com/customized-tours',
+            src: `${BB}/page-custom.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'Baba Biswanath customized tours: 39 destinations, who travels this way and from idea to departure',
           },
         },
       ],
@@ -2474,6 +2463,12 @@ export const SHOWCASES: Showcase[] = [
       { name: 'Ink', hex: '#14262E' },
       { name: 'Canvas', hex: '#FBFCF8' },
     ],
+    systemImage: {
+      src: `${BB}/design-system.webp`,
+      width: 1774,
+      height: 887,
+      alt: 'Baba Biswanath website design system: olive and lime, Playfair Display, DM Sans and Inter, and core components',
+    },
     type: [
       { family: 'Playfair Display', role: 'Headlines', weights: 'Medium · Bold', google: 'Playfair+Display:wght@500;700' },
       { family: 'DM Sans', role: 'Headings & interface', weights: 'Regular · SemiBold · Bold', google: 'DM+Sans:wght@400;600;700' },

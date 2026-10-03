@@ -2151,8 +2151,7 @@ export const SHOWCASES: Showcase[] = [
   // parked domain): 6 services, the panel book's regions and quality steps,
   // the sign-up, 4 languages (i18next: en, es, fr, ar with RTL). React + Vite
   // on Vercel, Supabase sign-in, hCaptcha, Resend. Panel size, markets and
-  // study counts are the company's own figures. Page images are raw stills in
-  // a browser frame until generated ones arrive (website case-study guide).
+  // study counts are the company's own figures. Images: playbook §11.
   {
     slug: 'strataloom-research-website',
     client: 'Strataloom Research',
@@ -2160,12 +2159,10 @@ export const SHOWCASES: Showcase[] = [
     focus: ['Research Firm Website', 'Panelist Sign-up', 'Four Languages'],
     headline: { lead: 'Winning research clients and the', word: 'PANEL BEHIND THEM.' },
     hero: {
-      src: `${SL}/home-desktop.webp`,
-      width: 1600,
-      height: 1000,
-      alt: 'The Strataloom Research homepage: Insights That Power Global Innovation',
-      frame: 'browser',
-      url: 'strataloomresearch.com',
+      src: `${SL}/hero.webp`,
+      width: 1672,
+      height: 941,
+      alt: 'The Strataloom Research website on desktop and mobile, with six services, a worldwide panel, four languages and panelist sign-up',
     },
 
     brief:
@@ -2226,12 +2223,10 @@ export const SHOWCASES: Showcase[] = [
             'Insights That Power Global Innovation: the firm’s numbers up top, what it does, the six services, its certifications and the latest articles.',
           features: ['Hero & two CTAs', 'Key numbers', 'Six services', 'Certifications', 'Blog'],
           image: {
-            src: `${SL}/home-desktop.webp`,
-            width: 1600,
-            height: 1000,
-            alt: 'The Strataloom Research homepage: Insights That Power Global Innovation',
-            frame: 'browser',
-            url: 'strataloomresearch.com',
+            src: `${SL}/page-home.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'The Strataloom Research homepage: the numbers up front, quality you can check and who we are',
           },
         },
         {
@@ -2241,12 +2236,10 @@ export const SHOWCASES: Showcase[] = [
             'Six services, each with a picture, a short line and its own page: qualitative, quantitative, online, global CATI, business research and other services.',
           features: ['6 services', 'Service pages', 'Capabilities', 'Quote request'],
           image: {
-            src: `${SL}/services-desktop.webp`,
-            width: 1600,
-            height: 1000,
-            alt: 'Strataloom Research services: six research services',
-            frame: 'browser',
-            url: 'strataloomresearch.com/services',
+            src: `${SL}/page-services.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'Strataloom Research services: six services, a page for each and the methods inside',
           },
         },
         {
@@ -2256,12 +2249,10 @@ export const SHOWCASES: Showcase[] = [
             '10 million voices, one reliable source: the panel by region, how its data is kept clean, and the panel book to download.',
           features: ['Panel numbers', 'Regions & countries', 'Double opt-in', 'AI fraud detection', 'Download'],
           image: {
-            src: `${SL}/panel-desktop.webp`,
-            width: 1600,
-            height: 1000,
-            alt: 'Strataloom Research panel book: 10 million voices, one reliable source',
-            frame: 'browser',
-            url: 'strataloomresearch.com/panel-book',
+            src: `${SL}/page-panel.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'Strataloom Research panel book: research-ready on every continent, country by country, and data integrity',
           },
         },
         {
@@ -2271,12 +2262,10 @@ export const SHOWCASES: Showcase[] = [
             'Share your opinion, earn real rewards: 50 points on sign-up, the gift cards to redeem, and a sign-up and log-in form protected by hCaptcha.',
           features: ['Sign up & log in', '50 welcome points', 'Reward partners', 'hCaptcha', 'Language switch'],
           image: {
-            src: `${SL}/join-desktop.webp`,
-            width: 1600,
-            height: 1000,
-            alt: 'Strataloom Research Join Panel: create your account and get 50 points',
-            frame: 'browser',
-            url: 'strataloomresearch.com/join-panel',
+            src: `${SL}/page-join.webp`,
+            width: 1774,
+            height: 887,
+            alt: 'Strataloom Research Join Panel: 50 points on sign-up, hCaptcha and trust badges',
           },
         },
       ],
@@ -2306,6 +2295,12 @@ export const SHOWCASES: Showcase[] = [
       { name: 'Mist', hex: '#F4F6F8' },
       { name: 'White', hex: '#FFFFFF' },
     ],
+    systemImage: {
+      src: `${SL}/design-system.webp`,
+      width: 1774,
+      height: 887,
+      alt: 'Strataloom Research website design system: teal, navy and amber, Satoshi, and core components',
+    },
     type: [
       { family: 'Satoshi', role: 'Headings & body', weights: 'Regular · Bold · Black' },
     ],

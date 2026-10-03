@@ -167,6 +167,7 @@ export const FEATURED: WorkCardVisual[] = [
       desktop: '/work/strataloom-website/home-desktop.webp',
       mobile: '/work/strataloom-website/home-mobile.webp',
     },
+    mockup: '/work/strataloom-website-mockup.webp',
     logo: { src: '/work/strataloom-logo.webp', width: 683, height: 160 },
   },
   {

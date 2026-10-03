@@ -628,7 +628,8 @@ The project also needs a `lib/caseStudies.ts` entry (card name, `showcaseLine`,
 | **Smart Agro: agri shop website** (`smart-agro-website`) | ✅ T1 mockup `smart-agro-website-mockup.webp` + black logo · tab: Websites · line "Agri E-commerce Website" | ✅ live at `/work/smart-agro-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Shop by Crop, Shop by Problem, Product page), T6 design system, real phone stills. 30 products / 3 languages from the site; 2,200+ farmers and 2,800+ orders labelled as the company's own. Not linked. Note: smartagrocare.in returned DEPLOYMENT_DISABLED (402) on 2026-10-03 |
 | **Quick Agriculture: network website** (`quick-agriculture-website`) | ✅ T1 mockup `quick-agriculture-website-mockup.webp` + black logo · tab: Websites · line "Agriculture Network Website" | ✅ live at `/work/quick-agriculture-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Services, Research & Training, Contact), T6 design system, real phone stills. Counts from the site: 6 services, 3 articles; 12 states and 10,000+ farmers labelled as the network's own (its figures disagree elsewhere; named testimonials not used). Not linked |
 | **Ram Tiles: tile catalogue website** (`ram-tiles-website`) | ✅ T1 mockup `ram-tiles-website-mockup.webp` + black logo · tab: Websites · line "Tile Catalogue + Online Orders" | ✅ live at `/work/ram-tiles-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Category, Product page, Visit Store), T6 design system, real phone stills. Counts from the site: 1,149 products, 40+ categories, 2 showrooms, open 7 days. Its About Us and How to Place an Order pages are empty (not shown). Not linked |
-| Strataloom Research, Baba Biswanath Travels (websites) | Websites tab, real home screenshot in the card (no mockup yet) | website layout with real stills in browser frames; prompts not written yet |
+| **Strataloom Research: research firm website + panel** (`strataloom-research-website`) | ✅ T1 mockup `strataloom-website-mockup.webp` + black logo · tab: Websites · line "Market Research Website + Panel" | ✅ live at `/work/strataloom-research-website` in the **website layout**: W2 hero, 4 W3 page spotlights (Home, Services, Panel Book, Join Panel), T6 design system, real phone stills. 6 services and 4 languages from the site; 10M+ panel and 42+ markets labelled as the company's own. Not linked |
+| Baba Biswanath Travels (website) | Websites tab, real home screenshot in the card (no mockup yet) | website layout with real stills in browser frames; prompts not written yet |
 | UnSkills mobile app | not started | not started |
 
 Removed from the site on the owner's request: UnSkills Education (its old URLs open the
@@ -1564,6 +1565,37 @@ Footer heading #D72D07, Ink #070707, panels #EFEFEF / #F4F4F4. Fonts: **Montserr
 
 **Known glitches** (tiny): hero header button reads "Pind a Store"; page-store map label
 "Ahamamau" (the site's map says "Ahmamau").
+
+### Strataloom Research: research firm website + panel (`/work/strataloom-research-website`)
+
+Done with the website case-study guide (2026-10-03/04). strataloomresearch.com (strataloom.com
+is a parked domain): React + Vite on Vercel, Supabase sign-in, hCaptcha, Resend, i18next
+en/es/fr/ar (Arabic right to left). Not linked.
+
+**Decisions**
+- Headline *"Winning research clients and the"* **PANEL BEHIND THEM.** Focus: Research
+  Firm Website · Panelist Sign-up · Four Languages. Key pages: Home, Services, Panel Book,
+  Join Panel.
+- Homepage and panel-book sections were captured one by one after scrolling them into
+  view (`home-{services,quality,about}-desktop.png`, `panel-{regions,integrity}-desktop.png`).
+  The Join Panel phone still first came out blank (slow fade-in): re-captured with a 9 s wait.
+- Card logo: the white original made solid black (`strataloom-logo.webp`).
+
+**Brand**: Teal #0FA3B1, Deep Navy #0B1F3B, Insight Amber #F4A300, Chat Violet #6D4FD8,
+Mist #F4F6F8. Font: **Satoshi** throughout.
+
+**Images → files** (prompts: `~/Downloads/strataloom-website-stills/PROMPTS.md`)
+| Generated image | File |
+|---|---|
+| Strataloom Research Website and App Mockup | `public/work/strataloom-website-mockup.webp` (card) |
+| Strataloom Research UX Showcase | `public/work/strataloom-website/hero.webp` 1672×941 |
+| Strataloom Research Website Showcase | `…/page-home.webp` 1774×887 |
+| Strataloom Services Page Showcase | `…/page-services.webp` 1774×887 |
+| Strataloom Research Panel Book Infographic | `…/page-panel.webp` 1774×887 |
+| Strataloom Research Signup Feature Callout | `…/page-join.webp` 1774×887 |
+| Strataloom Research Design System | `…/design-system.webp` 1774×887 |
+
+No text glitches found (the Arabic "العربية" in the hero came out right).
 
 ### Prepared, not yet used
 

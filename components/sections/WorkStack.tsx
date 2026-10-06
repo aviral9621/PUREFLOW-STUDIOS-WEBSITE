@@ -6,6 +6,7 @@ import {
   useMotionValueEvent,
   useReducedMotion,
   useScroll,
+  useSpring,
   useTransform,
   type MotionValue,
 } from 'framer-motion';
@@ -28,7 +29,7 @@ import { FEATURED, type WorkCardVisual, type WorkKind } from '../../lib/workCard
 //      over the last, while the ones beneath shrink back.
 //   3. Once the stack runs out, a closing "build yours next" prompt.
 //
-// Tabs (Software / Websites / Apps, `kinds` in FEATURED) filter the stack; a
+// Tabs (Software / Websites, `kinds` in FEATURED) filter the stack; a
 // switch drops the old cards away and raises the new ones in from below.
 // Behind the cards, `DotGlow` lays a dot grid with a cursor-following glow.
 //
@@ -50,11 +51,12 @@ import { FEATURED, type WorkCardVisual, type WorkKind } from '../../lib/workCard
 // don't add `overflow-hidden` to this section or its wrappers.
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** The tabs over the stack. A tab with no projects shows a "coming soon" card. */
+/** The tabs over the stack. A tab with no projects shows a "coming soon" card.
+ *  Apps is left out until there are app case studies to show; add
+ *  `{ id: 'app', label: 'Apps' }` back here then. */
 const TABS: { id: WorkKind; label: string }[] = [
   { id: 'software', label: 'Software' },
   { id: 'website', label: 'Websites' },
-  { id: 'app', label: 'Apps' },
 ];
 
 const LIGHT = '#f4f2f7';
@@ -66,7 +68,7 @@ const PIN = { mobile: 84, desktop: 100 };
 /** How far each pinned card sits below the one before it, so the stack shows. */
 const STEP = { mobile: 10, desktop: 16 };
 /** Space between cards in flow — how much extra scroll each card takes to arrive. */
-const GAP = { mobile: 28, desktop: 120 };
+const GAP = { mobile: 56, desktop: 120 };
 /** How much a card shrinks for each card stacked over it. */
 const SHRINK = 0.035;
 
@@ -269,7 +271,7 @@ export function WorkStack({ onOpenProject, onStartProject, onViewAll }: Props) {
             </span>
           </h2>
           <p style={inkSoft} className="mt-5 max-w-[520px] text-[15px] leading-[1.6] md:text-[17px]">
-            Software, websites and apps that businesses run on every day.
+            Software and websites that businesses run on every day.
           </p>
           <WorkTabs tab={tab} counts={counts} isLight={isLight} onChange={setTab} />
         </header>
@@ -386,7 +388,7 @@ export function WorkStack({ onOpenProject, onStartProject, onViewAll }: Props) {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** Software / Websites / Apps — a segmented control with a sliding gradient pill.
+/** Software / Websites — a segmented control with a sliding gradient pill.
  *  A tab with no projects yet is marked "Soon". */
 const WorkTabs: React.FC<{
   tab: WorkKind;
@@ -473,7 +475,7 @@ const WorkTabs: React.FC<{
   );
 };
 
-/** What a tab with no projects yet shows (Apps, for now). */
+/** What a tab with no projects yet shows (not reachable while every tab has projects). */
 const ComingSoon: React.FC<{ onStartProject: () => void }> = ({ onStartProject }) => (
   <m.div
     initial={{ opacity: 0, y: 60 }}
@@ -532,7 +534,7 @@ const StackCard: React.FC<CardProps> = ({
 
   // Shrinks by SHRINK for every card that has slid over this one — partially
   // for the one still arriving — so the stack reads as a receding pile.
-  const scale = useTransform([scrollY, layoutVersion], ([y]: number[]) => {
+  const rawScale = useTransform([scrollY, layoutVersion], ([y]: number[]) => {
     const { pinAt, coverFrom } = layout.current;
     let covered = 0;
     for (let j = index + 1; j < total; j++) {
@@ -543,6 +545,9 @@ const StackCard: React.FC<CardProps> = ({
     }
     return 1 - covered * SHRINK;
   });
+  // A light spring takes the edge off uneven scroll events (trackpads, touch
+  // flings), so the cards beneath ease back instead of stepping.
+  const scale = useSpring(rawScale, { stiffness: 320, damping: 40, mass: 0.35, restDelta: 0.0005 });
 
   const handleClick = (e: React.MouseEvent) => {
     if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
@@ -578,9 +583,9 @@ const StackCard: React.FC<CardProps> = ({
       )}
 
       {/* ── Top bar ── */}
-      <div className="relative z-10 flex flex-col gap-3 border-b border-[#0d0b12]/[0.07] px-5 py-5 sm:px-8 md:flex-row md:items-center md:gap-8 md:py-6 lg:px-10">
+      <div className="relative z-10 flex flex-col gap-2.5 border-b border-[#0d0b12]/[0.07] px-4 pb-4 pt-4 sm:gap-3 sm:px-8 sm:py-5 md:flex-row md:items-center md:gap-8 md:py-6 lg:px-10">
         <div className="flex items-center justify-between gap-4 md:contents">
-          <h3 className="min-w-0 text-[22px] font-bold leading-[1.15] tracking-[-0.03em] text-[#0d0b12] sm:text-[26px] md:w-[28%] md:flex-none lg:text-[30px]">
+          <h3 className="min-w-0 text-[20px] font-bold leading-[1.15] tracking-[-0.03em] text-[#0d0b12] sm:text-[26px] md:w-[26%] md:flex-none lg:text-[30px]">
             <a
               href={href}
               onClick={handleClick}
@@ -593,7 +598,7 @@ const StackCard: React.FC<CardProps> = ({
                   width={logo.width}
                   height={logo.height}
                   decoding="async"
-                  className="h-10 w-auto sm:h-11 lg:h-12"
+                  className="h-7 w-auto max-w-[150px] object-contain object-left sm:h-10 sm:max-w-[200px] lg:h-12 lg:max-w-[230px]"
                 />
               ) : (
                 name
@@ -602,7 +607,7 @@ const StackCard: React.FC<CardProps> = ({
           </h3>
           <span
             aria-hidden="true"
-            className="flex h-9 flex-none items-center gap-1 rounded-full bg-[#0d0b12] px-3.5 text-[13px] font-semibold text-white md:hidden"
+            className="flex h-8 flex-none items-center gap-1 rounded-full bg-[#0d0b12] px-3 text-[12.5px] font-semibold text-white sm:h-9 sm:px-3.5 sm:text-[13px] md:hidden"
           >
             View
             <ArrowUpRight className="h-3.5 w-3.5" />
@@ -612,7 +617,7 @@ const StackCard: React.FC<CardProps> = ({
         {/* What the product is, in one line ("MLM Software + Online Store");
             cards without one fall back to the two-line blurb. */}
         {showcaseLine ? (
-          <p className="min-w-0 flex-1 truncate text-[16px] font-semibold leading-[1.3] tracking-[-0.015em] text-[#0d0b12] sm:text-[17px] md:text-[15px] lg:text-[18px] xl:text-[19px]">
+          <p className="ws-title min-w-0 flex-1 text-[19px] font-extrabold leading-[1.15] tracking-[-0.035em] text-[#0d0b12] sm:text-[22px] md:line-clamp-2 md:text-[19px] lg:text-[23px] xl:text-[25px]">
             {showcaseLine}
           </p>
         ) : (
@@ -632,7 +637,7 @@ const StackCard: React.FC<CardProps> = ({
 
       {/* ── Devices ── */}
       {mockup ? (
-        <div className="relative px-3 pt-2 sm:px-6 lg:min-h-0 lg:flex-1 lg:px-8 lg:pt-4">
+        <div className="relative px-2 pb-2 pt-1 sm:px-6 sm:pb-0 sm:pt-2 lg:min-h-0 lg:flex-1 lg:px-8 lg:pt-4">
           {/* Phones: the 2:1 box reserves the height before the image loads,
               so the stack's measured geometry never shifts under a scroll. */}
           <div className="relative aspect-[2/1] w-full lg:absolute lg:inset-0 lg:aspect-auto">

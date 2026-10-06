@@ -2927,6 +2927,12 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
 
 /* Each card gets its own compositor layer, so the per-frame scale never
    repaints the card, its shadow or its screenshots. */
+/* The one-line title on a work card ("CRM for Schools & Institutes"):
+   when it wraps on a tablet, both lines come out even. */
+.ws-title {
+  text-wrap: balance;
+}
+
 .ws-card {
   will-change: transform;
   backface-visibility: hidden;

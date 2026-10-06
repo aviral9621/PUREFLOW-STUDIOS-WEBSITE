@@ -16,7 +16,7 @@
 |---|---|
 | "Make the showcase for X" (new project) | §4 steps 1–2: collect facts + real material, then write the prompts for **every** image slot (§6), each in one copy-paste code block, with the list of files to attach. Stop and wait for the images. |
 | "Here are the images for X" | §4 steps 4–6: process them with the scripts (§7), wire them into the data (§8), verify at 4 widths, send screenshots. |
-| "Make the showcase for X" (a **website**) | The same, but with the website layout (§1 C) and the website image slots (§3): T1 card, W2 hero, one W3 spotlight per key page, T6 design system. |
+| "Make the showcase for X" (a **website**, or just a website link) | Follow **`docs/website-case-study-guide.md`**: it captures the site automatically (`scripts/showcase/capture_site.mjs`), builds the website layout (§1 C), writes the T1 / W2 / W3 / T6 prompts and hands off; then wires the images in when they come back. |
 | "Give me the prompt for <one section> of X" | Only that prompt (§6 templates), filled in with X's real details. **Don't build code instead of a prompt.** |
 | "Push it" | Commit on `main` with a descriptive message, then push. Never commit or push without being asked. |
 
@@ -37,7 +37,8 @@ Files you will touch:
 ## 1. The two surfaces
 
 ### A. Homepage work section (`WorkStack.tsx`, right under the hero)
-- A one-line intro, then **Software / Websites / Apps tabs**. Switching drops the old
+- A one-line intro, then **Software / Websites tabs** (Apps is hidden until there are app
+  case studies: add it back to `TABS` in `WorkStack.tsx`). Switching drops the old
   cards away and raises the new ones in from below. Behind the cards, `DotGlow.tsx`
   draws a faint dot grid with a pink/violet glow that follows the cursor (it drifts on
   touch screens and stays still with reduced motion).

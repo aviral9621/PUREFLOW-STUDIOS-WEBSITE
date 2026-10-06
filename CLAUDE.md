@@ -4,6 +4,14 @@ Vite + React 19 + Tailwind v4 + framer-motion single-page app (custom router in
 `lib/router.ts`, views in `App.tsx`). Dev server: `npm run dev` (port 3000).
 Build: `npm run build` (Vite, then `scripts/prerender.mjs` for per-route SEO HTML).
 
+## A website link to showcase: follow the website guide
+When a teammate gives a **website link** (or says "make the website case study / add this
+website to our work / give me the prompts for this site"), read
+**`docs/website-case-study-guide.md`** in full and run its **Phase A** end to end without
+waiting for step-by-step instructions: capture the site (`scripts/showcase/capture_site.mjs`),
+build the page with real screenshots, write every image prompt, and send the hand-off
+message. When the teammate brings the generated images back, run **Phase B**.
+
 ## Showing client work: read the playbook first
 Anything about **project showcases**, the **homepage work cards**, **image/mockup
 prompts** for a project, or **adding a project's images** follows

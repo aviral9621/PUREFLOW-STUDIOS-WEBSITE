@@ -1,0 +1,10 @@
+# gitleaks: default rules, plus an allowlist for values that are public by design.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Public by design"
+regexes = [
+  # The Supabase anon (publishable) key: it ships in every browser bundle; RLS is what protects data.
+  '''eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpueXRheXh4d2F5ZGxtZXV2dHFyIiwicm9sZSI6ImFub24i[A-Za-z0-9_.-]*''',
+]

@@ -36,6 +36,10 @@
       "destination": "/customsoftware/index.txt"
     },
     {
+      "source": "/customsoftware/work",
+      "destination": "/customsoftware/work.html"
+    },
+    {
       "source": "/customsoftware/work/:slug",
       "destination": "/customsoftware/work/:slug.html"
     },

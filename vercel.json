@@ -32,6 +32,14 @@
       "destination": "/customsoftware/index.html"
     },
     {
+      "source": "/customsoftware.txt",
+      "destination": "/customsoftware/index.txt"
+    },
+    {
+      "source": "/customsoftware/work/:slug",
+      "destination": "/customsoftware/work/:slug.html"
+    },
+    {
       "source": "/((?!api/|customsoftware|assets/|videos/|logo/|case-studies/|.*\\.).*)",
       "destination": "/index.html"
     }

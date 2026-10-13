@@ -751,46 +751,38 @@ html:not(.dark) .pf-card:hover .pf-card-inner {
 }
 .jr-disc { fill: url(#jrDisc); stroke: rgba(255, 255, 255, 0.08); stroke-width: 0.5; }
 
-/* Centre geometry: thin, white, round-capped; one accent element per mark. */
-.jr-geo { fill: none; stroke: rgba(255, 255, 255, 0.9); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+/* Centre icon: white, round-capped, one stroke weight (in the icon's 24-unit
+   grid); one brand-gradient detail per mark. */
+.jr-geo { fill: none; stroke: rgba(255, 255, 255, 0.92); stroke-width: 1.35; stroke-linecap: round; stroke-linejoin: round; }
 .jr-geo * { transform-box: fill-box; transform-origin: center; }
 .jr-line { stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--k, 0)); }
 .jr-late { stroke-dashoffset: calc(1 - clamp(0, (var(--k, 0) - 0.45) / 0.55, 1)); }
-.jr-node {
-  fill: #fff;
-  stroke: none;
-  opacity: var(--k, 0);
-  transform: scale(calc(0.4 + 0.6 * var(--k, 0)));
+.jr-grad { stroke: url(#jrGrad); }
+
+/* A gradient detail that arrives once the lines are drawn. */
+.jr-accent-dot,
+.jr-accent-box {
+  opacity: clamp(0, (var(--k, 0) - 0.55) / 0.35, 1);
+  transform: scale(calc(0.4 + 0.6 * clamp(0, (var(--k, 0) - 0.55) / 0.35, 1)));
 }
-.jr-core, .jr-cursor { fill: url(#jrGrad); }
+.jr-accent-dot { fill: url(#jrGrad); stroke: none; }
+.jr-accent-box { fill: rgba(198, 25, 230, 0.18); stroke: url(#jrGrad); }
 
-/* Week 0 — the conversation: three dots arrive in turn, then the spark. */
-.jr-dot { fill: #fff; stroke: none; }
-.jr-d1 { opacity: clamp(0, (var(--k, 0) - 0.3) / 0.2, 1); }
-.jr-d2 { opacity: clamp(0, (var(--k, 0) - 0.45) / 0.2, 1); }
-.jr-d3 { opacity: clamp(0, (var(--k, 0) - 0.6) / 0.2, 1); }
-.jr-spark {
-  fill: url(#jrGrad);
-  stroke: none;
-  opacity: clamp(0, (var(--k, 0) - 0.7) / 0.3, 1);
-  transform: scale(calc(0.5 + 0.5 * clamp(0, (var(--k, 0) - 0.7) / 0.3, 1)));
+/* Week 0 — the call: a faint dial, and an arc that fills to 45 of 60 minutes. */
+.jr-dial { stroke: rgba(255, 255, 255, 0.12); stroke-width: 1.2; }
+.jr-arc {
+  stroke: url(#jrGrad);
+  stroke-width: 2.4;
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - 0.75 * var(--k, 0));
+  transform: rotate(-90deg);
 }
 
-/* Week 2 — design: frames start apart and slide onto the guides. */
-.jr-guide { stroke: rgba(198, 25, 230, 0.5); stroke-width: 0.5; stroke-dasharray: 1.4 2.4; opacity: var(--k, 0); }
-.jr-shape { fill: rgba(255, 255, 255, 0.035); }
-.jr-f1 { transform: translate(calc((1 - var(--k, 0)) * -9px), calc((1 - var(--k, 0)) * 7px)); }
-.jr-f2 { stroke: url(#jrGrad); transform: translate(calc((1 - var(--k, 0)) * 10px), calc((1 - var(--k, 0)) * -8px)); }
-.jr-cursor { transform: translate(calc((1 - var(--k, 0)) * 7px), calc((1 - var(--k, 0)) * 7px)) scale(calc(0.4 + 0.6 * var(--k, 0))); }
+/* Week 4 — launch: the rocket rises into place from lower left. */
+.jr-lift {
+  transform: translate(calc((1 - var(--k, 0)) * -6px), calc((1 - var(--k, 0)) * 6px));
+}
 
-/* Week 3 — build: three components close in, then connect. */
-.jr-block { fill: rgba(255, 255, 255, 0.035); }
-.jr-b1 { transform: translate(calc((1 - var(--k, 0)) * -8px), calc((1 - var(--k, 0)) * -6px)); }
-.jr-b2 { transform: translate(calc((1 - var(--k, 0)) * 8px), calc((1 - var(--k, 0)) * -6px)); }
-.jr-b3 { stroke: url(#jrGrad); transform: translateY(calc((1 - var(--k, 0)) * 9px)); }
-
-/* Week 4 — launch: the orbit closes, the centre turns solid, a quiet pulse. */
-.jr-solid { fill: url(#jrGrad); stroke: none; opacity: var(--k, 0); transform: scale(var(--k, 0)); }
 .jr-mark--last::after {
   content: '';
   position: absolute;

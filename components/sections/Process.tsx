@@ -12,8 +12,9 @@ import { motion, useReducedMotion } from 'framer-motion';
 // properties on rAF, so scrolling never re-renders React):
 //   enter  — the ring draws itself, the mark fades in, the week label appears,
 //            the headline rises into place;
-//   build  — the mark's own geometry assembles (`--k`): nodes connect, shapes
-//            align, blocks join, the launch mark fills;
+//   build  — the mark's icon draws itself (`--k`): the call's dial fills to
+//            45 minutes, the compass sweeps its arc, the pen, the code, the
+//            rocket lifts;
 //   exit   — the headline shrinks slightly and fades as the next week's mark
 //            and headline come in (skipped on the last week).
 // Scrolling back up plays it in reverse. Styles: the `.jr-*` block in index.css.
@@ -31,71 +32,106 @@ interface Week {
 }
 
 // ── The marks: one family. Every mark shares the same outer ring, inner disc
-//    and glow (see <Mark>); only the centre geometry (100×100 box) changes.
-//    Lines use pathLength="1" so they can draw on with --k.
+//    and glow (see <Mark>). The centre is a single icon, drawn on a 24-unit
+//    grid inside a nested <svg> placed exactly on the circle's centre, so it
+//    is centred the same way at every size. Same stroke weight throughout,
+//    one brand-gradient detail per mark. Lines use pathLength="1" so they
+//    draw on with --k as the week builds.
 
-const ConversationMark = (
+/** A 24×24 icon centred on the mark (100×100), `size` units wide. */
+const Glyph: React.FC<{ size?: number; children: React.ReactNode }> = ({ size = 40, children }) => (
+  <svg x={50 - size / 2} y={50 - size / 2} width={size} height={size} viewBox="0 0 24 24" overflow="visible">
+    {children}
+  </svg>
+);
+
+/** Week 0, a 45-minute call: a phone inside a dial whose arc fills to 45 of 60 minutes. */
+const CallMark = (
   <g className="jr-geo">
-    {/* An open, rounded speech form with a soft tail. */}
-    <path className="jr-line" pathLength={1} d="M34 41c0-6.6 5.4-12 12-12h14c6.6 0 12 5.4 12 12v6c0 6.6-5.4 12-12 12H49l-8 7v-7.5c-4-2-7-6-7-11z" />
-    <circle className="jr-dot jr-d1" cx="46" cy="44" r="2.2" />
-    <circle className="jr-dot jr-d2" cx="53" cy="44" r="2.2" />
-    <circle className="jr-dot jr-d3" cx="60" cy="44" r="2.2" />
-    {/* A small spark: the idea taking shape. */}
-    <path className="jr-spark" d="M73 25l1.6 4.2L79 31l-4.4 1.6L73 37l-1.6-4.4L67 31l4.4-1.8z" />
+    <circle className="jr-dial" cx="50" cy="50" r="26" />
+    <circle className="jr-arc" cx="50" cy="50" r="26" pathLength={1} />
+    <Glyph size={27}>
+      {/* Drawn smaller to sit inside the dial, so its stroke is heavier in
+          its own grid: the same on-screen weight as the other marks. */}
+      <path
+        className="jr-line"
+        pathLength={1}
+        strokeWidth={2.2}
+        d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"
+      />
+    </Glyph>
   </g>
 );
 
+/** Week 1, architecture before code: the architect's drafting compass, its
+ *  legs drawn first, then the arc it sweeps (the plan) in the brand gradient. */
 const ArchitectureMark = (
   <g className="jr-geo">
-    <path className="jr-line" pathLength={1} d="M50 30 L32 52 L50 72 L68 52 Z" />
-    <path className="jr-line jr-late" pathLength={1} d="M32 52 L68 52 M50 30 L50 72" />
-    <circle className="jr-node" cx="50" cy="30" r="3.4" />
-    <circle className="jr-node" cx="32" cy="52" r="3.4" />
-    <circle className="jr-node" cx="68" cy="52" r="3.4" />
-    <circle className="jr-node" cx="50" cy="72" r="3.4" />
-    <circle className="jr-node jr-core" cx="50" cy="52" r="4.6" />
+    <Glyph size={44}>
+      <path className="jr-line" pathLength={1} d="M3 21 11.02 6.74" />
+      <path className="jr-line" pathLength={1} d="M12.98 6.74 21 21" />
+      <circle className="jr-line" pathLength={1} cx="12" cy="5" r="2" />
+      <path className="jr-line jr-late jr-grad" pathLength={1} d="M4.865 12a10 10 0 0 0 14.271 0" />
+    </Glyph>
   </g>
 );
 
+/** Week 2, design with intent: the pen tool. */
 const DesignMark = (
   <g className="jr-geo">
-    {/* Alignment guides fade in as the shapes settle onto them. */}
-    <path className="jr-guide" d="M24 38 H76 M24 64 H76 M38 24 V76" />
-    {/* Two layered frames, starting apart, sliding into alignment. */}
-    <rect className="jr-shape jr-f1" x="38" y="38" width="30" height="26" rx="4" />
-    <rect className="jr-shape jr-f2" x="38" y="38" width="20" height="14" rx="3" />
-    {/* The cursor point. */}
-    <circle className="jr-node jr-cursor" cx="68" cy="64" r="3" />
+    <Glyph>
+      <path
+        className="jr-line"
+        pathLength={1}
+        d="M15.707 21.293a1 1 0 0 1-1.414 0l-1.586-1.586a1 1 0 0 1 0-1.414l5.586-5.586a1 1 0 0 1 1.414 0l1.586 1.586a1 1 0 0 1 0 1.414z"
+      />
+      <path
+        className="jr-line"
+        pathLength={1}
+        d="m18 13-1.375-6.874a1 1 0 0 0-.746-.776L3.235 2.028a1 1 0 0 0-1.207 1.207L5.35 15.879a1 1 0 0 0 .776.746L13 18"
+      />
+      <path className="jr-line jr-late" pathLength={1} d="m2.3 2.3 7.286 7.286" />
+      <circle className="jr-accent-dot" cx="11" cy="11" r="2" />
+    </Glyph>
   </g>
 );
 
+/** Week 3, build the system: code brackets, the slash in the brand gradient. */
 const BuildMark = (
   <g className="jr-geo">
-    {/* Three component blocks that close in and connect into one system. */}
-    <rect className="jr-block jr-b1" x="28" y="30" width="18" height="14" rx="3" />
-    <rect className="jr-block jr-b2" x="54" y="30" width="18" height="14" rx="3" />
-    <rect className="jr-block jr-b3" x="41" y="56" width="18" height="14" rx="3" />
-    <path className="jr-line jr-late" pathLength={1} d="M46 37 H54 M37 44 L44 56 M63 44 L56 56" />
+    <Glyph>
+      <path className="jr-line" pathLength={1} d="m18 16 4-4-4-4" />
+      <path className="jr-line" pathLength={1} d="m6 8-4 4 4 4" />
+      <path className="jr-line jr-late jr-grad" pathLength={1} d="m14.5 4-5 16" />
+    </Glyph>
   </g>
 );
 
+/** Week 4, ready to launch: a rocket that lifts into place. */
 const LaunchMark = (
   <g className="jr-geo">
-    {/* Every earlier node, now on one orbit, all connected. */}
-    <circle className="jr-line" pathLength={1} cx="50" cy="50" r="22" />
-    <circle className="jr-node" cx="50" cy="28" r="2.8" />
-    <circle className="jr-node" cx="71" cy="43" r="2.8" />
-    <circle className="jr-node" cx="63" cy="68" r="2.8" />
-    <circle className="jr-node" cx="37" cy="68" r="2.8" />
-    <circle className="jr-node" cx="29" cy="43" r="2.8" />
-    {/* The centre becomes solid. */}
-    <circle className="jr-solid" cx="50" cy="50" r="9" />
+    <g className="jr-lift">
+      <Glyph>
+        <path
+          className="jr-line jr-late jr-grad"
+          pathLength={1}
+          d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"
+        />
+        <path
+          className="jr-line"
+          pathLength={1}
+          d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"
+        />
+        <path className="jr-line" pathLength={1} d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+        <path className="jr-line" pathLength={1} d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+        <circle className="jr-accent-dot" cx="15.5" cy="8.5" r="1.6" />
+      </Glyph>
+    </g>
   </g>
 );
 
 const WEEKS: Week[] = [
-  { label: 'Week 0', lead: '45-minute', accent: 'call', mark: ConversationMark, aria: 'Week 0: a 45-minute call' },
+  { label: 'Week 0', lead: '45-minute', accent: 'call', mark: CallMark, aria: 'Week 0: a 45-minute call' },
   { label: 'Week 1', lead: 'Architecture', accent: 'before code', mark: ArchitectureMark, aria: 'Week 1: architecture before code' },
   { label: 'Week 2', lead: 'Design', accent: 'with intent', mark: DesignMark, aria: 'Week 2: design with intent' },
   { label: 'Week 3', lead: 'Build', accent: 'the system', mark: BuildMark, aria: 'Week 3: build the system' },

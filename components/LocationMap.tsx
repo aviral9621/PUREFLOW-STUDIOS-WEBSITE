@@ -9,17 +9,22 @@ declare global {
   }
 }
 
-const GOOGLE_MAPS_API_KEY = "AIzaSyBohJfK2TbmuPgoGSzghT71jI64aXo3Ge0";
+// Browser key for the Maps JavaScript API. It is read from the environment at build time
+// (VITE_GOOGLE_MAPS_API_KEY in .env locally and in Vercel) and never committed. The key must be
+// restricted in Google Cloud to this site's referrers and to the Maps JavaScript API only.
+// Without a key the section still renders: the info card with the address and map links.
+const GOOGLE_MAPS_API_KEY = (import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string | undefined) || '';
 
 export const LocationMap: React.FC = () => {
   const [mapLoaded, setMapLoaded] = useState(false);
-  const [viewState, setViewState] = useState<'overview' | 'zooming' | 'interactive'>('overview');
+  const [viewState, setViewState] = useState<'overview' | 'zooming' | 'interactive'>(GOOGLE_MAPS_API_KEY ? 'overview' : 'interactive');
   const [mapInstance, setMapInstance] = useState<any>(null);
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
   // Load Google Maps Script
   useEffect(() => {
+    if (!GOOGLE_MAPS_API_KEY) return;
     // Check if window.google is already available
     if (window.google && window.google.maps) {
       setMapLoaded(true);

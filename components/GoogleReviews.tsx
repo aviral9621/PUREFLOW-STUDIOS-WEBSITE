@@ -1,23 +1,38 @@
 
 import React, { useEffect, useState, useRef } from 'react';
-import { Star, Quote } from 'lucide-react';
+import { Star, Quote, X } from 'lucide-react';
 import { OFFICE_LOCATION } from '../constants';
+import { GOOGLE_RATING, GOOGLE_REVIEW_COUNT, GOOGLE_REVIEWS } from '../lib/googleReviews';
 
-const GOOGLE_MAPS_API_KEY = "AIzaSyBohJfK2TbmuPgoGSzghT71jI64aXo3Ge0";
-
+// Every written review from the Google Business Profile (lib/googleReviews.ts).
+// The Places API only ever returns 5, so the full list is kept in the repo instead.
 interface Review {
   author_name: string;
-  profile_photo_url: string;
+  initials: string;
   rating: number;
-  relative_time_description: string;
+  date: string;
   text: string;
 }
 
-declare global {
-  interface Window {
-    google: any;
-  }
-}
+/** Cards show this many words (and at most CHARS characters); "Read more" opens the rest in a pop-up. */
+const WORDS = 15;
+const CHARS = 72;
+const clip = (text: string) => {
+  const flat = text.replace(/\s+/g, ' ').trim();
+  let words = flat.split(' ');
+  if (words.length <= WORDS && flat.length <= CHARS) return { short: text, cut: false };
+  words = words.slice(0, WORDS);
+  while (words.length > 1 && words.join(' ').length > CHARS) words.pop();
+  return { short: words.join(' ').replace(/[,.;:!—-]+$/, '') + '…', cut: true };
+};
+
+const REVIEWS: Review[] = GOOGLE_REVIEWS.map((r) => ({
+  author_name: r.name,
+  initials: r.name.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]!.toUpperCase()).join(''),
+  rating: r.rating,
+  date: r.date,
+  text: r.text,
+}));
 
 // Inline Google Logo for reliability
 const GoogleLogo = () => (
@@ -30,11 +45,22 @@ const GoogleLogo = () => (
 );
 
 export const GoogleReviews: React.FC = () => {
-  const [reviews, setReviews] = useState<Review[]>([]);
-  const [rating, setRating] = useState<number>(5.0);
-  const [totalRatings, setTotalRatings] = useState<number>(0);
-  const [loading, setLoading] = useState(true);
-  const [apiLoaded, setApiLoaded] = useState(false);
+  const reviews = REVIEWS;
+  const rating = Number(GOOGLE_RATING);
+  const totalRatings = GOOGLE_REVIEW_COUNT;
+
+  const [open, setOpen] = useState<Review | null>(null);
+  const dragged = useRef(false);
+
+  // Pop-up: close on Escape, and stop the page scrolling behind it.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(null);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKey);
+    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = prev; };
+  }, [open]);
 
   // Scroll State
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -43,88 +69,11 @@ export const GoogleReviews: React.FC = () => {
   const [startX, setStartX] = useState(0);
   const [scrollLeftState, setScrollLeftState] = useState(0);
 
-  // Load Google Maps Script
-  useEffect(() => {
-    if (window.google && window.google.maps && window.google.maps.importLibrary) {
-      setApiLoaded(true);
-    } else {
-      if (!document.querySelector('script[src*="maps.googleapis.com"]')) {
-        const script = document.createElement('script');
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places&v=weekly`;
-        script.async = true;
-        script.defer = true;
-        document.head.appendChild(script);
-        script.onload = () => setApiLoaded(true);
-      } else {
-        const interval = setInterval(() => {
-          if (window.google && window.google.maps && window.google.maps.importLibrary) {
-            setApiLoaded(true);
-            clearInterval(interval);
-          }
-        }, 500);
-        return () => clearInterval(interval);
-      }
-    }
-  }, []);
-
-  // Fetch Reviews
-  useEffect(() => {
-    if (!apiLoaded || !OFFICE_LOCATION.place_id) return;
-
-    const fetchReviews = async () => {
-      try {
-        const { Place } = await window.google.maps.importLibrary("places") as any;
-        const place = new Place({ id: OFFICE_LOCATION.place_id });
-
-        // Note: The Google Places API (Client Side) is limited to returning 5 reviews max.
-        // We will fetch what is available and display them optimally.
-        await place.fetchFields({
-          fields: ['reviews', 'rating', 'userRatingCount']
-        });
-
-        const reviewsData = place.reviews;
-        const ratingData = place.rating;
-        const totalData = place.userRatingCount;
-
-        if (reviewsData && Array.isArray(reviewsData)) {
-          const mappedReviews: Review[] = reviewsData.map((r: any) => ({
-            author_name: r.authorAttribution?.displayName || 'Anonymous',
-            profile_photo_url: r.authorAttribution?.photoUri || '',
-            rating: r.rating,
-            relative_time_description: r.relativePublishTimeDescription || '',
-            text: r.text || r.originalText || ''
-          }));
-
-          // Sort: Written reviews first, then by rating
-          const sortedReviews = mappedReviews.sort((a, b) => {
-             const aHasText = a.text && a.text.length > 0;
-             const bHasText = b.text && b.text.length > 0;
-             if (aHasText && !bHasText) return -1;
-             if (!aHasText && bHasText) return 1;
-             return b.rating - a.rating;
-          });
-          
-          setReviews(sortedReviews);
-        }
-
-        if (ratingData) setRating(ratingData);
-        if (totalData) setTotalRatings(totalData);
-        setLoading(false);
-
-      } catch (error) {
-        console.error("Google Places API Error:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchReviews();
-  }, [apiLoaded]);
-
   // Infinite Auto-Scroll Logic
   useEffect(() => {
     const container = scrollContainerRef.current;
-    // Don't animate if no container, loading, no reviews, or user is interacting
-    if (!container || loading || reviews.length === 0) return;
+    // Don't animate if no container or no reviews; pause while the user is interacting
+    if (!container || reviews.length === 0) return;
 
     let animationId: number;
     
@@ -136,8 +85,11 @@ export const GoogleReviews: React.FC = () => {
         // Loop Logic:
         // We duplicate reviews multiple times. 
         // When we pass the halfway point (end of 2nd set), we reset to 0 seamlessly.
-        if (container.scrollLeft >= (container.scrollWidth / 2)) {
-            container.scrollLeft = 0;
+        const seam = container.querySelector<HTMLElement>('[data-loop-start]');
+        const first = container.firstElementChild as HTMLElement | null;
+        const loopAt = seam && first ? seam.offsetLeft - first.offsetLeft : container.scrollWidth / 2;
+        if (container.scrollLeft >= loopAt) {
+            container.scrollLeft -= loopAt;
         }
       }
       animationId = requestAnimationFrame(animate);
@@ -145,7 +97,7 @@ export const GoogleReviews: React.FC = () => {
     
     animationId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animationId);
-  }, [isPaused, isMouseDown, loading, reviews]);
+  }, [isPaused, isMouseDown, reviews]);
 
   // --- Mouse Drag Handlers ---
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -154,6 +106,7 @@ export const GoogleReviews: React.FC = () => {
     
     setIsMouseDown(true);
     setIsPaused(true);
+    dragged.current = false;
     setStartX(e.pageX - container.offsetLeft);
     setScrollLeftState(container.scrollLeft);
   };
@@ -176,6 +129,7 @@ export const GoogleReviews: React.FC = () => {
     
     const x = e.pageX - container.offsetLeft;
     const walk = (x - startX) * 2; // Scroll-fast multiplier
+    if (Math.abs(walk) > 8) dragged.current = true;
     container.scrollLeft = scrollLeftState - walk;
   };
 
@@ -190,14 +144,8 @@ export const GoogleReviews: React.FC = () => {
   };
 
 
-  if (loading) {
-     return <div className="py-12 flex justify-center"><div className="w-8 h-8 border-2 border-brand border-t-transparent rounded-full animate-spin" /></div>;
-  }
-  
-  if (reviews.length === 0) return null;
-
-  // Duplicate reviews multiple times (x6) to ensure enough width for infinite loop on all screens
-  const displayReviews = [...reviews, ...reviews, ...reviews, ...reviews, ...reviews, ...reviews];
+  // Two copies back to back: the scroll wraps at the start of the second copy, which is seamless.
+  const displayReviews = [...reviews, ...reviews];
 
   return (
     <section className="relative w-full py-14 md:py-16 overflow-hidden border-t border-white/5">
@@ -284,7 +232,7 @@ export const GoogleReviews: React.FC = () => {
 
          <div 
             ref={scrollContainerRef}
-            className="flex gap-6 overflow-x-auto hide-scrollbar pb-8 px-4 grab-cursor"
+            className="flex gap-4 md:gap-5 overflow-x-auto hide-scrollbar pb-8 px-4 grab-cursor"
             onMouseDown={handleMouseDown}
             onMouseLeave={handleMouseLeave}
             onMouseUp={handleMouseUp}
@@ -299,68 +247,65 @@ export const GoogleReviews: React.FC = () => {
             {displayReviews.map((review, i) => (
                <div 
                   key={i} 
+                  data-loop-start={i === reviews.length ? '' : undefined}
+                  aria-hidden={i >= reviews.length || undefined}
                   className="
-                    w-[280px] sm:w-[320px] md:w-[380px] flex-shrink-0 
-                    bg-[#0F0F12]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-5 sm:p-6 md:p-8
+                    w-[264px] sm:w-[300px] md:w-[330px] h-[188px] md:h-[196px] flex-shrink-0 
+                    bg-[#0F0F12]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-4 md:p-5
                     transition-all duration-300 hover:border-[#A452FF]/40 hover:bg-[#141419]
                     flex flex-col justify-between select-none
                   "
                >
                   {/* Header: Author Info */}
-                  <div className="flex justify-between items-start mb-4">
-                     <div className="flex items-center gap-3">
-                        {review.profile_photo_url ? (
-                           <img 
-                              src={review.profile_photo_url} 
-                              alt={review.author_name} 
-                              className="w-10 h-10 rounded-full object-cover border border-white/10 pointer-events-none"
-                           />
-                        ) : (
-                           <div className="w-10 h-10 rounded-full bg-brand/20 flex items-center justify-center text-brand font-bold text-lg">
-                              {review.author_name.charAt(0)}
-                           </div>
-                        )}
-                        <div>
-                           <div className="font-bold text-white text-sm truncate max-w-[140px]">{review.author_name}</div>
-                           <div className="text-gray-500 text-[10px]">{review.relative_time_description}</div>
-                        </div>
+                  <div className="flex items-center gap-3 mb-3 min-w-0">
+                     <div className="w-9 h-9 shrink-0 rounded-full bg-brand/20 flex items-center justify-center text-brand font-bold text-sm">
+                        {review.initials}
                      </div>
-                     
-                     <div className="flex gap-0.5">
-                        {[...Array(5)].map((_, starIndex) => (
-                           <Star 
-                              key={starIndex} 
-                              className={`w-3.5 h-3.5 ${starIndex < review.rating ? 'text-yellow-500 fill-yellow-500' : 'text-gray-700'}`} 
-                           />
-                        ))}
+                     <div className="min-w-0">
+                        <div className="font-bold text-white text-sm truncate">{review.author_name}</div>
+                        <div className="mt-0.5 flex items-center gap-2">
+                           <span className="flex gap-0.5" role="img" aria-label={`${review.rating} out of 5 stars`}>
+                              {[...Array(5)].map((_, starIndex) => (
+                                 <Star
+                                    key={starIndex}
+                                    className={`w-3 h-3 ${starIndex < review.rating ? 'text-yellow-500 fill-yellow-500' : 'text-gray-700'}`}
+                                 />
+                              ))}
+                           </span>
+                           <span className="text-gray-500 text-[11px]">{review.date}</span>
+                        </div>
                      </div>
                   </div>
 
                   {/* Body: Review Text */}
                   <div className="relative flex-1">
-                     {review.text ? (
-                        <>
-                           <Quote className="absolute -top-1 -left-1 w-4 h-4 text-gray-700 transform scale-x-[-1] opacity-50" />
-                           <p className="text-gray-300 text-sm leading-relaxed pl-4 line-clamp-4 font-light">
-                              {review.text}
-                           </p>
-                        </>
-                     ) : (
-                        <div className="h-full flex items-center justify-center min-h-[80px]">
-                           <div className="flex flex-col items-center gap-1 opacity-40">
-                              <Star className="w-5 h-5" />
-                              <p className="text-xs italic">Rated 5.0</p>
-                           </div>
-                        </div>
-                     )}
+                     {(() => {
+                        const { short, cut } = clip(review.text);
+                        return (
+                           <>
+                              <Quote className="absolute -top-1 -left-1 w-4 h-4 text-gray-700 transform scale-x-[-1] opacity-50" />
+                              <p className="text-gray-300 text-sm leading-relaxed pl-4 line-clamp-3 font-light">{short}</p>
+                              {cut && (
+                                 <button
+                                    type="button"
+                                    tabIndex={i >= reviews.length ? -1 : undefined}
+                                    onClick={() => { if (!dragged.current) setOpen(review); }}
+                                    className="mt-1 pl-4 text-[13px] font-semibold text-[#C084FC] hover:text-white transition-colors"
+                                 >
+                                    Read more
+                                 </button>
+                              )}
+                           </>
+                        );
+                     })()}
                   </div>
                   
                   {/* Google Icon Footer */}
-                  <div className="mt-6 flex items-center gap-2 opacity-50">
+                  <div className="mt-2 flex items-center gap-2 opacity-50">
                      <div className="w-4 h-4 grayscale opacity-70">
                         <GoogleLogo />
                      </div>
-                     <span className="text-[10px] text-gray-500 font-medium">Posted on Google</span>
+                     <span className="text-[11px] text-gray-500 font-medium">Posted on Google</span>
                   </div>
 
                </div>
@@ -368,25 +313,58 @@ export const GoogleReviews: React.FC = () => {
             
             {/* View All Card - Helps address the 'not all reviews' issue by linking out */}
             <div className="
-                w-[280px] sm:w-[320px] md:w-[380px] flex-shrink-0 
-                bg-[#0F0F12]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8
+                w-[264px] sm:w-[300px] md:w-[330px] h-[188px] md:h-[196px] flex-shrink-0 
+                bg-[#0F0F12]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-5
                 flex flex-col justify-center items-center text-center gap-4
                 cursor-pointer hover:border-[#A452FF] transition-all group
             "
             onClick={() => window.open(OFFICE_LOCATION.googleMapsUrl, '_blank')}
             >
-                <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                    <div className="w-10 h-10">
+                <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <div className="w-7 h-7">
                         <GoogleLogo />
                     </div>
                 </div>
-                <h3 className="text-xl font-bold text-white">Read All {totalRatings} Reviews</h3>
+                <h3 className="text-lg font-bold text-white">Read All {totalRatings} Reviews</h3>
                 <p className="text-gray-400 text-sm">See what everyone else is saying on our Google Business Profile.</p>
                 <span className="text-brand font-bold text-sm mt-2">View on Maps &rarr;</span>
             </div>
 
          </div>
       </div>
+
+      {/* Full review pop-up */}
+      {open && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-5 bg-black/70 backdrop-blur-sm" onClick={() => setOpen(null)}>
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Review by ${open.author_name}`}
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-[560px] max-h-[80vh] overflow-y-auto rounded-2xl border border-white/10 bg-[#111015] p-6 md:p-8 shadow-2xl"
+          >
+            <button type="button" aria-label="Close" onClick={() => setOpen(null)} autoFocus className="absolute top-3 right-3 w-10 h-10 rounded-xl border border-white/10 flex items-center justify-center text-gray-300 hover:text-white hover:border-white/30 transition-colors">
+              <X className="w-4 h-4" />
+            </button>
+            <div className="flex items-center gap-3 pr-10">
+              <div className="w-11 h-11 shrink-0 rounded-full bg-brand/20 flex items-center justify-center text-brand font-bold">{open.initials}</div>
+              <div>
+                <div className="font-bold text-white">{open.author_name}</div>
+                <div className="text-gray-500 text-xs">{open.date}</div>
+              </div>
+            </div>
+            <div className="flex gap-0.5 mt-4">
+              {[...Array(5)].map((_, k) => (
+                <Star key={k} className={`w-4 h-4 ${k < open.rating ? 'text-yellow-500 fill-yellow-500' : 'text-gray-700'}`} />
+              ))}
+            </div>
+            <p className="mt-3 text-gray-200 text-[15px] leading-relaxed whitespace-pre-line">{open.text}</p>
+            <a href={OFFICE_LOCATION.googleMapsUrl} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#C084FC] hover:text-white transition-colors">
+              <span className="w-4 h-4"><GoogleLogo /></span> Posted on Google ↗
+            </a>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

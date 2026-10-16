@@ -5,7 +5,7 @@
 // guard; the database sends the push alerts)  5. confirmation email to the client and lead
 // email to PureFlow through Resend. Returns { id, meetLink }.
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { HOST_TZ, MEETING_MIN, busyRanges, buildSlots, createEvent, deleteEvent, esc, fmtIn, googleConfigured, googleToken, insertBooking, intlUpsert, isEmail, json, readJson, sendEmail, type IntlFields } from './_lib.js';
+import { HOST_TZ, MEETING_MIN, busyRanges, buildSlots, clientCallEmail, createEvent, deleteEvent, esc, fmtIn, googleConfigured, googleToken, insertBooking, intlUpsert, isEmail, json, readJson, rescheduleUrl, sendEmail, type IntlFields } from './_lib.js';
 
 type Payload = {
   start: string; end: string; timeZone: string;
@@ -109,12 +109,14 @@ export default async function handler(req: IncomingMessage & { body?: unknown },
   // 5. emails (skipped silently if RESEND_API_KEY is not set yet)
   const whenClient = when(tz), whenHost = when(HOST_TZ);
   const meet = ev.meetLink || '(the Google Meet link is in your calendar invite)';
+  // The client's private reschedule link (only when the booking is on their international lead row).
+  const moveLink = saved.ok ? rescheduleUrl(saved.id, saved.key) : undefined;
   try {
+    const mail = clientCallEmail({ first: name.split(' ')[0], heading: `You're booked, ${name.split(' ')[0]}.`, intro: 'Your free 30-minute consultation with PureFlow Studios is confirmed.', when: whenClient, meetLink: ev.meetLink, reschedule: moveLink });
     await sendEmail({
       to: email,
       subject: `You're booked: PureFlow consultation, ${fmtIn(new Date(start), tz, { weekday: 'short', day: 'numeric', month: 'short' })}`,
-      text: `Hi ${name},\n\nYour free 30-minute consultation with PureFlow Studios is confirmed.\n\nWhen: ${whenClient}\nGoogle Meet: ${meet}\n\nA calendar invite has also been sent to this address. Reply to this email if you need to move the call.\n\nAviral Singh\nPureFlow Studios · pureflowstudios.in`,
-      html: `<div style="font-family:system-ui,-apple-system,Segoe UI,sans-serif;max-width:560px;margin:0 auto;padding:28px 24px;color:#1F1235"><p style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7E22CE;font-weight:700;margin:0 0 10px">PureFlow Studios</p><h1 style="font-size:24px;margin:0 0 12px">You're booked, ${esc(name.split(' ')[0])}.</h1><p style="font-size:16px;line-height:1.6;margin:0 0 20px">Your free 30-minute consultation is confirmed.</p><table style="border-collapse:collapse;width:100%;font-size:15px"><tr><td style="padding:10px 0;border-top:1px solid #ECE6F7;color:#6B6480;width:90px">When</td><td style="padding:10px 0;border-top:1px solid #ECE6F7;font-weight:700">${esc(whenClient)}</td></tr><tr><td style="padding:10px 0;border-top:1px solid #ECE6F7;color:#6B6480">Where</td><td style="padding:10px 0;border-top:1px solid #ECE6F7">Google Meet</td></tr></table>${ev.meetLink ? `<p style="margin:24px 0"><a href="${esc(ev.meetLink)}" style="display:inline-block;background:#7E22CE;color:#fff;text-decoration:none;font-weight:700;padding:14px 22px;border-radius:999px">Join the Google Meet</a></p>` : ''}<p style="font-size:14px;line-height:1.6;color:#6B6480;margin:0 0 8px">A calendar invite has also been sent to this address. Reply to this email if you need to move the call.</p><p style="font-size:14px;line-height:1.6;margin:20px 0 0">Aviral Singh<br>PureFlow Studios · <a href="https://www.pureflowstudios.in" style="color:#7E22CE">pureflowstudios.in</a></p></div>`,
+      ...mail,
     });
   } catch (e) { console.error('[book] client email', e); }
   try {

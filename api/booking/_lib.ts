@@ -123,6 +123,25 @@ export async function createEvent(token: string, p: { start: string; end: string
 export async function deleteEvent(token: string, id: string) {
   await fetch(`https://www.googleapis.com/calendar/v3/calendars/${calId()}/events/${encodeURIComponent(id)}?sendUpdates=none`, { method: 'DELETE', headers: { authorization: `Bearer ${token}` } });
 }
+/** Move an event (same Meet link). Google sends the client the updated invite when `notify`.
+ *  Returns null when the event no longer exists (deleted from the calendar by hand). */
+export async function moveEvent(token: string, id: string, p: { start: string; end: string; description?: string; notify: boolean }): Promise<CreatedEvent | null> {
+  const body: Record<string, unknown> = { start: { dateTime: p.start, timeZone: HOST_TZ }, end: { dateTime: p.end, timeZone: HOST_TZ } };
+  if (p.description !== undefined) body.description = p.description;
+  const r = await fetch(`https://www.googleapis.com/calendar/v3/calendars/${calId()}/events/${encodeURIComponent(id)}?conferenceDataVersion=1&sendUpdates=${p.notify ? 'all' : 'none'}`, { method: 'PATCH', headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json' }, body: JSON.stringify(body) });
+  if (r.status === 404 || r.status === 410) return null;
+  const j = (await r.json()) as { id?: string; status?: string; hangoutLink?: string; htmlLink?: string; conferenceData?: { entryPoints?: Array<{ uri?: string; entryPointType?: string }> }; error?: unknown };
+  if (!j.id) throw new Error(`google patch: ${JSON.stringify(j.error).slice(0, 200)}`);
+  if (j.status === 'cancelled') return null;
+  const meet = j.hangoutLink || j.conferenceData?.entryPoints?.find((e) => e.entryPointType === 'video')?.uri || '';
+  return { id: j.id, meetLink: meet, htmlLink: j.htmlLink ?? '' };
+}
+export async function getEventDescription(token: string, id: string): Promise<string | null> {
+  const r = await fetch(`https://www.googleapis.com/calendar/v3/calendars/${calId()}/events/${encodeURIComponent(id)}?fields=description,status`, { headers: { authorization: `Bearer ${token}` } });
+  if (!r.ok) return null;
+  const j = (await r.json()) as { description?: string; status?: string };
+  return j.status === 'cancelled' ? null : j.description ?? '';
+}
 
 // ── Resend ───────────────────────────────────────────────────────────────────
 export async function sendEmail(m: { to: string; subject: string; html: string; text: string; replyTo?: string }) {
@@ -177,6 +196,48 @@ export async function intlUpsert(fields: IntlFields): Promise<IntlResult> {
     if (j.code === '23505') return { ok: false, conflict: true, code: j.code, message: j.message ?? 'slot taken' };
     return { ok: false, code: j.code, message: j.message ?? `status ${r.status}` };
   } catch (e) { return { ok: false, message: String(e) }; }
+}
+
+// ── reschedule (the private link in the confirmation email) ─────────────────
+const SITE_URL = (process.env.BOOKING_SITE_URL || 'https://www.pureflowstudios.in').replace(/\/$/, '');
+/** The client's own link: opens /customsoftware with the reschedule pop-up for this booking. */
+export const rescheduleUrl = (id: string, key: string) => `${SITE_URL}/customsoftware?reschedule=${encodeURIComponent(id)}&key=${encodeURIComponent(key)}`;
+export const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+export type IntlBooking = {
+  id: string; name: string; email: string; company: string | null; status: string;
+  scheduled_at: string | null; scheduled_end: string | null; client_timezone: string | null;
+  meet_link: string | null; calendar_event_id: string | null; reschedule_count: number;
+};
+async function rpc(fn: string, body: unknown): Promise<{ ok: boolean; status: number; data: unknown; code?: string; message?: string }> {
+  const r = await fetch(`${SB_URL}/rest/v1/rpc/${fn}`, { method: 'POST', headers: { apikey: SB_KEY, authorization: `Bearer ${SB_KEY}`, 'content-type': 'application/json' }, body: JSON.stringify(body) });
+  const data = (await r.json().catch(() => null)) as { code?: string; message?: string } | null;
+  return { ok: r.ok, status: r.status, data, code: r.ok ? undefined : data?.code, message: r.ok ? undefined : data?.message };
+}
+/** The booking behind a reschedule link, or null if the id/key pair matches nothing. */
+export async function intlBookingGet(id: string, key: string): Promise<IntlBooking | null> {
+  if (!UUID_RE.test(id) || !UUID_RE.test(key)) return null;
+  const r = await rpc('intl_booking_get', { p_id: id, p_key: key });
+  if (!r.ok) throw new Error(`intl_booking_get: ${r.code ?? r.status} ${r.message ?? ''}`);
+  return (r.data as IntlBooking | null) ?? null;
+}
+export async function intlBookingReschedule(p: { id: string; key: string; scheduled_at: string; scheduled_end: string; reason: string; meet_link?: string; calendar_event_id?: string; client_timezone?: string }): Promise<{ ok: true } | { ok: false; conflict?: true; code?: string; message: string }> {
+  const r = await rpc('intl_booking_reschedule', { p });
+  if (r.ok) return { ok: true };
+  if (r.code === '23505') return { ok: false, conflict: true, code: r.code, message: r.message ?? 'slot taken' };
+  return { ok: false, code: r.code, message: r.message ?? `status ${r.status}` };
+}
+
+/** The client's email (booked or moved): when, Meet button, and the reschedule line at the end. */
+export function clientCallEmail(p: { first: string; heading: string; intro: string; when: string; previous?: string; meetLink: string; reschedule?: string }) {
+  const rows = [
+    p.previous ? ['Was', `<span style="color:#6B6480;text-decoration:line-through">${esc(p.previous)}</span>`] : null,
+    [p.previous ? 'Now' : 'When', `<strong>${esc(p.when)}</strong>`],
+    ['Where', 'Google Meet'],
+  ].filter(Boolean) as string[][];
+  const html = `<div style="font-family:system-ui,-apple-system,Segoe UI,sans-serif;max-width:560px;margin:0 auto;padding:28px 24px;color:#1F1235"><p style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7E22CE;font-weight:700;margin:0 0 10px">PureFlow Studios</p><h1 style="font-size:24px;margin:0 0 12px">${esc(p.heading)}</h1><p style="font-size:16px;line-height:1.6;margin:0 0 20px">${esc(p.intro)}</p><table style="border-collapse:collapse;width:100%;font-size:15px">${rows.map(([k, v]) => `<tr><td style="padding:10px 0;border-top:1px solid #ECE6F7;color:#6B6480;width:90px">${k}</td><td style="padding:10px 0;border-top:1px solid #ECE6F7">${v}</td></tr>`).join('')}</table>${p.meetLink ? `<p style="margin:24px 0"><a href="${esc(p.meetLink)}" style="display:inline-block;background:#7E22CE;color:#fff;text-decoration:none;font-weight:700;padding:14px 22px;border-radius:999px">Join the Google Meet</a></p>` : ''}<p style="font-size:14px;line-height:1.6;color:#6B6480;margin:0 0 8px">Your calendar invite has the same details. Questions before the call? Just reply to this email.</p><p style="font-size:14px;line-height:1.6;margin:20px 0 0">Aviral Singh<br>PureFlow Studios · <a href="https://www.pureflowstudios.in" style="color:#7E22CE">pureflowstudios.in</a></p>${p.reschedule ? `<p style="font-size:13px;line-height:1.6;color:#6B6480;margin:24px 0 0;padding-top:14px;border-top:1px solid #ECE6F7">Want to reschedule the meeting? <a href="${esc(p.reschedule)}" style="color:#7E22CE;font-weight:700">Click here</a>.</p>` : ''}</div>`;
+  const text = `Hi ${p.first},\n\n${p.intro}\n\n${p.previous ? `Was: ${p.previous}\nNow: ` : 'When: '}${p.when}\nGoogle Meet: ${p.meetLink || '(the Google Meet link is in your calendar invite)'}\n\nYour calendar invite has the same details. Questions before the call? Just reply to this email.\n\nAviral Singh\nPureFlow Studios · pureflowstudios.in${p.reschedule ? `\n\nWant to reschedule the meeting? ${p.reschedule}` : ''}`;
+  return { html, text };
 }
 
 // ── small utils ──────────────────────────────────────────────────────────────

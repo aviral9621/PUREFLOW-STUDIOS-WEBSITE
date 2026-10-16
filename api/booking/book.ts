@@ -4,7 +4,7 @@
 // 4. save the lead in Supabase (unique slot guard)  5. confirmation email to the client
 // and lead email to PureFlow through Resend. Returns { id, meetLink }.
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { HOST_TZ, MEETING_MIN, busyRanges, buildSlots, createEvent, deleteEvent, esc, fmtIn, googleConfigured, googleToken, insertBooking, isEmail, json, readJson, sendEmail } from './_lib';
+import { HOST_TZ, MEETING_MIN, busyRanges, buildSlots, createEvent, deleteEvent, esc, fmtIn, googleConfigured, googleToken, insertBooking, isEmail, json, readJson, sendEmail } from './_lib.js';
 
 type Payload = {
   start: string; end: string; timeZone: string;

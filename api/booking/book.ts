@@ -1,16 +1,20 @@
 // POST /api/booking/book — confirm a consultation.
 // 1. validate  2. the slot must still be open on the calendar  3. create the Google
 // Calendar event with a Meet link (Google also sends the invite to the client)
-// 4. save the lead in Supabase (unique slot guard)  5. confirmation email to the client
-// and lead email to PureFlow through Resend. Returns { id, meetLink }.
+// 4. save it on the visitor's international lead (Leads app → International; unique slot
+// guard; the database sends the push alerts)  5. confirmation email to the client and lead
+// email to PureFlow through Resend. Returns { id, meetLink }.
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { HOST_TZ, MEETING_MIN, busyRanges, buildSlots, createEvent, deleteEvent, esc, fmtIn, googleConfigured, googleToken, insertBooking, isEmail, json, readJson, sendEmail } from './_lib.js';
+import { HOST_TZ, MEETING_MIN, busyRanges, buildSlots, createEvent, deleteEvent, esc, fmtIn, googleConfigured, googleToken, insertBooking, intlUpsert, isEmail, json, readJson, sendEmail, type IntlFields } from './_lib.js';
 
 type Payload = {
   start: string; end: string; timeZone: string;
   answers?: { type?: string; builds?: string[]; budget?: string; start?: string };
   details: { name: string; email: string; company: string; country: string; phone: string; website?: string; problem?: string; consent: boolean; updates?: boolean; dial?: string };
   project?: string;
+  /** The lead row saved at "Choose a time" (api/booking/lead), so the booking lands on the same person. */
+  lead?: { id?: string | null; key?: string | null };
+  page?: string; utm?: Record<string, string>; referrer?: string;
 };
 
 const LABEL: Record<string, string> = {
@@ -46,10 +50,23 @@ export default async function handler(req: IncomingMessage & { body?: unknown },
     `Company: ${company}${d.website ? ` · ${d.website}` : ''}`, `Country: ${d.country ?? '—'}`, `Phone: ${phone || '—'}`, d.problem ? `Problem: ${d.problem}` : '', p.project ? `Came from: ${p.project}` : '',
   ].filter(Boolean);
 
+  const intlBase: IntlFields = {
+    id: p.lead?.id ?? null, key: p.lead?.key ?? null,
+    name, email, company, website: d.website?.trim(), country: d.country, phone: phone || undefined,
+    business_type: p.answers?.type, builds: p.answers?.builds ?? [], budget: p.answers?.budget, start_timeline: p.answers?.start,
+    problem: d.problem?.trim(), updates_opt_in: !!d.updates, client_timezone: tz,
+    page: p.page, utm: p.utm, referrer: p.referrer, user_agent: String(req.headers['user-agent'] ?? '').slice(0, 300),
+    scheduled_at: new Date(start).toISOString(), scheduled_end: new Date(end).toISOString(),
+  };
+
   // Degraded mode (Google variables not configured yet): save the lead, email if possible, no calendar event.
   if (!googleConfigured()) {
-    const ins0 = await insertBooking({ meeting_type: 'discovery_30', scheduled_at: new Date(start).toISOString(), duration_min: MEETING_MIN, timezone: tz, name, email, whatsapp: phone || null, notes: summaryLines.join('\n') + '\n(calendar not connected yet: confirm manually)', ics_uid: null });
-    if (ins0.ok === false && ins0.code === '23505') return json(res, 409, { error: 'slot_taken' });
+    const i0 = await intlUpsert(intlBase);
+    if (i0.ok === false && i0.conflict) return json(res, 409, { error: 'slot_taken' });
+    if (i0.ok === false && i0.missing) {
+      const ins0 = await insertBooking({ meeting_type: 'discovery_30', scheduled_at: new Date(start).toISOString(), duration_min: MEETING_MIN, timezone: tz, name, email, whatsapp: phone || null, notes: summaryLines.join('\n') + '\n(calendar not connected yet: confirm manually)', ics_uid: null });
+      if (ins0.ok === false && ins0.code === '23505') return json(res, 409, { error: 'slot_taken' });
+    }
     try { await sendEmail({ to: process.env.BOOKING_NOTIFY_EMAIL || 'contact@pureflowstudios.in', replyTo: email, subject: `New consultation (confirm manually): ${name} (${company}) · ${when(HOST_TZ)}`, text: `Calendar not connected yet — please send this client a Meet link.\n\nWhen (IST): ${when(HOST_TZ)}\nName: ${name}\nEmail: ${email}\n${summaryLines.join('\n')}`, html: `<p><strong>Calendar not connected yet — send this client a Meet link.</strong></p><p>${esc(when(HOST_TZ))}<br>${esc(name)} · <a href="mailto:${esc(email)}">${esc(email)}</a></p><pre style="font:14px system-ui">${esc(summaryLines.join('\n'))}</pre>` }); } catch (e) { console.error('[book] notify (degraded)', e); }
     return json(res, 200, { id: 'pending', meetLink: '' });
   }
@@ -72,12 +89,21 @@ export default async function handler(req: IncomingMessage & { body?: unknown },
     });
   } catch (e) { console.error('[book] create', e); return json(res, 503, { error: 'calendar_unavailable' }); }
 
-  // 4. lead row (unique scheduled_at = second guard against double booking)
-  const row = { meeting_type: 'discovery_30', scheduled_at: new Date(start).toISOString(), duration_min: MEETING_MIN, timezone: tz, name, email, whatsapp: phone || null, notes: summaryLines.join('\n'), ics_uid: ev.id };
-  const ins = await insertBooking(row);
-  if (ins.ok === false) {
-    if (ins.code === '23505') { await deleteEvent(token, ev.id); return json(res, 409, { error: 'slot_taken' }); }
-    console.error('[book] supabase', ins.message); // not fatal: the calendar event exists
+  // 4. the visitor's international lead gets the slot, the Meet link and the event
+  //    (unique scheduled_at = second guard against double booking; the database pushes the alert)
+  const saved = await intlUpsert({ ...intlBase, meet_link: ev.meetLink || undefined, calendar_event_id: ev.id });
+  if (saved.ok === false) {
+    if (saved.conflict) { await deleteEvent(token, ev.id); return json(res, 409, { error: 'slot_taken' }); }
+    if (saved.missing) {
+      // International table not created yet: keep the booking in website_bookings so nothing is lost.
+      const ins = await insertBooking({ meeting_type: 'discovery_30', scheduled_at: new Date(start).toISOString(), duration_min: MEETING_MIN, timezone: tz, name, email, whatsapp: phone || null, notes: summaryLines.join('\n'), ics_uid: ev.id });
+      if (ins.ok === false) {
+        if (ins.code === '23505') { await deleteEvent(token, ev.id); return json(res, 409, { error: 'slot_taken' }); }
+        console.error('[book] supabase', ins.message);
+      }
+    } else {
+      console.error('[book] international', saved.code, saved.message); // not fatal: the calendar event exists
+    }
   }
 
   // 5. emails (skipped silently if RESEND_API_KEY is not set yet)

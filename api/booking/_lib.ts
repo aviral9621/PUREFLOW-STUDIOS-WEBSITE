@@ -149,6 +149,36 @@ export async function insertBooking(row: Record<string, unknown>): Promise<{ ok:
   return { ok: false, code: j.code, message: j.message ?? `status ${r.status}` };
 }
 
+// ── International leads (Leads app → International). Written only through the
+// intl_lead_upsert() database function: it validates, rate-limits and returns an
+// access key so a booking can update the visitor's own lead row.
+export type IntlFields = {
+  id?: string | null; key?: string | null;
+  name: string; email: string; company?: string; website?: string; country?: string; phone?: string;
+  business_type?: string; builds?: string[]; budget?: string; start_timeline?: string; problem?: string; updates_opt_in?: boolean;
+  scheduled_at?: string; scheduled_end?: string; client_timezone?: string; meet_link?: string; calendar_event_id?: string;
+  page?: string; utm?: Record<string, string>; referrer?: string; user_agent?: string;
+};
+export type IntlResult =
+  | { ok: true; id: string; key: string; status: string }
+  | { ok: false; missing?: true; conflict?: true; code?: string; message: string };
+export async function intlUpsert(fields: IntlFields): Promise<IntlResult> {
+  if (!SB_KEY) return { ok: false, message: 'no supabase key' };
+  try {
+    const r = await fetch(`${SB_URL}/rest/v1/rpc/intl_lead_upsert`, {
+      method: 'POST',
+      headers: { apikey: SB_KEY, authorization: `Bearer ${SB_KEY}`, 'content-type': 'application/json' },
+      body: JSON.stringify({ p: fields }),
+    });
+    const j = (await r.json().catch(() => ({}))) as { id?: string; key?: string; status?: string; code?: string; message?: string };
+    if (r.ok && j.id && j.key) return { ok: true, id: j.id, key: j.key, status: j.status ?? '' };
+    // PGRST202: the function does not exist yet (database migration not applied)
+    if (r.status === 404 || j.code === 'PGRST202' || j.code === '42883') return { ok: false, missing: true, code: j.code, message: j.message ?? 'missing' };
+    if (j.code === '23505') return { ok: false, conflict: true, code: j.code, message: j.message ?? 'slot taken' };
+    return { ok: false, code: j.code, message: j.message ?? `status ${r.status}` };
+  } catch (e) { return { ok: false, message: String(e) }; }
+}
+
 // ── small utils ──────────────────────────────────────────────────────────────
 export const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string));
 export const isEmail = (s: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s);

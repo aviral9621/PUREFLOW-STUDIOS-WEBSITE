@@ -10,12 +10,14 @@ for (const l of fs.readFileSync(envFile, 'utf8').split('\n')) { const m = l.matc
 import { build } from 'esbuild';
 import path from 'node:path';
 const out = path.join(os.tmpdir(), 'pf-booking-fns');
-await build({ entryPoints: ['api/booking/availability.ts', 'api/booking/book.ts'], bundle: true, platform: 'node', format: 'esm', outdir: out, logLevel: 'error', target: 'node20' });
+await build({ entryPoints: ['api/booking/availability.ts', 'api/booking/book.ts', 'api/booking/lead.ts'], bundle: true, platform: 'node', format: 'esm', outdir: out, logLevel: 'error', target: 'node20' });
 const availability = (await import(path.join(out, 'availability.js') + '?t=' + Date.now())).default;
 const book = (await import(path.join(out, 'book.js') + '?t=' + Date.now())).default;
+const lead = (await import(path.join(out, 'lead.js') + '?t=' + Date.now())).default;
 http.createServer((req, res) => {
   const p = new URL(req.url, 'http://x').pathname;
   if (p === '/api/booking/availability') return availability(req, res);
   if (p === '/api/booking/book') return book(req, res);
+  if (p === '/api/booking/lead') return lead(req, res);
   res.statusCode = 404; res.end('not found');
 }).listen(4400, () => console.log('booking functions on http://localhost:4400 (env: ' + envFile + ')'));

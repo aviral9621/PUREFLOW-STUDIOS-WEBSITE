@@ -2,11 +2,10 @@
 // Open 30-minute slots inside the call windows, minus whatever is already on the
 // PureFlow Google Calendar. Called by the /customsoftware booking flow.
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { HORIZON_DAYS, buildSlots, busyRanges, googleConfigured, googleToken, json, overlaps } from './_lib.js';
+import { cors, HORIZON_DAYS, buildSlots, busyRanges, googleConfigured, googleToken, json, overlaps } from './_lib.js';
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
-  res.setHeader('access-control-allow-origin', '*');
-  if (req.method === 'OPTIONS') { res.statusCode = 204; return res.end(); }
+  if (cors(req, res, 'GET')) return;
   if (req.method !== 'GET') return json(res, 405, { error: 'method_not_allowed' });
   try {
     const url = new URL(req.url ?? '/', 'http://x');

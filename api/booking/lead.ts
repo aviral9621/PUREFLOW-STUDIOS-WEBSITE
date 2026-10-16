@@ -4,7 +4,7 @@
 // sends them back to update this same row. Never blocks the visitor: any failure
 // returns 200 with id null and the booking still works.
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { intlUpsert, isEmail, json, readJson } from './_lib.js';
+import { cors, intlUpsert, isEmail, json, readJson } from './_lib.js';
 
 type Payload = {
   lead?: { id?: string | null; key?: string | null };
@@ -15,9 +15,7 @@ type Payload = {
 };
 
 export default async function handler(req: IncomingMessage & { body?: unknown }, res: ServerResponse) {
-  res.setHeader('access-control-allow-origin', '*');
-  res.setHeader('access-control-allow-headers', 'content-type');
-  if (req.method === 'OPTIONS') { res.statusCode = 204; return res.end(); }
+  if (cors(req, res, 'POST')) return;
   if (req.method !== 'POST') return json(res, 405, { error: 'method_not_allowed' });
 
   let p: Payload;

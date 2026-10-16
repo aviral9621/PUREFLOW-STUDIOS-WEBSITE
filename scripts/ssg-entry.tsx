@@ -22,6 +22,10 @@ import { SHOWCASES } from '../lib/showcases';
 import { POSTS } from '../lib/blog';
 import { SERVICES, WHY, type ServiceKey } from '../lib/services';
 import { ThemeProvider } from '../components/ThemeContext';
+import { setShellActive } from '../lib/intro';
+
+// Server markup is the finished state: no entrance animations start hidden.
+setShellActive(true);
 
 const noop = () => {};
 
@@ -270,6 +274,35 @@ function supplement(view: ViewState, slug: string | null): string {
     default:
       return '';
   }
+}
+
+/** The homepage's navbar and hero exactly as a visitor first sees them (real classes,
+ *  final animation state). scripts/prerender.mjs puts this in #pf-shell, so the headline
+ *  paints from the HTML before any JavaScript runs; React replaces it on mount and the
+ *  hero starts from the same state (lib/intro.ts), so the swap is invisible.
+ *  The wrapper mirrors AppContent's <main> in App.tsx. */
+export async function homeShell(): Promise<string> {
+  const [{ Navbar }, { Hero }] = await Promise.all([
+    import('../components/shared/Navbar'),
+    import('../components/sections/Hero'),
+  ]);
+  return renderToStaticMarkup(
+    <ThemeProvider>
+      <LazyMotion features={domAnimation}>
+        <main className="min-h-screen w-full relative bg-black text-white selection:bg-brand selection:text-white">
+          <div
+            className="fixed inset-0 pointer-events-none -z-10"
+            aria-hidden="true"
+            style={{ background: 'radial-gradient(ellipse 60% 45% at 50% 0%, rgba(164,82,255,0.05), transparent 70%)' }}
+          />
+          <Navbar currentView="home" onViewChange={noop} onOpenContact={noop} minimal={false} />
+          <div className="pt-0">
+            <Hero onViewChange={noop} onOpenContact={noop} onStartProject={noop} onBookCall={noop} />
+          </div>
+        </main>
+      </LazyMotion>
+    </ThemeProvider>
+  );
 }
 
 /** Static markup of a route's content (with its supplement) and of the site

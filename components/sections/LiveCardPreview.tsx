@@ -1,7 +1,7 @@
 import React from 'react';
 import { Wifi } from 'lucide-react';
 import { useFitScale } from '../../hooks/useFitScale';
-import { useDeviceEmbedState } from '../../hooks/useDeviceEmbedState';
+import { CREDENTIALLESS, canFrameLiveSite, useDeviceEmbedState } from '../../hooks/useDeviceEmbedState';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // LiveCardPreview — a non-interactive, lazy-loaded live preview of a real site
@@ -26,7 +26,7 @@ export const LiveCardPreview: React.FC<Props> = ({ url, siteName, logicalWidth =
   const LOGICAL_W = logicalWidth;
   const fit = useFitScale(LOGICAL_W);
   const isCompact = LOGICAL_W < 700;
-  const { containerRef, shouldLoad, loaded, onLoad } = useDeviceEmbedState({ enabled: true });
+  const { containerRef, shouldLoad, loaded, onLoad } = useDeviceEmbedState({ enabled: canFrameLiveSite() });
 
   const host = (() => {
     try {
@@ -42,6 +42,7 @@ export const LiveCardPreview: React.FC<Props> = ({ url, siteName, logicalWidth =
       <div ref={fit.ref} className="absolute inset-0 overflow-hidden">
         <iframe
           title={`${siteName} homepage preview`}
+          {...CREDENTIALLESS}
           src={shouldLoad ? url : undefined}
           onLoad={onLoad}
           loading="lazy"

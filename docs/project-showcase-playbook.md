@@ -492,6 +492,14 @@ have a transparent background, or the script refuses it.
 
 Keep each image ≲ 150 KB (cards are 15–35 KB each).
 
+**Homepage card mockups → phone-sized copies** (the card's `srcset`): after adding or
+replacing a `mockup` in `lib/workCards.ts`, run
+```bash
+python3 scripts/showcase/mockup_sizes.py
+```
+It writes `<name>-640.webp` and `<name>-1080.webp` next to each mockup. `npm run build`
+warns about a mockup without them.
+
 ---
 
 ## 8. Wiring it up

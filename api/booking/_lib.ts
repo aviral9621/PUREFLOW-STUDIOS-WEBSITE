@@ -240,6 +240,25 @@ export function clientCallEmail(p: { first: string; heading: string; intro: stri
   return { html, text };
 }
 
+// ── CORS: only our own pages call these (plus local dev) ──────────────────────
+const ALLOWED_ORIGINS = new Set([
+  'https://www.pureflowstudios.in', 'https://pureflowstudios.in',
+  'http://localhost:3000', 'http://localhost:3100', 'http://localhost:4173',
+]);
+/** Sets the CORS headers for this request. Returns true when it answered a preflight. */
+export function cors(req: { method?: string; headers: Record<string, string | string[] | undefined> }, res: { statusCode: number; setHeader: (k: string, v: string) => void; end: () => void }, methods: string) {
+  const origin = String(req.headers.origin ?? '');
+  res.setHeader('vary', 'Origin');
+  if (ALLOWED_ORIGINS.has(origin)) res.setHeader('access-control-allow-origin', origin);
+  res.setHeader('access-control-allow-methods', `${methods}, OPTIONS`);
+  res.setHeader('access-control-allow-headers', 'Content-Type');
+  res.setHeader('access-control-max-age', '86400');
+  if (req.method !== 'OPTIONS') return false;
+  res.statusCode = 204;
+  res.end();
+  return true;
+}
+
 // ── small utils ──────────────────────────────────────────────────────────────
 export const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string));
 export const isEmail = (s: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s);

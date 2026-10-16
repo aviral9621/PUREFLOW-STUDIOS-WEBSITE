@@ -45,7 +45,7 @@
     },
     {
       "source": "/((?!api/|customsoftware|assets/|videos/|logo/|case-studies/|.*\\.).*)",
-      "destination": "/index.html"
+      "destination": "/app.html"
     }
   ],
   "headers": [
@@ -68,33 +68,30 @@
       ]
     },
     {
-      "source": "/((?!customsoftware).*)",
+      "source": "/fonts/(.*)",
       "headers": [
         {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "SAMEORIGIN"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        },
-        {
-          "key": "Permissions-Policy",
-          "value": "camera=(), microphone=(), geolocation=()"
-        },
-        {
-          "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval' blob: https://*.googleapis.com https://*.gstatic.com https://*.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' blob: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.googleapis.com https://*.gstatic.com https://*.google.com https://lottie.host https://cdn.jsdelivr.net https://unpkg.com data: blob:; frame-src 'self' https:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
         }
       ]
     },
     {
-      "source": "/customsoftware(.*)",
+      "source": "/(work|map|logo|services|videos)/(.*)",
       "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
+      "source": "/((?!api/).*)",
+      "headers": [
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        },
         {
           "key": "X-Content-Type-Options",
           "value": "nosniff"
@@ -109,11 +106,133 @@
         },
         {
           "key": "Permissions-Policy",
-          "value": "camera=(), microphone=(), geolocation=()"
+          "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()"
         },
         {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "Cross-Origin-Embedder-Policy",
+          "value": "credentialless"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, HEAD, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type"
+        },
+        {
+          "key": "Access-Control-Expose-Headers",
+          "value": "Content-Length, Content-Type, ETag"
+        },
+        {
+          "key": "Access-Control-Max-Age",
+          "value": "86400"
+        }
+      ]
+    },
+    {
+      "source": "/((?!api/|logo/|work/|services/).*)",
+      "headers": [
+        {
+          "key": "Cross-Origin-Resource-Policy",
+          "value": "same-origin"
+        }
+      ]
+    },
+    {
+      "source": "/(logo|work|services)/(.*)",
+      "headers": [
+        {
+          "key": "Cross-Origin-Resource-Policy",
+          "value": "cross-origin"
+        }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Cross-Origin-Resource-Policy",
+          "value": "same-origin"
+        }
+      ]
+    },
+    {
+      "source": "/((?!customsoftware|api/).*)",
+      "headers": [
+        {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: https://*.googleapis.com https://*.gstatic.com https://*.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' blob: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.googleapis.com https://*.gstatic.com https://*.google.com https://lottie.host https://cdn.jsdelivr.net https://unpkg.com data: blob:; frame-src 'self' https:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
+          "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' blob: https://jnytayxxwaydlmeuvtqr.supabase.co; connect-src 'self' https://jnytayxxwaydlmeuvtqr.supabase.co wss://jnytayxxwaydlmeuvtqr.supabase.co; frame-src 'self' https://www.quickhotels.co https://quickhotels.co https://herbal-vantage-website.vercel.app https://spectrumtourtravels.com https://www.spectrumtourtravels.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests; require-trusted-types-for 'script'; trusted-types pf-jsonld"
+        }
+      ]
+    },
+    {
+      "source": "/customsoftware",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'sha256-RixPDhFdfHGr1qwKUh0GgIvc6K+FZdkOCe5LOGfYvoU=' 'sha256-OBTN3RiyCV4Bq7dFqZ5a2pAXjnCcCYeTJMO2I/LYKeo=' 'sha256-UdJvbq0gVoQj3DXS/0ELbT2zuZ5YHN5p/6p9Q9Z5Smw=' 'sha256-Q8cMCF1Fw89deWkiUS8faJOTsSwpKmDanqRl4t2pYAE=' 'sha256-NymoJUwdaUuirC8wmHeJyIoYfarIr3VEzPZV5fZHnuU=' 'sha256-v81XbHGpP23vxEFnDeaJQrRoSzf/JTvHOE5smOKbAWg=' 'sha256-/mpYVMDEc/fWJX1q6rhy2SgO/jC/tij9dNZ8bUiK/LU=' 'sha256-NiDtITe9Z7sPFsBa8GhMDQh35Rjtm4LneetBjQltuVw=' 'sha256-gP/kVLhqgq0B4mK/+vecskB5SMxsxaw7WWdKRE8Oi0g=' 'sha256-EbC0n8oFglhW74utKmbzIbXc3Rh0qxvsz5/afwQCHak=' 'sha256-XXMvrj4WOjFXL1EkRC9Hcn3IqH/ly6U3PyneGbHhE28=' 'sha256-0p6QEryHi8O62LYlW65TGCIkAtPJN3w+JDJtvRLvUBg=' 'sha256-I9WMBajgsx3uE2aJhvmHGIHYuGKA6/WzfkY6hoZDp0Y=' 'sha256-Ny54uq69Q+RYALE4dwPpW9gVG2kfjvpJy5HXuy6E0Qc=' 'sha256-eFnhkJykBJzWoT1zUptQAH870V0hoO1ubBbk4acb8Ug=' 'sha256-65vEPtYB6MB9ceEcNwoL0+tZj55pXP8seWn+TwB5XP8=' 'sha256-zzWoddhvxySms8iNtMRrWZHT1XQrhYvv3ZDOcxyfM74=' 'sha256-PRCUctRdJwjdeIiFgfYj9MRo4J1f0Fr4+lQI0RP0wcM=' 'sha256-4ipBvx+zV1Mk3EI5HtaaOVu8PoumUFSbTaSyZYVi1jg=' 'sha256-MPLJgV6n5BKZgzMzlzHqWfagAqwPWp5Go07Lw/gQMGo=' 'sha256-1m+eYFt5n36eMQ9EwQU1pTEmBpYNzyl4Q/TJa2JpUfc=' 'sha256-aCFx3HKEbXRxh61WIYpiRBpmEgejXZzIXX9CsNw1LKA=' 'sha256-W+lc+rpZcVsnyvLuGo13QQhIMEa2ISb5e8yjdpuj3A4=' 'sha256-foVE9xIyPift7tFRtqq7e2RNu4LbNgdwWGL/qviWPSQ=' 'sha256-fY3rGwHW/frdpVQQa8K+XZDSG+kXsBsTHmH8LGuLFg0=' 'sha256-AoD6YwNfifQgWxgEZnTKwjBMDA3EiAL04mXFYkaOX2U=' 'sha256-I8geuiRdTQxrtbFq/SYll9i7OAHCs/FviwXmYRUpM5s=' 'sha256-IgcFKe8RGFdBCEdkV/z1Bvkdt7qYCA10uyORxdr+9lU=' 'sha256-mK1WPysnOKIkZMSOAnlI9l2jo4de0BiORQjxGLdzdW4=' 'sha256-fjPYqv3qdYB6gngEbDqEQhJh23KNQWifM2LPt76sv2c=' 'sha256-G/5DIE+Ppco1bq8l2XDLh6i/e1pdMA55cuak9kRZhas=' 'sha256-Hwz264F/QmT7yJNGKoJ/EwEELBDAF4XPOTgnaQ6v6hc=' 'sha256-O268O/qz5zEgt8MYIvy6rIE3eH8RxvN2QEYDWof5cqg=' 'sha256-caKrPu8CDiIICayOLgN/z3l5VKXPUETlBc1BLXLTpp0=' 'sha256-+vtfHJpeL8JdEO9gm5OpgwI8t3AF4VKjXL9BZyG1Z6o=' 'sha256-Pnwr7nroIRSATehcOLp/AvwwEi8wUnYN0hIoGHjU8BY=' 'sha256-3gVa5CSWBDiEBJiK+5AmE9DTxlH6RqvbrQrZ9faJBCQ=' 'sha256-isgH9I0fnXENwqqWcZOtQGOzM8svLp0I0kFV6r91DGM=' 'sha256-zxBt8GXwm0LtRUZ1rUeopQfq7PArRVrIeU7Jg2DLymY=' 'sha256-n+jVaOrFnEvX8Ga7TmjCTDGf79R78BXHcRk5W1h84Xw=' 'sha256-enWd5wS/a8ZO+iTmJMvIBfNd0yaMUDoSqS0DH1D+mn4=' 'sha256-/ubGFFS9pBr9aQoH2HXz2UKRVfrQ3i0kMMRpUMnFc2U=' 'sha256-piyNpUfei1o6vtZ43JP6jufYq/IpxWDFnWnNyMcWuuU=' 'sha256-bo+DGA5t6mSb3hFH2NW2zrKvNflSUj35HgzmSnQ1n5A=' 'sha256-QeEaGzquT1FAKtzFDoGycyfOqNxRbkF8q2U1M7iL6ps=' 'sha256-7mFH5FgQbqrgmEN6U99jZcH8NpeEErDnPegxo5TsUSU='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https:; media-src 'self' blob:; connect-src 'self'; frame-src 'none'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
+        }
+      ]
+    },
+    {
+      "source": "/customsoftware/work",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'sha256-RixPDhFdfHGr1qwKUh0GgIvc6K+FZdkOCe5LOGfYvoU=' 'sha256-OBTN3RiyCV4Bq7dFqZ5a2pAXjnCcCYeTJMO2I/LYKeo=' 'sha256-QCJOvMteq/swyB80QLt7TpOxCB/fEJBF7Tt11qRo2Pg=' 'sha256-osdBITkATO2s/yGK84tjo8iG7xUxOn2qZPk1KzUb2DU=' 'sha256-XSC7Z8APopb84NG025YGZi1JAJb8gBGLHjh3jMpYYjs=' 'sha256-AmXe20d2RiL2SceW7sgnelY3gMaIBFGgUMEccKkWN6Q=' 'sha256-dJcRAU3mFa1hI8rHiI6MwohXHtRHmqoJ/SQzrE9j0uU=' 'sha256-z3vtrUsYK3YdpA+Dq1FLpWEI1xPLcdsBlk3MePa2IqI=' 'sha256-bpLvouE188MCZWIrLoEVQ3JSKoVmIWF8c9zFKg/5eI4=' 'sha256-xkS6Bva4g3JcdDrL3DbS/9vUmGSMoqDODWVJqkS0MEw=' 'sha256-Y0D5a2lUndDWd++yZQUotCWXDTRfuSqaprXB8yYvQG8=' 'sha256-WrsqSxqLWMI9l/+/grFS69U4emC/E7FE9lk6BjIRooo=' 'sha256-Jz7c5gq8Q784koiaWEga1UOlu0h6OnJGBfTi6z5P3zg=' 'sha256-1KD6LU3VmRhiFK1v8jzy4wOZICORdKaJy8N54apHx1o='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https:; media-src 'self' blob:; connect-src 'self'; frame-src 'none'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
+        }
+      ]
+    },
+    {
+      "source": "/customsoftware/work/quick-hotels",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'sha256-RixPDhFdfHGr1qwKUh0GgIvc6K+FZdkOCe5LOGfYvoU=' 'sha256-OBTN3RiyCV4Bq7dFqZ5a2pAXjnCcCYeTJMO2I/LYKeo=' 'sha256-9uBKcgvy9gMV4pePO51/5vtFGdFIDZfWvSxg9+T4iDw=' 'sha256-vhJKqyfR5ENio1YzPIttgoxBt3AbZUAU+2FDJ3mXQI4=' 'sha256-XVmttXuIv0K7ad6k4/5B8vfiJEWjfOvbGPZaQci/WB8=' 'sha256-O/gPOrkyEA+PEmWwCK36nJoQTZybidyeVpZ+t1BB/IQ=' 'sha256-aiQxyflioaYSZkedDm5HiXlewmu0kJWAtgpYWxfX//M=' 'sha256-FKF+G6dZfSGHf+73qbL5MpT0MxaqveM/cGsXheZB4Bg=' 'sha256-8VjaS5Nx0HO8HZzKOARIB8uUZ4hoK0Wswopsrbunero='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https:; media-src 'self' blob:; connect-src 'self'; frame-src 'none'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
+        }
+      ]
+    },
+    {
+      "source": "/customsoftware/work/smart-agro",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'sha256-RixPDhFdfHGr1qwKUh0GgIvc6K+FZdkOCe5LOGfYvoU=' 'sha256-OBTN3RiyCV4Bq7dFqZ5a2pAXjnCcCYeTJMO2I/LYKeo=' 'sha256-9uBKcgvy9gMV4pePO51/5vtFGdFIDZfWvSxg9+T4iDw=' 'sha256-0FxKKtMtY2JuUww7nCAJTY9GTKyb+rKvaD8DX22HG00=' 'sha256-6u4n26VJlDd0HuSUgJrAwvdMp7PEU4RfVok2sIW2WKU=' 'sha256-O/gPOrkyEA+PEmWwCK36nJoQTZybidyeVpZ+t1BB/IQ=' 'sha256-nk4uWl1RI+/UMp9YqLkuU0szl9Pq3xFelfC67lxklCg=' 'sha256-8VjaS5Nx0HO8HZzKOARIB8uUZ4hoK0Wswopsrbunero='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https:; media-src 'self' blob:; connect-src 'self'; frame-src 'none'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
+        }
+      ]
+    },
+    {
+      "source": "/customsoftware/work/spectrum-travel-crm",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'sha256-RixPDhFdfHGr1qwKUh0GgIvc6K+FZdkOCe5LOGfYvoU=' 'sha256-OBTN3RiyCV4Bq7dFqZ5a2pAXjnCcCYeTJMO2I/LYKeo=' 'sha256-9uBKcgvy9gMV4pePO51/5vtFGdFIDZfWvSxg9+T4iDw=' 'sha256-rFMOzQOq8sgkZ044dmjcl0MCToXsVoNYh/lWcrLk2uI=' 'sha256-a1UO4j7oFBhtSX7U2E2svn3RP4vVjg+yeqbsKSsusWw=' 'sha256-O/gPOrkyEA+PEmWwCK36nJoQTZybidyeVpZ+t1BB/IQ=' 'sha256-aiQxyflioaYSZkedDm5HiXlewmu0kJWAtgpYWxfX//M=' 'sha256-nAabTF/g7/SPgPp3iN3itLPgLpUCvUhB1Dua1+8Pe5I=' 'sha256-8VjaS5Nx0HO8HZzKOARIB8uUZ4hoK0Wswopsrbunero='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https:; media-src 'self' blob:; connect-src 'self'; frame-src 'none'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
+        }
+      ]
+    },
+    {
+      "source": "/customsoftware/work/unskills-institute",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'sha256-RixPDhFdfHGr1qwKUh0GgIvc6K+FZdkOCe5LOGfYvoU=' 'sha256-OBTN3RiyCV4Bq7dFqZ5a2pAXjnCcCYeTJMO2I/LYKeo=' 'sha256-9uBKcgvy9gMV4pePO51/5vtFGdFIDZfWvSxg9+T4iDw=' 'sha256-HJvlYKApvsLvHT+WWqu1gBkGcgpTTTSTCM6lrcSt0RM=' 'sha256-09uCrNm+LMXAd1V4bQduKacyZThCLoqeR6VpgPyCrgw=' 'sha256-O/gPOrkyEA+PEmWwCK36nJoQTZybidyeVpZ+t1BB/IQ=' 'sha256-aiQxyflioaYSZkedDm5HiXlewmu0kJWAtgpYWxfX//M=' 'sha256-QY+DedLUhwBCUv2f5EwFUhuMNntP9Z8AiqxfCUnxEYs=' 'sha256-8VjaS5Nx0HO8HZzKOARIB8uUZ4hoK0Wswopsrbunero='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https:; media-src 'self' blob:; connect-src 'self'; frame-src 'none'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
         }
       ]
     }

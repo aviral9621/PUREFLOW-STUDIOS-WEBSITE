@@ -5,7 +5,7 @@
 // guard; the database sends the push alerts)  5. confirmation email to the client and lead
 // email to PureFlow through Resend. Returns { id, meetLink }.
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { HOST_TZ, MEETING_MIN, busyRanges, buildSlots, clientCallEmail, createEvent, deleteEvent, esc, fmtIn, googleConfigured, googleToken, insertBooking, intlUpsert, isEmail, json, readJson, rescheduleUrl, sendEmail, type IntlFields } from './_lib.js';
+import { cors, HOST_TZ, MEETING_MIN, busyRanges, buildSlots, clientCallEmail, createEvent, deleteEvent, esc, fmtIn, googleConfigured, googleToken, insertBooking, intlUpsert, isEmail, json, readJson, rescheduleUrl, sendEmail, type IntlFields } from './_lib.js';
 
 type Payload = {
   start: string; end: string; timeZone: string;
@@ -26,9 +26,7 @@ const LABEL: Record<string, string> = {
 const lab = (k?: string) => (k ? LABEL[k] ?? k : '—');
 
 export default async function handler(req: IncomingMessage & { body?: unknown }, res: ServerResponse) {
-  res.setHeader('access-control-allow-origin', '*');
-  res.setHeader('access-control-allow-headers', 'content-type');
-  if (req.method === 'OPTIONS') { res.statusCode = 204; return res.end(); }
+  if (cors(req, res, 'POST')) return;
   if (req.method !== 'POST') return json(res, 405, { error: 'method_not_allowed' });
 
   let p: Payload;

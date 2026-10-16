@@ -99,7 +99,7 @@ function oneH1(html, fallback) {
 
 // ── Page assembly ────────────────────────────────────────────────────────────
 
-function buildHtml(template, { meta, robots, content, links, jsonLd }) {
+function buildHtml(template, { meta, robots, content, links, jsonLd, shell = '' }) {
   let html = template;
   html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${escText(meta.title)}</title>`);
   html = setMeta(html, 'name', 'description', meta.description);
@@ -122,7 +122,10 @@ function buildHtml(template, { meta, robots, content, links, jsonLd }) {
   const block =
     `<div id="seo-content" style="position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);border:0">` +
     `${content}<nav aria-label="Site">${links}</nav></div>`;
-  return html.replace('<div id="root"></div>', `<div id="root">${block}</div>`);
+  // The homepage also gets its real navbar + hero, visible, ahead of the SEO block
+  // (ssg-entry homeShell): the first paint no longer waits for the JavaScript.
+  const visible = shell ? `<div id="pf-shell">${shell}</div>` : '';
+  return html.replace('<div id="root"></div>', `<div id="root">${visible}${block}</div>`);
 }
 
 /** Comments out, JSON-LD minified, whitespace between tags collapsed: less markup
@@ -146,6 +149,14 @@ async function run() {
 
   try {
     const ssg = await vite.ssrLoadModule('/scripts/ssg-entry.tsx');
+    // Card mockups need their phone-sized copies (scripts/showcase/mockup_sizes.py).
+    const cards = await readFile(join(ROOT, 'lib', 'workCards.ts'), 'utf8');
+    for (const [, src] of cards.matchAll(/mockup:\s*'(\/work\/[^']+)\.webp'/g)) {
+      for (const w of [640, 1080]) {
+        try { await readFile(join(ROOT, 'public', `${src}-${w}.webp`)); }
+        catch { console.warn(`[prerender] ${src}.webp has no -${w} copy: run python3 scripts/showcase/mockup_sizes.py`); }
+      }
+    }
     const routes = ssg.routes();
     const indexable = routes.filter((r) => r.index);
     const links = indexable
@@ -166,6 +177,9 @@ async function run() {
           oneH1(reduce(main).replace(/<\/?main>/g, ' ') + SPLIT + reduce(footer), meta.title.split(' | ')[0])
         ).split(SPLIT);
         content = `<main>${body}</main>${foot}`;
+        // Home: the visible shell already carries the hero (and the page's one <h1>),
+        // so the hidden copy starts at the next section.
+        if (r.path === '/') content = content.replace(/^<main>\s*<section>[\s\S]*?<\/section>/, '<main>');
         const words = body.replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length;
         if (words < 250) {
           thin++;
@@ -184,6 +198,7 @@ async function run() {
         ],
       };
       const html = buildHtml(template, {
+        shell: r.path === '/' ? await ssg.homeShell() : '',
         meta,
         robots: r.index ? 'index, follow, max-image-preview:large, max-snippet:-1' : 'noindex, follow',
         content,
@@ -193,6 +208,10 @@ async function run() {
       const outDir = r.path === '/' ? DIST : join(DIST, r.path);
       await mkdir(outDir, { recursive: true });
       await writeFile(join(outDir, 'index.html'), html, 'utf8');
+      // The SPA fallback for paths without a prerendered file (vercel.json rewrites them
+      // to /app.html): the homepage document without the visible hero shell, so another
+      // route never flashes the homepage before React draws it.
+      if (r.path === '/') await writeFile(join(DIST, 'app.html'), html.replace(/<div id="pf-shell">[\s\S]*?<\/div>(?=<div id="seo-content")/, ''), 'utf8');
     }
 
     // Vercel serves dist/404.html, with a real 404 status, for any request that

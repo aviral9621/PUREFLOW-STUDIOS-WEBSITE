@@ -197,6 +197,17 @@ function setCanonical(href: string) {
   el.setAttribute('href', href);
 }
 
+// Trusted Types are enforced (vercel.json: require-trusted-types-for 'script';
+// trusted-types pf-jsonld). The only script text the site ever writes is this JSON-LD,
+// and this policy is the only way to write it: it lets through valid JSON and nothing else.
+type TrustedTypesApi = { createPolicy: (name: string, rules: { createScript: (s: string) => string }) => { createScript: (s: string) => unknown } };
+const jsonLdPolicy = (globalThis as { trustedTypes?: TrustedTypesApi }).trustedTypes?.createPolicy('pf-jsonld', {
+  createScript: (s) => {
+    JSON.parse(s);
+    return s;
+  },
+});
+
 function setRouteJsonLd(json: unknown) {
   let el = document.getElementById('ld-route') as HTMLScriptElement | null;
   if (!el) {
@@ -205,7 +216,8 @@ function setRouteJsonLd(json: unknown) {
     el.id = 'ld-route';
     document.head.appendChild(el);
   }
-  el.textContent = JSON.stringify(json);
+  const text = JSON.stringify(json);
+  el.textContent = (jsonLdPolicy ? jsonLdPolicy.createScript(text) : text) as string;
 }
 
 /**

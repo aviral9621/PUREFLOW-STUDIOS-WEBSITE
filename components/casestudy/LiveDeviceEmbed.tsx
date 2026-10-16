@@ -2,7 +2,7 @@ import React from 'react';
 import { ExternalLink, MousePointerClick, Loader2, Wifi } from 'lucide-react';
 import type { DeviceShowcase } from '../../lib/caseStudies';
 import { useFitScale } from '../../hooks/useFitScale';
-import { useDeviceEmbedState } from '../../hooks/useDeviceEmbedState';
+import { CREDENTIALLESS, canFrameLiveSite, useDeviceEmbedState } from '../../hooks/useDeviceEmbedState';
 import { Mockup } from './Mockup';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -56,7 +56,7 @@ export const LiveDeviceEmbed: React.FC<LiveDeviceEmbedProps> = ({
   const logical = LOGICAL[device];
   // `interactive` here means "load the live iframe at all" (eager + live).
   // `nonInteractive` separately disables all pointer interaction on it.
-  const interactive = showcase.type === 'live' && eager;
+  const interactive = showcase.type === 'live' && eager && canFrameLiveSite();
 
   const fit = useFitScale(logical.w);
   const { containerRef, shouldLoad, loaded, interacting, stalled, onLoad, startInteract, endInteract } =
@@ -83,6 +83,7 @@ export const LiveDeviceEmbed: React.FC<LiveDeviceEmbedProps> = ({
       {showcase.type === 'live' && interactive && (
         <iframe
           title={`${siteName} live website — ${label.toLowerCase()}`}
+          {...CREDENTIALLESS}
           src={shouldLoad ? showcase.src : undefined}
           onLoad={onLoad}
           loading="lazy"

@@ -45,3 +45,14 @@ Non-negotiables (details in the playbook):
   per page and no skipped heading levels.
 - The Content-Security-Policy lives in `vercel.json`. A new third-party script,
   iframe or API host must be added there. Test with a production build first.
+  The site allows **no third-party scripts** (`script-src 'self'`) and enforces Trusted
+  Types: the only policy is `pf-jsonld` (`lib/seo.ts`). Don't add `innerHTML`/
+  `dangerouslySetInnerHTML` or script tags from other hosts; prefer still images, self-hosted
+  files and links (the homepage map is two images from `scripts/static-map.py`).
+  The `/customsoftware` policy is generated per page with the hash of each inline script:
+  `export:main` runs `scripts/landing-csp.mjs`, and `npm run build` fails if it is stale.
+  Headers also set HSTS (subdomains + preload), COOP `same-origin`, COEP `credentialless`
+  (live-site iframes need `{...CREDENTIALLESS}`, see `hooks/useDeviceEmbedState.ts`) and CORP.
+- The homepage's navbar and hero are prerendered visibly (`#pf-shell`, `homeShell()` in
+  `ssg-entry.tsx`) so they paint before any JavaScript; keep `Hero`/`Navbar` server-safe.
+  Fonts are self-hosted in `public/fonts` (`index.css` @font-face).

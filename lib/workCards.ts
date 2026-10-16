@@ -195,3 +195,10 @@ export function workOrder(slug: string): number {
 export function getWorkCard(slug: string): WorkCardVisual | undefined {
   return bySlug.get(slug);
 }
+
+/** srcset for a card mockup: the 640 and 1080 px copies made by
+ *  scripts/showcase/mockup_sizes.py, then the original. */
+export const mockupSrcSet = (src: string) => {
+  const base = src.replace(/\.webp$/, '');
+  return `${base}-640.webp 640w, ${base}-1080.webp 1080w, ${src} 1774w`;
+};

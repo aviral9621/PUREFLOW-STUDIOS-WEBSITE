@@ -17,7 +17,7 @@ import { viewToPath } from '../../lib/router';
 import { setPageTone } from '../../lib/pageTone';
 import { PreviewContent } from './PortfolioPreview';
 import { DotGlow } from './DotGlow';
-import { FEATURED, type WorkCardVisual, type WorkKind } from '../../lib/workCards';
+import { FEATURED, mockupSrcSet, type WorkCardVisual, type WorkKind } from '../../lib/workCards';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // WorkStack — the homepage work section, directly under the hero.
@@ -643,6 +643,8 @@ const StackCard: React.FC<CardProps> = ({
           <div className="relative aspect-[2/1] w-full lg:absolute lg:inset-0 lg:aspect-auto">
             <img
               src={mockup}
+              srcSet={mockupSrcSet(mockup)}
+              sizes="(min-width: 1280px) 1180px, 94vw"
               alt={`${name} on a laptop and a phone`}
               width={1774}
               height={887}

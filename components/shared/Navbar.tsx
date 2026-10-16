@@ -7,6 +7,7 @@ import { MagneticButton } from './MagneticButton';
 import { ViewState } from '../../types';
 import { viewToPath } from '../../lib/router';
 import { usePageTone } from '../../lib/pageTone';
+import { shellActive } from '../../lib/intro';
 
 interface NavbarProps {
   currentView: ViewState;
@@ -97,7 +98,7 @@ export function Navbar({ currentView, onViewChange, onOpenContact: _onOpenContac
   return (
     <>
       <m.header
-        initial={prefersReducedMotion ? false : { y: -20, opacity: 0 }}
+        initial={prefersReducedMotion || shellActive() ? false : { y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.3, ease: 'easeOut' }}
         className={`fixed top-0 inset-x-0 z-50 transition-[background-color,border-color] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${

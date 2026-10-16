@@ -12,6 +12,7 @@ import {
 } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { ViewState } from '../../types';
+import { setShellActive, shellActive } from '../../lib/intro';
 
 interface HeroProps {
   onViewChange: (view: ViewState) => void;
@@ -34,6 +35,10 @@ export function Hero({ onViewChange: _onViewChange, onOpenContact: _onOpenContac
   const startBtnRef = useRef<HTMLButtonElement>(null);
   const [loadVideo, setLoadVideo] = useState(false);
   const prefersReducedMotion = useReducedMotion();
+  // Over the prerendered shell the hero is already on screen: start from the end state.
+  const [overShell] = useState(shellActive);
+  const skipIntro = prefersReducedMotion || overShell;
+  useEffect(() => setShellActive(false), []);
 
   const rawX = useMotionValue(0);
   const rawY = useMotionValue(0);
@@ -149,7 +154,7 @@ export function Hero({ onViewChange: _onViewChange, onOpenContact: _onOpenContac
                 className="relative inline-block font-serif italic text-[3.4rem] font-normal tracking-normal text-white/95 sm:text-[clamp(2.8rem,5.8vw,5.8rem)]"
                 custom={0.4}
                 variants={wordUp}
-                initial={prefersReducedMotion ? false : 'hidden'}
+                initial={skipIntro ? false : 'hidden'}
                 animate="visible"
               >
                 Where
@@ -166,7 +171,7 @@ export function Hero({ onViewChange: _onViewChange, onOpenContact: _onOpenContac
               className="hero-business-meets inline-block whitespace-nowrap text-[2.2rem] font-black leading-none text-white drop-shadow-[0_10px_24px_rgba(0,0,0,0.85)] sm:text-[clamp(2.2rem,5.5vw,5.4rem)]"
               custom={0.55}
               variants={wordUp}
-              initial={prefersReducedMotion ? false : 'hidden'}
+              initial={skipIntro ? false : 'hidden'}
               animate="visible"
             >
               business meets
@@ -179,7 +184,7 @@ export function Hero({ onViewChange: _onViewChange, onOpenContact: _onOpenContac
               data-text="AUTOMATION"
               custom={0.8}
               variants={wordUp}
-              initial={prefersReducedMotion ? false : 'hidden'}
+              initial={skipIntro ? false : 'hidden'}
               animate="visible"
             >
               AUTOMATION
@@ -190,7 +195,7 @@ export function Hero({ onViewChange: _onViewChange, onOpenContact: _onOpenContac
         <m.p
           custom={1}
           variants={wordUp}
-          initial={prefersReducedMotion ? false : 'hidden'}
+          initial={skipIntro ? false : 'hidden'}
           animate="visible"
           className="mt-4 max-w-[720px] text-sm font-medium leading-snug text-white/72 md:mt-5 md:text-base md:leading-snug"
         >
@@ -201,7 +206,7 @@ export function Hero({ onViewChange: _onViewChange, onOpenContact: _onOpenContac
         <m.div
           custom={1.1}
           variants={wordUp}
-          initial={prefersReducedMotion ? false : 'hidden'}
+          initial={skipIntro ? false : 'hidden'}
           animate="visible"
           className="mt-5 flex w-full max-w-[440px] flex-row items-stretch justify-center gap-3 sm:max-w-none sm:flex-wrap sm:gap-4 md:mt-6"
         >
@@ -225,7 +230,7 @@ export function Hero({ onViewChange: _onViewChange, onOpenContact: _onOpenContac
         <m.div
           custom={1.3}
           variants={wordUp}
-          initial={prefersReducedMotion ? false : 'hidden'}
+          initial={skipIntro ? false : 'hidden'}
           animate="visible"
           className="mt-5 flex w-full flex-col items-center gap-4 md:mt-6"
         >

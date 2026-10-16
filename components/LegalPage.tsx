@@ -208,7 +208,7 @@ const CONTENT: Record<LegalKind, { icon: React.ElementType; tag: string; title: 
         heading: '4. Third-party services',
         body: (
           <p>
-            Embedded content (Google Maps, video reviews hosted on Supabase) may set their own cookies governed by their respective privacy policies. We do not control these cookies directly.
+            Embedded content (video reviews hosted on Supabase, and the live previews of client websites on some case studies) may set their own cookies governed by their respective privacy policies. We do not control these cookies directly.
           </p>
         ),
       },

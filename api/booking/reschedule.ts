@@ -8,7 +8,7 @@
 //        4. email the client the new time (with the link again) and PureFlow the reason
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import {
-  HOST_TZ, MEETING_MIN, UUID_RE, busyRanges, buildSlots, clientCallEmail, createEvent, deleteEvent, esc, fmtIn, getEventDescription,
+  cors, HOST_TZ, MEETING_MIN, UUID_RE, busyRanges, buildSlots, clientCallEmail, createEvent, deleteEvent, esc, fmtIn, getEventDescription,
   googleConfigured, googleToken, intlBookingGet, intlBookingReschedule, json, moveEvent, readJson, rescheduleUrl, sendEmail,
   type CreatedEvent, type IntlBooking,
 } from './_lib.js';
@@ -24,9 +24,7 @@ const when = (s: number, e: number, z: string) =>
 const short = (s: number, z: string) => fmtIn(new Date(s), z, { weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' });
 
 export default async function handler(req: IncomingMessage & { body?: unknown }, res: ServerResponse) {
-  res.setHeader('access-control-allow-origin', '*');
-  res.setHeader('access-control-allow-headers', 'content-type');
-  if (req.method === 'OPTIONS') { res.statusCode = 204; return res.end(); }
+  if (cors(req, res, 'GET, POST')) return;
 
   if (req.method === 'GET') {
     const url = new URL(req.url ?? '/', 'http://x');

@@ -130,3 +130,16 @@ export function useDeviceEmbedState(options: Options = {}): DeviceEmbedState {
     endInteract,
   };
 }
+
+/**
+ * The site is cross-origin isolated (Cross-Origin-Embedder-Policy: credentialless in
+ * vercel.json). A client's live site can still be framed when the iframe is
+ * `credentialless` (no cookies, nothing shared), which Chrome and Edge support.
+ * Where the page is isolated but the browser has no credentialless iframes (Firefox),
+ * the frame would be blocked, so the branded poster stays instead.
+ */
+export const canFrameLiveSite = () =>
+  typeof window === 'undefined' || !window.crossOriginIsolated || 'credentialless' in HTMLIFrameElement.prototype;
+
+/** Spread onto a live-site <iframe> (React passes the attribute through; TS doesn't know it yet). */
+export const CREDENTIALLESS = { credentialless: '' } as Record<string, string>;

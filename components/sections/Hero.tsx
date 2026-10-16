@@ -208,7 +208,7 @@ export function Hero({ onViewChange: _onViewChange, onOpenContact: _onOpenContac
           <button
             ref={startBtnRef}
             onClick={onStartProject}
-            className="flex h-12 flex-1 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ff2f86] via-[#d946ef] to-[#a855f7] px-5 text-sm font-semibold text-white shadow-[0_0_30px_rgba(255,47,134,0.28)] transition-all hover:scale-105 hover:shadow-[0_0_28px_rgba(255,47,134,0.5)] sm:h-auto sm:min-w-[205px] sm:flex-none sm:px-7 sm:py-3.5"
+            className="flex h-12 flex-1 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#e3146f] via-[#bf1cc9] to-[#8b3ae6] px-5 text-sm font-semibold text-white shadow-[0_0_30px_rgba(255,47,134,0.28)] transition-all hover:scale-105 hover:shadow-[0_0_28px_rgba(255,47,134,0.5)] sm:h-auto sm:min-w-[205px] sm:flex-none sm:px-7 sm:py-3.5"
           >
             Start a project
             <ArrowUpRight className="h-5 w-5 flex-shrink-0" />

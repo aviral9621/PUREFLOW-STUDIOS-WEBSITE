@@ -101,7 +101,7 @@ export const Hero: React.FC<{ cs: CaseStudy; reduced: boolean | null }> = ({ cs,
           {cs.hero?.ctaLabel ? (
             <a
               href="/start-project"
-              className="group inline-flex h-12 items-center gap-2.5 rounded-full bg-gradient-to-r from-[#ff2f86] via-[#d946ef] to-[#a855f7] px-7 text-[14px] font-bold text-white shadow-[0_14px_50px_-12px_rgba(217,70,239,0.7)] transition-transform hover:scale-[1.03]"
+              className="group inline-flex h-12 items-center gap-2.5 rounded-full bg-gradient-to-r from-[#e3146f] via-[#bf1cc9] to-[#8b3ae6] px-7 text-[14px] font-bold text-white shadow-[0_14px_50px_-12px_rgba(217,70,239,0.7)] transition-transform hover:scale-[1.03]"
             >
               {cs.hero.ctaLabel}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -113,7 +113,7 @@ export const Hero: React.FC<{ cs: CaseStudy; reduced: boolean | null }> = ({ cs,
                   href={cs.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex h-12 items-center gap-2.5 rounded-full bg-gradient-to-r from-[#ff2f86] via-[#d946ef] to-[#a855f7] px-7 text-[14px] font-bold text-white shadow-[0_14px_50px_-12px_rgba(217,70,239,0.7)] transition-transform hover:scale-[1.03]"
+                  className="group inline-flex h-12 items-center gap-2.5 rounded-full bg-gradient-to-r from-[#e3146f] via-[#bf1cc9] to-[#8b3ae6] px-7 text-[14px] font-bold text-white shadow-[0_14px_50px_-12px_rgba(217,70,239,0.7)] transition-transform hover:scale-[1.03]"
                 >
                   View Live Site
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -124,7 +124,7 @@ export const Hero: React.FC<{ cs: CaseStudy; reduced: boolean | null }> = ({ cs,
                 className={
                   cs.liveUrl
                     ? 'inline-flex h-12 items-center gap-2.5 rounded-full border border-white/15 bg-white/[0.04] px-7 text-[14px] font-semibold text-white/90 transition-colors hover:border-white/30 hover:bg-white/[0.08]'
-                    : 'group inline-flex h-12 items-center gap-2.5 rounded-full bg-gradient-to-r from-[#ff2f86] via-[#d946ef] to-[#a855f7] px-7 text-[14px] font-bold text-white shadow-[0_14px_50px_-12px_rgba(217,70,239,0.7)] transition-transform hover:scale-[1.03]'
+                    : 'group inline-flex h-12 items-center gap-2.5 rounded-full bg-gradient-to-r from-[#e3146f] via-[#bf1cc9] to-[#8b3ae6] px-7 text-[14px] font-bold text-white shadow-[0_14px_50px_-12px_rgba(217,70,239,0.7)] transition-transform hover:scale-[1.03]'
                 }
               >
                 {cs.liveUrl ? 'Case Study' : 'Explore Case Study'}
@@ -512,7 +512,7 @@ export const CaseStudyCTA: React.FC<{ reduced: boolean | null; onStart: () => vo
       <div className="relative mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
         <button
           onClick={onStart}
-          className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ff2f86] via-[#d946ef] to-[#a855f7] px-7 text-[14px] font-bold text-white shadow-[0_14px_50px_-12px_rgba(217,70,239,0.7)] transition-transform hover:scale-[1.03]"
+          className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#e3146f] via-[#bf1cc9] to-[#8b3ae6] px-7 text-[14px] font-bold text-white shadow-[0_14px_50px_-12px_rgba(217,70,239,0.7)] transition-transform hover:scale-[1.03]"
         >
           Start a project with PureFlow
           <ArrowRight className="h-4 w-4" />

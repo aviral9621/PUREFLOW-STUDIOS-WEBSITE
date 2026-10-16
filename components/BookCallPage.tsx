@@ -348,7 +348,7 @@ export const BookCallPage: React.FC<BookCallPageProps> = ({ onViewChange }) => {
   }
 
   return (
-    <main className="relative min-h-[100dvh] overflow-hidden bg-black text-white">
+    <div className="relative min-h-[100dvh] overflow-hidden bg-black text-white">
       <StepAmbient />
 
       <StepShell
@@ -365,7 +365,7 @@ export const BookCallPage: React.FC<BookCallPageProps> = ({ onViewChange }) => {
               type="button"
               onClick={step === TOTAL_STEPS - 1 ? handleSubmit : goNext}
               disabled={!isStepValid() || submitting}
-              className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ff2f86] via-[#d946ef] to-[#a855f7] px-7 text-[14px] font-bold text-white shadow-[0_10px_40px_-12px_rgba(255,47,134,0.55)] transition-all hover:scale-[1.01] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 sm:h-12 sm:w-auto sm:px-8 sm:text-[14.5px]"
+              className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#e3146f] via-[#bf1cc9] to-[#8b3ae6] px-7 text-[14px] font-bold text-white shadow-[0_10px_40px_-12px_rgba(255,47,134,0.55)] transition-all hover:scale-[1.01] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 sm:h-12 sm:w-auto sm:px-8 sm:text-[14.5px]"
             >
               {submitting ? (
                 <>
@@ -511,7 +511,7 @@ export const BookCallPage: React.FC<BookCallPageProps> = ({ onViewChange }) => {
           </motion.div>
         </AnimatePresence>
       </StepShell>
-    </main>
+    </div>
   );
 };
 
@@ -743,7 +743,7 @@ const BookedScreen: React.FC<{
   const description = `Booked via pureflowstudios.com\n\nGuest: ${name}${notes ? `\nNotes: ${notes}` : ''}`;
 
   return (
-    <main className="relative min-h-[100dvh] overflow-hidden bg-black text-white">
+    <div className="relative min-h-[100dvh] overflow-hidden bg-black text-white">
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div
           className="absolute inset-x-0 top-1/3 mx-auto h-[500px] w-[500px]"
@@ -840,6 +840,6 @@ const BookedScreen: React.FC<{
           </button>
         </motion.div>
       </div>
-    </main>
+    </div>
   );
 };

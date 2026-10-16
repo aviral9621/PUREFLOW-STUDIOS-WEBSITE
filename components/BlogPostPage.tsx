@@ -21,26 +21,26 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onViewChange, 
 
   if (!post) {
     return (
-      <main className="relative min-h-[100svh] overflow-hidden bg-black pt-32 text-white">
+      <div className="relative min-h-[100svh] overflow-hidden bg-black pt-32 text-white">
         <div className="mx-auto max-w-2xl px-6 text-center">
           <h1 className="font-sans text-3xl font-bold tracking-tight text-white">Article not found.</h1>
           <p className="mt-3 text-white/55">The article you’re looking for doesn’t exist or has been moved.</p>
           <button
             onClick={() => onViewChange('blog')}
-            className="mt-7 inline-flex h-12 items-center gap-2 rounded-full bg-gradient-to-r from-[#ff2f86] via-[#d946ef] to-[#a855f7] px-7 text-sm font-bold text-white"
+            className="mt-7 inline-flex h-12 items-center gap-2 rounded-full bg-gradient-to-r from-[#e3146f] via-[#bf1cc9] to-[#8b3ae6] px-7 text-sm font-bold text-white"
           >
             Browse all articles
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>
-      </main>
+      </div>
     );
   }
 
   const related = POSTS.filter((p) => p.slug !== post.slug).slice(0, 2);
 
   return (
-    <main className="relative min-h-[100svh] overflow-hidden bg-black text-white">
+    <div className="relative min-h-[100svh] overflow-hidden bg-black text-white">
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[700px] bg-brand/[0.05] rounded-full blur-[140px]" />
       </div>
@@ -176,7 +176,7 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onViewChange, 
           </p>
           <button
             onClick={() => onViewChange('contact')}
-            className="relative mt-6 inline-flex h-11 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ff2f86] via-[#d946ef] to-[#a855f7] px-6 text-[13px] font-bold text-white shadow-[0_10px_40px_-12px_rgba(255,47,134,0.55)] transition-all hover:scale-[1.02] sm:h-12 sm:px-7 sm:text-[14px]"
+            className="relative mt-6 inline-flex h-11 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#e3146f] via-[#bf1cc9] to-[#8b3ae6] px-6 text-[13px] font-bold text-white shadow-[0_10px_40px_-12px_rgba(255,47,134,0.55)] transition-all hover:scale-[1.02] sm:h-12 sm:px-7 sm:text-[14px]"
           >
             Start a project
             <ArrowRight className="h-4 w-4" />
@@ -228,6 +228,6 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({ slug, onViewChange, 
           </div>
         </section>
       )}
-    </main>
+    </div>
   );
 };

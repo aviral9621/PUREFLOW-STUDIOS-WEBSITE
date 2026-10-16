@@ -127,7 +127,7 @@ export const StartPage: React.FC<StartPageProps> = ({ onViewChange }) => {
   const moduleChoices = [...new Set([...(MODULES_BY_GROUP[form.businessGroup] ?? []), ...GENERAL_MODULES])].slice(0, 12);
 
   return (
-    <main className="relative min-h-[100dvh] overflow-hidden bg-black text-white">
+    <div className="relative min-h-[100dvh] overflow-hidden bg-black text-white">
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute left-[-10%] top-[-10%] h-[420px] w-[420px]" style={{ background: 'radial-gradient(closest-side, rgba(255,47,134,0.16), transparent 70%)', filter: 'blur(50px)' }} />
         <div className="absolute bottom-[-15%] right-[-10%] h-[460px] w-[460px]" style={{ background: 'radial-gradient(closest-side, rgba(164,82,255,0.18), transparent 70%)', filter: 'blur(50px)' }} />
@@ -238,7 +238,7 @@ export const StartPage: React.FC<StartPageProps> = ({ onViewChange }) => {
           )}
         </div>
       </div>
-    </main>
+    </div>
   );
 };
 
@@ -375,7 +375,7 @@ const DoneScreen: React.FC<{ refCode: string; name: string; onViewChange: (v: Vi
   const first = name.trim().split(/\s+/)[0] || '';
   const text = encodeURIComponent(`Hi PureFlow Studios, I just filled the form on your website (ref ${refCode}). Please continue here on WhatsApp.`);
   return (
-    <main className="relative min-h-[100dvh] overflow-hidden bg-black text-white">
+    <div className="relative min-h-[100dvh] overflow-hidden bg-black text-white">
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute inset-x-0 top-1/3 mx-auto h-[500px] w-[500px]" style={{ background: 'radial-gradient(closest-side, rgba(255,47,134,0.25), transparent 70%)', filter: 'blur(60px)' }} />
       </div>
@@ -402,6 +402,6 @@ const DoneScreen: React.FC<{ refCode: string; name: string; onViewChange: (v: Vi
           <p className="text-[11px] text-white/35">Your reference: <span className="font-mono text-white/60">{refCode}</span></p>
         </motion.div>
       </div>
-    </main>
+    </div>
   );
 };

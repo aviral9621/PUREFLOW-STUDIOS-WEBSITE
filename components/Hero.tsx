@@ -87,7 +87,7 @@ export const Hero: React.FC<HeroProps> = ({ onViewChange }) => {
 
             {/* Hand-drawn style curved arrow - Corrected Position */}
             <div className="absolute top-full left-1/2 w-16 h-16 ml-14 mt-1 md:ml-36 md:mt-2 md:w-20 md:h-20 pointer-events-none z-10">
-                <svg viewBox="0 0 100 100" fill="none" className="w-full h-full text-white arrow-svg opacity-80" style={{ transform: 'rotate(10deg)' }}>
+                <svg viewBox="0 0 100 100" fill="none" aria-hidden="true" focusable="false" className="w-full h-full text-white arrow-svg opacity-80" style={{ transform: 'rotate(10deg)' }}>
                    {/* Curve pointing down and left towards button */}
                    <path d="M 10 10 Q 50 10 40 80" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" fill="none" />
                    {/* Arrowhead */}
@@ -108,7 +108,7 @@ export const Hero: React.FC<HeroProps> = ({ onViewChange }) => {
               px-10 py-4 md:px-12 md:py-5
               text-base md:text-lg font-bold tracking-widest uppercase
               transition-transform duration-300 transform hover:scale-105 active:scale-95
-              focus:outline-none
+              focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f0abfc]
             "
           >
             LET'S AUTOMATE

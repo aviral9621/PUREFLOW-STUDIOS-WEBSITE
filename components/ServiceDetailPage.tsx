@@ -85,7 +85,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
   }, [projects, detail.work]);
 
   return (
-    <main className="svc-page relative min-h-[100svh] overflow-hidden">
+    <div className="svc-page relative min-h-[100svh] overflow-hidden">
       {/* One atmospheric wash for the whole page, not a glow per section */}
       <div className="svc-page__wash pointer-events-none absolute inset-x-0 top-0" aria-hidden="true" />
 
@@ -453,6 +453,6 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 };

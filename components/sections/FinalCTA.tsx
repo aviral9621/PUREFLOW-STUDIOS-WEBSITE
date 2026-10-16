@@ -128,7 +128,7 @@ export function FinalCTA({ onOpenContact: _onOpenContact, onStartProject, onBook
             <MagneticButton
               variant="primary"
               onClick={handleStartProject}
-              className="flex h-12 w-full items-center justify-center gap-2 text-[13px] px-4 text-white [&_*]:text-white sm:h-16 sm:text-base sm:px-10 sm:w-auto"
+              className="gradient-brand-deep flex h-12 w-full items-center justify-center gap-2 text-[13px] px-4 text-white [&_*]:text-white sm:h-16 sm:text-base sm:px-10 sm:w-auto"
             >
               <span className="whitespace-nowrap">Start a project</span>
               <ArrowRight className="inline-block w-3.5 h-3.5 flex-shrink-0 sm:w-4 sm:h-4" />

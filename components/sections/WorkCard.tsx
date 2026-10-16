@@ -25,11 +25,13 @@ import { PortfolioPreview } from './PortfolioPreview';
 // ─────────────────────────────────────────────────────────────────────────────
 
 interface Props {
+  /** h3 under a section heading (home); h2 on /work, where the page h1 comes right before. */
+  headingTag?: 'h2' | 'h3';
   item: PortfolioItem;
   onOpen: (slug: string) => void;
 }
 
-export const WorkCard: React.FC<Props> = ({ item, onOpen }) => {
+export const WorkCard: React.FC<Props> = ({ item, onOpen, headingTag: H = 'h3' }) => {
   const { slug, name, description, showcaseLine, preview, device } = item;
   const visual = getWorkCard(slug);
   const href = viewToPath('work-post', slug);
@@ -46,7 +48,7 @@ export const WorkCard: React.FC<Props> = ({ item, onOpen }) => {
       {/* ── Top bar ── */}
       <div className="px-5 pt-5 sm:px-6 sm:pt-6">
         <div className="flex items-center justify-between gap-4">
-          <h3 className="min-w-0 text-[20px] font-bold leading-[1.15] tracking-[-0.03em] text-[#0d0b12]">
+          <H className="min-w-0 text-[20px] font-bold leading-[1.15] tracking-[-0.03em] text-[#0d0b12]">
             <a
               href={href}
               onClick={handleClick}
@@ -65,7 +67,7 @@ export const WorkCard: React.FC<Props> = ({ item, onOpen }) => {
                 name
               )}
             </a>
-          </h3>
+          </H>
           <span
             aria-hidden="true"
             className="flex h-9 flex-none items-center gap-1 rounded-full bg-[#0d0b12] px-3.5 text-[13px] font-semibold text-white transition-transform duration-300 group-hover:scale-[1.05]"

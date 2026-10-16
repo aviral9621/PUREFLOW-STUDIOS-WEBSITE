@@ -74,7 +74,7 @@ export const WebsiteShowcase: React.FC<Props> = ({ showcase: s, onViewChange }) 
   useSpecimenFonts(s.type);
 
   return (
-    <main className="relative min-h-screen bg-[#050505] text-white">
+    <div className="relative min-h-screen bg-[#050505] text-white">
       <Hero
         s={s}
         reduced={reduced}
@@ -108,7 +108,7 @@ export const WebsiteShowcase: React.FC<Props> = ({ showcase: s, onViewChange }) 
         onCall={() => onViewChange('book-call')}
       />
       <Footer onViewChange={onViewChange} />
-    </main>
+    </div>
   );
 };
 
@@ -207,30 +207,32 @@ const Build: React.FC<SectionProps> = ({ site, reduced }) => (
       <Reveal reduced={reduced}>
         <Heading lead="How we" word="BUILT IT." />
       </Reveal>
-      <ol
-        className="relative mt-12 grid gap-8 sm:mt-16 lg:grid-cols-[repeat(var(--n),minmax(0,1fr))] lg:gap-6"
-        style={{ ['--n' as string]: site.build.length }}
-      >
+      <div className="relative mt-12 sm:mt-16">
         <span
           aria-hidden="true"
           className="absolute left-0 right-0 top-[7px] hidden h-px bg-gradient-to-r from-[#ff2f86] via-[#d946ef] to-[#a855f7] opacity-50 lg:block"
         />
+      <ol
+        className="relative grid gap-8 lg:grid-cols-[repeat(var(--n),minmax(0,1fr))] lg:gap-6"
+        style={{ ['--n' as string]: site.build.length }}
+      >
         {site.build.map((b, i) => (
-          <Reveal key={b.title} reduced={reduced} delay={i * 0.06}>
-            <li className="relative flex gap-5 lg:block">
+          <li key={b.title} className="relative">
+            <Reveal reduced={reduced} delay={i * 0.06} className="relative flex gap-5 lg:block">
               <span
                 aria-hidden="true"
                 className="mt-1 block h-[15px] w-[15px] flex-none rounded-full border-2 border-[#050505] bg-gradient-to-r from-[#ff2f86] to-[#a855f7] shadow-[0_0_16px_rgba(217,70,239,0.6)] lg:mt-0"
               />
               <div className="lg:mt-6">
-                <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-white/40">Step {pad(i + 1)}</p>
+                <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-white/60">Step {pad(i + 1)}</p>
                 <h3 className="mt-2 text-[18px] font-semibold text-white sm:text-[19px]">{b.title}</h3>
                 <p className="mt-2 max-w-[340px] text-[14.5px] leading-[1.6] text-white/55">{b.text}</p>
               </div>
-            </li>
-          </Reveal>
+            </Reveal>
+          </li>
         ))}
       </ol>
+      </div>
     </div>
   </section>
 );
@@ -261,7 +263,7 @@ const PageBlock: React.FC<{ p: SitePage; index: number; reduced: boolean }> = ({
             {p.name}
           </h3>
         </div>
-        <p className="mt-4 font-mono text-[12px] text-white/40">{p.path}</p>
+        <p className="mt-4 font-mono text-[12px] text-white/60">{p.path}</p>
       </div>
       <div>
         <p className="max-w-[560px] text-[16px] leading-[1.7] text-white/65 sm:text-[17px]">{p.summary}</p>

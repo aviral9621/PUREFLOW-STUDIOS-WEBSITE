@@ -37,7 +37,7 @@ export const AutomationPage: React.FC<AutomationPageProps> = ({ onViewChange }) 
   }, []);
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-black text-white">
+    <div className="relative min-h-screen overflow-hidden bg-black text-white">
       {/* Ambient bg */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[700px] bg-brand/[0.06] rounded-full blur-[140px]" />
@@ -79,7 +79,7 @@ export const AutomationPage: React.FC<AutomationPageProps> = ({ onViewChange }) 
           <div className="mt-9 flex flex-col items-stretch gap-3 sm:flex-row sm:gap-4">
             <button
               onClick={() => onViewChange('contact')}
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ff2f86] via-[#d946ef] to-[#a855f7] px-7 text-[14px] font-bold text-white shadow-[0_10px_40px_-12px_rgba(255,47,134,0.55)] transition-all hover:scale-[1.02] sm:h-14 sm:px-9 sm:text-[15px]"
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#e3146f] via-[#bf1cc9] to-[#8b3ae6] px-7 text-[14px] font-bold text-white shadow-[0_10px_40px_-12px_rgba(255,47,134,0.55)] transition-all hover:scale-[1.02] sm:h-14 sm:px-9 sm:text-[15px]"
             >
               Map my automation
               <ArrowRight className="h-4 w-4" />
@@ -169,13 +169,13 @@ export const AutomationPage: React.FC<AutomationPageProps> = ({ onViewChange }) 
           </p>
           <button
             onClick={() => onViewChange('contact')}
-            className="relative mt-7 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ff2f86] via-[#d946ef] to-[#a855f7] px-7 text-[14px] font-bold text-white shadow-[0_10px_40px_-12px_rgba(255,47,134,0.55)] transition-all hover:scale-[1.02] sm:h-14 sm:px-9 sm:text-[15px]"
+            className="relative mt-7 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#e3146f] via-[#bf1cc9] to-[#8b3ae6] px-7 text-[14px] font-bold text-white shadow-[0_10px_40px_-12px_rgba(255,47,134,0.55)] transition-all hover:scale-[1.02] sm:h-14 sm:px-9 sm:text-[15px]"
           >
             Get my automation map
             <ArrowRight className="h-4 w-4" />
           </button>
         </motion.div>
       </div>
-    </main>
+    </div>
   );
 };

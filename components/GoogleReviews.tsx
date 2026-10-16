@@ -198,7 +198,7 @@ export const GoogleReviews: React.FC = () => {
                           ))}
                       </div>
                    </div>
-                   <div className="flex items-center gap-1 text-[11px] text-gray-500 font-medium">
+                   <div className="flex items-center gap-1 text-[11px] text-gray-600 font-medium">
                       <span className="text-gray-900 font-bold">{rating.toFixed(1)}/5</span>
                       <span>•</span>
                       <span>Based on {totalRatings} reviews</span>
@@ -301,11 +301,11 @@ export const GoogleReviews: React.FC = () => {
                   </div>
                   
                   {/* Google Icon Footer */}
-                  <div className="mt-2 flex items-center gap-2 opacity-50">
+                  <div className="mt-2 flex items-center gap-2">
                      <div className="w-4 h-4 grayscale opacity-70">
                         <GoogleLogo />
                      </div>
-                     <span className="text-[11px] text-gray-500 font-medium">Posted on Google</span>
+                     <span className="text-[11px] text-gray-600 font-medium">Posted on Google</span>
                   </div>
 
                </div>

@@ -361,7 +361,7 @@ export function WorkStack({ onOpenProject, onStartProject, onViewAll }: Props) {
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
             <button
               onClick={onStartProject}
-              className="flex h-12 items-center gap-2 rounded-full bg-gradient-to-r from-[#ff2f86] via-[#d946ef] to-[#a855f7] px-7 text-sm font-semibold text-white shadow-[0_12px_32px_-10px_rgba(255,47,134,0.55)] transition-transform hover:scale-[1.04]"
+              className="flex h-12 items-center gap-2 rounded-full bg-gradient-to-r from-[#e3146f] via-[#bf1cc9] to-[#8b3ae6] px-7 text-sm font-semibold text-white shadow-[0_12px_32px_-10px_rgba(255,47,134,0.55)] transition-transform hover:scale-[1.04]"
             >
               Start a project
               <ArrowUpRight className="h-5 w-5" />
@@ -434,7 +434,7 @@ const WorkTabs: React.FC<{
     >
       <m.span
         aria-hidden="true"
-        className="absolute bottom-1 top-1 rounded-full bg-gradient-to-r from-[#ff2f86] via-[#d946ef] to-[#a855f7] shadow-[0_6px_20px_-6px_rgba(217,70,239,0.6)]"
+        className="absolute bottom-1 top-1 rounded-full bg-gradient-to-r from-[#e3146f] via-[#bf1cc9] to-[#8b3ae6] shadow-[0_6px_20px_-6px_rgba(217,70,239,0.6)]"
         initial={false}
         animate={{ x: pill.x - 4, width: pill.w }}
         style={{ left: 4 }}
@@ -494,7 +494,7 @@ const ComingSoon: React.FC<{ onStartProject: () => void }> = ({ onStartProject }
     </p>
     <button
       onClick={onStartProject}
-      className="mt-7 flex h-12 items-center gap-2 rounded-full bg-gradient-to-r from-[#ff2f86] via-[#d946ef] to-[#a855f7] px-7 text-sm font-semibold text-white shadow-[0_12px_32px_-10px_rgba(255,47,134,0.55)] transition-transform hover:scale-[1.04]"
+      className="mt-7 flex h-12 items-center gap-2 rounded-full bg-gradient-to-r from-[#e3146f] via-[#bf1cc9] to-[#8b3ae6] px-7 text-sm font-semibold text-white shadow-[0_12px_32px_-10px_rgba(255,47,134,0.55)] transition-transform hover:scale-[1.04]"
     >
       Start a project
       <ArrowUpRight className="h-5 w-5" />

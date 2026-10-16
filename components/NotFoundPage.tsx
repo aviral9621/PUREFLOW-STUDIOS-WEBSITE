@@ -16,7 +16,7 @@ interface NotFoundPageProps {
 
 export function NotFoundPage({ onGoHome }: NotFoundPageProps) {
   return (
-    <main className="relative flex min-h-[100svh] w-full flex-col items-center justify-center overflow-hidden bg-[#060608] px-5 py-16 text-center selection:bg-[#D946EF] selection:text-white">
+    <div className="relative flex min-h-[100svh] w-full flex-col items-center justify-center overflow-hidden bg-[#060608] px-5 py-16 text-center selection:bg-[#D946EF] selection:text-white">
       {/* Soft radial purple glow behind the content, breathing slowly. */}
       <div className="nf-glow pointer-events-none absolute inset-0 -z-0" aria-hidden="true" />
 
@@ -105,6 +105,6 @@ export function NotFoundPage({ onGoHome }: NotFoundPageProps) {
           Go to Homepage
         </a>
       </div>
-    </main>
+    </div>
   );
 }

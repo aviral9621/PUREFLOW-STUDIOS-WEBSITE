@@ -32,7 +32,7 @@ export const CaseStudyPage: React.FC<Props> = ({ caseStudy, onViewChange }) => {
   }, [caseStudy]);
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-black text-white">
+    <div className="relative min-h-screen overflow-hidden bg-black text-white">
       {/* Seamless top ambient glow — originates above the viewport and fades
           down, so the nav, back-link and hero blend with no black/gradient seam. */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[900px]" aria-hidden="true">
@@ -67,6 +67,6 @@ export const CaseStudyPage: React.FC<Props> = ({ caseStudy, onViewChange }) => {
       <CaseStudyCTA reduced={reduced} liveUrl={caseStudy.liveUrl} onStart={() => onViewChange('start-project')} />
 
       <Footer onViewChange={onViewChange} />
-    </main>
+    </div>
   );
 };

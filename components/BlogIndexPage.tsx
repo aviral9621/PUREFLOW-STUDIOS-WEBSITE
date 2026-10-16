@@ -16,7 +16,7 @@ export const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onViewChange, onOp
   }, []);
 
   return (
-    <main className="relative min-h-[100svh] overflow-hidden bg-black text-white">
+    <div className="relative min-h-[100svh] overflow-hidden bg-black text-white">
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute -top-24 left-1/2 h-[620px] w-[1100px] max-w-full -translate-x-1/2 rounded-full bg-[#885CF6]/[0.10] blur-[150px]" />
       </div>
@@ -49,10 +49,10 @@ export const BlogIndexPage: React.FC<BlogIndexPageProps> = ({ onViewChange, onOp
         {/* Posts grid */}
         <div className="blog-grid mt-12">
           {POSTS.map((post) => (
-            <BlogCard key={post.slug} post={post} onOpen={onOpenPost} />
+            <BlogCard key={post.slug} post={post} onOpen={onOpenPost} headingTag="h2" />
           ))}
         </div>
       </div>
-    </main>
+    </div>
   );
 };

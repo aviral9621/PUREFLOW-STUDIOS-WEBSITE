@@ -69,7 +69,7 @@ const ProductShowcase: React.FC<Props> = ({ showcase: s, onViewChange }) => {
   useSpecimenFonts(s.type);
 
   return (
-    <main className="relative min-h-screen bg-[#050505] text-white">
+    <div className="relative min-h-screen bg-[#050505] text-white">
       <Hero s={s} reduced={reduced} onBack={() => onViewChange('work')} />
       <Brief s={s} reduced={reduced} />
       <Problem s={s} reduced={reduced} />
@@ -85,7 +85,7 @@ const ProductShowcase: React.FC<Props> = ({ showcase: s, onViewChange }) => {
         onCall={() => onViewChange('book-call')}
       />
       <Footer onViewChange={onViewChange} />
-    </main>
+    </div>
   );
 };
 
@@ -140,14 +140,14 @@ const Process: React.FC<{ s: Showcase; reduced: boolean }> = ({ s, reduced }) =>
       </Reveal>
       <ol>
         {s.process.map((step, i) => (
-          <Reveal key={step} reduced={reduced} delay={i * 0.04}>
-            <li className="flex items-center gap-5 border-b border-white/[0.08] py-5 sm:gap-7 sm:py-6">
+          <li key={step}>
+            <Reveal reduced={reduced} delay={i * 0.04} className="flex items-center gap-5 border-b border-white/[0.08] py-5 sm:gap-7 sm:py-6">
               <span className="sc-num w-12 flex-none text-[30px] leading-none sm:w-14 sm:text-[38px]">
                 {String(i + 1).padStart(2, '0')}
               </span>
               <span className="text-[17px] font-medium text-white/85 sm:text-[19px]">{step}</span>
-            </li>
-          </Reveal>
+            </Reveal>
+          </li>
         ))}
       </ol>
     </div>

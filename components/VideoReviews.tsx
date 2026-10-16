@@ -260,7 +260,7 @@ export const VideoReviews: React.FC = () => {
           {/* Navigation Arrows */}
           <button
             onClick={() => handlePrev()}
-            className="absolute left-2 md:left-10 top-1/2 -translate-y-1/2 z-40 w-10 h-10 rounded-full border border-[#A452FF]/30 text-white hover:bg-[#A452FF] hover:border-[#A452FF] hover:shadow-[0_0_20px_rgba(164,82,255,0.4)] transition-all duration-300 flex items-center justify-center backdrop-blur-sm group md:h-14 md:w-14 bg-black/40 backdrop-blur-md"
+            className="absolute left-2 md:left-10 top-1/2 -translate-y-1/2 z-40 w-10 h-10 rounded-full border border-white/60 bg-black/50 text-white hover:bg-[#A452FF] hover:border-[#A452FF] hover:shadow-[0_0_20px_rgba(164,82,255,0.4)] transition-all duration-300 flex items-center justify-center backdrop-blur-sm group md:h-14 md:w-14 bg-black/40 backdrop-blur-md"
             aria-label="Previous Review"
           >
             <ChevronLeft className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform" />
@@ -268,7 +268,7 @@ export const VideoReviews: React.FC = () => {
 
           <button
             onClick={() => handleNext(false)}
-            className="absolute right-2 md:right-10 top-1/2 -translate-y-1/2 z-40 w-10 h-10 rounded-full border border-[#A452FF]/30 text-white hover:bg-[#A452FF] hover:border-[#A452FF] hover:shadow-[0_0_20px_rgba(164,82,255,0.4)] transition-all duration-300 flex items-center justify-center backdrop-blur-sm group md:h-14 md:w-14 bg-black/40 backdrop-blur-md"
+            className="absolute right-2 md:right-10 top-1/2 -translate-y-1/2 z-40 w-10 h-10 rounded-full border border-white/60 bg-black/50 text-white hover:bg-[#A452FF] hover:border-[#A452FF] hover:shadow-[0_0_20px_rgba(164,82,255,0.4)] transition-all duration-300 flex items-center justify-center backdrop-blur-sm group md:h-14 md:w-14 bg-black/40 backdrop-blur-md"
             aria-label="Next Review"
           >
             <ChevronRight className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" />
@@ -276,16 +276,23 @@ export const VideoReviews: React.FC = () => {
         </div>
 
         {/* Slide dots — OUTSIDE the carousel, below */}
-        <div className="mt-6 flex items-center justify-center gap-1.5">
+        <div className="mt-2 flex items-center justify-center">
           {REVIEWS.map((_, i) => (
             <button
               key={i}
+              type="button"
               onClick={() => setActive(([prev]) => [i + Math.floor(prev / REVIEWS.length) * REVIEWS.length, i > current ? 1 : -1])}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === current ? 'w-6 bg-white' : 'w-1.5 bg-white/30 hover:bg-white/50'
-              }`}
+              className="group flex h-11 min-w-[44px] items-center justify-center px-1"
               aria-label={`Go to review ${i + 1}`}
-            />
+              aria-current={i === current ? 'true' : undefined}
+            >
+              <span
+                aria-hidden="true"
+                className={`block h-1.5 rounded-full transition-all duration-300 ${
+                  i === current ? 'w-6 bg-white' : 'w-1.5 bg-white/40 group-hover:bg-white/60'
+                }`}
+              />
+            </button>
           ))}
         </div>
 

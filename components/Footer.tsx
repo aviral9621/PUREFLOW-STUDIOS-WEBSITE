@@ -255,6 +255,7 @@ export const Footer: React.FC<FooterProps> = ({ onViewChange }) => {
                 {label}
               </button>
             ))}
+            <a href="/sitemap.xml" className="text-[11.5px] text-white/50 hover:text-white transition-colors duration-200">Sitemap</a>
           </div>
         </div>
       </div>

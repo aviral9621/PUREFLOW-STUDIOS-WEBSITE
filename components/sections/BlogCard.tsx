@@ -31,18 +31,18 @@ export const CATEGORY_STYLE: Record<
 };
 
 interface Props {
+  headingTag?: 'h2' | 'h3';
   post: BlogPost;
   onOpen: (slug: string) => void;
 }
 
-export const BlogCard: React.FC<Props> = ({ post, onOpen }) => {
+export const BlogCard: React.FC<Props> = ({ post, onOpen, headingTag: H = 'h3' }) => {
   const { accent, tint, Icon } = CATEGORY_STYLE[post.category];
 
   return (
     <button
       type="button"
       onClick={() => onOpen(post.slug)}
-      aria-label={`${post.title} — read article`}
       className="gs-card group flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0b0b10] text-left"
     >
       {/* Feature image */}
@@ -71,9 +71,9 @@ export const BlogCard: React.FC<Props> = ({ post, onOpen }) => {
           {post.category}
         </span>
 
-        <h3 className="mt-3.5 line-clamp-2 h-[2.7em] text-[1.08rem] font-bold leading-[1.35] tracking-[-0.015em] text-[#F4F2F7] sm:text-[1.12rem]">
+        <H className="mt-3.5 line-clamp-2 h-[2.7em] text-[1.08rem] font-bold leading-[1.35] tracking-[-0.015em] text-[#F4F2F7] sm:text-[1.12rem]">
           {post.title}
-        </h3>
+        </H>
 
         {/* Metadata + arrow, pinned to the bottom so cards stay level */}
         <div className="mt-auto flex items-end justify-between gap-3 pt-5">

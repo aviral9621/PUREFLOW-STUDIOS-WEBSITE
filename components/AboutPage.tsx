@@ -65,7 +65,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onViewChange, onStartProje
   }, []);
 
   return (
-    <main className="relative min-h-[100svh] overflow-hidden bg-black text-white">
+    <div className="relative min-h-[100svh] overflow-hidden bg-black text-white">
       {/* Ambient bg */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[700px] bg-brand/[0.06] rounded-full blur-[140px]" />
@@ -90,7 +90,8 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onViewChange, onStartProje
           <p className="gradient-flow-text mb-4 text-[10px] font-bold uppercase tracking-[0.22em]">
             About us
           </p>
-          <span className="font-serif italic text-white/95 text-[clamp(1.75rem,3.4vw,3rem)] leading-[1.1] tracking-normal">
+          <h1 className="contents">
+<span className="font-serif italic text-white/95 text-[clamp(1.75rem,3.4vw,3rem)] leading-[1.1] tracking-normal">
             A small studio,
           </span>
           <span
@@ -99,6 +100,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onViewChange, onStartProje
           >
             BUILT TO SHIP.
           </span>
+</h1>
           <p className="mt-6 max-w-2xl text-[14.5px] leading-relaxed text-white/65 sm:text-base">
             Pureflow Studios is a Gen-Z software studio out of Lucknow. We build custom software,
             CRMs, AI agents, and websites for founders who want to stop firefighting and start
@@ -124,7 +126,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onViewChange, onStartProje
                   {s.value}
                 </span>
               </p>
-              <p className="mt-2 text-[10.5px] font-semibold uppercase tracking-[0.16em] text-white/55 sm:text-[11.5px]">
+              <p className="mt-2 text-[10.5px] font-semibold uppercase tracking-[0.16em] text-white/65 sm:text-[11.5px]">
                 {s.label}
               </p>
             </div>
@@ -190,7 +192,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onViewChange, onStartProje
                   <h3 className="font-sans text-[14.5px] font-semibold leading-tight tracking-[-0.01em] text-white sm:text-[15.5px]">
                     {s.title}
                   </h3>
-                  <p className="mt-1.5 text-[12.5px] leading-relaxed text-white/55 sm:text-[13px]">
+                  <p className="mt-1.5 text-[12.5px] leading-relaxed text-white/65 sm:text-[13px]">
                     {s.sub}
                   </p>
                 </motion.div>
@@ -248,7 +250,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onViewChange, onStartProje
           <div className="relative mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
             <button
               onClick={onStartProject}
-              className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ff2f86] via-[#d946ef] to-[#a855f7] px-7 text-[14px] font-bold text-white shadow-[0_10px_40px_-12px_rgba(255,47,134,0.55)] transition-all hover:scale-[1.02] sm:h-14 sm:w-auto sm:px-9 sm:text-[15px]"
+              className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#e3146f] via-[#bf1cc9] to-[#8b3ae6] px-7 text-[14px] font-bold text-white shadow-[0_10px_40px_-12px_rgba(255,47,134,0.55)] transition-all hover:scale-[1.02] sm:h-14 sm:w-auto sm:px-9 sm:text-[15px]"
             >
               Start a project
               <ArrowRight className="h-4 w-4" />
@@ -268,7 +270,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onViewChange, onStartProje
           </p>
         </motion.div>
       </div>
-    </main>
+    </div>
   );
 };
 
@@ -289,7 +291,7 @@ function PhilosophyCard({
       <h3 className="font-sans text-[15px] font-semibold leading-tight tracking-[-0.01em] text-white sm:text-[16px]">
         {title}
       </h3>
-      <p className="mt-1.5 text-[13px] leading-relaxed text-white/55 sm:text-[13.5px]">{body}</p>
+      <p className="mt-1.5 text-[13px] leading-relaxed text-white/65 sm:text-[13.5px]">{body}</p>
     </div>
   );
 }
@@ -428,7 +430,7 @@ function HalfCard({ person: p, reduced, onOpen }: { person: Leader; reduced: boo
       style={{ borderRadius: 18 }}
     >
       <Photo person={p} />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/70 to-transparent px-3 pb-3 pt-10">
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/85 to-black/20 px-3 pb-3 pt-10">
         <p className="text-[7.5px] font-semibold uppercase leading-snug tracking-[0.12em] text-[#ff7eb2]">{p.role}</p>
         <p className="mt-0.5 font-sans text-[14px] font-semibold leading-tight tracking-[-0.015em] text-white">
           {p.name}
@@ -567,7 +569,7 @@ function LeaderCard({
         {/* Front: photo + name plate */}
         <div className="absolute inset-0 overflow-hidden rounded-[1.6rem] border border-white/10 bg-black backface-hidden">
           <Photo person={p} />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/70 to-transparent px-5 pb-4 pt-14">
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/85 to-black/20 px-5 pb-4 pt-14">
             <p className="text-[10px] font-semibold uppercase leading-snug tracking-[0.2em] text-[#ff7eb2]">
               {p.role}
             </p>
@@ -589,7 +591,7 @@ function LeaderCard({
             </p>
             <div className="mt-4 h-px w-12 bg-gradient-to-r from-[#ff2f86] to-[#a855f7]" />
           </div>
-          <p className="relative mt-4 text-[13.5px] leading-[1.7] text-white/70 sm:text-[14px]">{p.bio}</p>
+          <p className="relative mt-4 text-[13.5px] leading-[1.7] text-white/80 sm:text-[14px]">{p.bio}</p>
         </div>
       </div>
     </div>

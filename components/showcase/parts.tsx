@@ -458,7 +458,7 @@ export const Hero: React.FC<{
               href={live.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-8 inline-flex h-12 items-center gap-2 rounded-full bg-gradient-to-r from-[#ff2f86] via-[#d946ef] to-[#a855f7] px-7 text-sm font-semibold text-white shadow-[0_0_30px_rgba(255,47,134,0.28)] transition-all hover:scale-105 hover:shadow-[0_0_28px_rgba(255,47,134,0.5)]"
+              className="mt-8 inline-flex h-12 items-center gap-2 rounded-full bg-gradient-to-r from-[#e3146f] via-[#bf1cc9] to-[#8b3ae6] px-7 text-sm font-semibold text-white shadow-[0_0_30px_rgba(255,47,134,0.28)] transition-all hover:scale-105 hover:shadow-[0_0_28px_rgba(255,47,134,0.5)]"
             >
               Visit {live.label}
               <ArrowUpRight className="h-5 w-5" />
@@ -504,7 +504,7 @@ export const Brief: React.FC<{ s: Showcase; reduced: boolean }> = ({ s, reduced 
         <dl className="grid gap-6 rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 sm:rounded-[22px] sm:p-8">
           {s.facts.map((f) => (
             <div key={f.label}>
-              <dt className="font-mono text-[11px] uppercase tracking-[0.24em] text-white/40">
+              <dt className="font-mono text-[11px] uppercase tracking-[0.24em] text-white/60">
                 {f.label}
               </dt>
               <dd className="mt-2 text-[15px] leading-[1.55] text-white/85 sm:text-[16px]">
@@ -514,7 +514,7 @@ export const Brief: React.FC<{ s: Showcase; reduced: boolean }> = ({ s, reduced 
           ))}
           {s.links?.map((l) => (
             <div key={l.href}>
-              <dt className="font-mono text-[11px] uppercase tracking-[0.24em] text-white/40">
+              <dt className="font-mono text-[11px] uppercase tracking-[0.24em] text-white/60">
                 Live
               </dt>
               <dd className="mt-2">
@@ -697,7 +697,8 @@ export const CountUp: React.FC<{ value: string; reduced: boolean; duration?: num
     return () => controls.stop();
   }, [inView, fig, reduced, value, duration]);
   return (
-    <span ref={ref} aria-label={value}>
+    <span ref={ref}>
+      <span className="sr-only">{value}</span>
       <span aria-hidden="true">{text}</span>
     </span>
   );
@@ -792,7 +793,7 @@ export const Closing: React.FC<{
               <div className="mt-8 flex w-full max-w-[440px] flex-col gap-3 sm:mt-9 sm:w-auto sm:max-w-none sm:flex-row sm:gap-4">
                 <button
                   onClick={onStart}
-                  className="flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ff2f86] via-[#d946ef] to-[#a855f7] px-8 text-sm font-semibold text-white shadow-[0_0_30px_rgba(255,47,134,0.28)] transition-all hover:scale-105 hover:shadow-[0_0_28px_rgba(255,47,134,0.5)]"
+                  className="flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#e3146f] via-[#bf1cc9] to-[#8b3ae6] px-8 text-sm font-semibold text-white shadow-[0_0_30px_rgba(255,47,134,0.28)] transition-all hover:scale-105 hover:shadow-[0_0_28px_rgba(255,47,134,0.5)]"
                 >
                   Start a project
                   <ArrowUpRight className="h-5 w-5" />

@@ -116,7 +116,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onViewChange }) => {
   ];
 
   return (
-    <main className="relative min-h-[100svh] overflow-hidden bg-black text-white">
+    <div className="relative min-h-[100svh] overflow-hidden bg-black text-white">
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute top-[10%] left-1/2 -translate-x-1/2 w-[900px] h-[700px] bg-brand/[0.07] rounded-full blur-[140px]" />
         <div
@@ -171,7 +171,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onViewChange }) => {
                 <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg border border-white/85 bg-black text-white sm:h-10 sm:w-10">
                   <Icon className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={1.9} />
                 </div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-white/45">{c.label}</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-white/60">{c.label}</p>
                 <p className="mt-1 break-all text-[13px] font-semibold text-white sm:text-[14px]">{c.value}</p>
               </motion.a>
             );
@@ -215,8 +215,8 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onViewChange }) => {
                 <p className="gradient-flow-text text-[10px] font-bold uppercase tracking-[0.22em]">
                   Send a message
                 </p>
-                <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/45 sm:text-[11px]">
-                  {String(step + 1).padStart(2, '0')} <span className="text-white/25">/ {String(TOTAL_STEPS).padStart(2, '0')}</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/60 sm:text-[11px]">
+                  {String(step + 1).padStart(2, '0')} <span className="text-white/50">/ {String(TOTAL_STEPS).padStart(2, '0')}</span>
                 </span>
               </div>
 
@@ -310,7 +310,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onViewChange }) => {
                   type="button"
                   onClick={step === TOTAL_STEPS - 1 ? handleSubmit : goNext}
                   disabled={!isStepValid() || submitting}
-                  className="flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#ff2f86] via-[#d946ef] to-[#a855f7] px-7 text-[13.5px] font-bold text-white shadow-[0_10px_40px_-12px_rgba(255,47,134,0.55)] transition-all hover:scale-[1.01] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 sm:h-12 sm:px-8 sm:text-[14px]"
+                  className="flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#e3146f] via-[#bf1cc9] to-[#8b3ae6] px-7 text-[13.5px] font-bold text-white shadow-[0_10px_40px_-12px_rgba(255,47,134,0.55)] transition-all hover:scale-[1.01] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 sm:h-12 sm:px-8 sm:text-[14px]"
                 >
                   {submitting ? (
                     <>
@@ -334,7 +334,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onViewChange }) => {
           )}
         </motion.div>
       </div>
-    </main>
+    </div>
   );
 };
 

@@ -151,7 +151,7 @@ export function Navbar({ currentView, onViewChange, onOpenContact: _onOpenContac
               <MagneticButton
                 variant="primary"
                 onClick={goToStartProject}
-                className="flex h-[42px] w-[185px] items-center justify-center gap-3 px-0 text-base font-semibold normal-case text-white shadow-[0_0_40px_rgba(255,47,134,0.5)]"
+                className="gradient-brand-deep flex h-[42px] w-[185px] items-center justify-center gap-3 px-0 text-base font-semibold normal-case text-white shadow-[0_0_40px_rgba(255,47,134,0.5)]"
               >
                 Start a project
                 <ArrowUpRight className="h-[21px] w-[21px] flex-shrink-0" />
@@ -262,7 +262,7 @@ export function Navbar({ currentView, onViewChange, onOpenContact: _onOpenContac
             >
               <button
                 onClick={goToStartProject}
-                className="flex h-[58px] w-full items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-[#ff2f86] via-[#d946ef] to-[#a855f7] px-6 text-[17px] font-bold text-white shadow-[0_10px_40px_-8px_rgba(255,47,134,0.55)] transition-all hover:scale-[1.01] active:scale-[0.99]"
+                className="flex h-[58px] w-full items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-[#e3146f] via-[#bf1cc9] to-[#8b3ae6] px-6 text-[17px] font-bold text-white shadow-[0_10px_40px_-8px_rgba(255,47,134,0.55)] transition-all hover:scale-[1.01] active:scale-[0.99]"
               >
                 Start a project
                 <ArrowUpRight className="h-5 w-5 flex-shrink-0" strokeWidth={2.5} />

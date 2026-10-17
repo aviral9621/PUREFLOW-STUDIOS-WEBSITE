@@ -5,7 +5,7 @@ to two Vercel functions in this repo:
 
 | Endpoint | What it does |
 |---|---|
-| `GET /api/booking/availability?from=&days=` | 30-min slots in the call windows (Mon–Fri 14:00–17:00 and 20:00–23:00 IST, 4 h notice, 14 days) minus busy events on the PureFlow Google Calendar |
+| `GET /api/booking/availability?from=&days=` | 30-min slots in the call hours (Mon–Fri 11:00–20:00 IST for everyone; for visitors in the Americas also Mon–Fri 20:00–22:00 and Tue–Fri 10:00–11:00 IST; 4 h notice, 14 days; table: `WINDOWS` in `_lib.ts`) minus busy events on the PureFlow Google Calendar |
 | `POST /api/booking/book` | re-checks the slot, creates the Google Calendar event **with a Google Meet link** and the client as guest (Google emails the invite), saves the lead in Supabase `website_bookings` (unique slot guard), emails the client and `BOOKING_NOTIFY_EMAIL` through Resend |
 
 Code: `api/booking/_lib.ts` (helpers), `availability.ts`, `book.ts`. Landing side: `lib/pf/scheduling.ts`.

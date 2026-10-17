@@ -9,10 +9,23 @@ export const HOST_TZ = process.env.BOOKING_TIMEZONE || 'Asia/Kolkata';
 export const MEETING_MIN = 30;
 export const MIN_NOTICE_H = 4;
 export const HORIZON_DAYS = 14;
-/** Call windows in host-local time, Monday to Friday. */
-export const WINDOWS: [string, string][] = [['14:00', '17:00'], ['20:00', '23:00']];
+/**
+ * Call hours in India time, on the listed India weekdays. `americas` windows are only
+ * shown to visitors in American time zones (the landing filters by the visitor's zone);
+ * everyone else sees 11:00–20:00. Same table as the landing's lib/pf/scheduling.ts.
+ */
+export type CallWindow = { from: string; to: string; days: string[]; americas?: boolean };
+const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+export const WINDOWS: CallWindow[] = [
+  { from: '11:00', to: '20:00', days: WEEKDAYS },
+  // US & Canada mornings: New York 10:30 AM–12:30 PM in summer, 9:30–11:30 AM in winter
+  { from: '20:00', to: '22:00', days: WEEKDAYS, americas: true },
+  // US West evenings, the day before: Los Angeles 9:30–10:30 PM / 8:30–9:30 PM.
+  // Tue–Fri here is Mon–Thu there (Monday 10 AM here would be their Sunday night).
+  { from: '10:00', to: '11:00', days: ['Tue', 'Wed', 'Thu', 'Fri'], americas: true },
+];
 
-export type Slot = { start: string; end: string; window: number };
+export type Slot = { start: string; end: string; window: number; americas?: boolean };
 
 // ── time helpers (no date libraries: Intl does the zone work) ────────────────
 const partsOf = (d: Date, tz: string) => {
@@ -48,19 +61,19 @@ export function buildSlots(from = new Date(), days = HORIZON_DAYS): Slot[] {
   for (let d = 0; d <= days; d++) {
     const day = new Date(from.getTime() + d * 864e5);
     const wd = weekdayIn(day, HOST_TZ);
-    if (wd === 'Sat' || wd === 'Sun') continue;
     const ymd = ymdIn(day, HOST_TZ);
-    WINDOWS.forEach(([a, b], w) => {
+    WINDOWS.forEach(({ from: a, to: b, days: on, americas }, w) => {
+      if (!on.includes(wd)) return;
       const toMin = (t: string) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3, 5));
       for (let m = toMin(a); m + MEETING_MIN <= toMin(b); m += MEETING_MIN) {
         const hhmm = `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
         const start = zonedToUtc(ymd, hhmm, HOST_TZ);
         if (start.getTime() < earliest) continue;
-        out.push({ start: start.toISOString(), end: new Date(start.getTime() + MEETING_MIN * 60_000).toISOString(), window: w });
+        out.push({ start: start.toISOString(), end: new Date(start.getTime() + MEETING_MIN * 60_000).toISOString(), window: w, ...(americas ? { americas } : {}) });
       }
     });
   }
-  return out;
+  return out.sort((x, y) => x.start.localeCompare(y.start));
 }
 
 // ── Google Calendar ──────────────────────────────────────────────────────────

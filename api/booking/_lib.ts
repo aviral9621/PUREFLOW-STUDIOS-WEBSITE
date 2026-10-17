@@ -3,7 +3,9 @@
 //   GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REFRESH_TOKEN, GOOGLE_CALENDAR_ID
 //   RESEND_API_KEY, BOOKING_FROM, BOOKING_REPLY_TO, BOOKING_NOTIFY_EMAIL
 //   BOOKING_TIMEZONE (default Asia/Kolkata), SUPABASE_URL, SUPABASE_ANON_KEY
+//   META_CAPI_TOKEN (Conversions API), META_PIXEL_ID, META_TEST_EVENT_CODE (optional)
 // Files starting with "_" in api/ are helpers, not endpoints.
+import { createHash } from 'node:crypto';
 
 export const HOST_TZ = process.env.BOOKING_TIMEZONE || 'Asia/Kolkata';
 export const MEETING_MIN = 30;
@@ -251,6 +253,73 @@ export function clientCallEmail(p: { first: string; heading: string; intro: stri
   const html = `<div style="font-family:system-ui,-apple-system,Segoe UI,sans-serif;max-width:560px;margin:0 auto;padding:28px 24px;color:#1F1235"><p style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#7E22CE;font-weight:700;margin:0 0 10px">PureFlow Studios</p><h1 style="font-size:24px;margin:0 0 12px">${esc(p.heading)}</h1><p style="font-size:16px;line-height:1.6;margin:0 0 20px">${esc(p.intro)}</p><table style="border-collapse:collapse;width:100%;font-size:15px">${rows.map(([k, v]) => `<tr><td style="padding:10px 0;border-top:1px solid #ECE6F7;color:#6B6480;width:90px">${k}</td><td style="padding:10px 0;border-top:1px solid #ECE6F7">${v}</td></tr>`).join('')}</table>${p.meetLink ? `<p style="margin:24px 0"><a href="${esc(p.meetLink)}" style="display:inline-block;background:#7E22CE;color:#fff;text-decoration:none;font-weight:700;padding:14px 22px;border-radius:999px">Join the Google Meet</a></p>` : ''}<p style="font-size:14px;line-height:1.6;color:#6B6480;margin:0 0 8px">Your calendar invite has the same details. Questions before the call? Just reply to this email.</p><p style="font-size:14px;line-height:1.6;margin:20px 0 0">Aviral Singh<br>PureFlow Studios · <a href="https://www.pureflowstudios.in" style="color:#7E22CE">pureflowstudios.in</a></p>${p.reschedule ? `<p style="font-size:13px;line-height:1.6;color:#6B6480;margin:24px 0 0;padding-top:14px;border-top:1px solid #ECE6F7">Want to reschedule the meeting? <a href="${esc(p.reschedule)}" style="color:#7E22CE;font-weight:700">Click here</a>.</p>` : ''}</div>`;
   const text = `Hi ${p.first},\n\n${p.intro}\n\n${p.previous ? `Was: ${p.previous}\nNow: ` : 'When: '}${p.when}\nGoogle Meet: ${p.meetLink || '(the Google Meet link is in your calendar invite)'}\n\nYour calendar invite has the same details. Questions before the call? Just reply to this email.\n\nAviral Singh\nPureFlow Studios · pureflowstudios.in${p.reschedule ? `\n\nWant to reschedule the meeting? ${p.reschedule}` : ''}`;
   return { html, text };
+}
+
+// ── Meta Conversions API (server copy of the landing's pixel events) ─────────
+// developers.facebook.com/docs/marketing-api/conversions-api: POST /{PIXEL_ID}/events.
+// The browser pixel sends the same event name + event ID (pureflow-intl-landing
+// lib/pf/meta.ts), so Meta counts each once. Needs META_CAPI_TOKEN (Events Manager →
+// dataset → Settings → Conversions API → Generate access token) in Vercel; without it
+// nothing is sent. META_TEST_EVENT_CODE (optional) routes events to Test events.
+const META_PIXEL_ID = process.env.META_PIXEL_ID || '1098639383160366';
+const META_API = 'https://graph.facebook.com/v25.0';
+const sha256 = (s: string) => createHash('sha256').update(s, 'utf8').digest('hex');
+
+export type MetaContext = { eventId?: string; fbp?: string; fbc?: string };
+type MetaReq = { headers: Record<string, string | string[] | undefined> };
+
+/** One website event to Meta. Identifiers are normalised and SHA-256 hashed as Meta specifies;
+ *  IP, user agent, fbp and fbc are sent as they are. Never throws (logged instead). */
+export async function metaEvent(
+  name: 'Lead' | 'Schedule',
+  req: MetaReq,
+  meta: MetaContext | undefined,
+  person: { email: string; name?: string; phone?: string; dial?: string; country?: string; externalId?: string },
+  page: string | undefined,
+  custom: Record<string, string | number> = {},
+) {
+  const token = process.env.META_CAPI_TOKEN;
+  if (!token || !meta?.eventId) return { skipped: true as const };
+  const header = (k: string) => { const v = req.headers[k]; return Array.isArray(v) ? v[0] : v; };
+  const ip = (header('x-forwarded-for') ?? '').split(',')[0].trim() || header('x-real-ip') || undefined;
+  const ua = header('user-agent');
+  const words = (person.name ?? '').trim().split(/\s+/).filter(Boolean).map((w) => w.toLowerCase().replace(/[^\p{L}]/gu, ''));
+  const digits = (s?: string) => (s ?? '').replace(/\D/g, '');
+  const phone = person.phone ? digits(person.dial) + digits(person.phone).replace(/^0+/, '') : '';
+  const user_data: Record<string, unknown> = {
+    em: [sha256(person.email.trim().toLowerCase())],
+    ...(phone ? { ph: [sha256(phone)] } : {}),
+    ...(words[0] ? { fn: [sha256(words[0])] } : {}),
+    ...(words.length > 1 ? { ln: [sha256(words[words.length - 1])] } : {}),
+    ...(person.country ? { country: [sha256(person.country.toLowerCase().replace('uk', 'gb'))] } : {}),
+    ...(person.externalId ? { external_id: [sha256(person.externalId)] } : {}),
+    ...(ip ? { client_ip_address: ip } : {}),
+    ...(ua ? { client_user_agent: ua } : {}),
+    ...(meta.fbp ? { fbp: meta.fbp } : {}),
+    ...(meta.fbc ? { fbc: meta.fbc } : {}),
+  };
+  const body = {
+    data: [{
+      event_name: name,
+      event_time: Math.floor(Date.now() / 1000),
+      event_id: meta.eventId,
+      action_source: 'website',
+      event_source_url: `${SITE_URL}${page && page.startsWith('/') ? page : '/customsoftware'}`,
+      user_data,
+      custom_data: custom,
+    }],
+    ...(process.env.META_TEST_EVENT_CODE ? { test_event_code: process.env.META_TEST_EVENT_CODE } : {}),
+  };
+  try {
+    const r = await fetch(`${META_API}/${META_PIXEL_ID}/events?access_token=${encodeURIComponent(token)}`, {
+      method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body), signal: AbortSignal.timeout(4000),
+    });
+    if (!r.ok) console.error('[meta]', name, r.status, (await r.text()).slice(0, 300));
+    return { ok: r.ok };
+  } catch (e) {
+    console.error('[meta]', name, e);
+    return { ok: false };
+  }
 }
 
 // ── CORS: only our own pages call these (plus local dev) ──────────────────────

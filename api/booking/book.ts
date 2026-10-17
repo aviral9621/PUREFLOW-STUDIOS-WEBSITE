@@ -5,7 +5,7 @@
 // guard; the database sends the push alerts)  5. confirmation email to the client and lead
 // email to PureFlow through Resend. Returns { id, meetLink }.
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { cors, HOST_TZ, MEETING_MIN, busyRanges, buildSlots, clientCallEmail, createEvent, deleteEvent, esc, fmtIn, googleConfigured, googleToken, insertBooking, intlUpsert, isEmail, json, readJson, rescheduleUrl, sendEmail, type IntlFields } from './_lib.js';
+import { cors, metaEvent, HOST_TZ, MEETING_MIN, busyRanges, buildSlots, clientCallEmail, createEvent, deleteEvent, esc, fmtIn, googleConfigured, googleToken, insertBooking, intlUpsert, isEmail, json, readJson, rescheduleUrl, sendEmail, type IntlFields } from './_lib.js';
 
 type Payload = {
   start: string; end: string; timeZone: string;
@@ -14,6 +14,8 @@ type Payload = {
   project?: string;
   /** The lead row saved at "Choose a time" (api/booking/lead), so the booking lands on the same person. */
   lead?: { id?: string | null; key?: string | null };
+  /** The Meta Schedule event ID (the pixel sends the same) and Meta's cookies. */
+  meta?: { eventId?: string; fbp?: string; fbc?: string };
   page?: string; utm?: Record<string, string>; referrer?: string;
 };
 
@@ -66,6 +68,7 @@ export default async function handler(req: IncomingMessage & { body?: unknown },
       if (ins0.ok === false && ins0.code === '23505') return json(res, 409, { error: 'slot_taken' });
     }
     try { await sendEmail({ to: process.env.BOOKING_NOTIFY_EMAIL || 'contact@pureflowstudios.in', replyTo: email, subject: `New consultation (confirm manually): ${name} (${company}) · ${when(HOST_TZ)}`, text: `Calendar not connected yet — please send this client a Meet link.\n\nWhen (IST): ${when(HOST_TZ)}\nName: ${name}\nEmail: ${email}\n${summaryLines.join('\n')}`, html: `<p><strong>Calendar not connected yet — send this client a Meet link.</strong></p><p>${esc(when(HOST_TZ))}<br>${esc(name)} · <a href="mailto:${esc(email)}">${esc(email)}</a></p><pre style="font:14px system-ui">${esc(summaryLines.join('\n'))}</pre>` }); } catch (e) { console.error('[book] notify (degraded)', e); }
+    await metaEvent('Schedule', req, p.meta, { email, name, phone: d.phone, dial: d.dial, country: d.country, externalId: i0.ok ? i0.id : undefined }, p.page, { content_name: 'Free consultation' });
     return json(res, 200, { id: 'pending', meetLink: '' });
   }
 
@@ -126,5 +129,7 @@ export default async function handler(req: IncomingMessage & { body?: unknown },
     });
   } catch (e) { console.error('[book] notify email', e); }
 
+  // Meta Conversions API "Schedule" (deduplicated with the pixel's Schedule by event ID).
+  await metaEvent('Schedule', req, p.meta, { email, name, phone: d.phone, dial: d.dial, country: d.country, externalId: saved.ok ? saved.id : undefined }, p.page, { content_name: 'Free consultation' });
   return json(res, 200, { id: ev.id, meetLink: ev.meetLink });
 }

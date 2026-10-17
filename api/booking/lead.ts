@@ -4,7 +4,7 @@
 // sends them back to update this same row. Never blocks the visitor: any failure
 // returns 200 with id null and the booking still works.
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { cors, intlUpsert, isEmail, json, readJson } from './_lib.js';
+import { cors, intlUpsert, isEmail, json, metaEvent, readJson, type MetaContext } from './_lib.js';
 
 type Payload = {
   lead?: { id?: string | null; key?: string | null };
@@ -12,6 +12,8 @@ type Payload = {
   details: { name: string; email: string; company?: string; country?: string; phone?: string; dial?: string; website?: string; problem?: string; consent: boolean; updates?: boolean };
   timeZone?: string;
   page?: string; utm?: Record<string, string>; referrer?: string;
+  /** First submission only: the Meta Lead event ID (the pixel sends the same) and cookies. */
+  meta?: MetaContext;
 };
 
 export default async function handler(req: IncomingMessage & { body?: unknown }, res: ServerResponse) {
@@ -39,5 +41,7 @@ export default async function handler(req: IncomingMessage & { body?: unknown },
     if (!r.missing) console.error('[lead]', r.code, r.message);
     return json(res, 200, { id: null, key: null });
   }
+  // Meta Conversions API "Lead" (deduplicated with the pixel's Lead by event ID).
+  await metaEvent('Lead', req, p.meta, { email: d.email, name: d.name, phone: d.phone, dial: d.dial, country: d.country, externalId: r.id }, p.page, { content_name: 'Free consultation' });
   return json(res, 200, { id: r.id, key: r.key });
 }

@@ -51,6 +51,9 @@ Non-negotiables (details in the playbook):
   files and links (the homepage map is two images from `scripts/static-map.py`).
   The `/customsoftware` policy is generated per page with the hash of each inline script:
   `export:main` runs `scripts/landing-csp.mjs`, and `npm run build` fails if it is stale.
+  The landing runs the Meta Pixel (dataset 1098639383160366, `lib/pf/meta.ts` in the landing:
+  PageView, BookingOpened, Lead, Schedule) plus the Conversions API from `api/booking`
+  (`metaEvent`, needs `META_CAPI_TOKEN`); its CSP allows connect.facebook.net and www.facebook.com.
   Headers also set HSTS (subdomains + preload), COOP `same-origin`, COEP `credentialless`
   (live-site iframes need `{...CREDENTIALLESS}`, see `hooks/useDeviceEmbedState.ts`) and CORP.
 - The homepage's navbar and hero are prerendered visibly (`#pf-shell`, `homeShell()` in

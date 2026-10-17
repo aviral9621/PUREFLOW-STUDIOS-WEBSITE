@@ -54,7 +54,7 @@ const CONTENT: Record<LegalKind, { icon: React.ElementType; tag: string; title: 
         heading: '3. Who we share it with',
         body: (
           <p>
-            We do not sell, rent, or trade your personal data. We share it only with trusted infrastructure providers (e.g. Supabase, Vercel, Resend, Cloudflare) strictly to the extent necessary to operate our services. We may disclose data when required by Indian law or to protect our legal rights.
+            We do not sell, rent, or trade your personal data. We share it only with trusted infrastructure providers (e.g. Supabase, Vercel, Resend, Cloudflare, Google for calendar invites) strictly to the extent necessary to operate our services. On our consultation page (/customsoftware) we also use the Meta Pixel and Meta&apos;s Conversions API to measure how our ads perform: Meta receives the pages you visit and the booking steps you complete and, when you request or book a consultation, your email address, phone number, name and country in hashed (one-way encrypted) form. Meta processes this under its own privacy policy; you can manage ad tracking at facebook.com/adpreferences. We may disclose data when required by Indian law or to protect our legal rights.
           </p>
         ),
       },
@@ -178,7 +178,7 @@ const CONTENT: Record<LegalKind, { icon: React.ElementType; tag: string; title: 
     tag: 'Cookie Policy',
     title: 'Cookies we set and why.',
     intro:
-      'This Cookie Policy explains the cookies and similar technologies in use on pureflowstudios.com, what they do, and how you can control them.',
+      'This Cookie Policy explains the cookies and similar technologies in use on pureflowstudios.in, what they do, and how you can control them.',
     sections: [
       {
         heading: '1. What cookies are',
@@ -205,7 +205,15 @@ const CONTENT: Record<LegalKind, { icon: React.ElementType; tag: string; title: 
         ),
       },
       {
-        heading: '4. Third-party services',
+        heading: '4. Advertising cookies',
+        body: (
+          <p>
+            Our consultation page (/customsoftware) uses the Meta Pixel to measure how our Facebook and Instagram ads perform and to show our ads to relevant people. It sets the <code>_fbp</code> cookie, and <code>_fbc</code> when you arrive from a Meta ad. You can block these in your browser settings or manage ad tracking at facebook.com/adpreferences.
+          </p>
+        ),
+      },
+      {
+        heading: '5. Third-party services',
         body: (
           <p>
             Embedded content (video reviews hosted on Supabase, and the live previews of client websites on some case studies) may set their own cookies governed by their respective privacy policies. We do not control these cookies directly.
@@ -213,7 +221,7 @@ const CONTENT: Record<LegalKind, { icon: React.ElementType; tag: string; title: 
         ),
       },
       {
-        heading: '5. Managing cookies',
+        heading: '6. Managing cookies',
         body: (
           <p>
             You can control or delete cookies through your browser settings. Disabling strictly necessary cookies may affect site functionality. See your browser's documentation for instructions.
@@ -221,7 +229,7 @@ const CONTENT: Record<LegalKind, { icon: React.ElementType; tag: string; title: 
         ),
       },
       {
-        heading: '6. Contact',
+        heading: '7. Contact',
         body: (
           <p>
             Questions about cookies? Email <a href={`mailto:${CONTACT_EMAIL}`} className="text-pink-400 hover:underline">{CONTACT_EMAIL}</a>.

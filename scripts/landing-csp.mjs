@@ -24,7 +24,8 @@ const BASE = [
   "font-src 'self'",
   "img-src 'self' data: blob: https:",
   "media-src 'self' blob:",
-  "connect-src 'self'",
+  // Meta Pixel (lib/pf/meta.ts in the landing): it sends events to www.facebook.com.
+  "connect-src 'self' https://www.facebook.com",
   "frame-src 'none'",
   "worker-src 'self'",
   "object-src 'none'",
@@ -62,7 +63,8 @@ const hashes = (html) => {
 const rules = htmlFiles(LANDING)
   .sort()
   .map((file) => {
-    const scriptSrc = ["script-src 'self'", ...hashes(readFileSync(file, 'utf8'))].join(' ');
+    // https://connect.facebook.net: the Meta Pixel's fbevents.js and its config, per Meta's CSP note.
+    const scriptSrc = ["script-src 'self' https://connect.facebook.net", ...hashes(readFileSync(file, 'utf8'))].join(' ');
     const value = [BASE[0], scriptSrc, ...BASE.slice(1)].join('; ');
     return { source: routeOf(file), headers: [{ key: 'Content-Security-Policy', value }] };
   });
